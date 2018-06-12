@@ -62,7 +62,7 @@ void openSelectedPage(BuildContext context, MainPageGridItems page) {
       print('Tutorials');
       break;
     case MainPageGridItems.OFFENCES:
-      print('Offences');
+      Navigator.of(context).pushNamed(offencesPage);
       break;
     case MainPageGridItems.PAYMENT:
       print('Payment');

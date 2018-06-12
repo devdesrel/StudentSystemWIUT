@@ -7,6 +7,7 @@ import 'package:student_system_flutter/pages/social_page.dart';
 
 import '../pages/marks_page.dart';
 import '../pages/modules_page.dart';
+import '../pages/offences_page.dart';
 import 'app_constants.dart';
 
 final routes = {
@@ -16,5 +17,6 @@ final routes = {
   homePage: (BuildContext context) => HomePage(),
   modulesPage: (BuildContext context) => ModulesPage(),
   marksPage: (BuildContext context) => MarksPage(),
+  offencesPage: (BuildContext context) => OffencesPage(),
   socialPage: (BuildContext context) => SocialPage(),
 };
