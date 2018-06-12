@@ -143,13 +143,13 @@ class _SecurityPageState extends State<SecurityPage> {
 class CustomDigitColumn extends StatelessWidget {
   final Function enterPIN;
 
-  CustomDigitColumn(
+  const CustomDigitColumn(
       {Key key,
-      @required this.firstNumber,
-      @required this.secondNumber,
-      @required this.thirdNumber,
-      @required this.fourthNumber,
-      @required this.enterPIN})
+      this.firstNumber,
+      this.secondNumber,
+      this.thirdNumber,
+      this.fourthNumber,
+      this.enterPIN})
       : super(key: key);
 
   final String firstNumber;
