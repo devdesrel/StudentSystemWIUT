@@ -1,0 +1,12 @@
+<component name="libraryTable">
+  <library name="Flutter Plugins" type="FlutterPluginsLibraryType">
+    <CLASSES>
+      <root url="file://C:/flutter/.pub-cache/hosted/pub.dartlang.org/path_provider-0.4.0" />
+      <root url="file://C:/flutter/.pub-cache/hosted/pub.dartlang.org/local_auth-0.2.0" />
+      <root url="file://C:/flutter/.pub-cache/hosted/pub.dartlang.org/shared_preferences-0.4.2" />
+      <root url="file://C:/flutter/.pub-cache/hosted/pub.dartlang.org/vibrate-0.0.2" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>
