@@ -19,6 +19,7 @@ final homePage = '/home';
 final modulesPage = '/modules';
 final marksPage = '/marks';
 final socialPage = '/social';
+final fileDownloaderPage = '/fileDownloaderPage';
 
 //User details
 final isLoggedIn = 'isLoggedIn';
