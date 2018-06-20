@@ -21,6 +21,7 @@ final modulesPage = '/modules';
 final marksPage = '/marks';
 final offencesPage = '/offences';
 final socialPage = '/social';
+final tweetPage = '/tweetPage';
 
 //User details
 final isLoggedIn = 'isLoggedIn';

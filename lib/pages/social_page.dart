@@ -64,6 +64,7 @@ class SocialPage extends StatelessWidget {
           onPressed: () async {
             SharedPreferences prefs = await SharedPreferences.getInstance();
             print(prefs.getString(token));
+            Navigator.of(context).pushNamed(tweetPage);
           },
         ),
         // floatingActionButtonLocation: FloatingActionButtonLocation.endDocked,

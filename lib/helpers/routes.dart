@@ -4,6 +4,7 @@ import 'package:student_system_flutter/pages/home_page.dart';
 import 'package:student_system_flutter/pages/login_page.dart';
 import 'package:student_system_flutter/pages/security_page.dart';
 import 'package:student_system_flutter/pages/social_page.dart';
+import 'package:student_system_flutter/pages/tweet_page.dart';
 
 import '../pages/marks_page.dart';
 import '../pages/modules_page.dart';
@@ -19,4 +20,5 @@ final routes = {
   marksPage: (BuildContext context) => MarksPage(),
   offencesPage: (BuildContext context) => OffencesPage(),
   socialPage: (BuildContext context) => SocialPage(),
+  tweetPage: (BuildContext context) => TweetPage(),
 };
