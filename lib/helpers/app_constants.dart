@@ -11,6 +11,7 @@ final lightOverlayColor = Color(0xBF333333);
 final backgroundColor = Colors.grey[100];
 final whiteColor = Color(0xCCffffff);
 final textColor = Color(0xFF616161);
+final lightGreyTextColor = Color(0xBF616161);
 
 //Application route names
 final loginPage = '/login';
@@ -18,8 +19,10 @@ final securityPage = '/security';
 final homePage = '/home';
 final modulesPage = '/modules';
 final marksPage = '/marks';
+final offencesPage = '/offences';
 final socialPage = '/social';
 final fileDownloaderPage = '/fileDownloaderPage';
+final tweetPage = '/tweetPage';
 
 //User details
 final isLoggedIn = 'isLoggedIn';

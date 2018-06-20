@@ -1,6 +1,9 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
+import '../helpers/app_constants.dart';
 import '../helpers/ui_helpers.dart';
 import '../pages/image_detail_page.dart';
 
@@ -26,15 +29,12 @@ class PostCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return CustomCard(
-      InkWell(
-        onTap: () {},
-        child: Padding(
-          padding: const EdgeInsets.all(10.0),
-          child: Column(children: <Widget>[
-            CardHeader(position),
-            CardBody(position),
-          ]),
-        ),
+      Padding(
+        padding: const EdgeInsets.all(10.0),
+        child: Column(children: <Widget>[
+          CardHeader(position),
+          CardBody(position),
+        ]),
       ),
     );
   }
@@ -112,45 +112,91 @@ class CardBody extends StatelessWidget {
 
   CardBody(this.position);
   @override
-  Widget build(BuildContext context) => Column(children: <Widget>[
-        Divider(
-          color: Theme.of(context).accentColor,
-        ),
-        Text(
-          "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.",
-          maxLines: 6,
-          overflow: TextOverflow.ellipsis,
-          style: TextStyle(fontSize: 12.0, letterSpacing: 1.0),
-        ),
-        Container(height: 10.0),
-        GestureDetector(
-          child: Hero(
-            tag: 'imageHero$position',
-            child: Container(
-              height: 200.0,
-              decoration: BoxDecoration(
-                image: DecorationImage(
-                    image: CachedNetworkImageProvider(
-                        'https://picsum.photos/520/300/?random'),
-                    fit: BoxFit.fitHeight,
-                    alignment: Alignment.topLeft),
-                borderRadius: BorderRadius.all(Radius.circular(12.0)),
-              ),
+  Widget build(BuildContext context) {
+    final iconSize = 18.0;
+    // final heartIcon = const IconData(442, fontFamily: CuperIcon);
+    // final heartIcon = const IconData(442, fontFamily: CuperIcon);
+    return Column(children: <Widget>[
+      Divider(
+        color: Theme.of(context).accentColor,
+      ),
+      Text(
+        "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.",
+        maxLines: 6,
+        overflow: TextOverflow.ellipsis,
+        style: TextStyle(fontSize: 12.0, letterSpacing: 1.0),
+      ),
+      Container(height: 10.0),
+      GestureDetector(
+        child: Hero(
+          tag: 'imageHero$position',
+          child: Container(
+            height: 200.0,
+            decoration: BoxDecoration(
+              image: DecorationImage(
+                  image: CachedNetworkImageProvider(
+                      'https://picsum.photos/520/300/?random'),
+                  fit: BoxFit.fitHeight,
+                  alignment: Alignment.topLeft),
+              borderRadius: BorderRadius.all(Radius.circular(12.0)),
             ),
           ),
-          onTap: () {
-            Navigator.push(context,
-                MaterialPageRoute(builder: (_) => ImageDetailPage(position)));
-          },
         ),
-        //  child: Center(
-        //     child: CachedNetworkImage(
-        //       placeholder: CircularProgressIndicator(),
-        //       imageUrl: 'https://picsum.photos/520/300/?random',
-        //       fit: BoxFit.fill,
-        //     ),
-        //   ),
-      ]);
+        onTap: () {
+          Navigator.push(context,
+              MaterialPageRoute(builder: (_) => ImageDetailPage(position)));
+        },
+      ),
+      SizedBox(
+        height: 10.0,
+      ),
+      Row(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        children: <Widget>[
+          new SizedBox(
+            height: iconSize,
+            child: IconButton(
+              padding: const EdgeInsets.all(0.0),
+              onPressed: () {},
+              icon: Icon(FontAwesomeIcons.heart),
+              //icon: IconData (f442, fontFamily: CuperIcon),
+              //TextStyle(CuperIcon ),
+              iconSize: iconSize,
+              color: accentColor,
+            ),
+          ),
+          new SizedBox(
+            height: iconSize,
+            child: IconButton(
+              padding: const EdgeInsets.all(0.0),
+              onPressed: () {},
+              icon: Icon(FontAwesomeIcons.comment),
+              iconSize: iconSize,
+              color: accentColor,
+            ),
+          ),
+          new SizedBox(
+            height: iconSize,
+            child: IconButton(
+              padding: const EdgeInsets.all(0.0),
+              onPressed: () {},
+              icon: Icon(Icons.share),
+              iconSize: iconSize,
+              color: accentColor,
+            ),
+          )
+        ],
+      )
+      //  child: Center(
+      //     child: CachedNetworkImage(
+      //       placeholder: CircularProgressIndicator(),
+      //       imageUrl: 'https://picsum.photos/520/300/?random',
+      //       fit: BoxFit.fill,
+      //     ),
+      //   ),
+    ]);
+  }
 }
 
 //  @override

@@ -11,9 +11,13 @@ dependencies:
   vibrate: "^0.0.2"
   flutter_circular_chart: "^0.0.3"
   carousel: "^0.1.0"
+<<<<<<< HEAD
   dio: "^0.0.14"
   path_provider: "^0.4.1"
   simple_permissions: "^0.1.5"
+=======
+  font_awesome_flutter: "^7.0.0"
+>>>>>>> 97c0c6414938134196b623fa7fff231c3caf178f
 
 
   # The following adds the Cupertino Icons font to your application.
@@ -49,6 +53,7 @@ flutter:
     - assets/timetable.png
     - assets/tutorials.png
     - assets/tutorials2.png
+    - assets/fonts/CupertinoIcons.ttf
     
     # - images/logo.png
   #  - images/a_dot_ham.jpeg
@@ -64,12 +69,12 @@ flutter:
   # "family" key with the font family name, and a "fonts" key with a
   # list giving the asset and other descriptors for the font. For
   # example:
-  # fonts:
-  #   - family: Schyler
-  #     fonts:
-  #       - asset: fonts/Schyler-Regular.ttf
-  #       - asset: fonts/Schyler-Italic.ttf
-  #         style: italic
+  fonts:
+    - family: CuperIcon
+      fonts:
+        - asset: assets/fonts/CupertinoIcons.ttf
+        # - asset: fonts/Schyler-Italic.ttf
+          # style: italic
   #   - family: Trajan Pro
   #     fonts:
   #       - asset: fonts/TrajanPro.ttf
