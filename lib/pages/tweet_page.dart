@@ -1,7 +1,11 @@
+import 'dart:async';
+import 'dart:io';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:student_system_flutter/helpers/app_constants.dart';
+import 'package:image_picker/image_picker.dart';
 
 class TweetPage extends StatefulWidget {
   @override
@@ -83,14 +87,24 @@ class _TweetPageState extends State<TweetPage> {
           child: ButtonBar(
             alignment: MainAxisAlignment.start,
             children: <Widget>[
-              CustomSizedBox(icon: FontAwesomeIcons.image),
               CustomSizedBox(
-                icon: FontAwesomeIcons.tasks,
+                icon: FontAwesomeIcons.camera,
+                type: AttachmentTypes.CAMERA,
+              ),
+              // getImage: getImage(true)
+              CustomSizedBox(
+                icon: FontAwesomeIcons.image,
+                type: AttachmentTypes.GALLERY,
+                // getImage: getImage(false),
               ),
               CustomSizedBox(
-                icon: Icons.add_location,
-              ),
-              CustomSizedBox(icon: Icons.attach_file),
+                  icon: FontAwesomeIcons.tasks,
+                  type: AttachmentTypes.QUESTIONNAIRE),
+              // CustomSizedBox(
+              //   icon: Icons.add_location,
+              // ),
+              CustomSizedBox(
+                  icon: Icons.attach_file, type: AttachmentTypes.FILE),
             ],
           ),
         ),
@@ -106,18 +120,64 @@ class _TweetPageState extends State<TweetPage> {
 
 class CustomSizedBox extends StatelessWidget {
   final IconData icon;
+  final AttachmentTypes type;
+  // final Future getImage;
 
-  CustomSizedBox({Key key, @required this.icon}) : super(key: key);
+  File _image;
+  Future getImage(bool isFromCamera) async {
+    var image = await ImagePicker.pickImage(
+        source: isFromCamera ? ImageSource.camera : ImageSource.gallery);
+
+    setState(() {
+      _image = image;
+    });
+  }
+
+  CustomSizedBox({Key key, @required this.icon, @required this.type})
+      : super(key: key);
+  //CustomSizedBox({Key key(iconkey1), @required this.icon}); //: super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return SizedBox(
       height: 20.0,
       child: IconButton(
-        padding: const EdgeInsets.all(0.0),
-        icon: Icon(icon),
-        onPressed: () {},
-      ),
+          padding: const EdgeInsets.all(0.0),
+          icon: Icon(icon),
+          onPressed: () {
+            switch (type) {
+              case AttachmentTypes.CAMERA:
+                getImage(true);
+                break;
+              case AttachmentTypes.GALLERY:
+                getImage(false);
+                break;
+              case AttachmentTypes.QUESTIONNAIRE:
+                print('Get QUESTIONNAIRE');
+                break;
+              case AttachmentTypes.FILE:
+                print('Get Files');
+                break;
+              default:
+                print('Default');
+                break;
+            }
+          }
+          //     if(key == iconkey1){
+          //   onPressed: () {getImage},
+          // }else{
+          //   onPressed: () {},
+          // }
+          ),
     );
   }
+
+  void setState(Function param0) {}
+}
+
+enum AttachmentTypes {
+  CAMERA,
+  GALLERY,
+  QUESTIONNAIRE,
+  FILE,
 }
