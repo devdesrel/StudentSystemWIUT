@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:student_system_flutter/pages/file_downloader_page.dart';
 
 import 'package:student_system_flutter/pages/home_page.dart';
 import 'package:student_system_flutter/pages/login_page.dart';
@@ -20,5 +21,6 @@ final routes = {
   marksPage: (BuildContext context) => MarksPage(),
   offencesPage: (BuildContext context) => OffencesPage(),
   socialPage: (BuildContext context) => SocialPage(),
+  fileDownloaderPage: (BuildContext context) => FileDownloaderPage(),
   tweetPage: (BuildContext context) => TweetPage(),
 };

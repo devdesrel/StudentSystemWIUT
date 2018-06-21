@@ -21,6 +21,7 @@ final modulesPage = '/modules';
 final marksPage = '/marks';
 final offencesPage = '/offences';
 final socialPage = '/social';
+final fileDownloaderPage = '/fileDownloaderPage';
 final tweetPage = '/tweetPage';
 
 //User details
