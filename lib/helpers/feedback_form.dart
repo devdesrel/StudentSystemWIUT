@@ -16,7 +16,7 @@ class FeedbackForm extends StatefulWidget {
 }
 
 class _FeedbackFormState extends State<FeedbackForm> {
-  double _rating = 3.5;
+  double _rating = 0.0;
   var _controller = PageController();
 
   @override
@@ -38,10 +38,16 @@ class _FeedbackFormState extends State<FeedbackForm> {
                 Text('Web Application Development'),
                 Expanded(
                   child: StarRating(
-                    rating: _rating,
-                    onRatingChanged: (rating) =>
-                        setState(() => _rating = rating),
-                  ),
+                      rating: _rating,
+                      onRatingChanged: (rating) {
+                        return setState(() {
+                          _rating = rating;
+                          if (index != widget.pages.length - 1)
+                            _controller.nextPage(
+                                duration: kTabScrollDuration,
+                                curve: Curves.ease);
+                        });
+                      }),
                 ),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,

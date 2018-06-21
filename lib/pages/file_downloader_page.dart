@@ -3,7 +3,6 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:dio/dio.dart';
-import 'package:flutter/services.dart';
 import 'package:student_system_flutter/helpers/app_constants.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:simple_permissions/simple_permissions.dart';
@@ -20,11 +19,11 @@ class _FileDownloaderPageState extends State<FileDownloaderPage> {
 
   Permission permission = Permission.WriteExternalStorage;
 
-  @override
-  initState() {
-    super.initState();
-    initPlatformState();
-  }
+  // @override
+  // initState() {
+  //   super.initState();
+  //   initPlatformState();
+  // }
 
   Future _downloadFile() async {
     // dio.options.baseUrl = "http://www.dtworkroom.com/doris/1/2.0.0/";
@@ -167,21 +166,21 @@ class _FileDownloaderPageState extends State<FileDownloaderPage> {
 
   // }
 
-  // Platform messages are asynchronous, so we initialize in an async method.
-  initPlatformState() async {
-    String platformVersion;
-    // Platform messages may fail, so we use a try/catch PlatformException.
-    try {
-      platformVersion = await SimplePermissions.platformVersion;
-    } on PlatformException {
-      platformVersion = 'Failed to get platform version.';
-    }
+  // // Platform messages are asynchronous, so we initialize in an async method.
+  // initPlatformState() async {
+  //   String platformVersion;
+  //   // Platform messages may fail, so we use a try/catch PlatformException.
+  //   try {
+  //     platformVersion = await SimplePermissions.platformVersion;
+  //   } on PlatformException {
+  //     platformVersion = 'Failed to get platform version.';
+  //   }
 
-    // If the widget was removed from the tree while the asynchronous platform
-    // message was in flight, we want to discard the reply rather than calling
-    // setState to update our non-existent appearance.
-    if (!mounted) return;
-  }
+  //   // If the widget was removed from the tree while the asynchronous platform
+  //   // message was in flight, we want to discard the reply rather than calling
+  //   // setState to update our non-existent appearance.
+  //   if (!mounted) return;
+  // }
 
   _requestPermission() async {
     bool res = await SimplePermissions.requestPermission(permission);

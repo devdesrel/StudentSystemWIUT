@@ -11,13 +11,10 @@ dependencies:
   vibrate: "^0.0.2"
   flutter_circular_chart: "^0.0.3"
   carousel: "^0.1.0"
-<<<<<<< HEAD
   dio: "^0.0.14"
   path_provider: "^0.4.1"
   simple_permissions: "^0.1.5"
-=======
   font_awesome_flutter: "^7.0.0"
->>>>>>> 97c0c6414938134196b623fa7fff231c3caf178f
 
 
   # The following adds the Cupertino Icons font to your application.
@@ -42,17 +39,18 @@ flutter:
 
   # To add assets to your application, add an assets section, like this:
   assets:
-    - assets/logo.png
-    - assets/logo_blue.png
-    - assets/bg.png
-    - assets/bookordering.png
-    - assets/lectures.png
-    - assets/marks.png
-    - assets/offences.png
-    - assets/payment.png
-    - assets/timetable.png
-    - assets/tutorials.png
-    - assets/tutorials2.png
+    - assets/
+    # - assets/logo.png
+    # - assets/logo_blue.png
+    # - assets/bg.png
+    # - assets/bookordering.png
+    # - assets/lectures.png
+    # - assets/marks.png
+    # - assets/offences.png
+    # - assets/payment.png
+    # - assets/timetable.png
+    # - assets/tutorials.png
+    # - assets/tutorials2.png
     - assets/fonts/CupertinoIcons.ttf
     
     # - images/logo.png
