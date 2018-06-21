@@ -11,18 +11,11 @@ dependencies:
   vibrate: "^0.0.2"
   flutter_circular_chart: "^0.0.3"
   carousel: "^0.1.0"
-<<<<<<< HEAD
   dio: "^0.0.14"
   path_provider: "^0.4.1"
   simple_permissions: "^0.1.5"
-=======
   font_awesome_flutter: "^7.0.0"
-<<<<<<< HEAD
   image_picker: "^0.4.5"
-=======
->>>>>>> 97c0c6414938134196b623fa7fff231c3caf178f
->>>>>>> 48f74e12499a2555539937163ef4b80763afa152
-
 
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
