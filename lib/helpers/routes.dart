@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:student_system_flutter/pages/file_downloader_page.dart';
 
 import 'package:student_system_flutter/pages/home_page.dart';
+import 'package:student_system_flutter/pages/lectures_page.dart';
 import 'package:student_system_flutter/pages/login_page.dart';
 import 'package:student_system_flutter/pages/security_page.dart';
 import 'package:student_system_flutter/pages/social_page.dart';
@@ -23,4 +24,5 @@ final routes = {
   socialPage: (BuildContext context) => SocialPage(),
   fileDownloaderPage: (BuildContext context) => FileDownloaderPage(),
   tweetPage: (BuildContext context) => TweetPage(),
+  lecturesPage: (BuildContext context) => LecturesPage(),
 };

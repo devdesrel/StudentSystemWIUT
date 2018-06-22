@@ -56,7 +56,7 @@ void openSelectedPage(BuildContext context, MainPageGridItems page) {
       print('Timetable');
       break;
     case MainPageGridItems.LECTURES:
-      Navigator.of(context).pushNamed(fileDownloaderPage);
+      Navigator.of(context).pushNamed(lecturesPage);
       break;
     case MainPageGridItems.TUTORIALS:
       print('Tutorials');

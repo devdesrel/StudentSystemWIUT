@@ -23,6 +23,7 @@ final offencesPage = '/offences';
 final socialPage = '/social';
 final fileDownloaderPage = '/fileDownloaderPage';
 final tweetPage = '/tweetPage';
+final lecturesPage = '/lecturesPage';
 
 //User details
 final isLoggedIn = 'isLoggedIn';
