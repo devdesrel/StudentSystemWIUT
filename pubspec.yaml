@@ -39,17 +39,18 @@ flutter:
 
   # To add assets to your application, add an assets section, like this:
   assets:
-    - assets/logo.png
-    - assets/logo_blue.png
-    - assets/bg.png
-    - assets/bookordering.png
-    - assets/lectures.png
-    - assets/marks.png
-    - assets/offences.png
-    - assets/payment.png
-    - assets/timetable.png
-    - assets/tutorials.png
-    - assets/tutorials2.png
+    - assets/
+    # - assets/logo.png
+    # - assets/logo_blue.png
+    # - assets/bg.png
+    # - assets/bookordering.png
+    # - assets/lectures.png
+    # - assets/marks.png
+    # - assets/offences.png
+    # - assets/payment.png
+    # - assets/timetable.png
+    # - assets/tutorials.png
+    # - assets/tutorials2.png
     - assets/fonts/CupertinoIcons.ttf
     
     # - images/logo.png
