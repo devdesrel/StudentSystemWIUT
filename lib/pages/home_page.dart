@@ -53,7 +53,7 @@ void openSelectedPage(BuildContext context, MainPageGridItems page) {
       Navigator.of(context).pushNamed(modulesPage);
       break;
     case MainPageGridItems.TIMETABLE:
-      print('Timetable');
+      Navigator.of(context).pushNamed(timetablePage);
       break;
     case MainPageGridItems.LECTURES:
       Navigator.of(context).pushNamed(lecturesPage);

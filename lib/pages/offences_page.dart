@@ -50,7 +50,7 @@ class OffenceHeaderMessage extends StatelessWidget {
     return SliverToBoxAdapter(
       child: Container(
         padding: const EdgeInsets.symmetric(vertical: 7.0),
-        color: Colors.redAccent,
+        color: redColor,
         child: Column(
           children: <Widget>[
             Text(
