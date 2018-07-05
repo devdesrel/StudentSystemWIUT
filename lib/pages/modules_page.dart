@@ -31,6 +31,10 @@ List<Module> parseModules(String responseBody) {
 }
 
 class ModulesPage extends StatefulWidget {
+  final requestType;
+
+  ModulesPage({this.requestType});
+
   @override
   _ModulesPageState createState() => _ModulesPageState();
 }
@@ -59,7 +63,9 @@ class _ModulesPageState extends State<ModulesPage> {
       body: Container(
         color: Theme.of(context).backgroundColor,
         child: FutureBuilder<List<Module>>(
-            future: getModulesWithMarks(),
+            future: widget.requestType == RequestType.GetMarks
+                ? getModulesWithMarks()
+                : getModulesWithMarks(),
             builder: (context, snapshot) {
               if (snapshot.hasData) {
                 var _modulesList = snapshot.data;
@@ -147,3 +153,5 @@ class _EntryItemState extends State<EntryItem> {
     );
   }
 }
+
+enum RequestType { GetMarks, GetTeachingMaterials }

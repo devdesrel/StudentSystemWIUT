@@ -5,6 +5,14 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 import 'app_constants.dart';
 
+void showSnackBar(String text, GlobalKey<ScaffoldState> scaffoldKey) {
+  scaffoldKey.currentState.showSnackBar(SnackBar(
+    backgroundColor: redColor,
+    content: Text(text),
+    duration: Duration(seconds: 2),
+  ));
+}
+
 //Sign out Dialog
 Future<Null> showSignOutDialog(BuildContext context) async {
   return showDialog<Null>(

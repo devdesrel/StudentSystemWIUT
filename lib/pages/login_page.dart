@@ -33,6 +33,7 @@ class _LoginPageState extends State<LoginPage> implements AuthStateListener {
     final form = formKey.currentState;
 
     FocusScope.of(context).requestFocus(FocusNode());
+
     if (form.validate()) {
       form.save();
       setState(() {

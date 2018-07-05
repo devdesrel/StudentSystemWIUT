@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:student_system_flutter/pages/coursework_upload_page.dart';
 import 'package:student_system_flutter/pages/file_downloader_page.dart';
 
 import 'package:student_system_flutter/pages/home_page.dart';
@@ -14,7 +15,7 @@ import '../pages/offences_page.dart';
 import 'app_constants.dart';
 
 final routes = {
-  '/': (BuildContext context) => LoginPage(),
+  '/': (BuildContext context) => HomePage(),
   loginPage: (BuildContext context) => LoginPage(),
   securityPage: (BuildContext context) => SecurityPage(),
   homePage: (BuildContext context) => HomePage(),
@@ -25,4 +26,5 @@ final routes = {
   fileDownloaderPage: (BuildContext context) => FileDownloaderPage(),
   tweetPage: (BuildContext context) => TweetPage(),
   lecturesPage: (BuildContext context) => LecturesPage(),
+  courseworkUploadPage: (BuildContext context) => CourseworkUploadPage(),
 };

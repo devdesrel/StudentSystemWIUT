@@ -7,6 +7,7 @@ final appName = 'Student System';
 final primaryColor = Color(0xFF0091ea);
 final primaryDarkColor = Color(0xFF0064b7);
 final accentColor = Color(0xFF0091ea);
+final redColor = Colors.redAccent;
 final lightOverlayColor = Color(0xBF333333);
 final backgroundColor = Colors.grey[100];
 final whiteColor = Color(0xCCffffff);
@@ -24,6 +25,7 @@ final socialPage = '/social';
 final fileDownloaderPage = '/fileDownloaderPage';
 final tweetPage = '/tweetPage';
 final lecturesPage = '/lecturesPage';
+final courseworkUploadPage = '/courseworkUploadPage';
 
 //User details
 final isLoggedIn = 'isLoggedIn';
