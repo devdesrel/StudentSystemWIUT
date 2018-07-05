@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:student_system_flutter/list_items/item_downloaded_files.dart';
 import 'package:student_system_flutter/list_items/item_file_downloading.dart';
 import 'package:student_system_flutter/models/download_file_model.dart';
 import 'package:student_system_flutter/models/file_model.dart';
+import 'package:student_system_flutter/pages/files_downloaded_page.dart';
 
-import '../bloc/file_download_bloc.dart';
 import '../bloc/file_download_provider.dart';
 import '../helpers/app_constants.dart';
 import 'dart:async';
@@ -22,10 +21,10 @@ class _LecturesPageState extends State<LecturesPage>
 
   final url =
       'https://images.pexels.com/photos/443446/pexels-photo-443446.jpeg?cs=srgb&dl=daylight-forest-glossy-443446.jpg&fm=jpg';
-  final filename = 'lecture.jpg';
+  final filename = 'Lecture.jpg';
 
   final url2 = 'http://www.africau.edu/images/default/sample.pdf';
-  final filename2 = 'lecture.pdf';
+  final filename2 = 'Lecture.pdf';
 
   TabController _controller;
 
@@ -88,12 +87,7 @@ class _LecturesPageState extends State<LecturesPage>
                             materialName: _lecturesList[index]),
                         controller: _controller)),
             FileDownloadingTab(),
-            ListView.builder(
-              itemCount: _downloadedFilesList.length,
-              itemBuilder: (context, index) => _downloadedFilesList.length == 0
-                  ? Container()
-                  : ItemDownloadedFile(fileModel: _downloadedFilesList[index]),
-            ),
+            FilesDownloadedPage()
           ],
         ),
       ),
