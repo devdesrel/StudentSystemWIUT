@@ -161,96 +161,96 @@ class FileManagerState extends State<FileManager> {
 Widget _getIcon(String path) {
   if (FileSystemEntity.isDirectorySync(path))
     return Image.asset(
-      'assets/directory.png',
+      'assets/file_manager_icons/directory.png',
       height: 30.0,
     );
   else if (FileSystemEntity.isFileSync(path)) {
     if (lookupMimeType(basename(path)) == 'image/jpeg')
       return Image.asset(
-        'assets/jpg.png',
+        'assets/file_manager_icons/jpg.png',
         height: 30.0,
       );
     else if (lookupMimeType(basename(path)) == 'image/png')
       return Image.asset(
-        'assets/png.png',
+        'assets/file_manager_icons/png.png',
         height: 30.0,
       );
     else if (lookupMimeType(basename(path)) == 'application/pdf')
       return Image.asset(
-        'assets/pdf.png',
+        'assets/file_manager_icons/pdf.png',
         height: 30.0,
       );
     else if (lookupMimeType(basename(path)) ==
             'application/vnd.openxmlformats-officedocument.wordprocessingml.document' ||
         lookupMimeType(basename(path)) == 'application/msword')
       return Image.asset(
-        'assets/doc.png',
+        'assets/file_manager_icons/doc.png',
         height: 30.0,
       );
     else if (lookupMimeType(basename(path)) ==
             'application/vnd.openxmlformats-officedocument.presentationml.presentation' ||
         lookupMimeType(basename(path)) == 'application/vnd.ms-powerpoint')
       return Image.asset(
-        'assets/ppt.png',
+        'assets/file_manager_icons/ppt.png',
         height: 30.0,
       );
     else if (lookupMimeType(basename(path)) ==
             'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' ||
         lookupMimeType(basename(path)) == 'application/vnd.ms-excel')
       return Image.asset(
-        'assets/xls.png',
+        'assets/file_manager_icons/xls.png',
         height: 30.0,
       );
     else if (lookupMimeType(basename(path)) == 'text/csv')
       return Image.asset(
-        'assets/csv.png',
+        'assets/file_manager_icons/csv.png',
         height: 30.0,
       );
     else if (lookupMimeType(basename(path)) == 'text/html')
       return Image.asset(
-        'assets/html.png',
+        'assets/file_manager_icons/html.png',
         height: 30.0,
       );
     else if (lookupMimeType(basename(path)) == 'application/json')
       return Image.asset(
-        'assets/json.png',
+        'assets/file_manager_icons/json.png',
         height: 30.0,
       );
     else if (lookupMimeType(basename(path)) == 'application/javascript')
       return Image.asset(
-        'assets/javascript.png',
+        'assets/file_manager_icons/javascript.png',
         height: 30.0,
       );
     else if (lookupMimeType(basename(path)) == 'application/zip' ||
         lookupMimeType(basename(path)) == 'application/x-7z-compressed')
       return Image.asset(
-        'assets/zip.png',
+        'assets/file_manager_icons/zip.png',
         height: 30.0,
       );
     else if (lookupMimeType(basename(path)) == 'application/x-msdownload')
       return Image.asset(
-        'assets/exe.png',
+        'assets/file_manager_icons/exe.png',
         height: 30.0,
       );
     else if (lookupMimeType(basename(path)) == 'video/mp4' ||
         lookupMimeType(basename(path)) == 'application/mp4')
       return Image.asset(
-        'assets/mp4.png',
+        'assets/file_manager_icons/mp4.png',
         height: 30.0,
       );
     else if (lookupMimeType(basename(path)) == 'text/plain')
       return Image.asset(
-        'assets/txt.png',
+        'assets/file_manager_icons/txt.png',
         height: 30.0,
       );
     else
       return Image.asset(
-        'assets/file.png',
+        'assets/file_manager_icons/file.png',
         height: 30.0,
       );
   } else
     return Image.asset(
-      'assets/file.png',
+      'assets/file_manager_icons/file.png',
       height: 30.0,
     );
   ;
