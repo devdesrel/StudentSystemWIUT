@@ -39,7 +39,7 @@ class _SecurityPageState extends State<SecurityPage> {
 
   void _showSnackBar(String text) {
     scaffoldKey.currentState.showSnackBar(SnackBar(
-      backgroundColor: Colors.blueGrey,
+      backgroundColor: redColor,
       content: Text(text),
       duration: Duration(seconds: 2),
     ));

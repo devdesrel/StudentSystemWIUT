@@ -123,10 +123,10 @@ class CustomSizedBox extends StatelessWidget {
   final AttachmentTypes type;
   // final Future getImage;
 
-  File _image;
   Future getImage(bool isFromCamera) async {
     var image = await ImagePicker.pickImage(
         source: isFromCamera ? ImageSource.camera : ImageSource.gallery);
+    File _image;
 
     setState(() {
       _image = image;

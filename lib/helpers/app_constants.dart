@@ -8,8 +8,10 @@ final primaryColor = Color(0xFF0091ea);
 final primaryDarkColor = Color(0xFF0064b7);
 final accentColor = Color(0xFF0091ea);
 final redColor = Colors.redAccent;
+final greyColor = Colors.blueGrey;
 final lightOverlayColor = Color(0xBF333333);
 final backgroundColor = Colors.grey[100];
+final blackColor = Color(0xCC333333);
 final whiteColor = Color(0xCCffffff);
 final textColor = Color(0xFF616161);
 final lightGreyTextColor = Color(0xBF616161);
@@ -23,9 +25,11 @@ final marksPage = '/marks';
 final offencesPage = '/offences';
 final socialPage = '/social';
 final fileDownloaderPage = '/fileDownloaderPage';
+final filesDownloadedPage = '/filesDownloadedPage';
 final tweetPage = '/tweetPage';
 final lecturesPage = '/lecturesPage';
 final courseworkUploadPage = '/courseworkUploadPage';
+final timetablePage = '/timetablePage';
 
 //User details
 final isLoggedIn = 'isLoggedIn';

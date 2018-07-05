@@ -1,11 +1,7 @@
-import 'dart:async';
 import 'dart:io';
 
 import 'package:flutter/material.dart';
-import 'package:dio/dio.dart';
 import 'package:student_system_flutter/helpers/app_constants.dart';
-import 'package:path_provider/path_provider.dart';
-import 'package:simple_permissions/simple_permissions.dart';
 
 class FileDownloaderPage extends StatefulWidget {
   @override
@@ -13,11 +9,12 @@ class FileDownloaderPage extends StatefulWidget {
 }
 
 class _FileDownloaderPageState extends State<FileDownloaderPage> {
-  var dio = new Dio();
+  // var dio = new Dio();
   double totalProgress = 0.0;
   double downloadProgress = 0.0;
-
-  Permission permission = Permission.WriteExternalStorage;
+  // Directory _appDocumentsDirectory;
+  // Directory _externalDocumentsDirectory;
+  List<String> urls = List();
 
   // @override
   // initState() {
@@ -25,41 +22,29 @@ class _FileDownloaderPageState extends State<FileDownloaderPage> {
   //   initPlatformState();
   // }
 
-  Future _downloadFile() async {
-    // dio.options.baseUrl = "http://www.dtworkroom.com/doris/1/2.0.0/";
-    // dio.options.connectTimeout = 5000; //5s
-    // dio.options.receiveTimeout = 5000;
-    // dio.options.headers = {'user-agent': 'dio', 'common-header': 'xx'};
+  // Future _downloadFile() async {
+  //   // dio.options.baseUrl = "http://www.dtworkroom.com/doris/1/2.0.0/";
+  //   // dio.options.connectTimeout = 5000; //5s
+  //   // dio.options.receiveTimeout = 5000;
+  //   // dio.options.headers = {'user-agent': 'dio', 'common-header': 'xx'};
 
-    Response response = await dio.download(
-        "https://images.pexels.com/photos/443446/pexels-photo-443446.jpeg?cs=srgb&dl=daylight-forest-glossy-443446.jpg&fm=jpg",
-        _externalDocumentsDirectory.path + "/Lecture1.jpg",
-        onProgress: (received, total) {
-      setState(() {
-        downloadProgress = received / total / 100;
-        totalProgress = totalProgress + downloadProgress;
-        print('$downloadProgress');
-      });
+  //   Response response = await dio.download(
+  //       "https://images.pexels.com/photos/443446/pexels-photo-443446.jpeg?cs=srgb&dl=daylight-forest-glossy-443446.jpg&fm=jpg",
+  //       _externalDocumentsDirectory.path + "/Lecture1.jpg",
+  //       onProgress: (received, total) {
+  //     setState(() {
+  //       downloadProgress = received / total / 100;
+  //       totalProgress = totalProgress + downloadProgress;
+  //       print('$downloadProgress');
+  //     });
 
-      print((totalProgress).toStringAsFixed(0) + "%");
-      // return received / total * 100;
-    });
-
-    print(
-        '${_externalDocumentsDirectory.toString()}/WIUT Mobile/WAD/Lectures/Lecture 1.jpg');
-
-    // File file = new File(_requestExternalStorageDirectory());
-  }
-
-  Directory _tempDirectory;
-  Directory _appDocumentsDirectory;
-  Directory _externalDocumentsDirectory;
-  List<String> urls = List();
-
-  // void _requestTempDirectory() {
-  //   setState(() {
-  //     _tempDirectory = getTemporaryDirectory();
+  //     print((totalProgress).toStringAsFixed(0) + "%");
   //   });
+
+  //   print(
+  //       '${_externalDocumentsDirectory.toString()}/WIUT Mobile/WAD/Lectures/Lecture 1.jpg');
+
+  //   // File file = new File(_requestExternalStorageDirectory());
   // }
 
   // Widget _buildDirectory(
@@ -91,24 +76,6 @@ class _FileDownloaderPageState extends State<FileDownloaderPage> {
   //     return new Padding(padding: const EdgeInsets.all(16.0), child: text);
   //   }
   // }
-
-  void _requestAppDocumentsDirectory() async {
-    _appDocumentsDirectory = await getApplicationDocumentsDirectory();
-
-    setState(() {
-      urls.add('$_appDocumentsDirectory');
-    });
-  }
-
-  void _requestExternalStorageDirectory() async {
-    _externalDocumentsDirectory = await getExternalStorageDirectory();
-
-    _downloadFile();
-
-    setState(() {
-      urls.add('$_externalDocumentsDirectory');
-    });
-  }
 
   // Widget _buildRow(String fileName) {
 
@@ -182,16 +149,9 @@ class _FileDownloaderPageState extends State<FileDownloaderPage> {
   //   if (!mounted) return;
   // }
 
-  _requestPermission() async {
-    bool res = await SimplePermissions.requestPermission(permission);
-    print("permission request result is " + res.toString());
-
-    if (res) _requestExternalStorageDirectory();
-  }
-
   @override
   Widget build(BuildContext context) {
-    _requestPermission();
+    // requestPermission(Permission.WriteExternalStorage);
 
     return Scaffold(
       appBar: AppBar(

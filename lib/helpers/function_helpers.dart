@@ -56,3 +56,29 @@ void _cleanUserData() async {
   await prefs.setString(studentID, "");
   await prefs.setBool(isLoggedIn, false);
 }
+
+// //request permission for Android
+// void requestPermission(Permission permission) async {
+//   bool res = await SimplePermissions.requestPermission(permission);
+//   print("permission request result is " + res.toString());
+
+//   if (res) _requestExternalStorageDirectory();
+// }
+
+// void _requestAppDocumentsDirectory(Directory appDocumentsDirectory) async {
+//     appDocumentsDirectory = await getApplicationDocumentsDirectory();
+
+//     setState(() {
+//       urls.add('$appDocumentsDirectory');
+//     });
+//   }
+
+//   void _requestExternalStorageDirectory(Directory externalDocumentsDirectory) async {
+//     externalDocumentsDirectory = await getExternalStorageDirectory();
+
+//     _downloadFile();
+
+//     setState(() {
+//       urls.add('$_externalDocumentsDirectory');
+//     });
+//   }
