@@ -30,6 +30,7 @@ final tweetPage = '/tweetPage';
 final lecturesPage = '/lecturesPage';
 final courseworkUploadPage = '/courseworkUploadPage';
 final timetablePage = '/timetablePage';
+final filePickerPage = '/filePickerPage';
 
 //User details
 final isLoggedIn = 'isLoggedIn';

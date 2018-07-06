@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:path/path.dart';
 import 'package:student_system_flutter/helpers/app_constants.dart';
 import 'package:student_system_flutter/helpers/custom_expansion_tile.dart';
 import 'package:student_system_flutter/helpers/function_helpers.dart';
@@ -175,7 +176,13 @@ class _CourseworkUploadPageState extends State<CourseworkUploadPage>
                   ),
                 ),
                 RaisedButton(
-                  onPressed: () {},
+                  onPressed: () async {
+                    String filePath =
+                        await Navigator.of(context).pushNamed(filePickerPage);
+                    setState(() {
+                      chosenFile = basename(filePath);
+                    });
+                  },
                   textColor: Theme.of(context).accentColor,
                   child: Text('Choose file'),
                   shape: RoundedRectangleBorder(
