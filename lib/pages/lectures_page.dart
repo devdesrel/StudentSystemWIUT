@@ -99,6 +99,18 @@ class _LecturesPageState extends State<LecturesPage>
   }
 }
 
+// Sink<String> get setModuleName => _setModuleNameController.sink;
+
+// final _setModuleNameController = StreamController<String>();
+
+// Sink<String> get setComponent => _setComponentController.sink;
+
+// final _setComponentController = StreamController<String>();
+
+// Sink<String> get setFileName => _setFileNameController.sink;
+
+// final _setFileNameController = StreamController<String>();
+
 class FileDownloadingTab extends StatelessWidget {
   @override
   Widget build(BuildContext context) {

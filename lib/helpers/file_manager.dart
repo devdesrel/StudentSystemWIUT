@@ -111,14 +111,14 @@ class FileManagerState extends State<FileManager> {
           padding: const EdgeInsets.all(16.0),
           itemCount: _filteredPathsList.length,
           itemBuilder: (context, i) {
-            return _buildRow(_filteredPathsList.elementAt(i));
+            return _buildRow(_filteredPathsList.elementAt(i), context);
           });
     } else {
       return Padding(padding: const EdgeInsets.all(16.0), child: text);
     }
   }
 
-  Widget _buildRow(String path) {
+  Widget _buildRow(String path, BuildContext context) {
     final _fileName = basename(path);
     return ListTile(
       leading: _fileName == _back
@@ -144,6 +144,13 @@ class FileManagerState extends State<FileManager> {
           setState(() {
             _directory = _directory + _currentDirectory;
           });
+        } else if (FileSystemEntity.isFileSync(path)) {
+          Navigator.pop(
+            context,
+            path,
+          );
+          //Navigator.of(context).pop(path);
+          //Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) => CourseworkUploadPage(path)));
         }
       },
     );
