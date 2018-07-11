@@ -17,7 +17,7 @@ import '../pages/offences_page.dart';
 import 'app_constants.dart';
 
 final routes = {
-  '/': (BuildContext context) => HomePage(),
+  '/': (BuildContext context) => LoginPage(),
   loginPage: (BuildContext context) => LoginPage(),
   securityPage: (BuildContext context) => SecurityPage(),
   homePage: (BuildContext context) => HomePage(),

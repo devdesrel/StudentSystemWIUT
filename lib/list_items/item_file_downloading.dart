@@ -39,8 +39,6 @@ class _ItemFileDownloadingState extends State<ItemFileDownloading> {
     }
   }
 
-  void _requestExternalStorageDirectory() async {}
-
   Future<Uint8List> customConsolidateHttpClientResponseBytes(
       HttpClientResponse response) {
     // response.contentLength is not trustworthy when GZIP is involved

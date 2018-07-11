@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:student_system_flutter/helpers/file_manager.dart';
 import 'package:student_system_flutter/list_items/item_file_downloading.dart';
 import 'package:student_system_flutter/models/download_file_model.dart';
 import 'package:student_system_flutter/models/file_model.dart';
@@ -87,7 +88,10 @@ class _LecturesPageState extends State<LecturesPage>
                             materialName: _lecturesList[index]),
                         controller: _controller)),
             FileDownloadingTab(),
-            FilesDownloadedPage()
+            FileManager(
+              mainDirectory: '/WIUT Mobile/WAD/Lectures',
+            )
+            // FilesDownloadedPage()
           ],
         ),
       ),
