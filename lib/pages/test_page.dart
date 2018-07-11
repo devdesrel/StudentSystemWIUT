@@ -6,13 +6,13 @@ import 'package:student_system_flutter/helpers/app_constants.dart';
 import 'package:student_system_flutter/helpers/custom_expansion_tile.dart';
 import 'package:student_system_flutter/pages/file_picker_page.dart';
 
-class CourseworkUploadPage extends StatelessWidget {
+class TestScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return CourseworkUploadProvider(
       child: Scaffold(
         appBar: AppBar(
-          title: Text('Coursework Upload'),
+          title: Text('Returning Data Demo'),
         ),
         body: SelectionButton(),
       ),
@@ -103,7 +103,6 @@ class SelectionButton extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: <Widget>[
             StreamBuilder(
-              initialData: chosenFile,
               stream: bloc.fileName,
               builder: (context, snapshot) => Text(
                     snapshot.hasData ? snapshot.data : '',
@@ -137,6 +136,20 @@ class SelectionButton extends StatelessWidget {
         ),
       ]),
     );
+  }
+
+  // A method that launches the SelectionScreen and awaits the result from
+  // Navigator.pop!
+  _navigateAndDisplaySelection(
+      BuildContext context, CourseworkUploadBloc bloc) async {
+    // Navigator.push returns a Future that will complete after we call
+    // Navigator.pop on the Selection Screen!
+    final result = await Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => FilePickerPage()),
+    );
+
+    bloc.setFileName.add(basename(result.toString()));
   }
 }
 
