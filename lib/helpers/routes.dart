@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:student_system_flutter/pages/comments_page.dart';
 import 'package:student_system_flutter/pages/coursework_upload_page.dart';
 import 'package:student_system_flutter/pages/file_downloader_page.dart';
 import 'package:student_system_flutter/pages/file_picker_page.dart';
@@ -33,4 +34,5 @@ final routes = {
   courseworkUploadPage: (BuildContext context) => CourseworkUploadPage(),
   timetablePage: (BuildContext context) => TimetablePage(),
   filePickerPage: (BuildContext context) => FilePickerPage(),
+  commentsPage: (BuildContext context) => CommentsPage(),
 };

@@ -31,6 +31,7 @@ final lecturesPage = '/lecturesPage';
 final courseworkUploadPage = '/courseworkUploadPage';
 final timetablePage = '/timetablePage';
 final filePickerPage = '/filePickerPage';
+final commentsPage = '/commentsPage';
 
 //User details
 final isLoggedIn = 'isLoggedIn';

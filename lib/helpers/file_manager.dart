@@ -129,8 +129,12 @@ class FileManagerState extends State<FileManager> {
             _directory = _directory + _currentDirectory;
           });
         } else if (FileSystemEntity.isFileSync(path)) {
-          //Navigator.pop(context, path,);
-          Navigator.of(context).pop(path);
+          Navigator.pop(
+            context,
+            path,
+          );
+          //Navigator.of(context).pop(path);
+          //Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) => CourseworkUploadPage(path)));
         }
       },
     );
@@ -256,5 +260,4 @@ Widget _getIcon(String path) {
       'assets/file_manager_icons/file.png',
       height: 30.0,
     );
-  ;
 }

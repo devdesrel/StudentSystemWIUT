@@ -170,7 +170,9 @@ class CardBody extends StatelessWidget {
             height: iconSize,
             child: IconButton(
               padding: const EdgeInsets.all(0.0),
-              onPressed: () {},
+              onPressed: () {
+                Navigator.of(context).pushNamed(commentsPage);
+              },
               icon: Icon(FontAwesomeIcons.comment),
               iconSize: iconSize,
               color: accentColor,
