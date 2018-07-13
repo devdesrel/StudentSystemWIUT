@@ -8,17 +8,29 @@ import 'package:mime/mime.dart';
 import 'package:student_system_flutter/bloc/coursework_upload_provider.dart';
 
 bool externalStoragePermissionOkay = false;
+var _directory = '';
 
+// class FileManagerBuilder extends StatelessWidget {
+//   final String mainDirectory;
+
+//   FileManagerBuilder({@required this.mainDirectory, });
+
+//   @override
+//   Widget build(BuildContext context) {
+//     return FileManager(
+
+//     );
+//   }
+// }
 class FileManager extends StatefulWidget {
   final String mainDirectory;
 
-  FileManager({this.mainDirectory});
+  FileManager({@required this.mainDirectory});
   @override
   createState() => FileManagerState();
 }
 
 class FileManagerState extends State<FileManager> {
-  var _directory = '';
   var _currentDirectory = '';
   var _back = 'Go to back';
   var accentColor = Colors.blue;
@@ -33,6 +45,9 @@ class FileManagerState extends State<FileManager> {
   @override
   initState() {
     super.initState();
+
+    _directory = widget.mainDirectory;
+
     _initPlatformState();
   }
 
@@ -42,11 +57,8 @@ class FileManagerState extends State<FileManager> {
       return FutureBuilder<Directory>(
           future: getExternalStorageDirectory(), builder: _buildDirectory);
     } else {
-      return Padding(
-          padding: const EdgeInsets.all(16.0),
-          child: Text("You're not on Android"));
+      return Padding(padding: const EdgeInsets.all(16.0), child: Text(''));
     }
-    ;
   }
 
   Widget _buildDirectory(
@@ -62,8 +74,12 @@ class FileManagerState extends State<FileManager> {
       if (snapshot.hasError) {
         text = Text('Error: ${snapshot.error}');
       } else if (snapshot.hasData) {
-        dir = Directory(snapshot.data.path + _directory);
-        // text = Text('path: ${dir.path}');
+        dir = Directory('${snapshot.data.path}$_directory');
+
+        //   dir.exists().then((isExists) async {
+        // if (isExists) {
+
+        //         }});
         _allPathsList = dir.listSync(recursive: false, followLinks: true);
 
         for (int i = 0; i < _allPathsList.length; i++) {
@@ -184,6 +200,16 @@ Widget _getIcon(String path) {
         'assets/file_manager_icons/png.png',
         height: 30.0,
       );
+    else if (lookupMimeType(basename(path)) == 'image/svg+xml')
+      return Image.asset(
+        'assets/file_manager_icons/svg.png',
+        height: 30.0,
+      );
+    else if (lookupMimeType(basename(path)) == 'application/xml')
+      return Image.asset(
+        'assets/file_manager_icons/xml.png',
+        height: 30.0,
+      );
     else if (lookupMimeType(basename(path)) == 'application/pdf')
       return Image.asset(
         'assets/file_manager_icons/pdf.png',
@@ -215,6 +241,11 @@ Widget _getIcon(String path) {
         'assets/file_manager_icons/csv.png',
         height: 30.0,
       );
+    else if (lookupMimeType(basename(path)) == 'text/css')
+      return Image.asset(
+        'assets/file_manager_icons/css.png',
+        height: 30.0,
+      );
     else if (lookupMimeType(basename(path)) == 'text/html')
       return Image.asset(
         'assets/file_manager_icons/html.png',
@@ -241,10 +272,21 @@ Widget _getIcon(String path) {
         'assets/file_manager_icons/exe.png',
         height: 30.0,
       );
+    else if (lookupMimeType(basename(path)) == 'image/vnd.adobe.photoshop')
+      return Image.asset(
+        'assets/file_manager_icons/photoshop.png',
+        height: 30.0,
+      );
     else if (lookupMimeType(basename(path)) == 'video/mp4' ||
         lookupMimeType(basename(path)) == 'application/mp4')
       return Image.asset(
         'assets/file_manager_icons/mp4.png',
+        height: 30.0,
+      );
+    else if (lookupMimeType(basename(path)) == 'audio/mpeg' ||
+        lookupMimeType(basename(path)) == 'audio/mp3')
+      return Image.asset(
+        'assets/file_manager_icons/mp3.png',
         height: 30.0,
       );
     else if (lookupMimeType(basename(path)) == 'text/plain')

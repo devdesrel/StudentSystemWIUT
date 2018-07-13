@@ -9,12 +9,28 @@ class TimetablePage extends StatefulWidget {
 
 class _TimetablePageState extends State<TimetablePage> {
   final listItemLength = 6;
+  ScrollController _scrollController;
+
+  @override
+  void initState() {
+    super.initState();
+
+    _scrollController = new ScrollController();
+  }
+
   @override
   Widget build(BuildContext context) {
+    // 0.0, duration: new Duration(seconds: 2), curve: Curves.ease
+    // _scrollController.jumpTo(4.0);
+
+    // _scrollController.animateTo(300.0,
+    //     duration: new Duration(seconds: 2), curve: Curves.ease);
+
     return Scaffold(
       backgroundColor: Theme.of(context).backgroundColor,
       appBar: AppBar(title: Text('Timetable')),
       body: ListView.builder(
+          controller: _scrollController,
           itemCount: listItemLength,
           scrollDirection: Axis.horizontal,
           itemBuilder: (_, index) {
