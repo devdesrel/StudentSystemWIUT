@@ -30,12 +30,9 @@ class CourseworkUploadBloc {
   final _fileNameSubject = BehaviorSubject<String>();
 
   CourseworkUploadBloc() {
-    // var chosenComponent;
-    // var fileName;
-    // var moduleName;
-    // _setModuleNameController.stream.listen((_moduleName) {
-    //   _moduleNameSubject.add(_moduleName);
-    // });
+    _setModuleNameController.stream.listen((_moduleName) {
+      _moduleNameSubject.add(_moduleName);
+    });
     _setComponentController.stream.listen((_component) {
       _componentNameSubject.add(_component);
     });
@@ -50,12 +47,12 @@ class CourseworkUploadBloc {
   }
 
   void dispose() {
-    // _setModuleNameController.close();
-    // _setComponentController.close();
-    // _setFileNameController.close();
+    _setModuleNameController.close();
+    _setComponentController.close();
+    _setFileNameController.close();
 
     _moduleNameSubject.close();
     _componentNameSubject.close();
-    // _fileNameSubject.close();
+    _fileNameSubject.close();
   }
 }

@@ -24,22 +24,6 @@ class OffencesPage extends StatelessWidget {
   }
 }
 
-class OffenceBody extends StatelessWidget {
-  const OffenceBody({
-    Key key,
-  }) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return SliverList(
-      delegate: SliverChildBuilderDelegate(
-        (context, index) => ItemOffences(),
-        childCount: 10,
-      ),
-    );
-  }
-}
-
 class OffenceHeaderMessage extends StatelessWidget {
   const OffenceHeaderMessage({
     Key key,
@@ -69,6 +53,22 @@ class OffenceHeaderMessage extends StatelessWidget {
             ),
           ],
         ),
+      ),
+    );
+  }
+}
+
+class OffenceBody extends StatelessWidget {
+  const OffenceBody({
+    Key key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return SliverList(
+      delegate: SliverChildBuilderDelegate(
+        (context, index) => ItemOffences(),
+        childCount: 10,
       ),
     );
   }

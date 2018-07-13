@@ -175,9 +175,10 @@ class CourseworkUploadPage extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: <Widget>[
                   StreamBuilder(
+                    initialData: chosenFile,
                     stream: bloc.fileName,
                     builder: (context, snapshot) => Text(
-                          snapshot.hasData ? snapshot.data : '',
+                          snapshot.hasData ? snapshot.data : 'lll',
                           style: TextStyle(color: Color(0xBF616161)),
                         ),
                   ),
@@ -187,8 +188,8 @@ class CourseworkUploadPage extends StatelessWidget {
                       //     .of(context)
                       //     .pushNamed(filePickerPage);
 
-                      var filePath =
-                          await Navigator.of(context).pushNamed(filePickerPage);
+                      // var filePath =
+                      //     await Navigator.of(context).pushNamed(filePickerPage);
 
                       bloc.setFileName.add('njnjn');
                     },
