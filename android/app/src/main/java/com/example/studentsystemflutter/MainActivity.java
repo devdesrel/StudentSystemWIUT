@@ -33,7 +33,8 @@ public class MainActivity extends FlutterActivity {
   }
 
   private void openFile(String filePath){
-      File file = new File(filePath);
+      String _filePath = "storage/emulated/0/WIUT%20Mobile/WAD/Lectures/Lecture%201/Lecture.jpg";
+      File file = new File(_filePath);
       MimeTypeMap map = MimeTypeMap.getSingleton();
       String ext = MimeTypeMap.getFileExtensionFromUrl(file.getName());
       String type = map.getMimeTypeFromExtension(ext);
@@ -42,9 +43,14 @@ public class MainActivity extends FlutterActivity {
           type = "*/*";
 
       Intent intent = new Intent(Intent.ACTION_VIEW);
-      Uri data = Uri.fromFile(file);
+    //   Uri data = Uri.fromFile(file);
+    //   intent.setDataAndType(data, type);
+       Uri data = FileProvider.getUriForFile(
+        MainActivity.this, 
+        BuildConfig.APPLICATION_ID + ".provider", file);
 
-      intent.setDataAndType(data, type);
+        intent.setDataAndType(data, mimeType);
+        intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
 
       startActivity(intent);
   }
