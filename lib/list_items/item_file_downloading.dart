@@ -12,7 +12,7 @@ import 'package:student_system_flutter/helpers/ui_helpers.dart';
 import 'package:student_system_flutter/models/download_file_model.dart';
 
 class ItemFileDownloading extends StatefulWidget {
-  final DownloadFile downloadFile;
+  final DownloadFileModel downloadFile;
 
   ItemFileDownloading({@required this.downloadFile});
 

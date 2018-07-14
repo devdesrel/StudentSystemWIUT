@@ -4,7 +4,7 @@ import 'package:rxdart/rxdart.dart';
 import 'package:student_system_flutter/models/download_file_model.dart';
 
 class FileDownloadBloc {
-  List<DownloadFile> basicList = List();
+  List<DownloadFileModel> basicList = List();
 
   FileDownloadBloc() {
     _addFileToDownloadController.stream.listen((addition) {
@@ -18,19 +18,20 @@ class FileDownloadBloc {
     });
   }
 
-  final BehaviorSubject<List<DownloadFile>> _downloadingFilesList =
-      BehaviorSubject<List<DownloadFile>>(seedValue: []);
+  final BehaviorSubject<List<DownloadFileModel>> _downloadingFilesList =
+      BehaviorSubject<List<DownloadFileModel>>(seedValue: []);
 
-  Sink<DownloadFile> get addFileToDownload => _addFileToDownloadController.sink;
+  Sink<DownloadFileModel> get addFileToDownload =>
+      _addFileToDownloadController.sink;
 
-  final _addFileToDownloadController = StreamController<DownloadFile>();
+  final _addFileToDownloadController = StreamController<DownloadFileModel>();
 
   Sink<String> get removeItemFromDownloadingList =>
       _removeItemFromDownloadingListController.sink;
 
   final _removeItemFromDownloadingListController = StreamController<String>();
 
-  Stream<List<DownloadFile>> get items => _downloadingFilesList.stream;
+  Stream<List<DownloadFileModel>> get items => _downloadingFilesList.stream;
 
   void dispose() {
     // _downloadingFilesList.close();

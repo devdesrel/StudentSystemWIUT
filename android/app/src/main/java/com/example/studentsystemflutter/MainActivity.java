@@ -3,6 +3,7 @@ package com.example.studentsystemflutter;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.v4.content.FileProvider;
 import android.webkit.MimeTypeMap;
 
 import java.io.File;
@@ -33,21 +34,20 @@ public class MainActivity extends FlutterActivity {
   }
 
   private void openFile(String filePath){
-      String _filePath = "storage/emulated/0/WIUT%20Mobile/WAD/Lectures/Lecture%201/Lecture.jpg";
-      File file = new File(_filePath);
+      File file = new File(filePath);
       MimeTypeMap map = MimeTypeMap.getSingleton();
       String ext = MimeTypeMap.getFileExtensionFromUrl(file.getName());
-      String type = map.getMimeTypeFromExtension(ext);
+      String mimeType = map.getMimeTypeFromExtension(ext);
 
-      if (type == null)
-          type = "*/*";
+      if (mimeType == null)
+          mimeType = "*/*";
 
       Intent intent = new Intent(Intent.ACTION_VIEW);
     //   Uri data = Uri.fromFile(file);
-    //   intent.setDataAndType(data, type);
+    //   intent.setDataAndType(data, mimeType);
        Uri data = FileProvider.getUriForFile(
         MainActivity.this, 
-        BuildConfig.APPLICATION_ID + ".provider", file);
+        BuildConfig.APPLICATION_ID + ".com.example.studentsystemflutter.provider", file);
 
         intent.setDataAndType(data, mimeType);
         intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
