@@ -10,6 +10,7 @@ class FilePickerPage extends StatelessWidget {
       ),
       body: FileManager(
         mainDirectory: '',
+        isFilePicker: true,
       ),
     );
   }

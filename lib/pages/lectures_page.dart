@@ -43,6 +43,8 @@ class _LecturesPageState extends State<LecturesPage>
 
   @override
   void initState() {
+    _populateList();
+
     super.initState();
     _controller = TabController(length: 3, vsync: this);
   }
@@ -50,8 +52,6 @@ class _LecturesPageState extends State<LecturesPage>
   // List<Widget> lecturecards = List.generate(5, (i) => CustomCard());
   @override
   Widget build(BuildContext context) {
-    _populateList();
-
     return FileDownloadProvider(
       child: Scaffold(
         backgroundColor: Theme.of(context).backgroundColor,
@@ -88,9 +88,7 @@ class _LecturesPageState extends State<LecturesPage>
                             materialName: _lecturesList[index]),
                         controller: _controller)),
             FileDownloadingTab(),
-            FileManager(
-              mainDirectory: '/WIUT Mobile/WAD/Lectures',
-            )
+            FileManager(mainDirectory: '/WIUT Mobile/WAD', isFilePicker: false)
             // FilesDownloadedPage()
           ],
         ),

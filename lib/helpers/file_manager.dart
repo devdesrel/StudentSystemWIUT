@@ -1,6 +1,8 @@
+import 'dart:async';
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:path/path.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:simple_permissions/simple_permissions.dart';
@@ -23,8 +25,9 @@ var _directory = '';
 // }
 class FileManager extends StatefulWidget {
   final String mainDirectory;
+  final bool isFilePicker;
 
-  FileManager({@required this.mainDirectory});
+  FileManager({@required this.mainDirectory, @required this.isFilePicker});
   @override
   createState() => FileManagerState();
 }
@@ -34,6 +37,8 @@ class FileManagerState extends State<FileManager> {
   var _back = 'Go to back';
   var accentColor = Colors.blue;
   List<FileSystemEntity> _allPathsList;
+  static const platform =
+      const MethodChannel('com.rtoshmukhamedov.flutter.fileopener');
 
   //Temporary list before merging into one list
   List<String> _directoriesList = List();
@@ -43,9 +48,9 @@ class FileManagerState extends State<FileManager> {
 
   @override
   initState() {
-    super.initState();
-
     _directory = widget.mainDirectory;
+
+    super.initState();
 
     _initPlatformState();
   }
@@ -145,10 +150,14 @@ class FileManagerState extends State<FileManager> {
             _directory = _directory + _currentDirectory;
           });
         } else if (FileSystemEntity.isFileSync(path)) {
-          Navigator.pop(
-            context,
-            path,
-          );
+          if (widget.isFilePicker) {
+            Navigator.pop(
+              context,
+              path,
+            );
+          } else {
+            _openFile(path);
+          }
           //Navigator.of(context).pop(path);
           //Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) => CourseworkUploadPage(path)));
         }
@@ -177,6 +186,18 @@ class FileManagerState extends State<FileManager> {
           });
         }
       });
+    }
+  }
+
+  Future _openFile(String filePath) async {
+    var sendMap = <String, dynamic>{
+      'filePath': filePath,
+    };
+
+    try {
+      await platform.invokeMethod('openFile', sendMap);
+    } catch (e) {
+      print(e);
     }
   }
 }
