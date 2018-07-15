@@ -5,6 +5,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:student_system_flutter/enums/ApplicationEnums.dart';
 
 import '../helpers/app_constants.dart';
 import '../list_items/item_modules.dart';
@@ -143,15 +144,4 @@ class _EntryItemState extends State<EntryItem> {
           widget.entry.children.map((m) => ItemModules(module: m)).toList(),
     );
   }
-
-  Widget _buildTiles(Entry root) {
-    print(root.title);
-    return ExpansionTile(
-      key: PageStorageKey<Entry>(root),
-      title: Text(root.title),
-      children: root.children.map((m) => ItemModules(module: m)).toList(),
-    );
-  }
 }
-
-enum RequestType { GetMarks, GetTeachingMaterials }

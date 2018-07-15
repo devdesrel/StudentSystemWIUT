@@ -1,4 +1,3 @@
-import 'dart:async';
 import 'dart:io';
 
 import 'package:flutter/material.dart';
@@ -25,34 +24,34 @@ class _FilesDownloadedPageState extends State<FilesDownloadedPage> {
     _initPlatformState();
   }
 
-  Future<Widget> _getAllDownloadedFiles() async {
-    String dir = Platform.isAndroid
-        ? (await getExternalStorageDirectory()).path
-        : (await getApplicationDocumentsDirectory()).path;
+  // Future<Widget> _getAllDownloadedFiles() async {
+  //   String dir = Platform.isAndroid
+  //       ? (await getExternalStorageDirectory()).path
+  //       : (await getApplicationDocumentsDirectory()).path;
 
-    final path = '$dir/WIUT Mobile/WAD/Lectures/Lecture 1/';
-    final myDir = Directory(path);
+  //   final path = '$dir/WIUT Mobile/WAD/Lectures/Lecture 1/';
+  //   final myDir = Directory(path);
 
-    myDir.exists().then((isExists) async {
-      if (isExists) {
-        var list = myDir.listSync();
-        var file = File(list[0].path);
+  //   myDir.exists().then((isExists) async {
+  //     if (isExists) {
+  //       var list = myDir.listSync();
+  //       var file = File(list[0].path);
 
-        var fileSize = file.length();
-        var modifiedTime = file.lastModifiedSync();
-        var fileName = basename(file.path);
+  //       var fileSize = file.length();
+  //       var modifiedTime = file.lastModifiedSync();
+  //       var fileName = basename(file.path);
 
-        return Column(
-          children: <Widget>[
-            Text('File name: $fileName'),
-            Text('File size: $fileSize'),
-            Text('File size: $modifiedTime')
-          ],
-        );
-      }
-    });
-    return Text('');
-  }
+  //       return Column(
+  //         children: <Widget>[
+  //           Text('File name: $fileName'),
+  //           Text('File size: $fileSize'),
+  //           Text('File size: $modifiedTime')
+  //         ],
+  //       );
+  //     }
+  //   });
+  //   return Text('');
+  // }
 
   _initPlatformState() async {
     if (Platform.isAndroid) {
@@ -126,15 +125,7 @@ class _FilesDownloadedPageState extends State<FilesDownloadedPage> {
   }
 
   Widget _buildRow(String path) {
-    // Future<Null> _launched;
-    // final alreadySaved = _saved.contains(fileName);
-
     var file = File(path);
-    String fileSize = '';
-
-    // setState(() {
-    //   file.length().then((size) => fileSize = size.toString());
-    // });
 
     var modifiedTime = file.lastModifiedSync();
 

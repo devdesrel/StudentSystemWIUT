@@ -1,10 +1,8 @@
-import 'dart:async';
-import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:image_picker/image_picker.dart';
+import 'package:student_system_flutter/enums/ApplicationEnums.dart';
 import 'package:student_system_flutter/helpers/app_constants.dart';
+import 'package:student_system_flutter/helpers/function_helpers.dart';
 
 class CommentsPage extends StatefulWidget {
   @override
@@ -18,14 +16,6 @@ class _CommentsPageState extends State<CommentsPage> {
 
   @override
   Widget build(BuildContext context) {
-    var numberOfLines;
-
-    void _changeNumberOfLines() {
-      setState(() {
-        numberOfLines = 2;
-      });
-    }
-
     return Scaffold(
       backgroundColor: backgroundColor,
       appBar: AppBar(
@@ -70,22 +60,23 @@ class _CommentsPageState extends State<CommentsPage> {
               ),
               Expanded(
                 child: Container(
-                  constraints: BoxConstraints.loose(Size.fromHeight(51.0)),
+                  constraints: BoxConstraints.loose(Size.fromHeight(120.0)),
                   child: Theme(
                     data: ThemeData(hintColor: greyColor),
                     child: TextField(
-                      onChanged: (s) => _changeNumberOfLines,
-                      maxLines: numberOfLines,
-                      keyboardType: TextInputType.multiline,
-                      decoration: InputDecoration(
+                        maxLines: null,
+                        keyboardType: TextInputType.multiline,
+                        decoration: InputDecoration(
+                          border: InputBorder.none,
                           contentPadding: EdgeInsets.only(
-                              left: 18.0, right: 18.0, bottom: 1.0, top: 12.0),
-                          border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(50.0)),
+                              left: 10.0, right: 10.0, bottom: 5.0, top: 0.0),
+                          // border: OutlineInputBorder(
+                          //     borderRadius: BorderRadius.circular(50.0)),
                           hintText: 'Comment',
-                          filled: true,
-                          fillColor: backgroundColor),
-                    ),
+                        )
+                        // filled: true,
+                        // fillColor: backgroundColor),
+                        ),
                   ),
                 ),
               ),
@@ -114,17 +105,6 @@ class _CommentsPageState extends State<CommentsPage> {
 class CustomSizedBox extends StatelessWidget {
   final IconData icon;
   final AttachmentTypes type;
-  // final Future getImage;
-
-  Future getImage(bool isFromCamera) async {
-    var image = await ImagePicker.pickImage(
-        source: isFromCamera ? ImageSource.camera : ImageSource.gallery);
-    File _image;
-
-    setState(() {
-      _image = image;
-    });
-  }
 
   CustomSizedBox({Key key, @required this.icon, @required this.type})
       : super(key: key);
@@ -133,7 +113,7 @@ class CustomSizedBox extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.only(bottom: 12.0),
+      padding: const EdgeInsets.symmetric(vertical: 12.0),
       child: SizedBox(
         width: 40.0,
         height: 20.0,
@@ -159,23 +139,10 @@ class CustomSizedBox extends StatelessWidget {
                   print('Default');
                   break;
               }
-            }
-            //     if(key == iconkey1){
-            //   onPressed: () {getImage},
-            // }else{
-            //   onPressed: () {},
-            // }
-            ),
+            }),
       ),
     );
   }
 
   void setState(Function param0) {}
-}
-
-enum AttachmentTypes {
-  CAMERA,
-  GALLERY,
-  STICKER,
-  //FILE,
 }

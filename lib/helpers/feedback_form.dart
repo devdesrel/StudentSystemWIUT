@@ -1,22 +1,22 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:student_system_flutter/helpers/app_constants.dart';
+import 'package:student_system_flutter/models/feedback_model.dart';
 
 import '../helpers/ui_helpers.dart';
 
 class FeedbackForm extends StatefulWidget {
-  final List<Widget> pages;
+  List<FeedbackModel> questionNumbers;
 
   FeedbackForm({
     Key key,
-    @required this.pages,
+    @required this.questionNumbers,
   }) : super(key: key);
   @override
   _FeedbackFormState createState() => _FeedbackFormState();
 }
 
 class _FeedbackFormState extends State<FeedbackForm> {
-  double _rating = 0.0;
   var _controller = PageController();
 
   @override
@@ -35,14 +35,14 @@ class _FeedbackFormState extends State<FeedbackForm> {
                 SizedBox(
                   height: 15.0,
                 ),
-                Text('Web Application Development'),
+                Text(widget.questionNumbers[index].questionTitle),
                 Expanded(
                   child: StarRating(
-                      rating: _rating,
+                      rating: widget.questionNumbers[index].rating,
                       onRatingChanged: (rating) {
                         return setState(() {
-                          _rating = rating;
-                          if (index != widget.pages.length - 1)
+                          widget.questionNumbers[index].rating = rating;
+                          if (index != widget.questionNumbers.length - 1)
                             _controller.nextPage(
                                 duration: kTabScrollDuration,
                                 curve: Curves.ease);
@@ -63,7 +63,7 @@ class _FeedbackFormState extends State<FeedbackForm> {
                             },
                           )
                         : Container(),
-                    index == widget.pages.length - 1
+                    index == widget.questionNumbers.length - 1
                         ? FlatButton(
                             child: Text(
                               'Finish'.toUpperCase(),
@@ -83,7 +83,7 @@ class _FeedbackFormState extends State<FeedbackForm> {
               ],
             ));
           },
-          itemCount: widget.pages.length),
+          itemCount: widget.questionNumbers.length),
     );
   }
 }

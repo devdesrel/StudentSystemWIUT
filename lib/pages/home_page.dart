@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:student_system_flutter/enums/ApplicationEnums.dart';
+import 'package:student_system_flutter/models/feedback_model.dart';
 
 import '../helpers/app_constants.dart';
 import '../helpers/feedback_form.dart';
@@ -11,11 +13,10 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  final List<Widget> _pages = <Widget>[
-    Text('Text'),
-    Text('Text'),
-    Text('Text'),
-    Text('Text'),
+  final List<FeedbackModel> _questionNumbers = <FeedbackModel>[
+    FeedbackModel(questionTitle: 'Web Application Development'),
+    FeedbackModel(questionTitle: 'Internet Marketing'),
+    FeedbackModel(questionTitle: 'Software Quality, Performance and Testing'),
   ];
 
   @override
@@ -40,7 +41,8 @@ class _HomePageState extends State<HomePage> {
         drawer: CustomAndroidDrawer(),
         body: CustomScrollView(
           slivers: <Widget>[
-            SliverToBoxAdapter(child: FeedbackForm(pages: _pages)),
+            SliverToBoxAdapter(
+                child: FeedbackForm(questionNumbers: _questionNumbers)),
             CustomGridView(context).build(),
           ],
         ));
@@ -157,15 +159,4 @@ class CustomGridView {
               "Social", 'assets/tutorials2.png', MainPageGridItems.SOCIAL, 7),
         ]);
   }
-}
-
-enum MainPageGridItems {
-  MARKS,
-  TIMETABLE,
-  LECTURES,
-  TUTORIALS,
-  OFFENCES,
-  PAYMENT,
-  BOOK_ORDERING,
-  SOCIAL
 }

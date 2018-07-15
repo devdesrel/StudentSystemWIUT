@@ -3,9 +3,7 @@ import 'package:student_system_flutter/bloc/file_download_bloc.dart';
 import 'package:student_system_flutter/helpers/file_manager.dart';
 import 'package:student_system_flutter/list_items/item_file_downloading.dart';
 import 'package:student_system_flutter/models/download_file_model.dart';
-import 'package:student_system_flutter/models/file_model.dart';
 import 'package:student_system_flutter/models/learning_materials_model.dart';
-import 'package:student_system_flutter/pages/files_downloaded_page.dart';
 
 import '../bloc/file_download_provider.dart';
 import '../helpers/app_constants.dart';

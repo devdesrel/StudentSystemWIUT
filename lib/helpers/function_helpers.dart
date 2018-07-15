@@ -1,6 +1,8 @@
 import 'dart:async';
+import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import 'app_constants.dart';
@@ -11,6 +13,11 @@ void showSnackBar(String text, GlobalKey<ScaffoldState> scaffoldKey) {
     content: Text(text),
     duration: Duration(seconds: 2),
   ));
+}
+
+Future<File> getImage(bool isFromCamera) async {
+  return await ImagePicker.pickImage(
+      source: isFromCamera ? ImageSource.camera : ImageSource.gallery);
 }
 
 //Sign out Dialog
@@ -56,29 +63,3 @@ void _cleanUserData() async {
   await prefs.setString(studentID, "");
   await prefs.setBool(isLoggedIn, false);
 }
-
-// //request permission for Android
-// void requestPermission(Permission permission) async {
-//   bool res = await SimplePermissions.requestPermission(permission);
-//   print("permission request result is " + res.toString());
-
-//   if (res) _requestExternalStorageDirectory();
-// }
-
-// void _requestAppDocumentsDirectory(Directory appDocumentsDirectory) async {
-//     appDocumentsDirectory = await getApplicationDocumentsDirectory();
-
-//     setState(() {
-//       urls.add('$appDocumentsDirectory');
-//     });
-//   }
-
-//   void _requestExternalStorageDirectory(Directory externalDocumentsDirectory) async {
-//     externalDocumentsDirectory = await getExternalStorageDirectory();
-
-//     _downloadFile();
-
-//     setState(() {
-//       urls.add('$_externalDocumentsDirectory');
-//     });
-//   }

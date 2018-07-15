@@ -1,11 +1,9 @@
-import 'dart:async';
-import 'dart:io';
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:student_system_flutter/enums/ApplicationEnums.dart';
 import 'package:student_system_flutter/helpers/app_constants.dart';
-import 'package:image_picker/image_picker.dart';
+import 'package:student_system_flutter/helpers/function_helpers.dart';
 
 class TweetPage extends StatefulWidget {
   @override
@@ -21,10 +19,6 @@ class _TweetPageState extends State<TweetPage> {
         iconTheme: IconThemeData(color: whiteColor),
         elevation: 0.0,
         backgroundColor: accentColor,
-        // title: Text(
-        //   'Tweet',
-        //   style: TextStyle(color: Theme.of(context).accentColor),
-        // ),
         leading: IconButton(
           onPressed: () {
             Navigator.of(context).pop();
@@ -33,21 +27,6 @@ class _TweetPageState extends State<TweetPage> {
             Icons.close,
           ),
         ),
-        // actions: <Widget>[
-        //     Padding(
-        //     padding: const EdgeInsets.all(10.0),
-        //     child: Text(
-        //       'send'.toUpperCase(),
-        //       //style: TextStyle(color: Theme.of(context).accentColor),
-        //       style: TextStyle(fontSize: 24.0, color: accentColor),
-        //     ),
-        //   )
-        //   // FloatingActionButton(
-        //   //     child: Text('Tweet'),
-        //   //     backgroundColor: accentColor,
-        //   //     //shape:BoxShape.rectangle(Border),
-        //   //     onPressed: () {}),
-        // ],
       ),
       body: Container(
         padding: const EdgeInsets.symmetric(horizontal: 12.0, vertical: 8.0),
@@ -61,21 +40,6 @@ class _TweetPageState extends State<TweetPage> {
             hintText: 'Share your ideas',
           ),
         ),
-        // Row(
-        //   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-        //   //crossAxisAlignment: CrossAxisAlignment.end,
-        //   children: <Widget>[
-        //     Icon(Icons.perm_media),
-        //     Icon(Icons.gif),
-        //     Icon(Icons.pie_chart),
-        //     Icon(Icons.perm_media),
-        //     SizedBox(
-        //       width: 10.0,
-        //     ),
-        //     Icon(Icons.check_circle_outline),
-        //     Icon(Icons.add)
-        //   ],
-        // )
       ),
       bottomNavigationBar: BottomAppBar(
         color: accentColor,
@@ -91,11 +55,9 @@ class _TweetPageState extends State<TweetPage> {
                 icon: FontAwesomeIcons.camera,
                 type: AttachmentTypes.CAMERA,
               ),
-              // getImage: getImage(true)
               CustomSizedBox(
                 icon: FontAwesomeIcons.image,
                 type: AttachmentTypes.GALLERY,
-                // getImage: getImage(false),
               ),
               CustomSizedBox(
                   icon: FontAwesomeIcons.tasks,
@@ -111,7 +73,7 @@ class _TweetPageState extends State<TweetPage> {
       ),
       floatingActionButton: FloatingActionButton(
         child: Icon(Icons.send),
-        onPressed: () => debugPrint("Pressed"),
+        onPressed: () => print("Pressed"),
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.endDocked,
     );
@@ -123,19 +85,8 @@ class CustomSizedBox extends StatelessWidget {
   final AttachmentTypes type;
   // final Future getImage;
 
-  Future getImage(bool isFromCamera) async {
-    var image = await ImagePicker.pickImage(
-        source: isFromCamera ? ImageSource.camera : ImageSource.gallery);
-    File _image;
-
-    setState(() {
-      _image = image;
-    });
-  }
-
   CustomSizedBox({Key key, @required this.icon, @required this.type})
       : super(key: key);
-  //CustomSizedBox({Key key(iconkey1), @required this.icon}); //: super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -162,22 +113,9 @@ class CustomSizedBox extends StatelessWidget {
                 print('Default');
                 break;
             }
-          }
-          //     if(key == iconkey1){
-          //   onPressed: () {getImage},
-          // }else{
-          //   onPressed: () {},
-          // }
-          ),
+          }),
     );
   }
 
   void setState(Function param0) {}
-}
-
-enum AttachmentTypes {
-  CAMERA,
-  GALLERY,
-  QUESTIONNAIRE,
-  FILE,
 }
