@@ -1,21 +1,86 @@
+import 'dart:async';
+import 'dart:convert';
+
+import 'package:flutter/foundation.dart';
+import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:student_system_flutter/helpers/app_constants.dart';
 import 'package:student_system_flutter/helpers/ui_helpers.dart';
+import 'package:student_system_flutter/models/Timetable/groups_model.dart';
 
-class TimetablePage extends StatefulWidget {
-  @override
-  _TimetablePageState createState() => _TimetablePageState();
-}
-
-class _TimetablePageState extends State<TimetablePage> {
+class TimetablePage extends StatelessWidget {
   final listItemLength = 6;
-  ScrollController _scrollController;
 
-  @override
-  void initState() {
-    super.initState();
+  // FutureBuilder<List<GroupsModel>> _getGroupId() {
+  //   return FutureBuilder(
+  //       future: getGroupsList(),
+  //       builder: (context, snapshot) {
+  //         if (snapshot.hasData && snapshot.data.length > 0) {
+  //           snapshot.data
+  //               .where((group) => group.name == ('6BIS1'))
+  //               .elementAt(0)
+  //               .id;
 
-    _scrollController = new ScrollController();
+  //           return Text(snapshot.data[0].id);
+  //         }
+  //         return Container();
+  //       });
+
+  List<GroupsModel> parseGroups(String responseBody) {
+    final parsed = json.decode(responseBody);
+
+    List<GroupsModel> lists =
+        parsed.map<GroupsModel>((json) => GroupsModel.fromJson(json)).toList();
+
+    return lists;
+  }
+
+  getGroupsList() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    final _token = prefs.getString(token);
+
+    final response = await http.get(apiGetClasses, headers: {
+      "Accept": "application/json",
+      "Authorization": "Bearer $_token"
+    });
+    // return compute(parseGroups, response.body);
+    List<GroupsModel> groupsList = parseGroups(response.body);
+
+    String _groupID =
+        groupsList.where((group) => group.name == ('6BIS1')).elementAt(0).id;
+
+    // prefs.setString(groupID, _groupID);
+
+    getTimetableList(_groupID);
+
+    print(_groupID);
+
+    return _groupID;
+  }
+
+  getTimetableList(String _groupID) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    final _token = prefs.getString(token);
+    // final _groupID = prefs.getString(groupID);
+
+    final response = await http.get('$apiGetLessons?classids=$_groupID',
+        headers: {
+          "Accept": "application/json",
+          "Authorization": "Bearer $_token"
+        });
+    // return compute(parseGroups, response.body);
+    print(response.body);
+    // List<GroupsModel> groupsList = parseGroups(response.body);
+
+    // String _groupID =
+    //     groupsList.where((group) => group.name == ('6BIS1')).elementAt(0).id;
+
+    // await prefs.setString(groupID, _groupID);
+
+    // print(_groupID);
+
+    // return _groupID;
   }
 
   @override
@@ -25,12 +90,12 @@ class _TimetablePageState extends State<TimetablePage> {
 
     // _scrollController.animateTo(300.0,
     //     duration: new Duration(seconds: 2), curve: Curves.ease);
+    getGroupsList();
 
     return Scaffold(
       backgroundColor: Theme.of(context).backgroundColor,
       appBar: AppBar(title: Text('Timetable')),
       body: ListView.builder(
-          controller: _scrollController,
           itemCount: listItemLength,
           scrollDirection: Axis.horizontal,
           itemBuilder: (_, index) {

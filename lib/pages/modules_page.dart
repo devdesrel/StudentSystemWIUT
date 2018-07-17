@@ -19,6 +19,20 @@ import '../models/modules_list_model.dart';
 //   ));
 // }
 
+Future<List<Module>> getModulesWithMarks() async {
+  SharedPreferences prefs = await SharedPreferences.getInstance();
+  final _token = prefs.getString(token);
+  final _studentID = prefs.getString(studentID);
+
+  final response = await http.post("$apiStudentMarks?UserID=$_studentID",
+      headers: {
+        "Accept": "application/json",
+        "Authorization": "Bearer $_token"
+      });
+
+  return compute(parseModules, response.body);
+}
+
 List<Module> parseModules(String responseBody) {
   final studentViewModuleMarksPropField = 'studentViewModuleMarksPropField';
 
@@ -42,20 +56,6 @@ class ModulesPage extends StatefulWidget {
 
 class _ModulesPageState extends State<ModulesPage> {
   // var _levelsList = List<String>();
-
-  Future<List<Module>> getModulesWithMarks() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    final _token = prefs.getString(token);
-    final _studentID = prefs.getString(studentID);
-
-    final response = await http.post("$apiStudentMarks?UserID=$_studentID",
-        headers: {
-          "Accept": "application/json",
-          "Authorization": "Bearer $_token"
-        });
-
-    return compute(parseModules, response.body);
-  }
 
   @override
   Widget build(BuildContext context) {
