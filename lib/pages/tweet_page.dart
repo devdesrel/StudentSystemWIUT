@@ -166,11 +166,11 @@ class CustomSizedBox extends StatelessWidget {
           onPressed: () {
             switch (type) {
               case AttachmentTypes.CAMERA:
-                getImage(context, true);
+                getImage(true);
                 //getImage(imagepath) => bloc.addWidget.add(imagepath);
                 break;
               case AttachmentTypes.GALLERY:
-                getImage(context, false);
+                getImage(false);
                 //getImage(imageName) => bloc.addWidget.add('Image is here');
                 break;
               case AttachmentTypes.QUESTIONNAIRE:
