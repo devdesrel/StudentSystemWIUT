@@ -5,6 +5,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:student_system_flutter/enums/ApplicationEnums.dart';
 
 import '../helpers/app_constants.dart';
 import '../list_items/item_modules.dart';
@@ -17,6 +18,20 @@ import '../models/modules_list_model.dart';
 //     duration: Duration(seconds: 2),
 //   ));
 // }
+
+Future<List<Module>> getModulesWithMarks() async {
+  SharedPreferences prefs = await SharedPreferences.getInstance();
+  final _token = prefs.getString(token);
+  final _studentID = prefs.getString(studentID);
+
+  final response = await http.post("$apiStudentMarks?UserID=$_studentID",
+      headers: {
+        "Accept": "application/json",
+        "Authorization": "Bearer $_token"
+      });
+
+  return compute(parseModules, response.body);
+}
 
 List<Module> parseModules(String responseBody) {
   final studentViewModuleMarksPropField = 'studentViewModuleMarksPropField';
@@ -41,20 +56,6 @@ class ModulesPage extends StatefulWidget {
 
 class _ModulesPageState extends State<ModulesPage> {
   // var _levelsList = List<String>();
-
-  Future<List<Module>> getModulesWithMarks() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    final _token = prefs.getString(token);
-    final _studentID = prefs.getString(studentID);
-
-    final response = await http.post("$apiStudentMarks?UserID=$_studentID",
-        headers: {
-          "Accept": "application/json",
-          "Authorization": "Bearer $_token"
-        });
-
-    return compute(parseModules, response.body);
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -143,15 +144,4 @@ class _EntryItemState extends State<EntryItem> {
           widget.entry.children.map((m) => ItemModules(module: m)).toList(),
     );
   }
-
-  Widget _buildTiles(Entry root) {
-    print(root.title);
-    return ExpansionTile(
-      key: PageStorageKey<Entry>(root),
-      title: Text(root.title),
-      children: root.children.map((m) => ItemModules(module: m)).toList(),
-    );
-  }
 }
-
-enum RequestType { GetMarks, GetTeachingMaterials }

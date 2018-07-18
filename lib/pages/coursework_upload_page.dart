@@ -1,10 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:path/path.dart';
-import 'package:student_system_flutter/bloc/coursework_upload_bloc.dart';
 import 'package:student_system_flutter/bloc/coursework_upload_provider.dart';
 import 'package:student_system_flutter/helpers/app_constants.dart';
 import 'package:student_system_flutter/helpers/custom_expansion_tile.dart';
-import 'package:student_system_flutter/pages/file_picker_page.dart';
 
 class CourseworkUploadPage extends StatelessWidget {
   @override

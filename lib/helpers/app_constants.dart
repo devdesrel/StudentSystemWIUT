@@ -40,9 +40,12 @@ final studentID = 'studentID';
 final firstName = 'firstName';
 final lastName = 'lastName';
 final pinCode = '1234';
+final groupID = 'groupID';
 
 //API List
 final baseUrl = 'https://newintranetapi.wiut.uz';
 final apiAuthenticate = '$baseUrl/api/Account/Authenticate';
 final apiStudentMarks =
     '$baseUrl/api/StudentProfileAndMarks/StudentProfileAndMarksForStudent';
+final apiGetClasses = '$baseUrl/api/TimeTable/GetClasses';
+final apiGetLessons = '$baseUrl/api/TimeTable/GetLessons';

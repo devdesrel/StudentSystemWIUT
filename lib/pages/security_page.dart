@@ -3,7 +3,6 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:local_auth/local_auth.dart';
 import 'package:flutter/services.dart';
-// import 'package:vibrate/vibrate.dart';
 
 import '../helpers/app_constants.dart';
 
@@ -161,16 +160,13 @@ class CustomDigitColumn extends StatelessWidget {
   Widget build(BuildContext context) {
     TextStyle textStyle =
         Theme.of(context).textTheme.display2.copyWith(color: Colors.white);
-    final Iterable<Duration> pauses = [
-      const Duration(milliseconds: 200),
-    ];
+
     return Material(
       color: Colors.blue,
       child: Column(
         children: <Widget>[
           InkWell(
             onTap: () {
-              // Vibrate.vibrateWithPauses(pauses);
               enterPIN(firstNumber);
             },
             child: Padding(
@@ -184,7 +180,6 @@ class CustomDigitColumn extends StatelessWidget {
           SizedBox(height: 30.0),
           InkWell(
             onTap: () {
-              // Vibrate.vibrateWithPauses(pauses);
               enterPIN(secondNumber);
             },
             child: Padding(
@@ -198,7 +193,6 @@ class CustomDigitColumn extends StatelessWidget {
           SizedBox(height: 30.0),
           InkWell(
             onTap: () {
-              // Vibrate.vibrateWithPauses(pauses);
               enterPIN(thirdNumber);
             },
             child: Padding(
@@ -220,7 +214,6 @@ class CustomDigitColumn extends StatelessWidget {
                 )
               : InkWell(
                   onTap: () {
-                    // Vibrate.vibrateWithPauses(pauses);
                     enterPIN(fourthNumber);
                   },
                   child: Padding(

@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:student_system_flutter/bloc/file_download_bloc.dart';
 import 'package:student_system_flutter/helpers/file_manager.dart';
 import 'package:student_system_flutter/list_items/item_file_downloading.dart';
 import 'package:student_system_flutter/models/download_file_model.dart';
-import 'package:student_system_flutter/models/file_model.dart';
-import 'package:student_system_flutter/pages/files_downloaded_page.dart';
+import 'package:student_system_flutter/models/learning_materials_model.dart';
 
 import '../bloc/file_download_provider.dart';
 import '../helpers/app_constants.dart';
@@ -16,26 +16,28 @@ class LecturesPage extends StatefulWidget {
 
 class _LecturesPageState extends State<LecturesPage>
     with SingleTickerProviderStateMixin {
-  List<String> _lecturesList = List();
-  List<DownloadFile> _fileDownloadingList = List();
-  List<FileModel> _downloadedFilesList = List();
-
-  final url =
-      'https://images.pexels.com/photos/443446/pexels-photo-443446.jpeg?cs=srgb&dl=daylight-forest-glossy-443446.jpg&fm=jpg';
-  final filename = 'Lecture.jpg';
-
-  final url2 = 'http://www.africau.edu/images/default/sample.pdf';
-  final filename2 = 'Lecture.pdf';
+  List<LearningMaterialsModel> _lecturesList = [];
 
   TabController _controller;
 
   void _populateList() {
-    _lecturesList = List();
-    _fileDownloadingList = List();
+    final url1 =
+        'https://images.pexels.com/photos/443446/pexels-photo-443446.jpeg?cs=srgb&dl=daylight-forest-glossy-443446.jpg&fm=jpg';
+    final filename1 = 'Lecture1.jpg';
+    final url2 = 'http://www.africau.edu/images/default/sample.pdf';
+    final filename2 = 'Lecture1.pdf';
+    final url3 = 'http://topmusic.uz/get/single-13449.mp3';
+    final filename3 = 'Lecture1.mp3';
 
-    _lecturesList.add('Lecture 1');
-    _lecturesList.add('Lecture 2');
-    _lecturesList.add('Lecture 3');
+    List<DownloadFileModel> downloadFilesList = [
+      DownloadFileModel(url: url1, fileName: filename1),
+      DownloadFileModel(url: url2, fileName: filename2),
+      DownloadFileModel(url: url3, fileName: filename3),
+    ];
+
+    _lecturesList.add(LearningMaterialsModel('Lecture 1', downloadFilesList));
+    _lecturesList.add(LearningMaterialsModel('Lecture 2', downloadFilesList));
+    _lecturesList.add(LearningMaterialsModel('Lecture 3', downloadFilesList));
 
     // _fileDownloadingList.add(DownloadFile(url: url, filename: filename));
     // _fileDownloadingList.add(DownloadFile(url: url2, filename: filename2));
@@ -43,6 +45,8 @@ class _LecturesPageState extends State<LecturesPage>
 
   @override
   void initState() {
+    _populateList();
+
     super.initState();
     _controller = TabController(length: 3, vsync: this);
   }
@@ -50,9 +54,9 @@ class _LecturesPageState extends State<LecturesPage>
   // List<Widget> lecturecards = List.generate(5, (i) => CustomCard());
   @override
   Widget build(BuildContext context) {
-    _populateList();
-
+    var bloc = FileDownloadBloc();
     return FileDownloadProvider(
+      fileDownloadBloc: bloc,
       child: Scaffold(
         backgroundColor: Theme.of(context).backgroundColor,
         appBar: AppBar(
@@ -75,22 +79,17 @@ class _LecturesPageState extends State<LecturesPage>
                     ? Padding(
                         padding: const EdgeInsets.only(top: 8.0),
                         child: CustomCard(
-                            downloadFile: DownloadFile(
-                                url: url,
-                                fileName: filename,
-                                materialName: _lecturesList[index]),
-                            controller: _controller),
+                            learningMaterialsModel: _lecturesList[index],
+                            controller: _controller,
+                            bloc: bloc),
                       )
                     : CustomCard(
-                        downloadFile: DownloadFile(
-                            url: url,
-                            fileName: filename,
-                            materialName: _lecturesList[index]),
-                        controller: _controller)),
+                        learningMaterialsModel: _lecturesList[index],
+                        controller: _controller,
+                        bloc: bloc,
+                      )),
             FileDownloadingTab(),
-            FileManager(
-              mainDirectory: '/WIUT Mobile/WAD/Lectures',
-            )
+            FileManager(mainDirectory: '/WIUT Mobile/WAD', isFilePicker: false)
             // FilesDownloadedPage()
           ],
         ),
@@ -116,13 +115,11 @@ class FileDownloadingTab extends StatelessWidget {
   Widget build(BuildContext context) {
     var bloc = FileDownloadProvider.of(context);
 
-    return StreamBuilder<List<DownloadFile>>(
+    return StreamBuilder<List<DownloadFileModel>>(
         stream: bloc.items,
         builder: (context, snapshot) {
           if (snapshot.data == null || snapshot.data.isEmpty) {
-            return Center(
-                child:
-                    Text('Empty', style: Theme.of(context).textTheme.headline));
+            return Center(child: Text('Nothing to download'));
           }
 
           return ListView(
@@ -141,10 +138,40 @@ class FileDownloadingTab extends StatelessWidget {
 }
 
 class CustomCard extends StatelessWidget {
-  final DownloadFile downloadFile;
+  final LearningMaterialsModel learningMaterialsModel;
   final controller;
+  final bloc;
 
-  CustomCard({@required this.downloadFile, @required this.controller});
+  CustomCard(
+      {@required this.learningMaterialsModel,
+      @required this.controller,
+      @required this.bloc});
+
+  List<Widget> _getDialogItems(BuildContext context) {
+    List<Widget> _listOfWidgets = [];
+
+    for (var downloadFile in learningMaterialsModel.downloadFilesList) {
+      _listOfWidgets.add(CustomSimpleDialogOption(
+        controller: controller,
+        downloadFile: downloadFile,
+        bloc: bloc,
+      ));
+    }
+
+    _listOfWidgets.add(Align(
+      alignment: Alignment.bottomRight,
+      child: FlatButton(
+        onPressed: () => Navigator.pop(context),
+        child: Text(
+          'Cancel',
+          style: TextStyle(color: accentColor),
+        ),
+      ),
+    ));
+
+    return _listOfWidgets;
+  }
+
   Future _getPermissionToDownload(BuildContext context) async {
     var bloc = FileDownloadProvider.of(context);
 
@@ -152,43 +179,30 @@ class CustomCard extends StatelessWidget {
         context: context,
         builder: (context) {
           return SimpleDialog(
-            titlePadding: EdgeInsets.only(
-                top: 15.0, left: 24.0, right: 24.0, bottom: 5.0),
-            contentPadding: EdgeInsets.only(bottom: 0.0),
-            title: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: <Widget>[
-                Text('Download'),
-                InkWell(
-                    child: Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Icon(Icons.cloud_download),
-                    ),
-                    onTap: () {
-                      bloc.addFileToDownload.add(downloadFile);
+              titlePadding: EdgeInsets.only(
+                  top: 15.0, left: 24.0, right: 24.0, bottom: 5.0),
+              contentPadding: EdgeInsets.only(bottom: 0.0),
+              title: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: <Widget>[
+                  Text('Download'),
+                  InkWell(
+                      child: Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Icon(Icons.cloud_download),
+                      ),
+                      onTap: () {
+                        for (var downloadFile
+                            in learningMaterialsModel.downloadFilesList) {
+                          bloc.addFileToDownload.add(downloadFile);
+                        }
+                        Navigator.pop(context);
 
-                      Navigator.pop(context);
-
-                      controller.animateTo(1);
-                    })
-              ],
-            ),
-            children: <Widget>[
-              CustomSimpleDialogOption(controller: controller),
-              CustomSimpleDialogOption(controller: controller),
-              CustomSimpleDialogOption(controller: controller),
-              Align(
-                alignment: Alignment.bottomRight,
-                child: FlatButton(
-                  onPressed: () => Navigator.pop(context),
-                  child: Text(
-                    'Cancel',
-                    style: TextStyle(color: accentColor),
-                  ),
-                ),
-              )
-            ],
-          );
+                        controller.animateTo(1);
+                      })
+                ],
+              ),
+              children: _getDialogItems(context));
         });
   }
 
@@ -204,7 +218,7 @@ class CustomCard extends StatelessWidget {
             child: Padding(
               padding: const EdgeInsets.all(10.0),
               child: Text(
-                downloadFile.materialName,
+                learningMaterialsModel.lectureName,
                 textAlign: TextAlign.center,
                 style: Theme
                     .of(context)
@@ -221,21 +235,25 @@ class CustomCard extends StatelessWidget {
 }
 
 class CustomSimpleDialogOption extends StatelessWidget {
+  final controller;
+  final DownloadFileModel downloadFile;
+  final bloc;
+
   CustomSimpleDialogOption({
     Key key,
+    @required this.bloc,
+    @required this.downloadFile,
     @required this.controller,
   }) : super(key: key);
-
-  final controller;
 
   @override
   Widget build(BuildContext context) {
     return SimpleDialogOption(
       onPressed: () {
+        bloc.addFileToDownload.add(downloadFile);
         Navigator.pop(context);
         controller.animateTo(1);
       },
-      //=> Navigator.pop(context),
       child: Row(
         children: <Widget>[
           Icon(
@@ -244,7 +262,7 @@ class CustomSimpleDialogOption extends StatelessWidget {
           ),
           SizedBox(width: 10.0),
           Text(
-            'Download',
+            downloadFile.fileName,
             style: TextStyle(color: lightGreyTextColor),
           )
         ],

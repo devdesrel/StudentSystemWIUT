@@ -1,14 +1,11 @@
-import 'dart:async';
-import 'dart:io';
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:path/path.dart';
 import 'package:student_system_flutter/bloc/new_post_bloc.dart';
 import 'package:student_system_flutter/bloc/new_post_provider.dart';
+import 'package:student_system_flutter/enums/ApplicationEnums.dart';
 import 'package:student_system_flutter/helpers/app_constants.dart';
-import 'package:image_picker/image_picker.dart';
+import 'package:student_system_flutter/helpers/function_helpers.dart';
 
 class TweetPage extends StatefulWidget {
   @override
@@ -155,21 +152,8 @@ class CustomSizedBox extends StatelessWidget {
   //File _image;
   // final Future getImage;
 
-  Future<File> getImage(BuildContext context, bool isFromCamera) async {
-    var bloc = NewPostProvider.of(context);
-
-    var image = await ImagePicker.pickImage(
-        source: isFromCamera ? ImageSource.camera : ImageSource.gallery);
-
-    bloc.addWidget.add(image);
-    //return imagePath;
-
-    return image;
-  }
-
   CustomSizedBox({Key key, @required this.icon, @required this.type})
       : super(key: key);
-  //CustomSizedBox({Key key(iconkey1), @required this.icon}); //: super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -199,13 +183,7 @@ class CustomSizedBox extends StatelessWidget {
                 print('Default');
                 break;
             }
-          }
-          //     if(key == iconkey1){
-          //   onPressed: () {getImage},
-          // }else{
-          //   onPressed: () {},
-          // }
-          ),
+          }),
     );
   }
 
@@ -264,11 +242,4 @@ class CustomGridView {
     //             .toList()
     //   })
   }
-}
-
-enum AttachmentTypes {
-  CAMERA,
-  GALLERY,
-  QUESTIONNAIRE,
-  FILE,
 }
