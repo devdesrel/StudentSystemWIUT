@@ -12,10 +12,6 @@ class CommentsPage extends StatefulWidget {
 }
 
 class _CommentsPageState extends State<CommentsPage> {
-  List<Widget> widgetsList = <Widget>[
-    Text('Textmfdmsl'),
-  ];
-
   @override
   Widget build(BuildContext context) {
     var numberOfLines;
