@@ -12,18 +12,36 @@ class HomePage extends StatefulWidget {
   _HomePageState createState() => _HomePageState();
 }
 
-class _HomePageState extends State<HomePage> {
-  final List<FeedbackModel> _questionNumbers = <FeedbackModel>[
-    FeedbackModel(questionTitle: 'Web Application Development'),
-    FeedbackModel(questionTitle: 'Internet Marketing'),
-    FeedbackModel(questionTitle: 'Software Quality, Performance and Testing'),
-  ];
+class _HomePageState extends State<HomePage>
+    with SingleTickerProviderStateMixin {
+  AnimationController controller;
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    controller = AnimationController(
+        vsync: this, duration: Duration(milliseconds: 100), value: 1.0);
+  }
+
+  @override
+  void dispose() {
+    // TODO: implement dispose
+    super.dispose();
+    controller.dispose();
+  }
+
+  bool get isPanelVisible {
+    final AnimationStatus status = controller.status;
+    return status == AnimationStatus.completed ||
+        status == AnimationStatus.forward;
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
         backgroundColor: Theme.of(context).backgroundColor,
         appBar: AppBar(
+          elevation: 0.0,
           title: Text('WIUT'),
           actions: <Widget>[
             IconButton(
@@ -37,15 +55,17 @@ class _HomePageState extends State<HomePage> {
               },
             ),
           ],
+          leading: IconButton(
+            onPressed: () {
+              controller.fling(velocity: isPanelVisible ? -1.0 : 1.0);
+            },
+            icon: AnimatedIcon(
+              icon: AnimatedIcons.close_menu,
+              progress: controller.view,
+            ),
+          ),
         ),
-        drawer: CustomAndroidDrawer(),
-        body: CustomScrollView(
-          slivers: <Widget>[
-            SliverToBoxAdapter(
-                child: FeedbackForm(questionNumbers: _questionNumbers)),
-            CustomGridView(context).build(),
-          ],
-        ));
+        body: TwoPanels(controller: controller));
   }
 }
 
@@ -88,7 +108,7 @@ class CustomGridView {
 
   Widget makeGridCell(
       String name, String imageSource, MainPageGridItems page, int position) {
-    return new Padding(
+    return Padding(
       padding: position.isEven
           ? EdgeInsets.only(left: 18.0, bottom: 10.0)
           : EdgeInsets.only(right: 18.0, bottom: 10.0),
@@ -158,5 +178,121 @@ class CustomGridView {
           makeGridCell(
               "Social", 'assets/tutorials2.png', MainPageGridItems.SOCIAL, 7),
         ]);
+  }
+}
+
+class TwoPanels extends StatefulWidget {
+  final AnimationController controller;
+
+  TwoPanels({this.controller});
+
+  @override
+  _TwoPanelsState createState() => _TwoPanelsState();
+}
+
+class _TwoPanelsState extends State<TwoPanels> {
+  static const header_height = 32.0;
+
+  Animation<RelativeRect> getPanelAnimation(BoxConstraints constraints) {
+    final height = constraints.biggest.height;
+    final backPanelHeight = height - header_height;
+    final frontPanelHeight = -header_height;
+
+    return RelativeRectTween(
+            begin: RelativeRect.fromLTRB(
+                0.0, backPanelHeight, 0.0, frontPanelHeight),
+            end: RelativeRect.fromLTRB(0.0, 0.0, 0.0, 0.0))
+        .animate(
+            CurvedAnimation(parent: widget.controller, curve: Curves.linear));
+  }
+
+  Widget bothPanels(BuildContext context, BoxConstraints constraints) {
+    final ThemeData theme = Theme.of(context);
+
+    final List<FeedbackModel> _questionNumbers = <FeedbackModel>[
+      FeedbackModel(questionTitle: 'Web Application Development'),
+      FeedbackModel(questionTitle: 'Internet Marketing'),
+      FeedbackModel(questionTitle: 'Software Quality, Performance and Testing'),
+    ];
+
+    return Container(
+      child: Stack(
+        children: <Widget>[
+          Container(
+            color: theme.primaryColor,
+            child: Center(
+              child: ListView(
+                children: <Widget>[
+                  SizedBox(height: 40.0),
+                  CustomBackdropMenuItems(itemName: 'Home'),
+                  CustomBackdropMenuItems(itemName: 'Notifications'),
+                  CustomBackdropMenuItems(itemName: 'Support'),
+                  CustomBackdropMenuItems(itemName: 'Contacts'),
+                  CustomBackdropMenuItems(itemName: 'Settings'),
+                ],
+              ),
+            ),
+          ),
+          PositionedTransition(
+            rect: getPanelAnimation(constraints),
+            child: Material(
+              elevation: 12.0,
+              borderRadius: BorderRadius.only(
+                  topLeft: Radius.circular(16.0),
+                  topRight: Radius.circular(16.0)),
+              child: Column(
+                children: <Widget>[
+                  Container(
+                    height: 0.0,
+                  ),
+                  Expanded(
+                      child: CustomScrollView(
+                    slivers: <Widget>[
+                      SliverToBoxAdapter(
+                          child:
+                              FeedbackForm(questionNumbers: _questionNumbers)),
+                      CustomGridView(context).build(),
+                    ],
+                  ))
+                ],
+              ),
+            ),
+          )
+        ],
+      ),
+    );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return LayoutBuilder(
+      builder: bothPanels,
+    );
+  }
+}
+
+class CustomBackdropMenuItems extends StatelessWidget {
+  final String itemName;
+  CustomBackdropMenuItems({Key key, @required this.itemName}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return InkWell(
+      highlightColor: redColor,
+      splashColor: whiteColor,
+      onTap: () => print('thsdcdsnxc'),
+      child: Padding(
+        padding: const EdgeInsets.symmetric(vertical: 20.0),
+        child: Text(
+          itemName.toUpperCase(),
+          textAlign: TextAlign.center,
+          style: TextStyle(
+              fontSize: 20.0,
+              fontFamily: 'SlaboRegular',
+              letterSpacing: 2.8,
+              color: Colors.white),
+        ),
+      ),
+    );
   }
 }

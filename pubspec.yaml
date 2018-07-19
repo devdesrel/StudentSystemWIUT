@@ -72,6 +72,16 @@ flutter:
     - family: CuperIcon
       fonts:
         - asset: assets/fonts/CupertinoIcons.ttf
+    - family: OpenSansCondensedLight
+      fonts:
+        - asset: assets/fonts/OpenSansCondensedLight.ttf
+    - family: RalewayRegular
+      fonts:
+        - asset: assets/fonts/RalewayRegular.ttf
+    - family: SlaboRegular
+      fonts:
+        - asset: assets/fonts/SlaboRegular.ttf
+
         # - asset: fonts/Schyler-Italic.ttf
           # style: italic
   #   - family: Trajan Pro
