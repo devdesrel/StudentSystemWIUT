@@ -20,6 +20,7 @@ final lightGreyTextColor = Color(0xBF616161);
 final loginPage = '/login';
 final securityPage = '/security';
 final homePage = '/home';
+//final shrineApp = '/shrineApp';
 final modulesPage = '/modules';
 final marksPage = '/marks';
 final offencesPage = '/offences';

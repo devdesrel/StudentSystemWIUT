@@ -65,7 +65,10 @@ class _HomePageState extends State<HomePage>
             ),
           ),
         ),
-        body: TwoPanels(controller: controller));
+        body: TwoPanels(
+          controller: controller,
+          isPanelVisible: isPanelVisible,
+        ));
   }
 }
 
@@ -183,8 +186,9 @@ class CustomGridView {
 
 class TwoPanels extends StatefulWidget {
   final AnimationController controller;
+  var isPanelVisible;
 
-  TwoPanels({this.controller});
+  TwoPanels({this.controller, this.isPanelVisible});
 
   @override
   _TwoPanelsState createState() => _TwoPanelsState();
@@ -224,11 +228,26 @@ class _TwoPanelsState extends State<TwoPanels> {
               child: ListView(
                 children: <Widget>[
                   SizedBox(height: 40.0),
-                  CustomBackdropMenuItems(itemName: 'Home'),
-                  CustomBackdropMenuItems(itemName: 'Notifications'),
-                  CustomBackdropMenuItems(itemName: 'Support'),
-                  CustomBackdropMenuItems(itemName: 'Contacts'),
-                  CustomBackdropMenuItems(itemName: 'Settings'),
+                  CustomBackdropMenuItems(
+                    itemName: 'HOME',
+                    controller: widget.controller,
+                  ),
+                  CustomBackdropMenuItems(
+                    itemName: 'NOTIFICATIONS',
+                    controller: widget.controller,
+                  ),
+                  CustomBackdropMenuItems(
+                    itemName: 'SUPPORT',
+                    controller: widget.controller,
+                  ),
+                  CustomBackdropMenuItems(
+                    itemName: 'CONTACTS',
+                    controller: widget.controller,
+                  ),
+                  CustomBackdropMenuItems(
+                    itemName: 'SETTINGS',
+                    controller: widget.controller,
+                  ),
                 ],
               ),
             ),
@@ -273,14 +292,49 @@ class _TwoPanelsState extends State<TwoPanels> {
 
 class CustomBackdropMenuItems extends StatelessWidget {
   final String itemName;
-  CustomBackdropMenuItems({Key key, @required this.itemName}) : super(key: key);
+  final controller;
+
+  CustomBackdropMenuItems({
+    Key key,
+    @required this.itemName,
+    this.controller,
+  }) : super(key: key);
+
+  void openSelectedBackdropItem(BuildContext context, itemName) {
+    switch (itemName) {
+      case 'HOME':
+        controller.fling(velocity: 1.0);
+        break;
+      case 'NOTIFICATIONS':
+        controller.fling(velocity: 1.0);
+        Navigator.of(context).pushNamed(offencesPage);
+        break;
+      case 'SUPPORT':
+        controller.fling(velocity: 1.0);
+        Navigator.of(context).pushNamed(offencesPage);
+        break;
+      case 'CONTACTS':
+        controller.fling(velocity: 1.0);
+        Navigator.of(context).pushNamed(offencesPage);
+        break;
+      case 'SETTINGS':
+        controller.fling(velocity: 1.0);
+        Navigator.of(context).pushNamed(offencesPage);
+        break;
+
+      default:
+        print('Nothing');
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
     return InkWell(
       highlightColor: redColor,
       splashColor: whiteColor,
-      onTap: () => print('thsdcdsnxc'),
+      onTap: () {
+        openSelectedBackdropItem(context, itemName);
+      },
       child: Padding(
         padding: const EdgeInsets.symmetric(vertical: 20.0),
         child: Text(
