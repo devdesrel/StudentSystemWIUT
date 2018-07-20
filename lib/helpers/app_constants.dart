@@ -50,3 +50,6 @@ final apiStudentMarks =
     '$baseUrl/api/StudentProfileAndMarks/StudentProfileAndMarksForStudent';
 final apiGetClasses = '$baseUrl/api/TimeTable/GetClasses';
 final apiGetLessons = '$baseUrl/api/TimeTable/GetLessons';
+
+//Errors List
+final String tryAgain = 'Please, try again!';

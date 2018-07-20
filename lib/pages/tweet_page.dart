@@ -28,6 +28,8 @@ class _TweetPageState extends State<TweetPage> {
           maxLines: null,
           decoration: InputDecoration(
             border: InputBorder.none,
+            contentPadding:
+                EdgeInsets.symmetric(horizontal: 16.0, vertical: 15.0),
             hintText: 'Share your ideas',
           ),
         ),
@@ -140,7 +142,7 @@ class _TweetPageState extends State<TweetPage> {
         ),
         floatingActionButton: FloatingActionButton(
           child: Icon(Icons.send),
-          onPressed: () => debugPrint("Pressed"),
+          onPressed: () => print("Pressed"),
         ),
         floatingActionButtonLocation: FloatingActionButtonLocation.endDocked,
       ),
@@ -212,7 +214,7 @@ class CustomGridView {
                   height: 400.0,
                 )));
           } else {
-            debugPrint('Nothting thereee');
+            print('Nothting thereee');
           }
         });
     return imagesList;
