@@ -1,10 +1,10 @@
 class TimetableModel {
   final String dayOfWeek;
-  final String subjectshort;
+  String subjectshort;
   final String teachershort;
   final String classshort;
   final String classroomshort;
-  final String period;
+  String period;
 
   TimetableModel(
       {this.dayOfWeek,

@@ -1,4 +1,6 @@
+import 'dart:async';
 import 'dart:convert';
+import 'dart:math' as math;
 
 import 'package:flutter/foundation.dart';
 import 'package:http/http.dart' as http;
@@ -58,7 +60,28 @@ class TimetablePage extends StatelessWidget {
 
       List<TimetableModel> _timetableList = await _getTimetableList(_groupID);
 
-      return _timetableList;
+      List<TimetableModel> _sortedList = [];
+
+      for (var item in _timetableList) {
+        if (_sortedList.any((t) => t.subjectshort == item.subjectshort)) {
+          int _position = _sortedList.indexOf(_sortedList
+              .where((t) => t.subjectshort == item.subjectshort)
+              .first);
+
+          String _period = _sortedList
+                  .where((t) => t.subjectshort == item.subjectshort)
+                  .first
+                  .period +
+              ' ' +
+              item.period;
+
+          _sortedList.elementAt(_position).period = _period;
+        } else {
+          _sortedList.add(item);
+        }
+      }
+
+      return _sortedList;
     } else {
       showSnackBar(tryAgain, scaffoldKey);
       return null;
@@ -71,8 +94,6 @@ class TimetablePage extends StatelessWidget {
     List<TimetableModel> lists = parsed
         .map<TimetableModel>((item) => TimetableModel.fromJson(item))
         .toList();
-
-    print(lists);
 
     return lists;
   }
@@ -112,9 +133,9 @@ class TimetablePage extends StatelessWidget {
       appBar: AppBar(title: Text('Timetable')),
       body: FutureBuilder<List<TimetableModel>>(
           future: _getTimetable(),
-          builder: (context, snapshot) => snapshot.hasData &&
-                  snapshot.data.length > 0
-              ? ListView.builder(
+          builder: (context, snapshot) {
+            if (snapshot.hasData && snapshot.data.length > 0) {
+              return ListView.builder(
                   itemCount: listItemLength,
                   scrollDirection: Axis.horizontal,
                   itemBuilder: (_, index) {
@@ -141,29 +162,54 @@ class TimetablePage extends StatelessWidget {
                         timetableList: snapshot.data
                             .where((item) => item.dayOfWeek == _weekDays[index])
                             .toList());
-                  })
-              : Center(child: CircularProgressIndicator())),
+                  });
+            }
+            return Center(child: CircularProgressIndicator());
+          }),
     );
   }
 }
 
 class ItemWeekTimetable extends StatelessWidget {
   final dayName;
-  final listItemLength = 4;
   final List<TimetableModel> timetableList;
 
   ItemWeekTimetable({@required this.dayName, @required this.timetableList});
 
   @override
   Widget build(BuildContext context) {
+    var displaySize = MediaQuery.of(context).size;
     return SizedBox(
-      width: 300.0,
+      width: timetableList.length > 0 ? 300.0 : 80.0,
       child: ListView.builder(
-        itemCount: listItemLength + 1,
-        itemBuilder: (_, index) => index == 0
-            ? WeekDayHeader(dayName: dayName)
-            : ItemDayTimetable(item: timetableList[index]),
-      ),
+          itemCount: timetableList.length + 1,
+          itemBuilder: (_, index) {
+            if (timetableList.length > 0) {
+              if (index == 0)
+                return WeekDayHeader(dayName: dayName);
+              else
+                return ItemDayTimetable(item: timetableList[index - 1]);
+            } else {
+              return Padding(
+                padding: EdgeInsets.symmetric(vertical: 12.0),
+                child: CustomCard(
+                  Container(
+                    padding: EdgeInsets.symmetric(horizontal: 10.0),
+                    height: displaySize.height - 24.0,
+                    child: Center(
+                      child: Transform.rotate(
+                        angle: math.pi / 0.673,
+                        child: Text('$dayName',
+                            textAlign: TextAlign.center,
+                            style:
+                                TextStyle(fontSize: 21.0, color: accentColor)),
+                      ),
+                    ),
+                  ),
+                ),
+              );
+            }
+          }),
     );
   }
 }

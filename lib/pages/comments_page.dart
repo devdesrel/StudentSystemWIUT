@@ -56,7 +56,7 @@ class _CommentsPageState extends State<CommentsPage> {
               ),
               Expanded(
                 child: Container(
-                  constraints: BoxConstraints.loose(Size.fromHeight(120.0)),
+                  constraints: BoxConstraints.loose(Size.fromHeight(100.0)),
                   child: Theme(
                     data: ThemeData(hintColor: greyColor),
                     child: TextField(
@@ -65,7 +65,7 @@ class _CommentsPageState extends State<CommentsPage> {
                         decoration: InputDecoration(
                           border: InputBorder.none,
                           contentPadding: EdgeInsets.only(
-                              left: 10.0, right: 10.0, bottom: 5.0, top: 0.0),
+                              left: 10.0, right: 10.0, bottom: 10.0, top: 0.0),
                           // border: OutlineInputBorder(
                           //     borderRadius: BorderRadius.circular(50.0)),
                           hintText: 'Comment',
