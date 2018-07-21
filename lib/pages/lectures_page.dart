@@ -110,9 +110,17 @@ class _LecturesPageState extends State<LecturesPage>
 
 // final _setFileNameController = StreamController<String>();
 
-class FileDownloadingTab extends StatelessWidget {
+class FileDownloadingTab extends StatefulWidget {
+  @override
+  _FileDownloadingTabState createState() => _FileDownloadingTabState();
+}
+
+class _FileDownloadingTabState extends State<FileDownloadingTab>
+    with AutomaticKeepAliveClientMixin {
   @override
   Widget build(BuildContext context) {
+    super.build(context);
+
     var bloc = FileDownloadProvider.of(context);
 
     return StreamBuilder<List<DownloadFileModel>>(
@@ -127,15 +135,39 @@ class FileDownloadingTab extends StatelessWidget {
                   .map((item) => ItemFileDownloading(downloadFile: item))
                   .toList());
         });
-
-    // return ListView.builder(
-    //   itemCount: fileDownloadingList.length,
-    //   itemBuilder: (context, index) => fileDownloadingList.length == 0
-    //       ? Container()
-    //       : ItemFileDownloading(downloadFile: fileDownloadingList[index]),
-    // );
   }
+
+  // TODO: implement wantKeepAlive
+  @override
+  bool get wantKeepAlive => true;
 }
+
+// class FileDownloadingTab extends StatelessWidget {
+//   @override
+//   Widget build(BuildContext context) {
+//     var bloc = FileDownloadProvider.of(context);
+
+//     return StreamBuilder<List<DownloadFileModel>>(
+//         stream: bloc.items,
+//         builder: (context, snapshot) {
+//           if (snapshot.data == null || snapshot.data.isEmpty) {
+//             return Center(child: Text('Nothing to download'));
+//           }
+
+//           return ListView(
+//               children: snapshot.data
+//                   .map((item) => ItemFileDownloading(downloadFile: item))
+//                   .toList());
+//         });
+
+//     // return ListView.builder(
+//     //   itemCount: fileDownloadingList.length,
+//     //   itemBuilder: (context, index) => fileDownloadingList.length == 0
+//     //       ? Container()
+//     //       : ItemFileDownloading(downloadFile: fileDownloadingList[index]),
+//     // );
+//   }
+// }
 
 class CustomCard extends StatelessWidget {
   final LearningMaterialsModel learningMaterialsModel;

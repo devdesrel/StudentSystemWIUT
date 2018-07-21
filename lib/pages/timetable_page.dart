@@ -1,6 +1,5 @@
 import 'dart:async';
 import 'dart:convert';
-import 'dart:math' as math;
 
 import 'package:flutter/foundation.dart';
 import 'package:http/http.dart' as http;
@@ -178,9 +177,8 @@ class ItemWeekTimetable extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    var displaySize = MediaQuery.of(context).size;
     return SizedBox(
-      width: timetableList.length > 0 ? 300.0 : 80.0,
+      width: timetableList.length > 0 ? 300.0 : 0.0,
       child: ListView.builder(
           itemCount: timetableList.length + 1,
           itemBuilder: (_, index) {
@@ -189,25 +187,6 @@ class ItemWeekTimetable extends StatelessWidget {
                 return WeekDayHeader(dayName: dayName);
               else
                 return ItemDayTimetable(item: timetableList[index - 1]);
-            } else {
-              return Padding(
-                padding: EdgeInsets.symmetric(vertical: 12.0),
-                child: CustomCard(
-                  Container(
-                    padding: EdgeInsets.symmetric(horizontal: 10.0),
-                    height: displaySize.height - 24.0,
-                    child: Center(
-                      child: Transform.rotate(
-                        angle: math.pi / 0.673,
-                        child: Text('$dayName',
-                            textAlign: TextAlign.center,
-                            style:
-                                TextStyle(fontSize: 21.0, color: accentColor)),
-                      ),
-                    ),
-                  ),
-                ),
-              );
             }
           }),
     );
