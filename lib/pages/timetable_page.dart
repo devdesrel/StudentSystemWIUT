@@ -1,9 +1,11 @@
 import 'dart:async';
 import 'dart:convert';
+import 'dart:io';
 
 import 'package:flutter/foundation.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
+import 'package:path_provider/path_provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:student_system_flutter/helpers/app_constants.dart';
 import 'package:student_system_flutter/helpers/function_helpers.dart';
@@ -15,6 +17,21 @@ class TimetablePage extends StatelessWidget {
   final listItemLength = 6;
   final scaffoldKey = GlobalKey<ScaffoldState>();
 
+  File jsonFile;
+  Directory dir;
+  bool fileExists = false;
+  Map<String, String> fileContent;
+
+  void _saveJsonToFileSystem(String fileName, String content) {
+    getApplicationDocumentsDirectory().then((Directory directory) {
+      dir = directory;
+      jsonFile = new File(dir.path + "/" + fileName);
+      fileExists = jsonFile.existsSync();
+
+      jsonFile.writeAsString(content);
+      // if (fileExists) this.setState(() => fileContent = JSON.decode(jsonFile.readAsStringSync()));
+    });
+  }
   // FutureBuilder<List<GroupsModel>> _getGroupId() {
   //   return FutureBuilder(
   //       future: getGroupsList(),
@@ -108,6 +125,7 @@ class TimetablePage extends StatelessWidget {
         });
 
     if (response.statusCode == 200) {
+      _saveJsonToFileSystem('timetable.json', response.body);
       List<TimetableModel> _timetableList = _parseTimetable(response.body);
       return _timetableList;
     } else {
