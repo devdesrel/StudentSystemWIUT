@@ -86,6 +86,9 @@ void openSelectedPage(BuildContext context, MainPageGridItems page) {
     case MainPageGridItems.TUTORIALS:
       print('Tutorials');
       break;
+    case MainPageGridItems.OFFLINE:
+      Navigator.of(context).pushNamed(offlinePage);
+      break;
     case MainPageGridItems.OFFENCES:
       Navigator.of(context).pushNamed(offencesPage);
       break;
@@ -173,13 +176,15 @@ class CustomGridView {
           makeGridCell("Tutorials", 'assets/tutorials.png',
               MainPageGridItems.TUTORIALS, 3),
           makeGridCell(
-              "Offences", 'assets/offences.png', MainPageGridItems.OFFENCES, 4),
+              "Offline", 'assets/tutorials.png', MainPageGridItems.OFFLINE, 4),
           makeGridCell(
-              "Payment", 'assets/payment.png', MainPageGridItems.PAYMENT, 5),
+              "Offences", 'assets/offences.png', MainPageGridItems.OFFENCES, 5),
+          makeGridCell(
+              "Payment", 'assets/payment.png', MainPageGridItems.PAYMENT, 6),
           makeGridCell("Book ordering", 'assets/bookordering.png',
-              MainPageGridItems.BOOK_ORDERING, 6),
+              MainPageGridItems.BOOK_ORDERING, 7),
           makeGridCell(
-              "Social", 'assets/tutorials2.png', MainPageGridItems.SOCIAL, 7),
+              "Social", 'assets/tutorials2.png', MainPageGridItems.SOCIAL, 8),
         ]);
   }
 }

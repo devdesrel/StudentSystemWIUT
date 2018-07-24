@@ -29,6 +29,7 @@ final fileDownloaderPage = '/fileDownloaderPage';
 final filesDownloadedPage = '/filesDownloadedPage';
 final tweetPage = '/tweetPage';
 final lecturesPage = '/lecturesPage';
+final offlinePage = '/offlinePage';
 final courseworkUploadPage = '/courseworkUploadPage';
 final timetablePage = '/timetablePage';
 final filePickerPage = '/filePickerPage';

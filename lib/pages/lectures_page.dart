@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:student_system_flutter/bloc/file_download_bloc.dart';
-import 'package:student_system_flutter/helpers/file_manager.dart';
 import 'package:student_system_flutter/list_items/item_file_downloading.dart';
 import 'package:student_system_flutter/models/download_file_model.dart';
 import 'package:student_system_flutter/models/learning_materials_model.dart';
@@ -38,9 +37,6 @@ class _LecturesPageState extends State<LecturesPage>
     _lecturesList.add(LearningMaterialsModel('Lecture 1', downloadFilesList));
     _lecturesList.add(LearningMaterialsModel('Lecture 2', downloadFilesList));
     _lecturesList.add(LearningMaterialsModel('Lecture 3', downloadFilesList));
-
-    // _fileDownloadingList.add(DownloadFile(url: url, filename: filename));
-    // _fileDownloadingList.add(DownloadFile(url: url2, filename: filename2));
   }
 
   @override
@@ -48,10 +44,9 @@ class _LecturesPageState extends State<LecturesPage>
     _populateList();
 
     super.initState();
-    _controller = TabController(length: 3, vsync: this);
+    _controller = TabController(length: 2, vsync: this);
   }
 
-  // List<Widget> lecturecards = List.generate(5, (i) => CustomCard());
   @override
   Widget build(BuildContext context) {
     var bloc = FileDownloadBloc();
@@ -64,7 +59,6 @@ class _LecturesPageState extends State<LecturesPage>
             tabs: [
               Tab(text: ('Lectures')),
               Tab(text: ('Downloading')),
-              Tab(text: ('Downloaded')),
             ],
             controller: _controller,
           ),
@@ -73,23 +67,12 @@ class _LecturesPageState extends State<LecturesPage>
         body: TabBarView(
           controller: _controller,
           children: [
-            ListView.builder(
-                itemCount: _lecturesList.length,
-                itemBuilder: (context, index) => index == 0
-                    ? Padding(
-                        padding: const EdgeInsets.only(top: 8.0),
-                        child: CustomCard(
-                            learningMaterialsModel: _lecturesList[index],
-                            controller: _controller,
-                            bloc: bloc),
-                      )
-                    : CustomCard(
-                        learningMaterialsModel: _lecturesList[index],
-                        controller: _controller,
-                        bloc: bloc,
-                      )),
+            MaterialsListTab(
+                lecturesList: _lecturesList,
+                controller: _controller,
+                bloc: bloc),
             FileDownloadingTab(),
-            FileManager(mainDirectory: '/WIUT Mobile/WAD', isFilePicker: false)
+
             // FilesDownloadedPage()
           ],
         ),
@@ -98,17 +81,51 @@ class _LecturesPageState extends State<LecturesPage>
   }
 }
 
-// Sink<String> get setModuleName => _setModuleNameController.sink;
+class MaterialsListTab extends StatefulWidget {
+  final List<LearningMaterialsModel> lecturesList;
+  final TabController controller;
+  final FileDownloadBloc bloc;
 
-// final _setModuleNameController = StreamController<String>();
+  MaterialsListTab({
+    Key key,
+    @required this.lecturesList,
+    @required this.controller,
+    @required this.bloc,
+  }) : super(key: key);
 
-// Sink<String> get setComponent => _setComponentController.sink;
+  @override
+  _MaterialsListTabState createState() => _MaterialsListTabState();
+}
 
-// final _setComponentController = StreamController<String>();
+class _MaterialsListTabState extends State<MaterialsListTab>
+    with AutomaticKeepAliveClientMixin {
+  // TODO: implement wantKeepAlive
+  @override
+  bool get wantKeepAlive => true;
 
-// Sink<String> get setFileName => _setFileNameController.sink;
+  @override
+  Widget build(BuildContext context) {
+    super.build(context);
 
-// final _setFileNameController = StreamController<String>();
+    print('Rebuild Materials List Tab');
+
+    return ListView.builder(
+        itemCount: widget.lecturesList.length,
+        itemBuilder: (context, index) => index == 0
+            ? Padding(
+                padding: const EdgeInsets.only(top: 8.0),
+                child: CustomCard(
+                    learningMaterialsModel: widget.lecturesList[index],
+                    controller: widget.controller,
+                    bloc: widget.bloc),
+              )
+            : CustomCard(
+                learningMaterialsModel: widget.lecturesList[index],
+                controller: widget.controller,
+                bloc: widget.bloc,
+              ));
+  }
+}
 
 class FileDownloadingTab extends StatefulWidget {
   @override
@@ -117,10 +134,14 @@ class FileDownloadingTab extends StatefulWidget {
 
 class _FileDownloadingTabState extends State<FileDownloadingTab>
     with AutomaticKeepAliveClientMixin {
+  // TODO: implement wantKeepAlive
+  @override
+  bool get wantKeepAlive => true;
+
   @override
   Widget build(BuildContext context) {
     super.build(context);
-
+    print('Rebuild FileDownloading Tab');
     var bloc = FileDownloadProvider.of(context);
 
     return StreamBuilder<List<DownloadFileModel>>(
@@ -136,10 +157,6 @@ class _FileDownloadingTabState extends State<FileDownloadingTab>
                   .toList());
         });
   }
-
-  // TODO: implement wantKeepAlive
-  @override
-  bool get wantKeepAlive => true;
 }
 
 // class FileDownloadingTab extends StatelessWidget {
