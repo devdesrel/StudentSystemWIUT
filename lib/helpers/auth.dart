@@ -22,7 +22,7 @@ class AuthStateProvider {
 
   void initState() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    var _isLoggedIn = prefs.getBool(isLoggedIn);
+    bool _isLoggedIn = prefs.getBool(isLoggedIn) ?? false;
     if (_isLoggedIn)
       notify(AuthState.LOGGED_IN);
     else

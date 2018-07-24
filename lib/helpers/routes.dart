@@ -8,14 +8,15 @@ import 'package:student_system_flutter/pages/files_downloaded_page.dart';
 import 'package:student_system_flutter/pages/home_page.dart';
 import 'package:student_system_flutter/pages/lectures_page.dart';
 import 'package:student_system_flutter/pages/login_page.dart';
+import 'package:student_system_flutter/pages/marks_page.dart';
+import 'package:student_system_flutter/pages/modules_page.dart';
+import 'package:student_system_flutter/pages/offences_page.dart';
+import 'package:student_system_flutter/pages/offline_page.dart';
 import 'package:student_system_flutter/pages/security_page.dart';
 import 'package:student_system_flutter/pages/social_page.dart';
 import 'package:student_system_flutter/pages/timetable_page.dart';
 import 'package:student_system_flutter/pages/tweet_page.dart';
 
-import '../pages/marks_page.dart';
-import '../pages/modules_page.dart';
-import '../pages/offences_page.dart';
 import 'app_constants.dart';
 
 final routes = {
@@ -31,6 +32,7 @@ final routes = {
   filesDownloadedPage: (BuildContext context) => FilesDownloadedPage(),
   tweetPage: (BuildContext context) => TweetPage(),
   lecturesPage: (BuildContext context) => LecturesPage(),
+  offlinePage: (BuildContext context) => OfflinePage(),
   courseworkUploadPage: (BuildContext context) => CourseworkUploadPage(),
   timetablePage: (BuildContext context) => TimetablePage(),
   filePickerPage: (BuildContext context) => FilePickerPage(),

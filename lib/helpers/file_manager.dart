@@ -32,7 +32,8 @@ class FileManager extends StatefulWidget {
   createState() => FileManagerState();
 }
 
-class FileManagerState extends State<FileManager> {
+class FileManagerState extends State<FileManager>
+    with AutomaticKeepAliveClientMixin {
   var _currentDirectory = '';
   var _back = 'Go to back';
   var accentColor = Colors.blue;
@@ -46,6 +47,10 @@ class FileManagerState extends State<FileManager> {
 
   List<String> _filteredPathsList = List();
 
+  // TODO: implement wantKeepAlive
+  @override
+  bool get wantKeepAlive => true;
+
   @override
   initState() {
     _directory = widget.mainDirectory;
@@ -57,6 +62,10 @@ class FileManagerState extends State<FileManager> {
 
   @override
   Widget build(BuildContext context) {
+    super.build(context);
+
+    print('Rebuild File Manager Tab');
+
     if (Platform.isAndroid && externalStoragePermissionOkay) {
       return FutureBuilder<Directory>(
           future: getExternalStorageDirectory(), builder: _buildDirectory);

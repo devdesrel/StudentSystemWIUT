@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:student_system_flutter/helpers/function_helpers.dart';
 
 import '../helpers/app_constants.dart';
 import '../helpers/auth.dart';
@@ -47,37 +48,36 @@ class _LoginPageState extends State<LoginPage> implements AuthStateListener {
     }
   }
 
-  void _showSnackBar(String text) {
-    scaffoldKey.currentState.showSnackBar(SnackBar(
-      backgroundColor: Colors.blueGrey,
-      content: Text(text),
-      duration: Duration(seconds: 2),
-    ));
-  }
+  Future postAuthData() async {
+    try {
+      http.Response res = await http.post(apiAuthenticate,
+          body: {"Username": _username, "Password": _password},
+          headers: {"Accept": "application/json"}); // post api call
 
-  Future<Map> postAuthData() async {
-    http.Response res = await http.post(apiAuthenticate,
-        body: {"Username": _username, "Password": _password},
-        headers: {"Accept": "application/json"}); // post api call
+      print('${res.body}');
+      Map data = json.decode(res.body);
+      print(data['token']);
 
-    print('${res.body}');
-    Map data = json.decode(res.body);
-    print(data['token']);
+      if (res.statusCode == 200) {
+        SharedPreferences prefs = await SharedPreferences.getInstance();
+        await prefs.setString(token, data['token']);
+        await prefs.setString(studentID, _username);
+        await prefs.setBool(isLoggedIn, true);
 
-    if (res.statusCode == 200) {
-      SharedPreferences prefs = await SharedPreferences.getInstance();
-      await prefs.setString(token, data['token']);
-      await prefs.setString(studentID, _username);
-      await prefs.setBool(isLoggedIn, true);
+        Navigator.of(context).pushReplacementNamed(securityPage);
+      } else
+        showSnackBar(
+            'Username or Password is incorrect. Try again!', scaffoldKey);
 
-      Navigator.of(context).pushReplacementNamed(securityPage);
-    } else
-      _showSnackBar('Username or Password is incorrect. Try again!');
-
-    setState(() {
-      progressDialogVisible = false;
-    });
-    return data;
+      setState(() {
+        progressDialogVisible = false;
+      });
+    } catch (e) {
+      setState(() {
+        progressDialogVisible = false;
+      });
+      showSnackBar('Please, check your internet connection', scaffoldKey);
+    }
   }
 
   @override
