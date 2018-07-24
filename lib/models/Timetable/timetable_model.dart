@@ -1,3 +1,5 @@
+import 'package:student_system_flutter/helpers/app_constants.dart';
+
 class TimetableModel {
   final String dayOfWeek;
   String subjectshort;
@@ -16,11 +18,11 @@ class TimetableModel {
 
   factory TimetableModel.fromJson(Map<String, dynamic> json) {
     return TimetableModel(
-        dayOfWeek: json['dayOfWeek'],
-        subjectshort: json['subjectshort'],
-        teachershort: json['teachershort'],
-        classshort: json['classshort'],
-        classroomshort: json['classroomshort'],
-        period: json['period']);
+        dayOfWeek: json['dayOfWeek'] ?? nullFixer,
+        subjectshort: json['subjectshort'] ?? nullFixer,
+        teachershort: json['teachershort'] ?? nullFixer,
+        classshort: json['classshort'] ?? nullFixer,
+        classroomshort: json['classroomshort'] ?? nullFixer,
+        period: json['period'] ?? nullFixer);
   }
 }

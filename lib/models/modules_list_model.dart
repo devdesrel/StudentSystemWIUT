@@ -1,3 +1,5 @@
+import 'package:student_system_flutter/helpers/app_constants.dart';
+
 class ModulesList {
   final List<Module> studentViewModuleMarksPropField;
 
@@ -35,15 +37,14 @@ class Module {
 
   factory Module.fromJson(Map<String, dynamic> json) {
     return Module(
-      moduleIDField: json['moduleIDField'],
-      moduleNameField: json['moduleNameField'],
-      moduleCodeField: json['moduleCodeField'],
-      levelField: json['levelField'],
-      creditField: json['creditField'],
-      sessionField: json['sessionField'],
-      attemptField: json['attemptField'],
-      moduleMarkField: json['moduleMarkField'],
-      moduleGradeField: json['moduleGradeField'],
-    );
+        moduleIDField: json['moduleIDField'] ?? nullFixer,
+        moduleNameField: json['moduleNameField'] ?? nullFixer,
+        moduleCodeField: json['moduleCodeField'] ?? nullFixer,
+        levelField: json['levelField'] ?? nullFixer,
+        creditField: json['creditField'] ?? nullFixer,
+        sessionField: json['sessionField'] ?? nullFixer,
+        attemptField: json['attemptField'] ?? nullFixer,
+        moduleMarkField: json['moduleMarkField'] ?? nullFixer,
+        moduleGradeField: json['moduleGradeField'] ?? nullFixer);
   }
 }

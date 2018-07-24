@@ -1,3 +1,5 @@
+import 'package:student_system_flutter/helpers/app_constants.dart';
+
 class GroupsModel {
   String id;
   String name;
@@ -16,11 +18,11 @@ class GroupsModel {
 
   factory GroupsModel.fromJson(Map<String, dynamic> json) {
     return GroupsModel(
-        id: json['ID'],
-        name: json['Name'],
-        short: json['Short'],
-        teacherID: json['TeacherID'],
-        classRoomIDs: json['ClassRoomIDs'],
-        grade: json['Grade']);
+        id: json['ID'] ?? nullFixer,
+        name: json['Name'] ?? nullFixer,
+        short: json['Short'] ?? nullFixer,
+        teacherID: json['TeacherID'] ?? nullFixer,
+        classRoomIDs: json['ClassRoomIDs'] ?? nullFixer,
+        grade: json['Grade'] ?? nullFixer);
   }
 }

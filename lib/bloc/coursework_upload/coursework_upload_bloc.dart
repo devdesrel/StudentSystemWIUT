@@ -3,7 +3,7 @@ import 'dart:async';
 import 'package:rxdart/rxdart.dart';
 
 class CourseworkUploadBloc {
-  //receiving
+  //sending
   Sink<String> get setModuleName => _setModuleNameController.sink;
 
   final _setModuleNameController = StreamController<String>();
@@ -16,7 +16,7 @@ class CourseworkUploadBloc {
 
   final _setFileNameController = StreamController<String>();
 
-//sending
+  //receiving
   Stream<String> get moduleName => _moduleNameSubject.stream;
 
   final _moduleNameSubject = BehaviorSubject<String>();

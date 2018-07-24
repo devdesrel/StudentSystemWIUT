@@ -7,6 +7,8 @@ import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:student_system_flutter/bloc/timetable/timetable_bloc.dart';
+import 'package:student_system_flutter/bloc/timetable/timetable_provider.dart';
 import 'package:student_system_flutter/helpers/app_constants.dart';
 import 'package:student_system_flutter/helpers/function_helpers.dart';
 import 'package:student_system_flutter/helpers/ui_helpers.dart';
@@ -28,24 +30,11 @@ class TimetablePage extends StatelessWidget {
       jsonFile = new File(dir.path + "/" + fileName);
       fileExists = jsonFile.existsSync();
 
-      jsonFile.writeAsString(content);
+      jsonFile.writeAsStringSync(content);
+      print(jsonFile.readAsStringSync());
       // if (fileExists) this.setState(() => fileContent = JSON.decode(jsonFile.readAsStringSync()));
     });
   }
-  // FutureBuilder<List<GroupsModel>> _getGroupId() {
-  //   return FutureBuilder(
-  //       future: getGroupsList(),
-  //       builder: (context, snapshot) {
-  //         if (snapshot.hasData && snapshot.data.length > 0) {
-  //           snapshot.data
-  //               .where((group) => group.name == ('6BIS1'))
-  //               .elementAt(0)
-  //               .id;
-
-  //           return Text(snapshot.data[0].id);
-  //         }
-  //         return Container();
-  //       });
 
   List<GroupsModel> _parseGroups(String responseBody) {
     final parsed = json.decode(responseBody);
@@ -137,52 +126,162 @@ class TimetablePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // 0.0, duration: new Duration(seconds: 2), curve: Curves.ease
-    // _scrollController.jumpTo(4.0);
-
-    // _scrollController.animateTo(300.0,
-    //     duration: new Duration(seconds: 2), curve: Curves.ease);
+    final _bloc = TimetableBloc();
     List<String> _weekDays = populateWeekDayList();
 
-    return Scaffold(
-      key: scaffoldKey,
-      backgroundColor: Theme.of(context).backgroundColor,
-      appBar: AppBar(title: Text('Timetable')),
-      body: FutureBuilder<List<TimetableModel>>(
-          future: _getTimetable(),
-          builder: (context, snapshot) {
-            if (snapshot.hasData && snapshot.data.length > 0) {
-              return ListView.builder(
-                  itemCount: listItemLength,
-                  scrollDirection: Axis.horizontal,
-                  itemBuilder: (_, index) {
-                    if (index == 0)
-                      return Padding(
-                          padding: const EdgeInsets.only(left: 8.0),
-                          child: ItemWeekTimetable(
-                              dayName: _weekDays[index],
-                              timetableList: snapshot.data
-                                  .where((item) =>
-                                      item.dayOfWeek == _weekDays[index])
-                                  .toList()));
-                    else if (index == listItemLength - 1)
-                      return Padding(
-                          padding: const EdgeInsets.only(right: 8.0),
-                          child: ItemWeekTimetable(
-                              dayName: _weekDays[index],
-                              timetableList: snapshot.data
-                                  .where((item) =>
-                                      item.dayOfWeek == _weekDays[index])
-                                  .toList()));
-                    return ItemWeekTimetable(
-                        dayName: _weekDays[index],
-                        timetableList: snapshot.data
-                            .where((item) => item.dayOfWeek == _weekDays[index])
-                            .toList());
-                  });
-            }
-            return Center(child: CircularProgressIndicator());
-          }),
+    return TimetableProvider(
+      timetableBloc: _bloc,
+      child: Scaffold(
+        key: scaffoldKey,
+        backgroundColor: Theme.of(context).backgroundColor,
+        appBar: AppBar(
+          title: Text('Timetable'),
+          actions: <Widget>[
+            IconButton(
+                icon: Icon(Icons.filter_list),
+                onPressed: () {
+                  showModalBottomSheet<void>(
+                      context: context,
+                      builder: (BuildContext context) {
+                        return DrawBottomSheetWidget(bloc: _bloc);
+                      });
+                })
+          ],
+        ),
+        body: FutureBuilder<List<TimetableModel>>(
+            future: _getTimetable(),
+            builder: (context, snapshot) {
+              if (snapshot.hasData && snapshot.data.length > 0) {
+                return ListView.builder(
+                    itemCount: listItemLength,
+                    scrollDirection: Axis.horizontal,
+                    itemBuilder: (_, index) {
+                      if (index == 0)
+                        return Padding(
+                            padding: const EdgeInsets.only(left: 8.0),
+                            child: ItemWeekTimetable(
+                                dayName: _weekDays[index],
+                                timetableList: snapshot.data
+                                    .where((item) =>
+                                        item.dayOfWeek == _weekDays[index])
+                                    .toList()));
+                      else if (index == listItemLength - 1)
+                        return Padding(
+                            padding: const EdgeInsets.only(right: 8.0),
+                            child: ItemWeekTimetable(
+                                dayName: _weekDays[index],
+                                timetableList: snapshot.data
+                                    .where((item) =>
+                                        item.dayOfWeek == _weekDays[index])
+                                    .toList()));
+                      return ItemWeekTimetable(
+                          dayName: _weekDays[index],
+                          timetableList: snapshot.data
+                              .where(
+                                  (item) => item.dayOfWeek == _weekDays[index])
+                              .toList());
+                    });
+              }
+              return Center(child: CircularProgressIndicator());
+            }),
+      ),
+    );
+  }
+}
+
+class DrawBottomSheetWidget extends StatelessWidget {
+  final TimetableBloc bloc;
+  DrawBottomSheetWidget({this.bloc});
+
+  @override
+  Widget build(BuildContext context) {
+    List<String> _groupsList = <String>['', '6BIS1', '6BIS2', '6BIS3', '6BIS4'];
+    List<String> _roomsList = <String>[
+      '',
+      'IB209',
+      'IB208',
+      'ATB212',
+      'ATB214',
+      'LH'
+    ];
+    List<String> _teachersList = <String>[
+      '',
+      'Vasiliy Kuznetsov',
+      'Mikhail Shpirko',
+      'Shirin Primkulova',
+      'Said Abduvaliev'
+    ];
+
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 24.0),
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: <Widget>[
+          Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: <Widget>[
+                Text('Group'),
+                StreamBuilder(
+                  stream: bloc.groupName,
+                  builder: (context, snapshot) => DropdownButton(
+                        value: snapshot.hasData
+                            ? snapshot.data
+                            : bloc.groupsListDropdown[0].text,
+                        items: bloc.groupsListDropdown
+                            .map((model) => DropdownMenuItem(
+                                value: model.text, child: Text(model.text)))
+                            .toList(),
+                        onChanged: (value) {
+                          bloc.setGroup.add(value);
+                          Navigator.pop(context);
+                        },
+                      ),
+                ),
+              ]),
+          Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: <Widget>[
+                Text('Room'),
+                StreamBuilder(
+                  stream: bloc.roomName,
+                  builder: (context, snapshot) => DropdownButton(
+                        value: snapshot.hasData
+                            ? snapshot.data
+                            : bloc.roomsListDropdown[0].text,
+                        items: bloc.roomsListDropdown
+                            .map((model) => DropdownMenuItem(
+                                value: model.text, child: Text(model.text)))
+                            .toList(),
+                        onChanged: (value) {
+                          bloc.setRoom.add(value);
+                          Navigator.pop(context);
+                        },
+                      ),
+                ),
+              ]),
+          Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: <Widget>[
+                Text('Teacher'),
+                StreamBuilder(
+                  stream: bloc.teacherName,
+                  builder: (context, snapshot) => DropdownButton(
+                        value: snapshot.hasData
+                            ? snapshot.data
+                            : bloc.teachersListDropdown[0].text,
+                        items: bloc.teachersListDropdown
+                            .map((model) => DropdownMenuItem(
+                                value: model.text, child: Text(model.text)))
+                            .toList(),
+                        onChanged: (value) {
+                          bloc.setTeacher.add(value);
+                          Navigator.pop(context);
+                        },
+                      ),
+                ),
+              ]),
+        ],
+      ),
     );
   }
 }

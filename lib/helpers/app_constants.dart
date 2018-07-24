@@ -50,6 +50,12 @@ final apiStudentMarks =
     '$baseUrl/api/StudentProfileAndMarks/StudentProfileAndMarksForStudent';
 final apiGetClasses = '$baseUrl/api/TimeTable/GetClasses';
 final apiGetLessons = '$baseUrl/api/TimeTable/GetLessons';
+final apiGetGroups = '$baseUrl/api/TimeTable/GetClassesAsSelectList';
+final apiGetRooms = '$baseUrl/api/TimeTable/GetClassRoomsAsSelectList';
+final apiGetTeachers = '$baseUrl/api/TimeTable/GetTeachersAsSelectList';
 
 //Errors List
 final String tryAgain = 'Please, try again!';
+
+//String Helpers List
+final String nullFixer = '';
