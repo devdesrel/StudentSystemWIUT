@@ -2,7 +2,9 @@ import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
 import 'package:path_provider/path_provider.dart';
@@ -142,7 +144,8 @@ class TimetablePage extends StatelessWidget {
                 builder: (context, snapshot) {
                   if (snapshot.hasData && snapshot.data) {
                     return IconButton(
-                        icon: Icon(Icons.filter_list),
+                        icon: Icon(FontAwesomeIcons.filter),
+                        iconSize: 17.0,
                         onPressed: () {
                           showModalBottomSheet<void>(
                               context: context,
