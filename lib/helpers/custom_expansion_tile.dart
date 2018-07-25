@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:student_system_flutter/bloc/coursework_upload_provider.dart';
+import 'package:student_system_flutter/bloc/coursework_upload/coursework_upload_provider.dart';
 import 'package:student_system_flutter/helpers/app_constants.dart';
 
 class CustomExpansionTile extends StatelessWidget {
