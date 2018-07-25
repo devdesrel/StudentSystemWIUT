@@ -137,14 +137,22 @@ class TimetablePage extends StatelessWidget {
         appBar: AppBar(
           title: Text('Timetable'),
           actions: <Widget>[
-            IconButton(
-                icon: Icon(Icons.filter_list),
-                onPressed: () {
-                  showModalBottomSheet<void>(
-                      context: context,
-                      builder: (BuildContext context) {
-                        return DrawBottomSheetWidget(bloc: _bloc);
-                      });
+            StreamBuilder(
+                stream: _bloc.isLoaded,
+                builder: (context, snapshot) {
+                  if (snapshot.hasData && snapshot.data) {
+                    return IconButton(
+                        icon: Icon(Icons.filter_list),
+                        onPressed: () {
+                          showModalBottomSheet<void>(
+                              context: context,
+                              builder: (BuildContext context) {
+                                return DrawBottomSheetWidget(bloc: _bloc);
+                              });
+                        });
+                  } else {
+                    return Container();
+                  }
                 })
           ],
         ),
@@ -195,23 +203,6 @@ class DrawBottomSheetWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    List<String> _groupsList = <String>['', '6BIS1', '6BIS2', '6BIS3', '6BIS4'];
-    List<String> _roomsList = <String>[
-      '',
-      'IB209',
-      'IB208',
-      'ATB212',
-      'ATB214',
-      'LH'
-    ];
-    List<String> _teachersList = <String>[
-      '',
-      'Vasiliy Kuznetsov',
-      'Mikhail Shpirko',
-      'Shirin Primkulova',
-      'Said Abduvaliev'
-    ];
-
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 24.0),
       child: Column(

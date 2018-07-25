@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'dart:collection';
 import 'dart:convert';
 
 import 'package:http/http.dart' as http;
@@ -42,6 +41,7 @@ class TimetableBloc {
           TimetableDropdownListModel(text: '', value: '');
 
       teachersListDropdown.insert(0, model);
+      _isLoadedSubject.add(true);
     });
 
     _setGroupController.stream.listen((group) {
@@ -85,6 +85,10 @@ class TimetableBloc {
   Stream<String> get teacherName => _teacherNameSubject.stream;
 
   final _teacherNameSubject = BehaviorSubject<String>();
+
+  Stream<bool> get isLoaded => _isLoadedSubject.stream;
+
+  final _isLoadedSubject = BehaviorSubject<bool>();
 
   Future<List<TimetableDropdownListModel>> _populateDropdownList(
       String url) async {
