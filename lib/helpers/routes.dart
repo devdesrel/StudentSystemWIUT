@@ -13,6 +13,7 @@ import 'package:student_system_flutter/pages/modules_page.dart';
 import 'package:student_system_flutter/pages/offences_page.dart';
 import 'package:student_system_flutter/pages/offline_page.dart';
 import 'package:student_system_flutter/pages/security_page.dart';
+import 'package:student_system_flutter/pages/settings_page.dart';
 import 'package:student_system_flutter/pages/social_page.dart';
 import 'package:student_system_flutter/pages/timetable_page.dart';
 import 'package:student_system_flutter/pages/tweet_page.dart';
@@ -37,4 +38,5 @@ final routes = {
   timetablePage: (BuildContext context) => TimetablePage(),
   filePickerPage: (BuildContext context) => FilePickerPage(),
   commentsPage: (BuildContext context) => CommentsPage(),
+  settingsPage: (BuildContext context) => SettingsPage(),
 };

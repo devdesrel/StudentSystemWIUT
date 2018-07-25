@@ -324,7 +324,7 @@ class CustomBackdropMenuItems extends StatelessWidget {
         break;
       case 'SETTINGS':
         controller.fling(velocity: 1.0);
-        Navigator.of(context).pushNamed(offencesPage);
+        Navigator.of(context).pushNamed(settingsPage);
         break;
 
       default:

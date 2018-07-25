@@ -34,15 +34,17 @@ final courseworkUploadPage = '/courseworkUploadPage';
 final timetablePage = '/timetablePage';
 final filePickerPage = '/filePickerPage';
 final commentsPage = '/commentsPage';
+final settingsPage = '/settingsPage';
 
-//User details
+//Shared preferance keys
 final isLoggedIn = 'isLoggedIn';
 final token = 'token';
 final studentID = 'studentID';
 final firstName = 'firstName';
 final lastName = 'lastName';
-final pinCode = '1234';
+final pinCode = 'pinCode';
 final groupID = 'groupID';
+final useFingerprint = 'useFingerprint';
 
 //API List
 final baseUrl = 'https://newintranetapi.wiut.uz';

@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:student_system_flutter/bloc/coursework_upload_provider.dart';
 import 'package:student_system_flutter/helpers/app_constants.dart';
 
-class CustomExpansionTile extends StatefulWidget {
+class CustomExpansionTile extends StatelessWidget {
   final GlobalKey<AppExpansionTileState> expansionTile;
   String value;
   final ModulesList modulesList;
@@ -14,24 +15,22 @@ class CustomExpansionTile extends StatefulWidget {
   }) : super(key: key);
 
   @override
-  _CustomExpansionTileState createState() => _CustomExpansionTileState();
-}
-
-class _CustomExpansionTileState extends State<CustomExpansionTile> {
-  @override
   Widget build(BuildContext context) {
+    var bloc = CourseworkUploadProvider.of(context);
     return AppExpansionTile(
-      key: widget.expansionTile,
-      title: Text(widget.value),
+      key: expansionTile,
+      title: Text(value),
       backgroundColor: whiteColor,
       onExpansionChanged: (b) => print(b),
-      children: widget.modulesList.children
+      children: modulesList.children
           .map((moduleName) => InkWell(
                 onTap: () {
-                  setState(() {
-                    widget.value = moduleName;
-                    widget.expansionTile.currentState.collapse();
-                  });
+                  bloc.setModuleName.add(moduleName);
+                  expansionTile.currentState.collapse();
+                  // setState(() {
+                  //   widget.value = moduleName;
+                  //   widget.expansionTile.currentState.collapse();
+                  // });
                 },
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.stretch,

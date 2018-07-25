@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:local_auth/local_auth.dart';
 import 'package:flutter/services.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../helpers/app_constants.dart';
 
@@ -14,9 +15,32 @@ class SecurityPage extends StatefulWidget {
 class _SecurityPageState extends State<SecurityPage> {
   final scaffoldKey = GlobalKey<ScaffoldState>();
   bool authenticated = false;
-  bool fingerprintDenied = false;
+  bool isFingerPrintOn;
+  bool fingerprintDenied;
   String _pinCode = '';
+  String userPinCode;
   String _pinCodeMask = '';
+
+  @override
+  initState() {
+    _getUserSettings();
+
+    super.initState();
+  }
+
+  void _getUserSettings() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    userPinCode = prefs.getString(pinCode);
+    isFingerPrintOn = prefs.getBool(useFingerprint);
+
+    if (isFingerPrintOn) {
+      fingerprintDenied = false;
+    } else {
+      fingerprintDenied = true;
+    }
+
+    _authenticate();
+  }
 
   Future _authenticate() async {
     if (!authenticated && !fingerprintDenied) {
@@ -54,7 +78,7 @@ class _SecurityPageState extends State<SecurityPage> {
           _pinCodeMask = '$_pinCodeMask*';
           _pinCode = _pinCode + digit;
 
-          if (_pinCode.length == 4 && _pinCode == pinCode) {
+          if (_pinCode.length == 4 && _pinCode == userPinCode) {
             Navigator.of(context).pushReplacementNamed(homePage);
           } else if (_pinCode.length == 4 && _pinCode != pinCode) {
             _pinCodeMask = '';
@@ -68,7 +92,6 @@ class _SecurityPageState extends State<SecurityPage> {
 
   @override
   Widget build(BuildContext context) {
-    _authenticate();
     return Scaffold(
       key: scaffoldKey,
       body: Container(

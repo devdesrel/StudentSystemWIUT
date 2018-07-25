@@ -133,6 +133,20 @@ class SelectionButton extends StatelessWidget {
             ),
           ],
         ),
+        SizedBox(
+          height: 36.0,
+        ),
+        RaisedButton(
+          color: accentColor,
+          onPressed: () {},
+          child: Padding(
+            padding: const EdgeInsets.all(12.0),
+            child: Text(
+              'Upload',
+              style: TextStyle(color: whiteColor),
+            ),
+          ),
+        ),
       ]),
     );
   }

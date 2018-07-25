@@ -30,6 +30,12 @@ class _LoginPageState extends State<LoginPage> implements AuthStateListener {
     authStateProvider.subscribe(this);
   }
 
+  @override
+  initState() {
+    super.initState();
+    _setDefaultSettings();
+  }
+
   void _login() {
     final form = formKey.currentState;
 
@@ -182,4 +188,12 @@ class _LoginPageState extends State<LoginPage> implements AuthStateListener {
     if (state == AuthState.LOGGED_IN)
       Navigator.of(context).pushReplacementNamed(securityPage);
   }
+}
+
+void _setDefaultSettings() async {
+  SharedPreferences prefs = await SharedPreferences.getInstance();
+  var _pinCode = prefs.getString(pinCode);
+  var _useFingerprint = prefs.getBool(useFingerprint);
+  _pinCode ?? prefs.setString(pinCode, '1234');
+  _useFingerprint ?? prefs.setBool(useFingerprint, true);
 }
