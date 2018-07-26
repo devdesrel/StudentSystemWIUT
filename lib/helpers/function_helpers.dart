@@ -7,11 +7,12 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 import 'app_constants.dart';
 
-void showSnackBar(String text, GlobalKey<ScaffoldState> scaffoldKey) {
+void showSnackBar(String text, GlobalKey<ScaffoldState> scaffoldKey,
+    [int duration = 2, bool isSuccessful = false]) {
   scaffoldKey.currentState.showSnackBar(SnackBar(
-    backgroundColor: redColor,
+    backgroundColor: isSuccessful ? greenColor : redColor,
     content: Text(text),
-    duration: Duration(seconds: 2),
+    duration: Duration(seconds: duration),
   ));
 }
 

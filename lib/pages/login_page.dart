@@ -72,8 +72,7 @@ class _LoginPageState extends State<LoginPage> implements AuthStateListener {
 
         Navigator.of(context).pushReplacementNamed(securityPage);
       } else
-        showSnackBar(
-            'Username or Password is incorrect. Try again!', scaffoldKey);
+        showSnackBar(usernamePasswordIncorrect, scaffoldKey);
 
       setState(() {
         progressDialogVisible = false;
@@ -82,7 +81,7 @@ class _LoginPageState extends State<LoginPage> implements AuthStateListener {
       setState(() {
         progressDialogVisible = false;
       });
-      showSnackBar('Please, check your internet connection', scaffoldKey);
+      showSnackBar(checkInternetConnection, scaffoldKey, 5);
     }
   }
 

@@ -8,6 +8,7 @@ final primaryColor = Color(0xFF0091ea);
 final primaryDarkColor = Color(0xFF0064b7);
 final accentColor = Color(0xFF0091ea);
 final redColor = Colors.redAccent;
+final greenColor = Colors.green[400];
 final greyColor = Colors.blueGrey;
 final lightOverlayColor = Color(0xBF333333);
 final backgroundColor = Colors.grey[100];
@@ -59,7 +60,10 @@ final apiGetRooms = '$baseUrl/api/TimeTable/GetClassRoomsAsSelectList';
 final apiGetTeachers = '$baseUrl/api/TimeTable/GetTeachersAsSelectList';
 
 //Errors List
+final String checkInternetConnection = 'Please, check your internet connection';
 final String tryAgain = 'Please, try again!';
+final String usernamePasswordIncorrect =
+    'Username or Password is incorrect. Try again!';
 
 //String Helpers List
 final String nullFixer = '';

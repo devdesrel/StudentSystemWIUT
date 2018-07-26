@@ -146,7 +146,7 @@ class _FileDownloadingTabState extends State<FileDownloadingTab>
     var bloc = FileDownloadProvider.of(context);
 
     return StreamBuilder<List<DownloadFileModel>>(
-        stream: bloc.items,
+        stream: bloc.downloadingFilesList,
         builder: (context, snapshot) {
           if (snapshot.data == null || snapshot.data.isEmpty) {
             return Center(child: Text('Nothing to download'));
