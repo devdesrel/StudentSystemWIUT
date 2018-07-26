@@ -6,44 +6,11 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:student_system_flutter/enums/ApplicationEnums.dart';
+import 'package:student_system_flutter/helpers/function_helpers.dart';
 
 import '../helpers/app_constants.dart';
 import '../list_items/item_modules.dart';
 import '../models/modules_list_model.dart';
-
-// void _showSnackBar(String text) {
-//   scaffoldKey.currentState.showSnackBar(SnackBar(
-//     backgroundColor: Colors.blueGrey,
-//     content: Text(text),
-//     duration: Duration(seconds: 2),
-//   ));
-// }
-
-Future<List<Module>> getModulesWithMarks() async {
-  SharedPreferences prefs = await SharedPreferences.getInstance();
-  final _token = prefs.getString(token);
-  final _studentID = prefs.getString(studentID);
-
-  final response = await http.post("$apiStudentMarks?UserID=$_studentID",
-      headers: {
-        "Accept": "application/json",
-        "Authorization": "Bearer $_token"
-      });
-
-  return compute(parseModules, response.body);
-}
-
-List<Module> parseModules(String responseBody) {
-  final studentViewModuleMarksPropField = 'studentViewModuleMarksPropField';
-
-  final parsedData = json.decode(responseBody)[studentViewModuleMarksPropField];
-
-  ModulesList modulesList = ModulesList(
-      studentViewModuleMarksPropField:
-          parsedData.map<Module>((json) => Module.fromJson(json)).toList());
-
-  return modulesList.studentViewModuleMarksPropField;
-}
 
 class ModulesPage extends StatefulWidget {
   final requestType;
@@ -55,18 +22,51 @@ class ModulesPage extends StatefulWidget {
 }
 
 class _ModulesPageState extends State<ModulesPage> {
-  // var _levelsList = List<String>();
+  final _scaffoldKey = GlobalKey<ScaffoldState>();
+
+  Future<List<Module>> _getModulesWithMarks() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    final _token = prefs.getString(token);
+    final _studentID = prefs.getString(studentID);
+
+    try {
+      final response = await http.post("$apiStudentMarks?UserID=$_studentID",
+          headers: {
+            "Accept": "application/json",
+            "Authorization": "Bearer $_token"
+          });
+
+      return compute(_parseModules, response.body);
+    } catch (e) {
+      showSnackBar(checkInternetConnection, _scaffoldKey, 5);
+      return null;
+    }
+  }
+
+  List<Module> _parseModules(String responseBody) {
+    final studentViewModuleMarksPropField = 'studentViewModuleMarksPropField';
+
+    final parsedData =
+        json.decode(responseBody)[studentViewModuleMarksPropField];
+
+    ModulesList modulesList = ModulesList(
+        studentViewModuleMarksPropField:
+            parsedData.map<Module>((json) => Module.fromJson(json)).toList());
+
+    return modulesList.studentViewModuleMarksPropField;
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      key: _scaffoldKey,
       appBar: AppBar(title: Text('Marks Page')),
       body: Container(
         color: Theme.of(context).backgroundColor,
         child: FutureBuilder<List<Module>>(
             future: widget.requestType == RequestType.GetMarks
-                ? getModulesWithMarks()
-                : getModulesWithMarks(),
+                ? _getModulesWithMarks()
+                : _getModulesWithMarks(),
             builder: (context, snapshot) {
               if (snapshot.hasData) {
                 var _modulesList = snapshot.data;

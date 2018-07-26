@@ -18,9 +18,6 @@ class FileDownloadBloc {
     });
   }
 
-  final BehaviorSubject<List<DownloadFileModel>> _downloadingFilesList =
-      BehaviorSubject<List<DownloadFileModel>>(seedValue: []);
-
   Sink<DownloadFileModel> get addFileToDownload =>
       _addFileToDownloadController.sink;
 
@@ -31,7 +28,11 @@ class FileDownloadBloc {
 
   final _removeItemFromDownloadingListController = StreamController<String>();
 
-  Stream<List<DownloadFileModel>> get items => _downloadingFilesList.stream;
+  Stream<List<DownloadFileModel>> get downloadingFilesList =>
+      _downloadingFilesList.stream;
+
+  final _downloadingFilesList =
+      BehaviorSubject<List<DownloadFileModel>>(seedValue: []);
 
   void dispose() {
     // _downloadingFilesList.close();

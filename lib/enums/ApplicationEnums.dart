@@ -10,6 +10,7 @@ enum MainPageGridItems {
   SOCIAL
 }
 
+enum TimetableDropdownlinListType { Group, Room, Teacher }
 enum ChangePinCodeDialogArguments { CurrentPin, NewPin, ConfirmPin }
 
 enum RequestType { GetMarks, GetTeachingMaterials }
