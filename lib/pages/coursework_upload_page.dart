@@ -10,6 +10,7 @@ class CourseworkUploadPage extends StatelessWidget {
     return CourseworkUploadProvider(
       child: Scaffold(
         appBar: AppBar(
+          centerTitle: true,
           title: Text('Coursework Upload'),
         ),
         body: SelectionButton(),
@@ -143,7 +144,7 @@ class SelectionButton extends StatelessWidget {
             padding: const EdgeInsets.all(12.0),
             child: Text(
               'Upload',
-              style: TextStyle(color: whiteColor),
+              style: TextStyle(color: Colors.white),
             ),
           ),
         ),

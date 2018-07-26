@@ -2,6 +2,8 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:student_system_flutter/bloc/settings/settings_bloc.dart';
+import 'package:student_system_flutter/bloc/settings/settings_provider.dart';
 import 'package:student_system_flutter/enums/ApplicationEnums.dart';
 import 'package:student_system_flutter/helpers/app_constants.dart';
 
@@ -20,7 +22,6 @@ class _SettingsPageState extends State<SettingsPage> {
   String confirmPin;
   String currentPin;
   String notMatched;
-  bool _value = false;
 
   @override
   initState() {
@@ -35,11 +36,6 @@ class _SettingsPageState extends State<SettingsPage> {
 
     return currentUserPin;
   }
-
-//TODO//
-  // setPinValues() {}
-
-  //-//
 
   void savePin() {
     final form = formKey.currentState;
@@ -61,10 +57,10 @@ class _SettingsPageState extends State<SettingsPage> {
     }
   }
 
-  Widget _CustomeFormField(
-      String placeholder, ChangePinCodeDialogArguments type) {
+  Widget customeFormField(String placeholder, ChangePinCodeDialogArguments type,
+      BuildContext context) {
     return TextFormField(
-        autovalidate: dataNotValid,
+        autovalidate: true,
         style: Theme.of(context).textTheme.body2.copyWith(
             color: Theme.of(context).accentColor,
             decorationColor: Colors.white),
@@ -106,9 +102,6 @@ class _SettingsPageState extends State<SettingsPage> {
               ? confirmPin = val
               : null;
         },
-
-        // isConfirmPin==true? confirmPin=val: null
-
         decoration: InputDecoration(
           labelText: placeholder,
         ));
@@ -128,18 +121,18 @@ class _SettingsPageState extends State<SettingsPage> {
               key: formKey,
               child: ListBody(
                 children: <Widget>[
-                  _CustomeFormField(
-                      'Current PIN', ChangePinCodeDialogArguments.CurrentPin),
+                  customeFormField('Current PIN',
+                      ChangePinCodeDialogArguments.CurrentPin, context),
                   SizedBox(
                     height: 5.0,
                   ),
-                  _CustomeFormField(
-                      'New PIN', ChangePinCodeDialogArguments.NewPin),
+                  customeFormField(
+                      'New PIN', ChangePinCodeDialogArguments.NewPin, context),
                   SizedBox(
                     height: 5.0,
                   ),
-                  _CustomeFormField('Confirm new PIN',
-                      ChangePinCodeDialogArguments.ConfirmPin),
+                  customeFormField('Confirm new PIN',
+                      ChangePinCodeDialogArguments.ConfirmPin, context),
                 ],
               ),
             ),
@@ -150,9 +143,6 @@ class _SettingsPageState extends State<SettingsPage> {
               onPressed: () {
                 Navigator.of(context).pop();
                 dataNotValid = false;
-                //TODO
-                //_cleanUserData();
-                // Navigator.of(context).pushReplacementNamed(loginPage);
               },
             ),
             FlatButton(
@@ -167,67 +157,57 @@ class _SettingsPageState extends State<SettingsPage> {
     );
   }
 
-  // TextFormField(
-  //           obscureText: true,
-  //           decoration: InputDecoration(labelText: 'Enter your Current PIN'),
-  //         ),
-  //         TextFormField(
-  //           obscureText: true,
-  //           decoration: InputDecoration(labelText: 'Enter new PIN'),
-  //         ),
-  //         TextFormField(
-  //           obscureText: true,
-  //           decoration: InputDecoration(labelText: 'Confirm new PIN'),
-  void _showSnackBar(String text) {
-    scaffoldKey.currentState.showSnackBar(SnackBar(
-      backgroundColor: Colors.blueGrey,
-      content: Text(text),
-      duration: Duration(seconds: 2),
-    ));
-  }
+  // void _getSettingsValues() async {
+  //   prefs = await SharedPreferences.getInstance();
+  //   setState(() {
+  //     _value = prefs.getBool(useFingerprint) ?? true;
+  //   });
+  // }
 
-  void _getSettingsValues() async {
-    prefs = await SharedPreferences.getInstance();
-    setState(() {
-      _value = prefs.getBool(useFingerprint) ?? true;
-    });
-  }
-
-  void _onChanged(value) {
-    setState(() {
-      _value = value;
-      prefs.setBool(useFingerprint, value);
-    });
-  }
+  // void _onChanged(value) {
+  //   setState(() {
+  //     _value = value;
+  //     prefs.setBool(useFingerprint, value);
+  //   });
+  // }
 
   Widget build(BuildContext context) {
-    _getSettingsValues();
+    //_getSettingsValues();
+    var bloc = SettingsBloc();
 
-    return Scaffold(
-      appBar: AppBar(
-        title: Text('Settings Page'),
-      ),
-      body: ListView(
-        children: <Widget>[
-          SwitchListTile(
-            value: _value,
-            onChanged: (value) {
-              _onChanged(value);
-            },
-            secondary: Icon(Icons.fingerprint),
-            title: Text('Fingerprint to log in'),
-          ),
-          ListTile(
-            onTap: () {
-              showPinDialog(context);
-            },
-            leading: Image.asset(
-              'assets/key.png',
-              height: 28.0,
+    return SettingsProvider(
+      settingsBloc: bloc,
+      child: Scaffold(
+        appBar: AppBar(
+          centerTitle: true,
+          title: Text('Settings Page'),
+        ),
+        body: ListView(
+          children: <Widget>[
+            StreamBuilder(
+              stream: bloc.switchtileValue,
+              builder: (context, snapshot) => SwitchListTile(
+                    value: snapshot.hasData ? snapshot.data : true,
+                    onChanged: (value) {
+                      //_onChanged(value);
+                      bloc.setSwitchtileValue.add(value);
+                    },
+                    secondary: Icon(Icons.fingerprint),
+                    title: Text('Fingerprint to log in'),
+                  ),
             ),
-            title: Text('Change PIN code'),
-          ),
-        ],
+            ListTile(
+              onTap: () {
+                showPinDialog(context);
+              },
+              leading: Image.asset(
+                'assets/key.png',
+                height: 28.0,
+              ),
+              title: Text('Change PIN code'),
+            ),
+          ],
+        ),
       ),
     );
   }

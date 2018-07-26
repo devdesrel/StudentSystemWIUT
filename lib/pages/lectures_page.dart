@@ -63,6 +63,7 @@ class _LecturesPageState extends State<LecturesPage>
             controller: _controller,
           ),
           title: Text('Lecture Materials'),
+          centerTitle: true,
         ),
         body: TabBarView(
           controller: _controller,

@@ -35,6 +35,7 @@ final timetablePage = '/timetablePage';
 final filePickerPage = '/filePickerPage';
 final commentsPage = '/commentsPage';
 final settingsPage = '/settingsPage';
+final contactsPage = '/contactsPage';
 
 //Shared preferance keys
 final isLoggedIn = 'isLoggedIn';

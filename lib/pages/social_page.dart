@@ -13,6 +13,7 @@ class SocialPage extends StatelessWidget {
         appBar: AppBar(
           iconTheme: IconThemeData(color: Theme.of(context).accentColor),
           backgroundColor: Colors.white,
+          centerTitle: true,
           title: Text(
             _title,
             style: TextStyle(color: Theme.of(context).accentColor),

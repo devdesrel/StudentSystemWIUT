@@ -135,6 +135,7 @@ class TimetablePage extends StatelessWidget {
         key: scaffoldKey,
         backgroundColor: Theme.of(context).backgroundColor,
         appBar: AppBar(
+          centerTitle: true,
           title: Text('Timetable'),
           actions: <Widget>[
             StreamBuilder(

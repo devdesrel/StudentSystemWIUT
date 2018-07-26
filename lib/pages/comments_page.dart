@@ -15,6 +15,7 @@ class _CommentsPageState extends State<CommentsPage> {
     return Scaffold(
       backgroundColor: backgroundColor,
       appBar: AppBar(
+        centerTitle: true,
         title: Text('Comments page'),
       ),
       body: Column(children: <Widget>[
