@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:student_system_flutter/helpers/app_constants.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'package:map_view/map_view.dart';
 
 class ContactsPage extends StatelessWidget {
   final double cardPadding = 10.0;
@@ -32,7 +33,7 @@ class ContactsPage extends StatelessWidget {
                     title: '(+998 71) 238 74 00',
                     subtitle: 'Enquiry office',
                     icon: Icons.phone,
-                    urlFrom: 'tel:+1 555 010 999',
+                    urlFrom: 'tel:+998712387400',
                   ),
                   Divider(
                     height: 0.0,
@@ -41,6 +42,7 @@ class ContactsPage extends StatelessWidget {
                     title: '(+998 71) 238 74 44',
                     subtitle: 'Enquiry office',
                     icon: Icons.phone,
+                    urlFrom: 'tel:+998712387444',
                   ),
                   Divider(
                     height: 0.0,
@@ -49,13 +51,9 @@ class ContactsPage extends StatelessWidget {
                     title: '(+998 71) 238 74 45',
                     subtitle: 'Enquiries on Masters programmes',
                     icon: Icons.phone,
+                    urlFrom: 'tel:+998712387445',
                   ),
                 ],
-                //                                          Text(
-                //   'Phone',
-                //   style: TextStyle(fontWeight: FontWeight.bold, color: accentColor),
-                //   textAlign: TextAlign.left,
-                // ),
               ),
             ),
           ),
@@ -73,6 +71,7 @@ class ContactsPage extends StatelessWidget {
                     title: 'info@wiut.uz',
                     subtitle: 'Enquiry office',
                     icon: Icons.email,
+                    urlFrom: 'mailto:info@wiut.uz?',
                   ),
                   Divider(
                     height: 0.0,
@@ -81,6 +80,7 @@ class ContactsPage extends StatelessWidget {
                     title: 'admission@wiut.uz',
                     subtitle: "Academic Registrar's office",
                     icon: Icons.email,
+                    urlFrom: 'mailto:admission@wiut.uz?',
                   ),
                 ],
               ),
@@ -110,6 +110,8 @@ class ContactsPage extends StatelessWidget {
                     title: 'facebook.com/wiut.uz',
                     subtitle: 'Facebook page',
                     icon: FontAwesomeIcons.facebook,
+                    isWebView: true,
+                    urlFrom: 'https://www.facebook.com/wiut.uz',
                   ),
                   Divider(
                     height: 0.0,
@@ -118,6 +120,8 @@ class ContactsPage extends StatelessWidget {
                     title: 'instagram.com/westminster.uz',
                     subtitle: 'Instagram page',
                     icon: FontAwesomeIcons.instagram,
+                    isWebView: true,
+                    urlFrom: 'https://www.instagram.com/westminster.uz/',
                   ),
                 ],
               ),

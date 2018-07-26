@@ -59,6 +59,7 @@ class _ModulesPageState extends State<ModulesPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      key: _scaffoldKey,
       appBar: AppBar(
         title: Text('Marks'),
         centerTitle: true,

@@ -70,11 +70,11 @@ class _SecurityPageState extends State<SecurityPage> {
 
   void enterPIN(String digit) {
     setState(() {
-      if (digit != null && digit == 'C' && _pinCode.length > 0) {
+      if (digit != null && digit == 'DEL' && _pinCode.length > 0) {
         _pinCodeMask = _pinCodeMask.substring(0, _pinCodeMask.length - 1);
         _pinCode = _pinCode.substring(0, _pinCode.length - 1);
       } else {
-        if (_pinCode.length != null && _pinCode.length < 4 && digit != 'C') {
+        if (_pinCode.length != null && _pinCode.length < 4 && digit != 'DEL') {
           _pinCodeMask = '$_pinCodeMask*';
           _pinCode = _pinCode + digit;
 
@@ -139,7 +139,7 @@ class _SecurityPageState extends State<SecurityPage> {
                     firstNumber: '3',
                     secondNumber: '6',
                     thirdNumber: '9',
-                    fourthNumber: 'C',
+                    fourthNumber: 'DEL',
                     enterPIN: enterPIN,
                   ),
                 ],
