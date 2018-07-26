@@ -252,6 +252,26 @@ class TimetableBloc {
     // return compute(parseGroups, response.body);
   }
 
+  String _getIdFromList(TimetableDropdownlinListType type, String name) {
+    switch (type) {
+      case TimetableDropdownlinListType.Group:
+        return groupsListDropdown
+            .firstWhere((group) => group.text == name)
+            .value;
+        break;
+      case TimetableDropdownlinListType.Room:
+        return roomsListDropdown.firstWhere((room) => room.text == name).value;
+        break;
+      case TimetableDropdownlinListType.Teacher:
+        return teachersListDropdown
+            .firstWhere((teacher) => teacher.text == name)
+            .value;
+        break;
+      default:
+        return nullFixer;
+    }
+  }
+
   Future<List<TimetableDropdownListModel>> _populateDropdownList(
       String url) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -299,25 +319,5 @@ class TimetableBloc {
       jsonFile.writeAsStringSync(content);
       // if (fileExists) this.setState(() => fileContent = JSON.decode(jsonFile.readAsStringSync()));
     });
-  }
-
-  String _getIdFromList(TimetableDropdownlinListType type, String name) {
-    switch (type) {
-      case TimetableDropdownlinListType.Group:
-        return groupsListDropdown
-            .firstWhere((group) => group.text == name)
-            .value;
-        break;
-      case TimetableDropdownlinListType.Room:
-        return roomsListDropdown.firstWhere((room) => room.text == name).value;
-        break;
-      case TimetableDropdownlinListType.Teacher:
-        return teachersListDropdown
-            .firstWhere((teacher) => teacher.text == name)
-            .value;
-        break;
-      default:
-        return nullFixer;
-    }
   }
 }

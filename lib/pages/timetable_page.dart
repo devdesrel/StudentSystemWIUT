@@ -80,6 +80,8 @@ class TimetablePage extends StatelessWidget {
                               .toList());
                     });
               }
+              // else if (snapshot.data.length == 0) return Container();
+
               return Center(child: CircularProgressIndicator());
             }),
       ),
