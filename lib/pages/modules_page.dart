@@ -60,7 +60,10 @@ class _ModulesPageState extends State<ModulesPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       key: _scaffoldKey,
-      appBar: AppBar(title: Text('Marks Page')),
+      appBar: AppBar(
+        title: Text('Marks'),
+        centerTitle: true,
+      ),
       body: Container(
         color: Theme.of(context).backgroundColor,
         child: FutureBuilder<List<Module>>(

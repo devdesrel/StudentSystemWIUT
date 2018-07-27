@@ -60,6 +60,7 @@ class _TweetPageState extends State<TweetPage> {
       newPostBloc: bloc,
       child: Scaffold(
         appBar: AppBar(
+          centerTitle: true,
           title: Text('Create Post'),
           iconTheme: IconThemeData(color: whiteColor),
           elevation: 0.0,

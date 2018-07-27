@@ -6,6 +6,7 @@ class FilePickerPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        centerTitle: true,
         title: Text('File picker'),
       ),
       body: FileManager(

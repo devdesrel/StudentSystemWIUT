@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:local_auth/local_auth.dart';
 import 'package:flutter/services.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:student_system_flutter/helpers/function_helpers.dart';
 
 import '../helpers/app_constants.dart';
 
@@ -60,21 +61,13 @@ class _SecurityPageState extends State<SecurityPage> {
     }
   }
 
-  void _showSnackBar(String text) {
-    scaffoldKey.currentState.showSnackBar(SnackBar(
-      backgroundColor: redColor,
-      content: Text(text),
-      duration: Duration(seconds: 2),
-    ));
-  }
-
   void enterPIN(String digit) {
     setState(() {
-      if (digit != null && digit == 'C' && _pinCode.length > 0) {
+      if (digit != null && digit == 'DEL' && _pinCode.length > 0) {
         _pinCodeMask = _pinCodeMask.substring(0, _pinCodeMask.length - 1);
         _pinCode = _pinCode.substring(0, _pinCode.length - 1);
       } else {
-        if (_pinCode.length != null && _pinCode.length < 4 && digit != 'C') {
+        if (_pinCode.length != null && _pinCode.length < 4 && digit != 'DEL') {
           _pinCodeMask = '$_pinCodeMask*';
           _pinCode = _pinCode + digit;
 
@@ -83,11 +76,62 @@ class _SecurityPageState extends State<SecurityPage> {
           } else if (_pinCode.length == 4 && _pinCode != pinCode) {
             _pinCodeMask = '';
             _pinCode = '';
-            _showSnackBar('Incorrect pin. Try again.');
+            showSnackBar('Incorrect pin. Try again.', scaffoldKey);
           }
         }
       }
     });
+  }
+
+  Widget _getFourthNumber(String fourthNumber) {
+    TextStyle textStyle =
+        Theme.of(context).textTheme.display2.copyWith(color: Colors.white);
+
+    if (fourthNumber == ' ') {
+      return InkWell(
+        onTap: () {
+          setState(() {
+            fingerprintDenied = false;
+            _authenticate();
+          });
+        },
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 15.0, vertical: 21.0),
+          child: Icon(
+            Icons.fingerprint,
+            size: 40.0,
+            color: whiteColor,
+          ),
+        ),
+      );
+    } else if (fourthNumber == '0') {
+      return InkWell(
+        onTap: () {
+          enterPIN(fourthNumber);
+        },
+        child: Padding(
+          padding: const EdgeInsets.all(15.0),
+          child: Text(
+            fourthNumber,
+            style: textStyle,
+          ),
+        ),
+      );
+    } else {
+      return InkWell(
+        onTap: () {
+          enterPIN(fourthNumber);
+        },
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 15.0, vertical: 28.5),
+          child: Icon(
+            Icons.backspace,
+            size: 27.0,
+            color: whiteColor,
+          ),
+        ),
+      );
+    }
   }
 
   @override
@@ -127,6 +171,7 @@ class _SecurityPageState extends State<SecurityPage> {
                     thirdNumber: '7',
                     fourthNumber: ' ',
                     enterPIN: enterPIN,
+                    getFourthNumber: _getFourthNumber,
                   ),
                   CustomDigitColumn(
                     firstNumber: '2',
@@ -134,13 +179,15 @@ class _SecurityPageState extends State<SecurityPage> {
                     thirdNumber: '8',
                     fourthNumber: '0',
                     enterPIN: enterPIN,
+                    getFourthNumber: _getFourthNumber,
                   ),
                   CustomDigitColumn(
                     firstNumber: '3',
                     secondNumber: '6',
                     thirdNumber: '9',
-                    fourthNumber: 'C',
+                    fourthNumber: 'DEL',
                     enterPIN: enterPIN,
+                    getFourthNumber: _getFourthNumber,
                   ),
                 ],
               ),
@@ -164,6 +211,7 @@ class _SecurityPageState extends State<SecurityPage> {
 
 class CustomDigitColumn extends StatelessWidget {
   final Function enterPIN;
+  final Function getFourthNumber;
 
   const CustomDigitColumn(
       {Key key,
@@ -171,7 +219,8 @@ class CustomDigitColumn extends StatelessWidget {
       this.secondNumber,
       this.thirdNumber,
       this.fourthNumber,
-      this.enterPIN})
+      this.enterPIN,
+      this.getFourthNumber})
       : super(key: key);
 
   final String firstNumber;
@@ -226,27 +275,31 @@ class CustomDigitColumn extends StatelessWidget {
               ),
             ),
           ),
+
           SizedBox(height: 30.0),
-          fourthNumber == ' '
-              ? Padding(
-                  padding: const EdgeInsets.all(15.0),
-                  child: Text(
-                    fourthNumber,
-                    style: textStyle,
-                  ),
-                )
-              : InkWell(
-                  onTap: () {
-                    enterPIN(fourthNumber);
-                  },
-                  child: Padding(
-                    padding: const EdgeInsets.all(15.0),
-                    child: Text(
-                      fourthNumber,
-                      style: textStyle,
-                    ),
-                  ),
-                ),
+
+          getFourthNumber(fourthNumber),
+
+          // fourthNumber == ' '
+          //     ? Padding(
+          //         padding: const EdgeInsets.all(15.0),
+          //         child: Text(
+          //           fourthNumber,
+          //           style: textStyle,
+          //         ),
+          //       )
+          //     : InkWell(
+          //         onTap: () {
+          //           enterPIN(fourthNumber);
+          //         },
+          //         child: Padding(
+          //           padding: const EdgeInsets.all(15.0),
+          //           child: Icon(
+          //             Icons.remove_circle,
+          //             color: whiteColor,
+          //           ),
+          //         ),
+          //       ),
         ],
       ),
     );

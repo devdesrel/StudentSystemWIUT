@@ -12,6 +12,7 @@ class OffencesPage extends StatelessWidget {
         backgroundColor: Theme.of(context).backgroundColor,
         appBar: AppBar(
           elevation: 3.0,
+          centerTitle: true,
           title: Text('Offences'),
         ),
         body: CustomScrollView(

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:student_system_flutter/pages/comments_page.dart';
+import 'package:student_system_flutter/pages/contacts_page.dart';
 import 'package:student_system_flutter/pages/coursework_upload_page.dart';
 import 'package:student_system_flutter/pages/file_downloader_page.dart';
 import 'package:student_system_flutter/pages/file_picker_page.dart';
@@ -15,6 +16,7 @@ import 'package:student_system_flutter/pages/offline_page.dart';
 import 'package:student_system_flutter/pages/security_page.dart';
 import 'package:student_system_flutter/pages/settings_page.dart';
 import 'package:student_system_flutter/pages/social_page.dart';
+import 'package:student_system_flutter/pages/testMap_page.dart';
 import 'package:student_system_flutter/pages/timetable_page.dart';
 import 'package:student_system_flutter/pages/tweet_page.dart';
 
@@ -39,4 +41,5 @@ final routes = {
   filePickerPage: (BuildContext context) => FilePickerPage(),
   commentsPage: (BuildContext context) => CommentsPage(),
   settingsPage: (BuildContext context) => SettingsPage(),
+  contactsPage: (BuildContext context) => ContactsPage(),
 };

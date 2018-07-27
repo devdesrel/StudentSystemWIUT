@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 import 'helpers/app_constants.dart';
 import 'helpers/routes.dart';
 
-void main() => runApp(MainApp());
+void main() {
+  runApp(MainApp());
+}
 
 class MainApp extends StatelessWidget {
   @override

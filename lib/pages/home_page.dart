@@ -41,13 +41,14 @@ class _HomePageState extends State<HomePage>
     return Scaffold(
         backgroundColor: Theme.of(context).backgroundColor,
         appBar: AppBar(
+          centerTitle: true,
           elevation: 0.0,
           title: Text('WIUT'),
           actions: <Widget>[
-            IconButton(
-              icon: Icon(Icons.lock_open),
-              onPressed: () {},
-            ),
+            // IconButton(
+            //   icon: Icon(Icons.lock_open),
+            //   onPressed: () {},
+            // ),
             IconButton(
               icon: Icon(Icons.exit_to_app),
               onPressed: () {
@@ -320,7 +321,7 @@ class CustomBackdropMenuItems extends StatelessWidget {
         break;
       case 'CONTACTS':
         controller.fling(velocity: 1.0);
-        Navigator.of(context).pushNamed(offencesPage);
+        Navigator.of(context).pushNamed(contactsPage);
         break;
       case 'SETTINGS':
         controller.fling(velocity: 1.0);
