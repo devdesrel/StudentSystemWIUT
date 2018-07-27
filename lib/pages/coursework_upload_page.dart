@@ -21,7 +21,7 @@ class CourseworkUploadPage extends StatelessWidget {
 
 class SelectionButton extends StatelessWidget {
   final GlobalKey<AppExpansionTileState> expansionTile = new GlobalKey();
-
+  String title;
   final String value = 'Select a module';
   final String chosenFile = 'No file selected';
   final List<String> _moduleNamesList = [
@@ -30,31 +30,49 @@ class SelectionButton extends StatelessWidget {
     'Short name',
     'The last one was unrealistic, right?))',
   ];
+
   @override
   Widget build(BuildContext context) {
     var bloc = CourseworkUploadProvider.of(context);
     ModulesList modulesList = ModulesList(_moduleNamesList);
+    final formKey = GlobalKey<FormState>();
+
+    void saveTitle() {
+      final form = formKey.currentState;
+
+      // FocusScope.of(context).requestFocus(FocusNode());
+      // checkCurrentPin();
+
+      if (form.validate()) {
+        //formKey.save();
+        print('Validation done');
+      }
+    }
 
     return Padding(
       padding: const EdgeInsets.only(left: 14.0, right: 14.0, top: 16.0),
       child: ListView(children: <Widget>[
-        TextFormField(
-          // autovalidate: dataNotValid,
-          style: Theme.of(context).textTheme.body2.copyWith(
-              color: Theme.of(context).accentColor,
-              decorationColor: Colors.white),
-          autofocus: false,
-          maxLines: 1,
-          keyboardType: TextInputType.text,
-          validator: (val) => val.length == 0 ? 'Title can not be empty' : null,
-          // onSaved: (val) => _title = val,
-          decoration: InputDecoration(
-              labelText: 'Title',
-              border: OutlineInputBorder(
-                  gapPadding: 2.0,
-                  borderSide:
-                      BorderSide(color: Colors.white, style: BorderStyle.solid),
-                  borderRadius: BorderRadius.circular(8.0))),
+        Form(
+          key: formKey,
+          child: TextFormField(
+            autovalidate: false,
+            style: Theme.of(context).textTheme.body2.copyWith(
+                color: Theme.of(context).accentColor,
+                decorationColor: Colors.white),
+            autofocus: false,
+            maxLines: 1,
+            keyboardType: TextInputType.text,
+            validator: (val) =>
+                val.length == 0 ? 'Title can not be empty' : null,
+            onSaved: (val) => null,
+            decoration: InputDecoration(
+                labelText: 'Title',
+                border: OutlineInputBorder(
+                    gapPadding: 2.0,
+                    borderSide: BorderSide(
+                        color: Colors.white, style: BorderStyle.solid),
+                    borderRadius: BorderRadius.circular(8.0))),
+          ),
         ),
         SizedBox(
           height: 25.0,
@@ -139,7 +157,7 @@ class SelectionButton extends StatelessWidget {
         ),
         RaisedButton(
           color: accentColor,
-          onPressed: () {},
+          onPressed: saveTitle,
           child: Padding(
             padding: const EdgeInsets.all(12.0),
             child: Text(

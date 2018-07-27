@@ -16,6 +16,10 @@ class SettingsBloc {
 
   final _pinDataValiditySubject = BehaviorSubject<bool>();
 
+  Stream<bool> get isAutoValidationOn => _isAutoValidationOnSubject.stream;
+
+  final _isAutoValidationOnSubject = BehaviorSubject<bool>();
+
   /// [Sinks] sending
   Sink<bool> get setSwitchtileValue => _setSwitchtileValueController.sink;
 
@@ -23,6 +27,9 @@ class SettingsBloc {
   Sink<bool> get setPinDataValidity => _setPinDataValidityController.sink;
 
   final _setPinDataValidityController = StreamController<bool>();
+  Sink<bool> get setAutoValidation => _setAutoValidationController.sink;
+
+  final _setAutoValidationController = StreamController<bool>();
 
   SettingsBloc() {
     // getting Switchtile value from Sharedpreferences
@@ -35,6 +42,10 @@ class SettingsBloc {
     });
     _setPinDataValidityController.stream.listen((dataValidity) {
       _pinDataValiditySubject.add(dataValidity);
+    });
+
+    _setAutoValidationController.stream.listen((autoValidation) {
+      _isAutoValidationOnSubject.add(autoValidation);
     });
   }
   setSwitchValue(bool switchValue) async {
@@ -54,5 +65,7 @@ class SettingsBloc {
     _setSwitchtileValueController.close();
     _pinDataValiditySubject.close();
     _setPinDataValidityController.close();
+    _isAutoValidationOnSubject.close();
+    _setAutoValidationController.close();
   }
 }
