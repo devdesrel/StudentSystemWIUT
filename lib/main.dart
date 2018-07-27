@@ -1,12 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:map_view/map_view.dart';
 import 'helpers/app_constants.dart';
 import 'helpers/routes.dart';
 
-const API_KEY = "my_key";
 void main() {
-  //setting API key value for static map API
-  MapView.setApiKey(API_KEY);
   runApp(MainApp());
 }
 

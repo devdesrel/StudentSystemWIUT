@@ -221,7 +221,10 @@ class TimetableBloc {
         List<TimetableModel> _sortedList = [];
 
         for (var item in _timetableList) {
-          if (_sortedList.any((t) => t.subjectshort == item.subjectshort)) {
+          if (_sortedList.any((t) =>
+              t.subjectshort == item.subjectshort &&
+              t.dayOfWeek == item.dayOfWeek &&
+              t.classshort == item.classshort)) {
             int _position = _sortedList.indexOf(_sortedList
                 .where((t) => t.subjectshort == item.subjectshort)
                 .first);

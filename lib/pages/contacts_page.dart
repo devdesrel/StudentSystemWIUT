@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:student_system_flutter/helpers/app_constants.dart';
 import 'package:url_launcher/url_launcher.dart';
-import 'package:map_view/map_view.dart';
 
 class ContactsPage extends StatelessWidget {
   final double cardPadding = 10.0;
