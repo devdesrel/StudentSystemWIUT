@@ -61,7 +61,7 @@ class _SettingsPageState extends State<SettingsPage> {
     }
   }
 
-  Widget _CustomeFormField(
+  Widget _customeFormField(
       String placeholder, ChangePinCodeDialogArguments type) {
     return TextFormField(
         autovalidate: dataNotValid,
@@ -89,6 +89,8 @@ class _SettingsPageState extends State<SettingsPage> {
 
           if (val.length == 0) {
             return '$placeholder can not be empty';
+          } else if (!isNumeric(val)) {
+            return '$placeholder is not numeric';
           } else if (val.length != 4) {
             return '$placeholder should contain 4 digits';
           } else if (currentUserPin != currentPin &&
@@ -114,6 +116,13 @@ class _SettingsPageState extends State<SettingsPage> {
         ));
   }
 
+  bool isNumeric(String s) {
+    if (s == null) {
+      return false;
+    }
+    return int.tryParse(s) != null;
+  }
+
   Future<Null> showPinDialog(BuildContext context) async {
     return showDialog<Null>(
       context: context,
@@ -128,17 +137,17 @@ class _SettingsPageState extends State<SettingsPage> {
               key: formKey,
               child: ListBody(
                 children: <Widget>[
-                  _CustomeFormField(
+                  _customeFormField(
                       'Current PIN', ChangePinCodeDialogArguments.CurrentPin),
                   SizedBox(
                     height: 5.0,
                   ),
-                  _CustomeFormField(
+                  _customeFormField(
                       'New PIN', ChangePinCodeDialogArguments.NewPin),
                   SizedBox(
                     height: 5.0,
                   ),
-                  _CustomeFormField('Confirm new PIN',
+                  _customeFormField('Confirm new PIN',
                       ChangePinCodeDialogArguments.ConfirmPin),
                 ],
               ),
