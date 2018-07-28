@@ -1,10 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:flutter/material.dart';
-import 'package:student_system_flutter/bloc/timetable/timetable_bloc.dart';
-import 'package:student_system_flutter/bloc/timetable/timetable_provider.dart';
+import 'package:student_system_flutter/bloc/timetable_page/timetable_bloc.dart';
+import 'package:student_system_flutter/bloc/timetable_page/timetable_provider.dart';
 import 'package:student_system_flutter/list_items/item_week_timetable.dart';
-import 'package:student_system_flutter/models/Timetable/timetable_dropdown_list_model.dart';
 import 'package:student_system_flutter/models/Timetable/timetable_model.dart';
 
 class TimetablePage extends StatelessWidget {

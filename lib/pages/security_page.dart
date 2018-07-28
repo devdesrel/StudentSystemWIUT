@@ -4,6 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:local_auth/local_auth.dart';
 import 'package:flutter/services.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:student_system_flutter/bloc/security_page/security_page_bloc.dart';
+import 'package:student_system_flutter/bloc/security_page/security_page_provider.dart';
 import 'package:student_system_flutter/helpers/function_helpers.dart';
 
 import '../helpers/app_constants.dart';
@@ -21,6 +23,7 @@ class _SecurityPageState extends State<SecurityPage> {
   String _pinCode = '';
   String userPinCode;
   String _pinCodeMask = '';
+  final _bloc = SecurityBloc();
 
   @override
   initState() {
@@ -32,7 +35,9 @@ class _SecurityPageState extends State<SecurityPage> {
   void _getUserSettings() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     userPinCode = prefs.getString(pinCode);
-    isFingerPrintOn = prefs.getBool(useFingerprint);
+    isFingerPrintOn = prefs.getBool(useFingerprint) ?? true;
+
+    _bloc.setUseFingerprint.add(isFingerPrintOn);
 
     if (isFingerPrintOn) {
       fingerprintDenied = false;
@@ -88,22 +93,35 @@ class _SecurityPageState extends State<SecurityPage> {
         Theme.of(context).textTheme.display2.copyWith(color: Colors.white);
 
     if (fourthNumber == ' ') {
-      return InkWell(
-        onTap: () {
-          setState(() {
-            fingerprintDenied = false;
-            _authenticate();
+      return StreamBuilder(
+          stream: _bloc.useFingerprint,
+          builder: (context, snapshot) {
+            if (snapshot.hasData && snapshot.data)
+              return InkWell(
+                onTap: () {
+                  _bloc.setFingerprintDenied.add(false);
+                  setState(() {
+                    fingerprintDenied = false;
+                  });
+                  _authenticate();
+                },
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(
+                      horizontal: 15.0, vertical: 21.0),
+                  child: Icon(
+                    Icons.fingerprint,
+                    size: 40.0,
+                    color: whiteColor,
+                  ),
+                ),
+              );
+            else {
+              return Container(
+                padding: const EdgeInsets.symmetric(
+                    horizontal: 15.0, vertical: 41.0),
+              );
+            }
           });
-        },
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 15.0, vertical: 21.0),
-          child: Icon(
-            Icons.fingerprint,
-            size: 40.0,
-            color: whiteColor,
-          ),
-        ),
-      );
     } else if (fourthNumber == '0') {
       return InkWell(
         onTap: () {
@@ -117,7 +135,7 @@ class _SecurityPageState extends State<SecurityPage> {
           ),
         ),
       );
-    } else {
+    } else if (fourthNumber == 'DEL') {
       return InkWell(
         onTap: () {
           enterPIN(fourthNumber);
@@ -132,67 +150,74 @@ class _SecurityPageState extends State<SecurityPage> {
         ),
       );
     }
+
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 15.0, vertical: 41.0),
+    );
   }
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      key: scaffoldKey,
-      body: Container(
-        padding: const EdgeInsets.symmetric(horizontal: 24.0),
-        color: Colors.blue,
-        height: double.infinity,
-        child: Column(
-          children: <Widget>[
-            SizedBox(
-              height: 100.0,
-            ),
-            Text(
-              _pinCodeMask,
-              maxLines: 1,
-              style: Theme
-                  .of(context)
-                  .textTheme
-                  .display3
-                  .copyWith(color: Colors.white70, letterSpacing: 40.0),
-            ),
-            Divider(color: Colors.white),
-            SizedBox(
-              height: 25.0,
-            ),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 26.0),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: <Widget>[
-                  CustomDigitColumn(
-                    firstNumber: '1',
-                    secondNumber: '4',
-                    thirdNumber: '7',
-                    fourthNumber: ' ',
-                    enterPIN: enterPIN,
-                    getFourthNumber: _getFourthNumber,
-                  ),
-                  CustomDigitColumn(
-                    firstNumber: '2',
-                    secondNumber: '5',
-                    thirdNumber: '8',
-                    fourthNumber: '0',
-                    enterPIN: enterPIN,
-                    getFourthNumber: _getFourthNumber,
-                  ),
-                  CustomDigitColumn(
-                    firstNumber: '3',
-                    secondNumber: '6',
-                    thirdNumber: '9',
-                    fourthNumber: 'DEL',
-                    enterPIN: enterPIN,
-                    getFourthNumber: _getFourthNumber,
-                  ),
-                ],
+    return SecurityProvider(
+      securityBloc: _bloc,
+      child: Scaffold(
+        key: scaffoldKey,
+        body: Container(
+          padding: const EdgeInsets.symmetric(horizontal: 24.0),
+          color: Colors.blue,
+          height: double.infinity,
+          child: Column(
+            children: <Widget>[
+              SizedBox(
+                height: 100.0,
               ),
-            ),
-          ],
+              Text(
+                _pinCodeMask,
+                maxLines: 1,
+                style: Theme
+                    .of(context)
+                    .textTheme
+                    .display3
+                    .copyWith(color: Colors.white70, letterSpacing: 40.0),
+              ),
+              Divider(color: Colors.white),
+              SizedBox(
+                height: 25.0,
+              ),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 26.0),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: <Widget>[
+                    CustomDigitColumn(
+                      firstNumber: '1',
+                      secondNumber: '4',
+                      thirdNumber: '7',
+                      fourthNumber: ' ',
+                      enterPIN: enterPIN,
+                      getFourthNumber: _getFourthNumber,
+                    ),
+                    CustomDigitColumn(
+                      firstNumber: '2',
+                      secondNumber: '5',
+                      thirdNumber: '8',
+                      fourthNumber: '0',
+                      enterPIN: enterPIN,
+                      getFourthNumber: _getFourthNumber,
+                    ),
+                    CustomDigitColumn(
+                      firstNumber: '3',
+                      secondNumber: '6',
+                      thirdNumber: '9',
+                      fourthNumber: 'DEL',
+                      enterPIN: enterPIN,
+                      getFourthNumber: _getFourthNumber,
+                    ),
+                  ],
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );

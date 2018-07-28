@@ -36,7 +36,8 @@ class _ModulesPageState extends State<ModulesPage> {
             "Authorization": "Bearer $_token"
           });
 
-      return compute(_parseModules, response.body);
+      return _parseModules(response.body);
+      // return compute(_parseModules, response.body);
     } catch (e) {
       showSnackBar(checkInternetConnection, _scaffoldKey, 5);
       return null;

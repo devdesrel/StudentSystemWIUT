@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import '../helpers/app_constants.dart';
 import '../list_items/item_posts.dart';
 
@@ -62,9 +61,7 @@ class SocialPage extends StatelessWidget {
         //     )),
         floatingActionButton: FloatingActionButton(
           child: Icon(Icons.edit),
-          onPressed: () async {
-            SharedPreferences prefs = await SharedPreferences.getInstance();
-            print(prefs.getString(token));
+          onPressed: () {
             Navigator.of(context).pushNamed(tweetPage);
           },
         ),

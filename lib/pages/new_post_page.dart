@@ -3,18 +3,18 @@ import 'dart:io';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:student_system_flutter/bloc/new_post/new_post_bloc.dart';
-import 'package:student_system_flutter/bloc/new_post/new_post_provider.dart';
+import 'package:student_system_flutter/bloc/new_post_page/new_post_bloc.dart';
+import 'package:student_system_flutter/bloc/new_post_page/new_post_provider.dart';
 import 'package:student_system_flutter/enums/ApplicationEnums.dart';
 import 'package:student_system_flutter/helpers/app_constants.dart';
 import 'package:student_system_flutter/helpers/function_helpers.dart';
 
-class TweetPage extends StatefulWidget {
+class NewPostPage extends StatefulWidget {
   @override
-  _TweetPageState createState() => _TweetPageState();
+  _NewPostPageState createState() => _NewPostPageState();
 }
 
-class _TweetPageState extends State<TweetPage> {
+class _NewPostPageState extends State<NewPostPage> {
   @override
   Widget build(BuildContext context) {
     var bloc = NewPostBloc();
