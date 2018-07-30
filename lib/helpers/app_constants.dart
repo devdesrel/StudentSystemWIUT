@@ -37,6 +37,8 @@ final filePickerPage = '/filePickerPage';
 final commentsPage = '/commentsPage';
 final settingsPage = '/settingsPage';
 final contactsPage = '/contactsPage';
+final mapPage = '/mapPage';
+final testPage = '/testPage';
 //Shared preferance keys
 final isLoggedIn = 'isLoggedIn';
 final token = 'token';
