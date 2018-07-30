@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:simple_permissions/simple_permissions.dart';
 import 'package:student_system_flutter/bloc/file_download/file_download_bloc.dart';
-import 'package:student_system_flutter/bloc/file_download/file_download_provider.dart';
+import 'package:student_system_flutter/bloc/file_download/learning_materials_bloc.dart';
+import 'package:student_system_flutter/bloc/file_download/learning_materials_provider.dart';
 import 'package:student_system_flutter/list_items/item_file_downloading.dart';
 import 'package:student_system_flutter/models/download_file_model.dart';
 import 'package:student_system_flutter/models/learning_materials_model.dart';
@@ -49,8 +51,8 @@ class _LecturesPageState extends State<LecturesPage>
 
   @override
   Widget build(BuildContext context) {
-    var bloc = FileDownloadBloc();
-    return FileDownloadProvider(
+    var bloc = LearningMaterialsBloc();
+    return LearningMaterialsProvider(
       fileDownloadBloc: bloc,
       child: Scaffold(
         backgroundColor: Theme.of(context).backgroundColor,
@@ -64,6 +66,14 @@ class _LecturesPageState extends State<LecturesPage>
           ),
           title: Text('Lecture Materials'),
           centerTitle: true,
+          actions: <Widget>[
+            IconButton(
+              icon: Icon(Icons.cloud_download),
+              onPressed: () {
+                Navigator.of(context).pushNamed(offlinePage);
+              },
+            )
+          ],
         ),
         body: TabBarView(
           controller: _controller,
@@ -85,7 +95,7 @@ class _LecturesPageState extends State<LecturesPage>
 class MaterialsListTab extends StatefulWidget {
   final List<LearningMaterialsModel> lecturesList;
   final TabController controller;
-  final FileDownloadBloc bloc;
+  final LearningMaterialsBloc bloc;
 
   MaterialsListTab({
     Key key,
@@ -143,7 +153,7 @@ class _FileDownloadingTabState extends State<FileDownloadingTab>
   Widget build(BuildContext context) {
     super.build(context);
     print('Rebuild FileDownloading Tab');
-    var bloc = FileDownloadProvider.of(context);
+    var bloc = LearningMaterialsProvider.of(context);
 
     return StreamBuilder<List<DownloadFileModel>>(
         stream: bloc.downloadingFilesList,
@@ -154,7 +164,8 @@ class _FileDownloadingTabState extends State<FileDownloadingTab>
 
           return ListView(
               children: snapshot.data
-                  .map((item) => ItemFileDownloading(downloadFile: item))
+                  .map((file) =>
+                      ItemFileDownloading(bloc: FileDownloadBloc(bloc, file)))
                   .toList());
         });
   }
@@ -190,7 +201,7 @@ class _FileDownloadingTabState extends State<FileDownloadingTab>
 class CustomCard extends StatelessWidget {
   final LearningMaterialsModel learningMaterialsModel;
   final controller;
-  final bloc;
+  final LearningMaterialsBloc bloc;
 
   CustomCard(
       {@required this.learningMaterialsModel,
@@ -222,38 +233,44 @@ class CustomCard extends StatelessWidget {
     return _listOfWidgets;
   }
 
-  Future _getPermissionToDownload(BuildContext context) async {
-    var bloc = FileDownloadProvider.of(context);
+  Future _getPermissionToDownloadAndShowDialog(BuildContext context) async {
+    var bloc = LearningMaterialsProvider.of(context);
+    Permission permission = Permission.WriteExternalStorage;
 
-    await showDialog(
-        context: context,
-        builder: (context) {
-          return SimpleDialog(
-              titlePadding: EdgeInsets.only(
-                  top: 15.0, left: 24.0, right: 24.0, bottom: 5.0),
-              contentPadding: EdgeInsets.only(bottom: 0.0),
-              title: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: <Widget>[
-                  Text('Download'),
-                  InkWell(
-                      child: Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Icon(Icons.cloud_download),
-                      ),
-                      onTap: () {
-                        for (var downloadFile
-                            in learningMaterialsModel.downloadFilesList) {
-                          bloc.addFileToDownload.add(downloadFile);
-                        }
-                        Navigator.pop(context);
+    bool res = await SimplePermissions.requestPermission(permission);
+    print("permission request result is " + res.toString());
 
-                        controller.animateTo(1);
-                      })
-                ],
-              ),
-              children: _getDialogItems(context));
-        });
+    if (res) {
+      await showDialog(
+          context: context,
+          builder: (context) {
+            return SimpleDialog(
+                titlePadding: EdgeInsets.only(
+                    top: 15.0, left: 24.0, right: 24.0, bottom: 5.0),
+                contentPadding: EdgeInsets.only(bottom: 0.0),
+                title: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: <Widget>[
+                    Text('Download'),
+                    InkWell(
+                        child: Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Icon(Icons.cloud_download),
+                        ),
+                        onTap: () {
+                          for (var downloadFile
+                              in learningMaterialsModel.downloadFilesList) {
+                            bloc.addFileToDownload.add(downloadFile);
+                          }
+                          Navigator.pop(context);
+
+                          controller.animateTo(1);
+                        })
+                  ],
+                ),
+                children: _getDialogItems(context));
+          });
+    }
   }
 
   @override
@@ -264,7 +281,7 @@ class CustomCard extends StatelessWidget {
         borderRadius: BorderRadius.circular(600.0),
         child: Card(
           child: InkWell(
-            onTap: () => _getPermissionToDownload(context),
+            onTap: () => _getPermissionToDownloadAndShowDialog(context),
             child: Padding(
               padding: const EdgeInsets.all(10.0),
               child: Text(
@@ -287,7 +304,7 @@ class CustomCard extends StatelessWidget {
 class CustomSimpleDialogOption extends StatelessWidget {
   final controller;
   final DownloadFileModel downloadFile;
-  final bloc;
+  final LearningMaterialsBloc bloc;
 
   CustomSimpleDialogOption({
     Key key,

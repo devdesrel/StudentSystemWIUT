@@ -1,10 +1,13 @@
 <component name="libraryTable">
   <library name="Flutter Plugins" type="FlutterPluginsLibraryType">
     <CLASSES>
-      <root url="file://C:/flutter/.pub-cache/hosted/pub.dartlang.org/path_provider-0.4.0" />
-      <root url="file://C:/flutter/.pub-cache/hosted/pub.dartlang.org/local_auth-0.2.0" />
       <root url="file://C:/flutter/.pub-cache/hosted/pub.dartlang.org/shared_preferences-0.4.2" />
-      <root url="file://C:/flutter/.pub-cache/hosted/pub.dartlang.org/vibrate-0.0.2" />
+      <root url="file://C:/flutter/.pub-cache/git/plugins-49c1a2ccbd93af72eebd36b591390d5fd030e0ef/packages/google_maps_flutter" />
+      <root url="file://C:/flutter/.pub-cache/hosted/pub.dartlang.org/path_provider-0.4.1" />
+      <root url="file://C:/flutter/.pub-cache/hosted/pub.dartlang.org/url_launcher-3.0.3" />
+      <root url="file://C:/flutter/.pub-cache/hosted/pub.dartlang.org/image_picker-0.4.5" />
+      <root url="file://C:/flutter/.pub-cache/hosted/pub.dartlang.org/local_auth-0.2.1" />
+      <root url="file://C:/flutter/.pub-cache/hosted/pub.dartlang.org/simple_permissions-0.1.5" />
     </CLASSES>
     <JAVADOC />
     <SOURCES />

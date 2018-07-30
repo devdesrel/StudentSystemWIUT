@@ -10,7 +10,6 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:student_system_flutter/enums/ApplicationEnums.dart';
 import 'package:student_system_flutter/helpers/app_constants.dart';
 import 'package:student_system_flutter/helpers/function_helpers.dart';
-import 'package:student_system_flutter/models/Timetable/groups_model.dart';
 import 'package:student_system_flutter/models/Timetable/timetable_dropdown_list_model.dart';
 import 'package:student_system_flutter/models/Timetable/timetable_model.dart';
 
@@ -150,15 +149,6 @@ class TimetableBloc {
   Stream<bool> get isLoaded => _isLoadedSubject.stream;
 
   final _isLoadedSubject = BehaviorSubject<bool>();
-
-  List<GroupsModel> _parseGroups(String responseBody) {
-    final parsed = json.decode(responseBody);
-
-    var lists =
-        parsed.map<GroupsModel>((item) => GroupsModel.fromJson(item)).toList();
-
-    return lists;
-  }
 
   Future<List<TimetableModel>> _getTimetable(String groupName) async {
     String _groupID;
