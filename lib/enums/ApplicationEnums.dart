@@ -3,7 +3,6 @@ enum MainPageGridItems {
   TIMETABLE,
   LECTURES,
   TUTORIALS,
-  OFFLINE,
   OFFENCES,
   PAYMENT,
   BOOK_ORDERING,

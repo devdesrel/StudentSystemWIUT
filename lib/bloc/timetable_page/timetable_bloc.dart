@@ -10,7 +10,6 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:student_system_flutter/enums/ApplicationEnums.dart';
 import 'package:student_system_flutter/helpers/app_constants.dart';
 import 'package:student_system_flutter/helpers/function_helpers.dart';
-import 'package:student_system_flutter/models/Timetable/groups_model.dart';
 import 'package:student_system_flutter/models/Timetable/timetable_dropdown_list_model.dart';
 import 'package:student_system_flutter/models/Timetable/timetable_model.dart';
 
@@ -151,15 +150,6 @@ class TimetableBloc {
 
   final _isLoadedSubject = BehaviorSubject<bool>();
 
-  List<GroupsModel> _parseGroups(String responseBody) {
-    final parsed = json.decode(responseBody);
-
-    var lists =
-        parsed.map<GroupsModel>((item) => GroupsModel.fromJson(item)).toList();
-
-    return lists;
-  }
-
   Future<List<TimetableModel>> _getTimetable(String groupName) async {
     String _groupID;
 
@@ -221,7 +211,10 @@ class TimetableBloc {
         List<TimetableModel> _sortedList = [];
 
         for (var item in _timetableList) {
-          if (_sortedList.any((t) => t.subjectshort == item.subjectshort)) {
+          if (_sortedList.any((t) =>
+              t.subjectshort == item.subjectshort &&
+              t.dayOfWeek == item.dayOfWeek &&
+              t.classshort == item.classshort)) {
             int _position = _sortedList.indexOf(_sortedList
                 .where((t) => t.subjectshort == item.subjectshort)
                 .first);
@@ -250,6 +243,26 @@ class TimetableBloc {
     }
 
     // return compute(parseGroups, response.body);
+  }
+
+  String _getIdFromList(TimetableDropdownlinListType type, String name) {
+    switch (type) {
+      case TimetableDropdownlinListType.Group:
+        return groupsListDropdown
+            .firstWhere((group) => group.text == name)
+            .value;
+        break;
+      case TimetableDropdownlinListType.Room:
+        return roomsListDropdown.firstWhere((room) => room.text == name).value;
+        break;
+      case TimetableDropdownlinListType.Teacher:
+        return teachersListDropdown
+            .firstWhere((teacher) => teacher.text == name)
+            .value;
+        break;
+      default:
+        return nullFixer;
+    }
   }
 
   Future<List<TimetableDropdownListModel>> _populateDropdownList(
@@ -299,25 +312,5 @@ class TimetableBloc {
       jsonFile.writeAsStringSync(content);
       // if (fileExists) this.setState(() => fileContent = JSON.decode(jsonFile.readAsStringSync()));
     });
-  }
-
-  String _getIdFromList(TimetableDropdownlinListType type, String name) {
-    switch (type) {
-      case TimetableDropdownlinListType.Group:
-        return groupsListDropdown
-            .firstWhere((group) => group.text == name)
-            .value;
-        break;
-      case TimetableDropdownlinListType.Room:
-        return roomsListDropdown.firstWhere((room) => room.text == name).value;
-        break;
-      case TimetableDropdownlinListType.Teacher:
-        return teachersListDropdown
-            .firstWhere((teacher) => teacher.text == name)
-            .value;
-        break;
-      default:
-        return nullFixer;
-    }
   }
 }

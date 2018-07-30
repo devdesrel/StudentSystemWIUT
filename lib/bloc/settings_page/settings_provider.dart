@@ -1,5 +1,5 @@
 import 'package:flutter/widgets.dart';
-import 'package:student_system_flutter/bloc/settings/settings_bloc.dart';
+import 'package:student_system_flutter/bloc/settings_page/settings_bloc.dart';
 
 class SettingsProvider extends InheritedWidget {
   final SettingsBloc settingsBloc;

@@ -12,6 +12,7 @@ import 'package:student_system_flutter/pages/login_page.dart';
 import 'package:student_system_flutter/pages/map_page.dart';
 import 'package:student_system_flutter/pages/marks_page.dart';
 import 'package:student_system_flutter/pages/modules_page.dart';
+import 'package:student_system_flutter/pages/new_post_page.dart';
 import 'package:student_system_flutter/pages/offences_page.dart';
 import 'package:student_system_flutter/pages/offline_page.dart';
 import 'package:student_system_flutter/pages/security_page.dart';
@@ -19,7 +20,6 @@ import 'package:student_system_flutter/pages/settings_page.dart';
 import 'package:student_system_flutter/pages/social_page.dart';
 import 'package:student_system_flutter/pages/test_upload_page.dart';
 import 'package:student_system_flutter/pages/timetable_page.dart';
-import 'package:student_system_flutter/pages/tweet_page.dart';
 
 import 'app_constants.dart';
 
@@ -34,7 +34,7 @@ final routes = {
   socialPage: (BuildContext context) => SocialPage(),
   fileDownloaderPage: (BuildContext context) => FileDownloaderPage(),
   filesDownloadedPage: (BuildContext context) => FilesDownloadedPage(),
-  tweetPage: (BuildContext context) => TweetPage(),
+  tweetPage: (BuildContext context) => NewPostPage(),
   lecturesPage: (BuildContext context) => LecturesPage(),
   offlinePage: (BuildContext context) => OfflinePage(),
   courseworkUploadPage: (BuildContext context) => CourseworkUploadPage(),

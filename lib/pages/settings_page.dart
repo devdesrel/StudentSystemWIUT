@@ -2,14 +2,14 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:student_system_flutter/bloc/settings/settings_bloc.dart';
-import 'package:student_system_flutter/bloc/settings/settings_provider.dart';
+import 'package:student_system_flutter/bloc/settings_page/settings_bloc.dart';
+import 'package:student_system_flutter/bloc/settings_page/settings_provider.dart';
 import 'package:student_system_flutter/enums/ApplicationEnums.dart';
 import 'package:student_system_flutter/helpers/app_constants.dart';
 import 'package:student_system_flutter/helpers/function_helpers.dart';
 
 class SettingsPage extends StatelessWidget {
-  var scaffoldKey = GlobalKey<ScaffoldState>();
+  final scaffoldKey = GlobalKey<ScaffoldState>();
 
   SharedPreferences prefs;
   String currentUserPin;
@@ -150,6 +150,8 @@ class SettingsPage extends StatelessWidget {
 
             if (val.length == 0) {
               return '$placeholder can not be empty';
+            } else if (!isNumeric(val)) {
+              return '$placeholder should be a number';
             } else if (val.length != 4) {
               return '$placeholder should contain 4 digits';
             } else if (currentUserPin != currentPin &&
@@ -171,6 +173,13 @@ class SettingsPage extends StatelessWidget {
             labelText: placeholder,
           )),
     );
+  }
+
+  bool isNumeric(String s) {
+    if (s == null) {
+      return false;
+    }
+    return int.tryParse(s) != null;
   }
 
   Future<Null> showPinDialog(BuildContext context, SettingsBloc bloc) async {

@@ -1,5 +1,5 @@
 import 'package:flutter/widgets.dart';
-import 'package:student_system_flutter/bloc/timetable/timetable_bloc.dart';
+import 'package:student_system_flutter/bloc/timetable_page/timetable_bloc.dart';
 
 class TimetableProvider extends InheritedWidget {
   final TimetableBloc timetableBloc;

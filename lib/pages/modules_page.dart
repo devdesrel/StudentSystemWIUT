@@ -1,7 +1,6 @@
 import 'dart:async';
 import 'dart:convert';
 
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
@@ -36,7 +35,8 @@ class _ModulesPageState extends State<ModulesPage> {
             "Authorization": "Bearer $_token"
           });
 
-      return compute(_parseModules, response.body);
+      return _parseModules(response.body);
+      // return compute(_parseModules, response.body);
     } catch (e) {
       showSnackBar(checkInternetConnection, _scaffoldKey, 5);
       return null;
