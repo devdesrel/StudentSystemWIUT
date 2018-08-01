@@ -29,7 +29,6 @@ class SettingsPage extends StatelessWidget {
       prefs.setString(pinCode, confirmPin);
 
       bloc.setAutoValidation.add(false);
-
       Navigator.pop(context);
     } else {
       bloc.setAutoValidation.add(true);
@@ -76,19 +75,6 @@ class SettingsPage extends StatelessWidget {
                             },
                             secondary: Icon(Icons.fingerprint),
                             subtitle: Text('Security'),
-
-                            // Column(
-                            //   mainAxisAlignment: MainAxisAlignment.start,
-                            //   mainAxisSize: MainAxisSize.min,
-                            //   children: <Widget>[
-                            //     Icon(Icons.fingerprint),
-                            //     Text(
-                            //       'Security',
-                            //       style: TextStyle(
-                            //           fontSize: 10.0, color: lightGreyTextColor),
-                            //     ),
-                            //   ],
-                            // ),
                             title: Text('Fingerprint to log in'),
                           ),
                     ),

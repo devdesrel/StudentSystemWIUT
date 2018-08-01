@@ -18,7 +18,6 @@ import 'package:student_system_flutter/pages/offline_page.dart';
 import 'package:student_system_flutter/pages/security_page.dart';
 import 'package:student_system_flutter/pages/settings_page.dart';
 import 'package:student_system_flutter/pages/social_page.dart';
-import 'package:student_system_flutter/pages/test_upload_page.dart';
 import 'package:student_system_flutter/pages/timetable_page.dart';
 
 import 'app_constants.dart';
@@ -44,5 +43,5 @@ final routes = {
   settingsPage: (BuildContext context) => SettingsPage(),
   contactsPage: (BuildContext context) => ContactsPage(),
   mapPage: (BuildContext context) => MapPage(),
-  testPage: (BuildContext context) => TestUploadPage(),
+  // testPage: (BuildContext context) => TestUploadPage(),
 };

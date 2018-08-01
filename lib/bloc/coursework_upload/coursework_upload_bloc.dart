@@ -16,6 +16,10 @@ class CourseworkUploadBloc {
 
   final _setFileNameController = StreamController<String>();
 
+  Sink<bool> get setAutoValidation => _setAutoValidationController.sink;
+
+  final _setAutoValidationController = StreamController<bool>();
+
   //receiving
   Stream<String> get moduleName => _moduleNameSubject.stream;
 
@@ -29,6 +33,10 @@ class CourseworkUploadBloc {
 
   final _fileNameSubject = BehaviorSubject<String>();
 
+  Stream<bool> get autoValidation => _autoValidationSubject.stream;
+
+  final _autoValidationSubject = BehaviorSubject<bool>();
+
   CourseworkUploadBloc() {
     _setModuleNameController.stream.listen((_moduleName) {
       _moduleNameSubject.add(_moduleName);
@@ -40,19 +48,21 @@ class CourseworkUploadBloc {
       _fileNameSubject.add(_fileName);
       print(_fileName);
     });
-  }
 
-  void choseComponent() {
-//TODO: choose a component
+    _setAutoValidationController.stream.listen((autoValidationValue) {
+      _autoValidationSubject.add(autoValidationValue);
+    });
   }
 
   void dispose() {
     _setModuleNameController.close();
     _setComponentController.close();
     _setFileNameController.close();
+    _setAutoValidationController.close();
 
     _moduleNameSubject.close();
     _componentNameSubject.close();
     _fileNameSubject.close();
+    _autoValidationSubject.close();
   }
 }

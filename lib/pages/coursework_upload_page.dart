@@ -13,14 +13,21 @@ class CourseworkUploadPage extends StatelessWidget {
           centerTitle: true,
           title: Text('Coursework Upload'),
         ),
-        body: SelectionButton(),
+        body: CourseworkUploadItems(),
       ),
     );
   }
 }
 
-class SelectionButton extends StatelessWidget {
+class CourseworkUploadItems extends StatefulWidget {
+  @override
+  CourseworkUploadItemsState createState() => CourseworkUploadItemsState();
+}
+
+class CourseworkUploadItemsState extends State<CourseworkUploadItems> {
   final GlobalKey<AppExpansionTileState> expansionTile = new GlobalKey();
+  var formKey = GlobalKey<FormState>();
+
   String title;
   final String value = 'Select a module';
   final String chosenFile = 'No file selected';
@@ -30,48 +37,52 @@ class SelectionButton extends StatelessWidget {
     'Short name',
     'The last one was unrealistic, right?))',
   ];
-
   @override
   Widget build(BuildContext context) {
     var bloc = CourseworkUploadProvider.of(context);
     ModulesList modulesList = ModulesList(_moduleNamesList);
-    final formKey = GlobalKey<FormState>();
-
     void saveTitle() {
       final form = formKey.currentState;
+      bloc.setAutoValidation.add(true);
 
-      // FocusScope.of(context).requestFocus(FocusNode());
-      // checkCurrentPin();
+      FocusScope.of(context).requestFocus(FocusNode());
 
       if (form.validate()) {
+        form.save();
+        print(title);
         //formKey.save();
-        print('Validation done');
+        // print('Validation done');
       }
     }
 
     return Padding(
       padding: const EdgeInsets.only(left: 14.0, right: 14.0, top: 16.0),
       child: ListView(children: <Widget>[
+        // CourseworkTitleTextFormField(),
         Form(
           key: formKey,
-          child: TextFormField(
-            autovalidate: false,
-            style: Theme.of(context).textTheme.body2.copyWith(
-                color: Theme.of(context).accentColor,
-                decorationColor: Colors.white),
-            autofocus: false,
-            maxLines: 1,
-            keyboardType: TextInputType.text,
-            validator: (val) =>
-                val.length == 0 ? 'Title can not be empty' : null,
-            onSaved: (val) => null,
-            decoration: InputDecoration(
-                labelText: 'Title',
-                border: OutlineInputBorder(
-                    gapPadding: 2.0,
-                    borderSide: BorderSide(
-                        color: Colors.white, style: BorderStyle.solid),
-                    borderRadius: BorderRadius.circular(8.0))),
+          child: StreamBuilder(
+            stream: bloc.autoValidation,
+            builder: (context, snapshot) => TextFormField(
+                  autovalidate: snapshot.hasData ? snapshot.data : false,
+                  style: Theme.of(context).textTheme.body2.copyWith(
+                      color: Theme.of(context).accentColor,
+                      decorationColor: Colors.white),
+                  autofocus: false,
+                  maxLines: 1,
+                  keyboardType: TextInputType.text,
+                  validator: (val) {
+                    if (val.length == 0) return 'Title can not be empty';
+                  },
+                  onSaved: (val) => title = val,
+                  decoration: InputDecoration(
+                      labelText: 'Title',
+                      border: OutlineInputBorder(
+                          gapPadding: 2.0,
+                          borderSide: BorderSide(
+                              color: Colors.white, style: BorderStyle.solid),
+                          borderRadius: BorderRadius.circular(8.0))),
+                ),
           ),
         ),
         SizedBox(
@@ -157,6 +168,7 @@ class SelectionButton extends StatelessWidget {
         ),
         RaisedButton(
           color: accentColor,
+          // onPressed: saveTitle,
           onPressed: saveTitle,
           child: Padding(
             padding: const EdgeInsets.all(12.0),
