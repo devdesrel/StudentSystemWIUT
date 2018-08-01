@@ -29,6 +29,8 @@ class TimetableBloc {
       List<TimetableDropdownListModel>();
 
   TimetableBloc() {
+    _timetableTitleSubject.add(_groupName);
+
     _getTimetable(_groupName).then((list) {
       _timetableListSubject.add(list);
     });
@@ -78,6 +80,7 @@ class TimetableBloc {
         _timetableListSubject.add(list);
       });
 
+      _timetableTitleSubject.add(group);
       _groupNameSubject.add(group);
       _roomNameSubject.add('');
       _teacherNameSubject.add('');
@@ -91,6 +94,8 @@ class TimetableBloc {
       _getTimetableList(TimetableDropdownlinListType.Room, _id).then((list) {
         _timetableListSubject.add(list);
       });
+
+      _timetableTitleSubject.add(room);
       _roomNameSubject.add(room);
       _groupNameSubject.add('');
       _teacherNameSubject.add('');
@@ -105,6 +110,8 @@ class TimetableBloc {
       _getTimetableList(TimetableDropdownlinListType.Teacher, _id).then((list) {
         _timetableListSubject.add(list);
       });
+
+      _timetableTitleSubject.add(teacher);
       _teacherNameSubject.add(teacher);
       _groupNameSubject.add('');
       _roomNameSubject.add('');
@@ -115,6 +122,7 @@ class TimetableBloc {
     _setGroupController.close();
     _setRoomController.close();
     _setTeacherController.close();
+    _timetableTitleSubject.close();
   }
 
   Sink<String> get setGroup => _setGroupController.sink;
@@ -133,6 +141,10 @@ class TimetableBloc {
 
   final _timetableListSubject =
       BehaviorSubject<List<TimetableModel>>(seedValue: []);
+
+  Stream<String> get timetableTitle => _timetableTitleSubject.stream;
+
+  final _timetableTitleSubject = BehaviorSubject<String>();
 
   Stream<String> get groupName => _groupNameSubject.stream;
 
@@ -210,23 +222,36 @@ class TimetableBloc {
         List<TimetableModel> _timetableList = _parseTimetable(response.body);
         List<TimetableModel> _sortedList = [];
 
-        for (var item in _timetableList) {
+        for (var i = 0; i < _timetableList.length; i++) {
+          var item = _timetableList[i];
+
           if (_sortedList.any((t) =>
               t.subjectshort == item.subjectshort &&
               t.dayOfWeek == item.dayOfWeek &&
-              t.classshort == item.classshort)) {
-            int _position = _sortedList.indexOf(_sortedList
-                .where((t) => t.subjectshort == item.subjectshort)
-                .first);
+              t.classshort == item.classshort &&
+              t.teachershort == item.teachershort)) {
+            int _position = _sortedList.indexOf(_sortedList.firstWhere((t) =>
+                t.subjectshort == item.subjectshort &&
+                t.dayOfWeek == item.dayOfWeek &&
+                t.classshort == item.classshort &&
+                t.teachershort == item.teachershort));
 
             String _period = _sortedList
-                    .where((t) => t.subjectshort == item.subjectshort)
-                    .first
+                    .firstWhere((t) =>
+                        t.subjectshort == item.subjectshort &&
+                        t.dayOfWeek == item.dayOfWeek &&
+                        t.classshort == item.classshort &&
+                        t.teachershort == item.teachershort)
                     .period +
                 ' ' +
                 item.period;
 
-            _sortedList.elementAt(_position).period = _period;
+            String _fromTime = _period.substring(0, _period.indexOf('-'));
+            String _endTime = _period
+                .substring(_period.lastIndexOf('-'), _period.length)
+                .trim();
+
+            _sortedList.elementAt(_position).period = _fromTime + _endTime;
           } else {
             _sortedList.add(item);
           }
