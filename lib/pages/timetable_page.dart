@@ -23,7 +23,10 @@ class TimetablePage extends StatelessWidget {
         backgroundColor: Theme.of(context).backgroundColor,
         appBar: AppBar(
           centerTitle: true,
-          title: Text('Timetable'),
+          title: StreamBuilder(
+              stream: _bloc.timetableTitle,
+              builder: (context, snapshot) =>
+                  snapshot.hasData ? Text(snapshot.data) : Text('Timetable')),
           actions: <Widget>[
             StreamBuilder(
                 stream: _bloc.isLoaded,
@@ -42,7 +45,8 @@ class TimetablePage extends StatelessWidget {
                   } else {
                     return Container();
                   }
-                })
+                }),
+            IconButton(icon: Icon(Icons.search), onPressed: () {})
           ],
         ),
         body: StreamBuilder<List<TimetableModel>>(
