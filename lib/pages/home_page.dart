@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:student_system_flutter/enums/ApplicationEnums.dart';
 import 'package:student_system_flutter/models/feedback_model.dart';
+import 'package:student_system_flutter/pages/modules_page.dart';
 
 import '../helpers/app_constants.dart';
 import '../helpers/feedback_form.dart';
@@ -76,13 +77,17 @@ class _HomePageState extends State<HomePage>
 void openSelectedPage(BuildContext context, MainPageGridItems page) {
   switch (page) {
     case MainPageGridItems.MARKS:
-      Navigator.of(context).pushNamed(modulesPage);
+      Navigator.of(context).push(MaterialPageRoute(
+          builder: (context) =>
+              ModulesPage(requestType: RequestType.GetMarks)));
       break;
     case MainPageGridItems.TIMETABLE:
       Navigator.of(context).pushNamed(timetablePage);
       break;
     case MainPageGridItems.LECTURES:
-      Navigator.of(context).pushNamed(lecturesPage);
+      Navigator.of(context).push(MaterialPageRoute(
+          builder: (context) =>
+              ModulesPage(requestType: RequestType.GetTeachingMaterials)));
       break;
     case MainPageGridItems.TUTORIALS:
       print('Tutorials');
@@ -91,7 +96,8 @@ void openSelectedPage(BuildContext context, MainPageGridItems page) {
       Navigator.of(context).pushNamed(offencesPage);
       break;
     case MainPageGridItems.PAYMENT:
-      Navigator.of(context).pushNamed(userLoaderPage);
+      Navigator.of(context).pushNamed(courseworkUploadPage);
+      //Navigator.of(context).pushNamed(testPage);
       //print('Payment');
       break;
     case MainPageGridItems.BOOK_ORDERING:

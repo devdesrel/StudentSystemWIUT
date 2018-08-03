@@ -113,6 +113,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "0.1.2"
+  flushbar:
+    dependency: "direct main"
+    description:
+      name: flushbar
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.7.5"
   flutter:
     dependency: "direct main"
     description: flutter
@@ -165,15 +172,6 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.1.5"
-  google_maps_flutter:
-    dependency: "direct main"
-    description:
-      path: "packages/google_maps_flutter"
-      ref: HEAD
-      resolved-ref: "49c1a2ccbd93af72eebd36b591390d5fd030e0ef"
-      url: "git://github.com/flutter/plugins"
-    source: git
-    version: "0.0.1"
   html:
     dependency: transitive
     description:
@@ -566,4 +564,4 @@ packages:
     version: "2.1.13"
 sdks:
   dart: ">=2.0.0-dev.58 <=2.0.0-dev.58.0.flutter-f981f09760"
-  flutter: ">=0.3.0 <2.0.0"
+  flutter: ">=0.4.0 <2.0.0"

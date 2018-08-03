@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:io';
 
+import 'package:flushbar/flushbar.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -14,6 +15,17 @@ void showSnackBar(String text, GlobalKey<ScaffoldState> scaffoldKey,
     content: Text(text),
     duration: Duration(seconds: duration),
   ));
+}
+
+void showFlushBar(String title, String message, int duration,
+    Color backgroundColor, BuildContext context) {
+  Flushbar()
+    ..title = title
+    ..message = message
+    ..backgroundColor = backgroundColor
+    ..shadowColor = Colors.red[800]
+    ..duration = Duration(seconds: duration)
+    ..show(context);
 }
 
 Future<File> getImage(bool isFromCamera) async {

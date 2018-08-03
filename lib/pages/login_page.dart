@@ -6,7 +6,6 @@ import 'package:flutter/services.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:student_system_flutter/helpers/function_helpers.dart';
-
 import '../helpers/app_constants.dart';
 import '../helpers/auth.dart';
 
@@ -16,6 +15,13 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> implements AuthStateListener {
+  // FocusNode _focusNodeId = new FocusNode();
+  // FocusNode _focusNodePassword = new FocusNode();
+  // static final TextEditingController _idController =
+  //     new TextEditingController();
+  // static final TextEditingController _passwordController =
+  //     new TextEditingController();
+
   final formKey = GlobalKey<FormState>();
   final scaffoldKey = GlobalKey<ScaffoldState>();
 
@@ -92,7 +98,11 @@ class _LoginPageState extends State<LoginPage> implements AuthStateListener {
     Widget authTextFields(String placeholderName, bool isPassword) {
       return Theme(
         data: ThemeData(hintColor: whiteColor),
+        // child: EnsureVisibleWhenFocused(
+        // focusNode: isPassword ? _focusNodeFirstName : _focusNodeLastName,
         child: TextFormField(
+          // controller: isPassword ? _passwordController : _idController,
+          // focusNode: isPassword ? _focusNodePassword : _focusNodeId,
           autovalidate: dataNotValid,
           style: Theme.of(context).textTheme.body2.copyWith(
               color: Theme.of(context).accentColor,
@@ -112,6 +122,7 @@ class _LoginPageState extends State<LoginPage> implements AuthStateListener {
                       BorderSide(color: Colors.white, style: BorderStyle.solid),
                   borderRadius: BorderRadius.circular(8.0))),
         ),
+        // ),
       );
     }
 

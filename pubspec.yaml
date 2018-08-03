@@ -19,11 +19,8 @@ dependencies:
   asynchronous_validator: ^1.0.2
   
   url_launcher: ^3.0.3
-  google_maps_flutter:
-   git:
-     url: git://github.com/flutter/plugins
-     path: packages/google_maps_flutter
   flutter_map: ^0.0.10
+  flushbar: ^0.7.5
 
   cupertino_icons: ^0.1.2
 

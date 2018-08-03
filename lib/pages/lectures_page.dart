@@ -6,11 +6,16 @@ import 'package:student_system_flutter/bloc/file_download/learning_materials_pro
 import 'package:student_system_flutter/list_items/item_file_downloading.dart';
 import 'package:student_system_flutter/models/download_file_model.dart';
 import 'package:student_system_flutter/models/learning_materials_model.dart';
+import 'package:student_system_flutter/models/modules_list_model.dart';
 
 import '../helpers/app_constants.dart';
 import 'dart:async';
 
 class LecturesPage extends StatefulWidget {
+  final Module module;
+
+  LecturesPage({this.module});
+
   @override
   _LecturesPageState createState() => _LecturesPageState();
 }
@@ -125,12 +130,12 @@ class _MaterialsListTabState extends State<MaterialsListTab>
         itemBuilder: (context, index) => index == 0
             ? Padding(
                 padding: const EdgeInsets.only(top: 8.0),
-                child: CustomCard(
+                child: LearningMaterialsCard(
                     learningMaterialsModel: widget.lecturesList[index],
                     controller: widget.controller,
                     bloc: widget.bloc),
               )
-            : CustomCard(
+            : LearningMaterialsCard(
                 learningMaterialsModel: widget.lecturesList[index],
                 controller: widget.controller,
                 bloc: widget.bloc,
@@ -198,12 +203,12 @@ class _FileDownloadingTabState extends State<FileDownloadingTab>
 //   }
 // }
 
-class CustomCard extends StatelessWidget {
+class LearningMaterialsCard extends StatelessWidget {
   final LearningMaterialsModel learningMaterialsModel;
   final controller;
   final LearningMaterialsBloc bloc;
 
-  CustomCard(
+  LearningMaterialsCard(
       {@required this.learningMaterialsModel,
       @required this.controller,
       @required this.bloc});

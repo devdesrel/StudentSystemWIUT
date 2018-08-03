@@ -19,7 +19,7 @@ class SettingsPage extends StatelessWidget {
   String currentPin;
   String notMatched;
 
-  void savePin(BuildContext context, SettingsBloc bloc) {
+  void savePin(BuildContext context, SettingsBloc bloc) async {
     final form = formKey.currentState;
 
     FocusScope.of(context).requestFocus(FocusNode());
@@ -29,8 +29,10 @@ class SettingsPage extends StatelessWidget {
       prefs.setString(pinCode, confirmPin);
 
       bloc.setAutoValidation.add(false);
-
       Navigator.pop(context);
+
+      showFlushBar(
+          'Success', 'PIN was successfully changed', 5, greenColor, context);
     } else {
       bloc.setAutoValidation.add(true);
     }
@@ -76,19 +78,6 @@ class SettingsPage extends StatelessWidget {
                             },
                             secondary: Icon(Icons.fingerprint),
                             subtitle: Text('Security'),
-
-                            // Column(
-                            //   mainAxisAlignment: MainAxisAlignment.start,
-                            //   mainAxisSize: MainAxisSize.min,
-                            //   children: <Widget>[
-                            //     Icon(Icons.fingerprint),
-                            //     Text(
-                            //       'Security',
-                            //       style: TextStyle(
-                            //           fontSize: 10.0, color: lightGreyTextColor),
-                            //     ),
-                            //   ],
-                            // ),
                             title: Text('Fingerprint to log in'),
                           ),
                     ),
@@ -189,7 +178,7 @@ class SettingsPage extends StatelessWidget {
       builder: (BuildContext context) {
         return AlertDialog(
           titlePadding: EdgeInsets.only(top: 20.0, left: 20.0),
-          contentPadding: EdgeInsets.symmetric(horizontal: 30.0, vertical: 0.0),
+          contentPadding: EdgeInsets.symmetric(horizontal: 23.0, vertical: 0.0),
           title: Text('Change PIN code'),
           content: SingleChildScrollView(
             child: Form(
@@ -224,8 +213,6 @@ class SettingsPage extends StatelessWidget {
               child: Text('Save'.toUpperCase()),
               onPressed: () {
                 savePin(context, bloc);
-                showSnackBar(
-                    'PIN code was changed successfully', scaffoldKey, 5, true);
               },
             ),
           ],
