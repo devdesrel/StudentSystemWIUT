@@ -12,7 +12,6 @@ import 'package:student_system_flutter/pages/lectures_page.dart';
 import 'package:student_system_flutter/pages/login_page.dart';
 import 'package:student_system_flutter/pages/map_page.dart';
 import 'package:student_system_flutter/pages/marks_page.dart';
-import 'package:student_system_flutter/pages/modules_page.dart';
 import 'package:student_system_flutter/pages/new_post_page.dart';
 import 'package:student_system_flutter/pages/offences_page.dart';
 import 'package:student_system_flutter/pages/offline_page.dart';
@@ -47,5 +46,4 @@ final routes = {
   mapPage: (BuildContext context) => MapPage(),
   userLoaderPage: (BuildContext context) => UserLoader(),
   testPage: (BuildContext context) => TestPage(),
-  // testPage: (BuildContext context) => TestUploadPage(),
 };
