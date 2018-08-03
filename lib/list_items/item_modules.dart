@@ -1,14 +1,18 @@
 import 'package:flutter/material.dart';
+import 'package:student_system_flutter/pages/lectures_page.dart';
 
 import '../helpers/app_constants.dart';
 import '../helpers/ui_helpers.dart';
 import '../models/modules_list_model.dart';
 import '../pages/marks_page.dart';
+import '../enums/ApplicationEnums.dart';
 
 class ItemModules extends StatelessWidget {
   final Module module;
+  final RequestType requestType;
 
-  ItemModules({Key key, this.module}) : super(key: key);
+  ItemModules({Key key, @required this.module, @required this.requestType})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -17,9 +21,18 @@ class ItemModules extends StatelessWidget {
       child: CustomCard(
         InkWell(
           onTap: () {
+            switch (requestType) {
+              case RequestType.GetMarks:
+                Navigator.of(context).push(MaterialPageRoute(
+                    builder: (context) => MarksPage(module: module)));
+                break;
+              case RequestType.GetTeachingMaterials:
+                Navigator.of(context).push(MaterialPageRoute(
+                    builder: (context) => LecturesPage(module: module)));
+                break;
+              default:
+            }
             // Navigator.of(context).pushNamed(marksPage);
-            Navigator.of(context).push(MaterialPageRoute(
-                builder: (context) => MarksPage(module: module)));
           },
           child: Padding(
             padding: const EdgeInsets.all(16.0),

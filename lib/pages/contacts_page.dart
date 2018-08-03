@@ -39,7 +39,7 @@ class ContactsPage extends StatelessWidget {
                 ),
                 CustomContactsListtile(
                   title: '(+998 71) 238 74 45',
-                  subtitle: 'Enquiries on Masters programmes',
+                  subtitle: 'For Masters\' programmes',
                   icon: Icons.phone,
                   urlFrom: 'tel:+998712387445',
                 ),
@@ -91,7 +91,7 @@ class ContactsPage extends StatelessWidget {
                   subtitle: 'Web page',
                   icon: FontAwesomeIcons.internetExplorer,
                   urlFrom: 'http://wiut.uz/',
-                  isWebView: true,
+                  isWebView: false,
                 ),
                 Divider(
                   height: 0.0,
@@ -100,7 +100,7 @@ class ContactsPage extends StatelessWidget {
                   title: 'facebook.com/wiut.uz',
                   subtitle: 'Facebook page',
                   icon: FontAwesomeIcons.facebook,
-                  isWebView: true,
+                  isWebView: false,
                   urlFrom: 'https://www.facebook.com/wiut.uz',
                 ),
                 Divider(
@@ -110,7 +110,7 @@ class ContactsPage extends StatelessWidget {
                   title: 'instagram.com/westminster.uz',
                   subtitle: 'Instagram page',
                   icon: FontAwesomeIcons.instagram,
-                  isWebView: true,
+                  isWebView: false,
                   urlFrom: 'https://www.instagram.com/westminster.uz/',
                 ),
               ],
@@ -158,10 +158,10 @@ class ContactsPage extends StatelessWidget {
               style: TextStyle(fontWeight: FontWeight.w400),
             ),
             background: Image.asset(
-              'assets/wiut_cover2.jpg',
+              'assets/wiut_cover.png',
             ),
           ),
-          expandedHeight: 243.5,
+          expandedHeight: 190.0,
           floating: false,
           pinned: false),
       SliverList(

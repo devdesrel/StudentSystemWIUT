@@ -7,7 +7,7 @@ final appName = 'Student System';
 final primaryColor = Color(0xFF0091ea);
 final primaryDarkColor = Color(0xFF0064b7);
 final accentColor = Color(0xFF0091ea);
-final redColor = Colors.redAccent;
+final redColor = Colors.red[700];
 final greenColor = Colors.green[400];
 final greyColor = Colors.blueGrey;
 final lightOverlayColor = Color(0xBF333333);
@@ -38,6 +38,7 @@ final commentsPage = '/commentsPage';
 final settingsPage = '/settingsPage';
 final contactsPage = '/contactsPage';
 final mapPage = '/mapPage';
+final testPage = '/testPage';
 //Shared preferance keys
 final isLoggedIn = 'isLoggedIn';
 final token = 'token';
