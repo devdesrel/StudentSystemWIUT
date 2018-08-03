@@ -7,6 +7,7 @@ import 'package:student_system_flutter/pages/file_picker_page.dart';
 import 'package:student_system_flutter/pages/files_downloaded_page.dart';
 
 import 'package:student_system_flutter/pages/home_page.dart';
+import 'package:student_system_flutter/pages/keyboard_test_page.dart';
 import 'package:student_system_flutter/pages/lectures_page.dart';
 import 'package:student_system_flutter/pages/login_page.dart';
 import 'package:student_system_flutter/pages/map_page.dart';
@@ -45,4 +46,5 @@ final routes = {
   contactsPage: (BuildContext context) => ContactsPage(),
   mapPage: (BuildContext context) => MapPage(),
   testPage: (BuildContext context) => TestUploadPage(),
+  userLoaderPage: (BuildContext context) => UserLoader(),
 };
