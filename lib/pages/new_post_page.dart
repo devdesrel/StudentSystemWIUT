@@ -11,52 +11,25 @@ import 'package:student_system_flutter/helpers/function_helpers.dart';
 
 class NewPostPage extends StatefulWidget {
   @override
-  _NewPostPageState createState() => _NewPostPageState();
+  _NewPostPageState createState() => new _NewPostPageState();
 }
 
 class _NewPostPageState extends State<NewPostPage> {
+  Widget _currentPage;
   @override
   Widget build(BuildContext context) {
-    var bloc = NewPostBloc();
+    if (_currentPage == null) {
+      _currentPage = _createCurrentPage(context);
+    }
 
-    List<Widget> widgetsList = <Widget>[
-      SliverToBoxAdapter(
-        child: TextFormField(
-          controller: TextEditingController(),
-          autofocus: false,
-          keyboardType: TextInputType.multiline,
-          maxLines: null,
-          decoration: InputDecoration(
-            border: InputBorder.none,
-            contentPadding:
-                EdgeInsets.symmetric(horizontal: 16.0, vertical: 15.0),
-            hintText: 'Share your ideas',
-          ),
-        ),
-      ),
-      CustomGridView(context, bloc).build()
-      //TODO
+    return _currentPage;
+  }
+}
 
-      // snapshot.hasData
-      //     ? ListView(
-      //         children: snapshot.data
-      //             .map((item) => Image.file(
-      //                   item,
-      //                   width: 300.0,
-      //                   height: 200.0,
-      //                 ))
-      //             .toList())
-      //     // ListView.builder(
-      //     //     itemBuilder: (context, index) => Image.file(
-      //     //           snapshot.data[index],
-      //     //           width: 300.0,
-      //     //           height: 200.0,
-      //     //         ),
-      //     // itemCount: snapshot.data.length,
-      //     // )
-      //     : Container)
-    ];
-    return NewPostProvider(
+Widget _createCurrentPage(BuildContext context) {
+  var bloc = NewPostBloc();
+
+  return NewPostProvider(
       newPostBloc: bloc,
       child: Scaffold(
         appBar: AppBar(
@@ -65,10 +38,6 @@ class _NewPostPageState extends State<NewPostPage> {
           iconTheme: IconThemeData(color: whiteColor),
           elevation: 0.0,
           backgroundColor: accentColor,
-          // title: Text(
-          //   'Tweet',
-          //   style: TextStyle(color: Theme.of(context).accentColor),
-          // ),
           leading: IconButton(
             onPressed: () {
               Navigator.of(context).pop();
@@ -77,42 +46,8 @@ class _NewPostPageState extends State<NewPostPage> {
               Icons.close,
             ),
           ),
-          // actions: <Widget>[
-          //     Padding(
-          //     padding: const EdgeInsets.all(10.0),
-          //     child: Text(
-          //       'send'.toUpperCase(),
-          //       //style: TextStyle(color: Theme.of(context).accentColor),
-          //       style: TextStyle(fontSize: 24.0, color: accentColor),
-          //     ),
-          //   )
-          //   // FloatingActionButton(
-          //   //     child: Text('Tweet'),
-          //   //     backgroundColor: accentColor,
-          //   //     //shape:BoxShape.rectangle(Border),
-          //   //     onPressed: () {}),
-          // ],
         ),
-        body: CustomScrollView(
-          //padding: const EdgeInsets.symmetric(horizontal: 12.0, vertical: 8.0),
-          slivers: widgetsList,
-
-          // Row(
-          //   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          //   //crossAxisAlignment: CrossAxisAlignment.end,
-          //   children: <Widget>[
-          //     Icon(Icons.perm_media),
-          //     Icon(Icons.gif),
-          //     Icon(Icons.pie_chart),
-          //     Icon(Icons.perm_media),
-          //     SizedBox(
-          //       width: 10.0,
-          //     ),
-          //     Icon(Icons.check_circle_outline),
-          //     Icon(Icons.add)
-          //   ],
-          // )
-        ),
+        body: NewPostBody(),
         bottomNavigationBar: BottomAppBar(
           color: accentColor,
           hasNotch: true,
@@ -146,8 +81,61 @@ class _NewPostPageState extends State<NewPostPage> {
           onPressed: () => print("Pressed"),
         ),
         floatingActionButtonLocation: FloatingActionButtonLocation.endDocked,
+      ));
+}
+
+class NewPostBody extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    var _bloc = NewPostProvider.of(context);
+
+    return Column(children: <Widget>[
+      TextFormField(
+        autofocus: false,
+        maxLines: null,
+        keyboardType: TextInputType.text,
+        decoration: InputDecoration(
+          border: InputBorder.none,
+          contentPadding:
+              EdgeInsets.symmetric(horizontal: 16.0, vertical: 15.0),
+          hintText: 'Share your ideas',
+        ),
       ),
-    );
+      StreamBuilder(
+          stream: _bloc.postItems,
+          builder: (context, snapshot) {
+            if (snapshot.hasData && snapshot.data.length > 0) {
+              // imagesList = snapshot.data.toList();
+              return Expanded(
+                child: GridView.count(
+                    crossAxisCount: snapshot.data.length > 2 ? 3 : 2,
+                    children: snapshot.data
+                        .map<Widget>((File item) => Padding(
+                              padding: const EdgeInsets.symmetric(
+                                  vertical: 6.0, horizontal: 5.0),
+                              child: Image.file(
+                                item,
+                                width: 250.0,
+                                height: 400.0,
+                              ),
+                            ))
+                        .toList()),
+              );
+
+              // <Widget>[
+              //   Image.file(
+              //     snapshot.data[0],
+              //     width: 250.0,
+              //     height: 400.0,
+              //   )
+              // ],
+              // );
+
+            } else {
+              return Container();
+            }
+          })
+    ]);
   }
 }
 
@@ -162,20 +150,27 @@ class CustomSizedBox extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    var _bloc = NewPostProvider.of(context);
     //var bloc = NewPostProvider.of(context);
     return SizedBox(
       height: 20.0,
       child: IconButton(
           padding: const EdgeInsets.all(0.0),
           icon: Icon(icon),
-          onPressed: () {
+          onPressed: () async {
             switch (type) {
               case AttachmentTypes.CAMERA:
-                getImage(true);
+                File file = await getImage(true);
+                if (file != null) {
+                  _bloc.addWidget.add(file);
+                }
                 //getImage(imagepath) => bloc.addWidget.add(imagepath);
                 break;
               case AttachmentTypes.GALLERY:
-                getImage(false);
+                File file = await getImage(false);
+                if (file != null) {
+                  _bloc.addWidget.add(file);
+                }
                 //getImage(imageName) => bloc.addWidget.add('Image is here');
                 break;
               case AttachmentTypes.QUESTIONNAIRE:
@@ -190,61 +185,5 @@ class CustomSizedBox extends StatelessWidget {
             }
           }),
     );
-  }
-
-  void setState(Function param0) {}
-}
-
-class CustomGridView {
-  BuildContext context;
-  NewPostBloc bloc;
-  CustomGridView(this.context, this.bloc);
-
-  List<Widget> getList() {
-    List<Widget> imagesList = [];
-
-    StreamBuilder<List<File>>(
-        stream: bloc.postItems,
-        builder: (context, snapshot) {
-          if (snapshot.hasData && snapshot.data.length > 0) {
-            // imagesList = snapshot.data.toList();
-
-            snapshot.data.map((item) => imagesList.add(Image.file(
-                  item,
-                  width: 250.0,
-                  height: 400.0,
-                )));
-          } else {
-            print('Nothting thereee');
-          }
-        });
-    return imagesList;
-  }
-
-  Widget build() {
-    var size = MediaQuery.of(context).size;
-    /*24 is for notification bar on Android*/
-    final double itemHeight = (size.height - kToolbarHeight - 24) / 2;
-    final double itemWidth = size.width / 1.55;
-
-    return SliverGrid.count(
-        childAspectRatio: (itemWidth / itemHeight), //0.85
-        crossAxisCount: 2,
-        mainAxisSpacing: 0.0,
-        crossAxisSpacing: 10.0,
-        children: getList());
-
-    //     StreamBuilder<List<File>>(
-    // stream: bloc.postItems,
-    // builder: (context, snapshot) {
-    //   if (snapshot.hasData && snapshot.data.length > 0) {
-    //         snapshot.data
-    //             .map((item) => Image.file(
-    //                   item,
-    //                   width: 250.0,
-    //                   height: 400.0,
-    //                 ))
-    //             .toList()
-    //   })
   }
 }

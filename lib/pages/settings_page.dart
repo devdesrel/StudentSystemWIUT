@@ -19,7 +19,7 @@ class SettingsPage extends StatelessWidget {
   String currentPin;
   String notMatched;
 
-  void savePin(BuildContext context, SettingsBloc bloc) {
+  void savePin(BuildContext context, SettingsBloc bloc) async {
     final form = formKey.currentState;
 
     FocusScope.of(context).requestFocus(FocusNode());
@@ -30,6 +30,9 @@ class SettingsPage extends StatelessWidget {
 
       bloc.setAutoValidation.add(false);
       Navigator.pop(context);
+
+      showFlushBar(
+          'Success', 'PIN was successfully changed', 5, greenColor, context);
     } else {
       bloc.setAutoValidation.add(true);
     }
@@ -175,7 +178,7 @@ class SettingsPage extends StatelessWidget {
       builder: (BuildContext context) {
         return AlertDialog(
           titlePadding: EdgeInsets.only(top: 20.0, left: 20.0),
-          contentPadding: EdgeInsets.symmetric(horizontal: 30.0, vertical: 0.0),
+          contentPadding: EdgeInsets.symmetric(horizontal: 23.0, vertical: 0.0),
           title: Text('Change PIN code'),
           content: SingleChildScrollView(
             child: Form(
@@ -210,8 +213,6 @@ class SettingsPage extends StatelessWidget {
               child: Text('Save'.toUpperCase()),
               onPressed: () {
                 savePin(context, bloc);
-                showSnackBar(
-                    'PIN code was changed successfully', scaffoldKey, 5, true);
               },
             ),
           ],

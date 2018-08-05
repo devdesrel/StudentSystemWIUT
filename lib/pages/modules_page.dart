@@ -14,7 +14,7 @@ import '../models/modules_list_model.dart';
 class ModulesPage extends StatefulWidget {
   final requestType;
 
-  ModulesPage({this.requestType});
+  ModulesPage({@required this.requestType});
 
   @override
   _ModulesPageState createState() => _ModulesPageState();
@@ -61,7 +61,7 @@ class _ModulesPageState extends State<ModulesPage> {
     return Scaffold(
       key: _scaffoldKey,
       appBar: AppBar(
-        title: Text('Marks'),
+        title: Text('Modules'),
         centerTitle: true,
       ),
       body: Container(
@@ -99,7 +99,10 @@ class _ModulesPageState extends State<ModulesPage> {
                           title: Text(_sortedModulesList[i].title),
                           children: _sortedModulesList[i]
                               .children
-                              .map((m) => ItemModules(module: m))
+                              .map((m) => ItemModules(
+                                    module: m,
+                                    requestType: widget.requestType,
+                                  ))
                               .toList(),
                         ),
                       );
@@ -127,24 +130,29 @@ class Entry {
   final List<Module> children;
 }
 
-class EntryItem extends StatefulWidget {
-  EntryItem(this.entry);
+// class EntryItem extends StatefulWidget {
+//   EntryItem(this.entry, @required this.requestType);
+//   final RequestType requestType;
 
-  final Entry entry;
+//   final Entry entry;
 
-  @override
-  _EntryItemState createState() => _EntryItemState();
-}
+//   @override
+//   _EntryItemState createState() => _EntryItemState();
+// }
 
-class _EntryItemState extends State<EntryItem> {
-  @override
-  Widget build(BuildContext context) {
-    // return _buildTiles(widget.entry);
-    return ExpansionTile(
-      key: PageStorageKey<Entry>(widget.entry),
-      title: Text(widget.entry.title),
-      children:
-          widget.entry.children.map((m) => ItemModules(module: m)).toList(),
-    );
-  }
-}
+// class _EntryItemState extends State<EntryItem> {
+//   @override
+//   Widget build(BuildContext context) {
+//     // return _buildTiles(widget.entry);
+//     return ExpansionTile(
+//       key: PageStorageKey<Entry>(widget.entry),
+//       title: Text(widget.entry.title),
+//       children: widget.entry.children
+//           .map((m) => ItemModules(
+//                 module: m,
+//                 requestType: widget.requestType,
+//               ))
+//           .toList(),
+//     );
+//   }
+// }

@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:student_system_flutter/bloc/file_download/file_download_bloc.dart';
 import 'package:student_system_flutter/helpers/app_constants.dart';
 import 'package:student_system_flutter/helpers/ui_helpers.dart';
-import 'package:student_system_flutter/models/download_file_model.dart';
 
 class ItemFileDownloading extends StatelessWidget {
   final FileDownloadBloc bloc;

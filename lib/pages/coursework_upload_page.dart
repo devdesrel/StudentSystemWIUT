@@ -4,19 +4,33 @@ import 'package:student_system_flutter/bloc/coursework_upload/coursework_upload_
 import 'package:student_system_flutter/helpers/app_constants.dart';
 import 'package:student_system_flutter/helpers/custom_expansion_tile.dart';
 
-class CourseworkUploadPage extends StatelessWidget {
+class CourseworkUploadPage extends StatefulWidget {
+  @override
+  _CourseworkUploadPageState createState() => new _CourseworkUploadPageState();
+}
+
+class _CourseworkUploadPageState extends State<CourseworkUploadPage> {
+  Widget _currentPage;
   @override
   Widget build(BuildContext context) {
-    return CourseworkUploadProvider(
-      child: Scaffold(
-        appBar: AppBar(
-          centerTitle: true,
-          title: Text('Coursework Upload'),
-        ),
-        body: CourseworkUploadItems(),
-      ),
-    );
+    if (_currentPage == null) {
+      _currentPage = _createCurrentPage();
+    }
+
+    return _currentPage;
   }
+}
+
+Widget _createCurrentPage() {
+  return CourseworkUploadProvider(
+    child: Scaffold(
+      appBar: AppBar(
+        centerTitle: true,
+        title: Text('Coursework Upload'),
+      ),
+      body: CourseworkUploadItems(),
+    ),
+  );
 }
 
 class CourseworkUploadItems extends StatefulWidget {
