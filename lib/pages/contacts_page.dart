@@ -129,7 +129,7 @@ class ContactsPage extends StatelessWidget {
               children: <Widget>[
                 CustomContactsListtile(
                   title: '12 Istiqbol Street, 100047',
-                  subtitle: 'Tashkent	Uzbekistan',
+                  subtitle: 'Tashkent Uzbekistan',
                   icon: Icons.home,
                   trailing: FontAwesomeIcons.mapMarkerAlt,
                   isMap: true,
@@ -142,10 +142,16 @@ class ContactsPage extends StatelessWidget {
                   subtitle: 'Fax',
                   icon: FontAwesomeIcons.fax,
                 ),
+                // SizedBox(
+                //   height: 10.0,
+                // )
               ],
             ),
           ),
         ),
+        SizedBox(
+          height: 10.0,
+        )
       ];
     }
 
