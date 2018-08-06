@@ -6,6 +6,7 @@ class OfflinePage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        centerTitle: true,
         title: Text('Downloaded Materials'),
       ),
       body: FileManager(mainDirectory: '/WIUT Mobile/WAD', isFilePicker: false),
