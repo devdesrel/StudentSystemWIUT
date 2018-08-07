@@ -81,7 +81,8 @@ class _SecurityPageState extends State<SecurityPage> {
           } else if (_pinCode.length == 4 && _pinCode != pinCode) {
             _pinCodeMask = '';
             _pinCode = '';
-            showSnackBar('Incorrect pin. Try again.', scaffoldKey);
+            // showSnackBar('Incorrect pin. Try again.', scaffoldKey);
+            showFlushBar('Incorrect PIN', 'Try again', 3, redColor, context);
           }
         }
       }

@@ -15,6 +15,7 @@ import 'package:student_system_flutter/models/Timetable/timetable_model.dart';
 
 class TimetableBloc {
   var scaffoldKey = GlobalKey<ScaffoldState>();
+  BuildContext context;
   File jsonFile;
   Directory dir;
   bool fileExists = false;
@@ -28,7 +29,7 @@ class TimetableBloc {
   List<TimetableDropdownListModel> teachersListDropdown =
       List<TimetableDropdownListModel>();
 
-  TimetableBloc() {
+  TimetableBloc({this.context}) {
     _timetableTitleSubject.add(_groupName);
 
     _getTimetable(_groupName).then((list) {
@@ -175,7 +176,9 @@ class TimetableBloc {
 
       return _timetableList;
     } else {
-      showSnackBar(checkInternetConnection, scaffoldKey, 5);
+      // showSnackBar(checkInternetConnection, scaffoldKey, 5);
+      showFlushBar('Internet connection failure', checkInternetConnection, 5,
+          redColor, context);
       return null;
     }
   }
@@ -259,11 +262,14 @@ class TimetableBloc {
 
         return _sortedList;
       } else {
-        showSnackBar(tryAgain, scaffoldKey);
+        // showSnackBar(tryAgain, scaffoldKey);
+        showFlushBar(tryAgain, '', 3, redColor, context);
         return null;
       }
     } catch (e) {
-      showSnackBar(checkInternetConnection, scaffoldKey, 5);
+      // showSnackBar(checkInternetConnection, scaffoldKey, 5);
+      showFlushBar('Internet connection failure', checkInternetConnection, 5,
+          redColor, context);
       return null;
     }
 

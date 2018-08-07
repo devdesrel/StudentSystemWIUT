@@ -27,6 +27,7 @@ class SettingsBloc {
   Sink<bool> get setPinDataValidity => _setPinDataValidityController.sink;
 
   final _setPinDataValidityController = StreamController<bool>();
+
   Sink<bool> get setAutoValidation => _setAutoValidationController.sink;
 
   final _setAutoValidationController = StreamController<bool>();

@@ -6,6 +6,7 @@ import 'package:flutter/services.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:student_system_flutter/bloc/settings_page/change_pin_bloc.dart';
+import 'package:student_system_flutter/bloc/settings_page/change_pin_provider.dart';
 import 'package:student_system_flutter/enums/ApplicationEnums.dart';
 import 'package:student_system_flutter/helpers/function_helpers.dart';
 import '../helpers/app_constants.dart';
@@ -24,10 +25,9 @@ class _LoginPageState extends State<LoginPage> implements AuthStateListener {
   // static final TextEditingController _passwordController =
   //     new TextEditingController();
   var bloc = ChangePinBloc();
-
   final formKey = GlobalKey<FormState>();
-  final scaffoldKey = GlobalKey<ScaffoldState>();
   final pinFormKey = GlobalKey<FormState>();
+  final scaffoldKey = GlobalKey<ScaffoldState>();
   String pin;
 
   String currentUserPin;
@@ -50,10 +50,11 @@ class _LoginPageState extends State<LoginPage> implements AuthStateListener {
   @override
   initState() {
     super.initState();
+
     _setDefaultSettings();
   }
 
-  void _login() {
+  void _login(BuildContext context) {
     final form = formKey.currentState;
 
     FocusScope.of(context).requestFocus(FocusNode());
@@ -63,7 +64,7 @@ class _LoginPageState extends State<LoginPage> implements AuthStateListener {
       setState(() {
         progressDialogVisible = true;
       });
-      postAuthData();
+      postAuthData(context);
     } else {
       setState(() {
         dataNotValid = true;
@@ -71,27 +72,7 @@ class _LoginPageState extends State<LoginPage> implements AuthStateListener {
     }
   }
 
-  void savePin(BuildContext context) async {
-    final form = pinFormKey.currentState;
-
-    FocusScope.of(context).requestFocus(FocusNode());
-    if (form.validate()) {
-      form.save();
-
-      await FocusScope.of(context).requestFocus(FocusNode());
-
-      SharedPreferences prefs = await SharedPreferences.getInstance();
-      prefs.setString(pinCode, confirmPin);
-
-      bloc.setAutoValidation.add(false);
-      Navigator.pop(context);
-      Navigator.of(context).pushReplacementNamed(securityPage);
-    } else {
-      bloc.setAutoValidation.add(true);
-    }
-  }
-
-  Future postAuthData() async {
+  void postAuthData(BuildContext coontext) async {
     try {
       http.Response res = await http.post(apiAuthenticate,
           body: {"Username": _username, "Password": _password},
@@ -114,7 +95,8 @@ class _LoginPageState extends State<LoginPage> implements AuthStateListener {
           Navigator.of(context).pushReplacementNamed(securityPage);
         }
       } else
-        showSnackBar(usernamePasswordIncorrect, scaffoldKey);
+        showFlushBar('Username  Password is incorrect', 'Try again', 3,
+            redColor, context);
 
       setState(() {
         progressDialogVisible = false;
@@ -123,12 +105,33 @@ class _LoginPageState extends State<LoginPage> implements AuthStateListener {
       setState(() {
         progressDialogVisible = false;
       });
-      showSnackBar(checkInternetConnection, scaffoldKey, 5);
+      showFlushBar('Internet connection failure', checkInternetConnection, 5,
+          redColor, context);
+    }
+  }
+
+  void savePin(BuildContext context) async {
+    final form = pinFormKey.currentState;
+
+    FocusScope.of(context).requestFocus(FocusNode());
+    if (form.validate()) {
+      form.save();
+
+      SharedPreferences prefs = await SharedPreferences.getInstance();
+      prefs.setString(pinCode, confirmPin);
+
+      bloc.setAutoValidation.add(false);
+      Navigator.pop(context);
+      Navigator.of(context).pushReplacementNamed(securityPage);
+    } else {
+      bloc.setAutoValidation.add(true);
     }
   }
 
   @override
   Widget build(BuildContext context) {
+    var size = MediaQuery.of(context).size;
+
     // SystemChrome.setEnabledSystemUIOverlays([SystemUiOverlay.bottom]);
 
     Widget authTextFields(String placeholderName, bool isPassword) {
@@ -162,73 +165,91 @@ class _LoginPageState extends State<LoginPage> implements AuthStateListener {
       );
     }
 
-    return Scaffold(
-      key: scaffoldKey,
-      body: Container(
-        padding: const EdgeInsets.only(top: 0.0),
-        child: Stack(
-          fit: StackFit.expand,
-          children: <Widget>[
-            Image.asset(
-              'assets/bg.png',
-              fit: BoxFit.fill,
-            ),
-            Padding(
-              padding:
-                  const EdgeInsets.symmetric(horizontal: 24.0, vertical: 10.0),
-              child: Form(
-                key: formKey,
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.stretch,
-                  children: <Widget>[
-                    SizedBox(
-                      height: 30.0,
-                    ),
-                    Image.asset(
-                      'assets/logo.png',
-                      height: 40.0,
-                    ),
-                    Expanded(
-                        flex: 6,
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: <Widget>[
-                            authTextFields('WIUT ID', false),
-                            Container(
-                              height: 15.0,
-                            ),
-                            authTextFields('Password', true),
-                          ],
-                        )),
-                    RaisedButton(
-                      padding: const EdgeInsets.symmetric(vertical: 15.0),
-                      color: Theme.of(context).accentColor,
-                      elevation: 8.0,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.all(Radius.circular(100.0)),
+    return ChangePinProvider(
+      changePinBloc: bloc,
+      child: Scaffold(
+        key: scaffoldKey,
+        body: Container(
+          decoration: BoxDecoration(
+              image: DecorationImage(
+                  image: AssetImage('assets/bg.png'), fit: BoxFit.fill)),
+          child: ListView(
+            // mainAxisSize: MainAxisSize.min,
+            shrinkWrap: false,
+            children: <Widget>[
+              // Image.asset(
+              //   'assets/bg.png',
+              //   fit: BoxFit.fill,
+              // ),
+              Padding(
+                padding: const EdgeInsets.symmetric(
+                    horizontal: 24.0, vertical: 10.0),
+                child: Form(
+                  key: formKey,
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.stretch,
+                    children: <Widget>[
+                      // SizedBox(
+                      //   height: 30.0,
+                      // ),
+                      // Image.asset(
+                      //   'assets/logo.png',
+                      //   height: 40.0,
+                      // ),
+                      SizedBox(
+                        height: size.height / 4,
                       ),
-                      child: Text(
-                        'Login',
-                        style: TextStyle(color: Colors.white),
+                      // SizedBox(
+                      //   height: 20.0,
+                      // ),
+                      Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: <Widget>[
+                          authTextFields('WIUT ID', false),
+                          // Container(
+                          //   height: 15.0,
+                          // ),
+                          SizedBox(
+                            height: 20.0,
+                          ),
+                          authTextFields('Password', true),
+                          SizedBox(
+                            height: 20.0,
+                          ),
+                        ],
                       ),
-                      onPressed: _login,
-                    ),
-                  ],
+                      RaisedButton(
+                        padding: const EdgeInsets.symmetric(vertical: 15.0),
+                        color: Theme.of(context).accentColor,
+                        elevation: 8.0,
+                        shape: RoundedRectangleBorder(
+                          borderRadius:
+                              BorderRadius.all(Radius.circular(100.0)),
+                        ),
+                        child: Text(
+                          'Login',
+                          style: TextStyle(color: Colors.white),
+                        ),
+                        onPressed: () => _login(context),
+                      ),
+                    ],
+                  ),
                 ),
               ),
-            ),
-            progressDialogVisible
-                ? Container(
-                    color: lightOverlayColor,
-                    child: Center(child: CircularProgressIndicator()))
-                : Container()
-          ],
+              progressDialogVisible
+                  ? Container(
+                      color: lightOverlayColor,
+                      child: Center(child: CircularProgressIndicator()))
+                  : Container(),
+            ],
+          ),
         ),
       ),
     );
   }
 
+  /// PIN code change dialog
   Widget customeFormField(String placeholder, ChangePinCodeDialogArguments type,
       BuildContext context, ChangePinBloc bloc) {
     return StreamBuilder(
@@ -327,7 +348,9 @@ class _LoginPageState extends State<LoginPage> implements AuthStateListener {
   }
 
   @override
-  void onAuthStateChanged(AuthState state) {
+  void onAuthStateChanged(
+    AuthState state,
+  ) async {
     if (state == AuthState.LOGGED_IN)
       Navigator.of(context).pushReplacementNamed(securityPage);
   }
