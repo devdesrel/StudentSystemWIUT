@@ -50,7 +50,7 @@ class SettingsPage extends StatelessWidget {
         key: scaffoldKey,
         appBar: AppBar(
           centerTitle: true,
-          title: Text('Settings Page'),
+          title: Text('Settings Pagee'),
         ),
         body: ListView(
           children: <Widget>[

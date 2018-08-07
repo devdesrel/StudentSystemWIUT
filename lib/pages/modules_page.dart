@@ -40,8 +40,9 @@ class _ModulesPageState extends State<ModulesPage> {
       return _parseModules(response.body);
       // return compute(_parseModules, response.body);
     } catch (e) {
-      print(e.toString());
-      showSnackBar(checkInternetConnection, _scaffoldKey, 5);
+      // showSnackBar(checkInternetConnection, _scaffoldKey, 5);
+      showFlushBar('Internet connection failure', checkInternetConnection, 5,
+          redColor, context);
       return null;
     }
   }
@@ -83,7 +84,8 @@ class _ModulesPageState extends State<ModulesPage> {
       // return compute(_parseModules, response.body);
     } catch (e) {
       print(e.toString());
-      showSnackBar(checkInternetConnection, _scaffoldKey, 5);
+      showFlushBar('Internet connection failure', checkInternetConnection, 5,
+          redColor, context);
       return null;
     }
   }

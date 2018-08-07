@@ -65,6 +65,8 @@ final apiUserModuleMaterialsModulesListByUserID =
     '$baseUrl/api/UserModuleMaterials/ModulesListByUserID';
 final apiGetAttachmentsByModuleMaterialIDWithFileSize =
     '$baseUrl/api/UserModuleMaterials/GetAttachmentsByModuleMaterialIDWithFileSize';
+final apiComponentMark =
+    '$baseUrl/api/StudentProfileAndMarks/StudentModuleComponentMark';
 
 //Errors List
 final String checkInternetConnection = 'Please, check your internet connection';

@@ -1,9 +1,48 @@
+import 'dart:async';
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_circular_chart/flutter_circular_chart.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:http/http.dart' as http;
+import 'package:student_system_flutter/helpers/function_helpers.dart';
+import 'package:student_system_flutter/models/modules_component.dart';
 
 import '../helpers/app_constants.dart';
 import '../helpers/ui_helpers.dart';
 import '../models/modules_list_model.dart';
+
+List<ModuleComponentModel> _parseComponents(String responseBody) {
+  final parsedData = json.decode(responseBody);
+
+  List<ModuleComponentModel> list = parsedData
+      .map<ModuleComponentModel>((item) => ModuleComponentModel.fromJson(item))
+      .toList();
+
+  return list;
+}
+
+Future<List<ModuleComponentModel>> _getModulesWithComponents(
+    BuildContext context, Module module) async {
+  SharedPreferences prefs = await SharedPreferences.getInstance();
+  final _token = prefs.getString(token);
+  final _studentID = prefs.getString(studentID);
+
+  try {
+    final response = await http.post(
+        "$apiComponentMark?StudentID=$_studentID&AcadYearText=${module.session}&ModuleID=${module.moduleID}",
+        headers: {
+          "Accept": "application/json",
+          "Authorization": "Bearer $_token"
+        });
+
+    return _parseComponents(response.body);
+  } catch (e) {
+    showFlushBar('Internet connection failure', checkInternetConnection, 5,
+        redColor, context);
+    return null;
+  }
+}
 
 class MarksPage extends StatelessWidget {
   final Module module;
@@ -15,6 +54,20 @@ class MarksPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    TextStyle _getTextStyle() {
+      if (module.moduleGrade == 'PASS') {
+        return Theme.of(context).textTheme.display1.copyWith(color: greenColor);
+      } else if (module.moduleGrade == 'FAIL') {
+        return Theme.of(context).textTheme.display1.copyWith(color: redColor);
+      } else {
+        return Theme
+            .of(context)
+            .textTheme
+            .display1
+            .copyWith(color: accentColor);
+      }
+    }
+
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
@@ -25,7 +78,7 @@ class MarksPage extends StatelessWidget {
         color: Theme.of(context).backgroundColor,
         child: Column(
           children: <Widget>[
-            CustomGridView(context).build(),
+            CustomGridView(context, module).build(),
             Expanded(
               child: Container(
                 color: whiteColor,
@@ -35,6 +88,7 @@ class MarksPage extends StatelessWidget {
                     Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: <Widget>[
+                        Text(module.moduleGrade, style: _getTextStyle()),
                         AnimatedCircularChart(
                           duration: Duration(seconds: 1),
                           key: _chartKey,
@@ -107,8 +161,9 @@ class _CustomAnimatedTextState extends State<CustomAnimatedText> {
 
 class CustomGridView {
   BuildContext context;
+  final Module module;
 
-  CustomGridView(this.context);
+  CustomGridView(this.context, this.module);
 
   Widget makeGridCell(String componentName, int mark, int weight) {
     TextStyle _componentNameTextStyle =
@@ -123,7 +178,7 @@ class CustomGridView {
         .of(context)
         .textTheme
         .headline
-        .copyWith(color: Theme.of(context).accentColor, fontSize: 17.0);
+        .copyWith(color: Theme.of(context).accentColor, fontSize: 16.0);
 
     return CustomCard(
       InkWell(
@@ -144,6 +199,7 @@ class CustomGridView {
                 child: Text(
                   componentName.toUpperCase(),
                   textAlign: TextAlign.center,
+                  maxLines: 1,
                   style: _componentNameTextStyle,
                 ),
               ),
@@ -188,27 +244,40 @@ class CustomGridView {
     );
   }
 
-  GridView build() {
+  Widget build() {
     var size = MediaQuery.of(context).size;
 
     /*24 is for notification bar on Android*/
     final double itemHeight = (size.height - kToolbarHeight - 24) / 2;
     final double itemWidth = size.width / 0.94;
-    return GridView.count(
-        // primary: true,
-        padding: const EdgeInsets.symmetric(vertical: 10.0, horizontal: 16.0),
-        crossAxisCount: 2,
-        childAspectRatio: (itemWidth / itemHeight), //1.38
-        shrinkWrap: true,
-        scrollDirection: Axis.vertical,
-        controller: ScrollController(keepScrollOffset: false),
-        mainAxisSpacing: 10.0,
-        crossAxisSpacing: 10.0,
-        children: <Widget>[
-          makeGridCell("СW1", 87, 20),
-          makeGridCell("СW2", 55, 30),
-          makeGridCell("СW3", 71, 30),
-          makeGridCell("СW4", 91, 20),
-        ]);
+    return FutureBuilder<List<ModuleComponentModel>>(
+      future: _getModulesWithComponents(context, module),
+      builder: (context, snapshot) => snapshot.hasData
+          ? GridView.count(
+              // primary: true,
+              padding:
+                  const EdgeInsets.symmetric(vertical: 10.0, horizontal: 16.0),
+              crossAxisCount: 2,
+              childAspectRatio: (itemWidth / itemHeight), //1.38
+              shrinkWrap: true,
+              scrollDirection: Axis.vertical,
+              controller: ScrollController(keepScrollOffset: false),
+              mainAxisSpacing: 10.0,
+              crossAxisSpacing: 10.0,
+              children: snapshot.data
+                  .map<Widget>((ModuleComponentModel item) => makeGridCell(
+                      item.assessTitle,
+                      int.parse(item.mark),
+                      int.parse(item.weighting)))
+                  .toList(),
+              // children: <Widget>[
+              //   makeGridCell("СW1", 87, 20),
+              //   makeGridCell("СW2", 55, 30),
+              //   makeGridCell("СW3", 71, 30),
+              //   makeGridCell("СW4", 91, 20),
+              // ]
+            )
+          : Container(),
+    );
   }
 }
