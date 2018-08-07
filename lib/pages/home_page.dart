@@ -90,7 +90,7 @@ void openSelectedPage(BuildContext context, MainPageGridItems page) {
               ModulesPage(requestType: RequestType.GetTeachingMaterials)));
       break;
     case MainPageGridItems.TUTORIALS:
-      print('Tutorials');
+      Navigator.of(context).pushNamed(lecturesPage);
       break;
     case MainPageGridItems.OFFENCES:
       Navigator.of(context).pushNamed(offencesPage);

@@ -32,10 +32,15 @@ class FileDownloadBloc {
 
   final _downloadingFileInformationSubject = BehaviorSubject<String>();
 
+  Stream<bool> get isDownloaded => _isDownloadedSubject.stream;
+
+  final _isDownloadedSubject = BehaviorSubject<bool>();
+
   void dispose() {
     _fileNameSubject.close();
     _downloadingFileInformationSubject.close();
     _downloadProgressSubject.close();
+    _isDownloadedSubject.close();
   }
 
   Future<File> _downloadFile(String url, String filename) async {
@@ -105,6 +110,7 @@ class FileDownloadBloc {
         offset += chunk.length;
       }
       completer.complete(bytes);
+      _isDownloadedSubject.add(true);
     }, onError: completer.completeError, cancelOnError: true);
 
     return completer.future;

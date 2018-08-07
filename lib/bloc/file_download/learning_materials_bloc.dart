@@ -1,9 +1,15 @@
 import 'dart:async';
+import 'package:flushbar/flushbar.dart';
 import 'package:rxdart/rxdart.dart';
+import 'package:student_system_flutter/helpers/app_constants.dart';
 import 'package:student_system_flutter/models/download_file_model.dart';
 
 class LearningMaterialsBloc {
   List<DownloadFileModel> basicList = List();
+  final flushBar = Flushbar<bool>()
+    ..title = downloadingMessageTitle
+    ..message = downloadingMessageBody
+    ..backgroundColor = greyColor;
 
   LearningMaterialsBloc() {
     _addFileToDownloadController.stream.listen((addition) {
@@ -16,7 +22,10 @@ class LearningMaterialsBloc {
 
     _removeItemFromDownloadingListController.stream.listen((url) {
       basicList.removeWhere((downloadFile) => downloadFile.url == url);
-      _downloadingFilesListSubject.add(basicList);
+      if (basicList.length == 0) {
+        _downloadingFilesListSubject.add([]);
+        flushBar.dismiss();
+      }
     });
   }
 

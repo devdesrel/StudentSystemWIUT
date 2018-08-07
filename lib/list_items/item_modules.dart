@@ -3,12 +3,11 @@ import 'package:student_system_flutter/pages/lectures_page.dart';
 
 import '../helpers/app_constants.dart';
 import '../helpers/ui_helpers.dart';
-import '../models/modules_list_model.dart';
 import '../pages/marks_page.dart';
 import '../enums/ApplicationEnums.dart';
 
 class ItemModules extends StatelessWidget {
-  final Module module;
+  final dynamic module;
   final RequestType requestType;
 
   ItemModules({Key key, @required this.module, @required this.requestType})
@@ -40,7 +39,7 @@ class ItemModules extends StatelessWidget {
               mainAxisSize: MainAxisSize.min,
               children: <Widget>[
                 Text(
-                  module.moduleNameField,
+                  module.moduleName,
                   textAlign: TextAlign.center,
                   style: Theme
                       .of(context)
@@ -54,7 +53,7 @@ class ItemModules extends StatelessWidget {
                   children: <Widget>[
                     Text('Module Code',
                         style: Theme.of(context).textTheme.body1),
-                    Text(module.moduleCodeField,
+                    Text(module.moduleCode,
                         style: Theme
                             .of(context)
                             .textTheme
@@ -68,7 +67,7 @@ class ItemModules extends StatelessWidget {
                   children: <Widget>[
                     Text('Level Name',
                         style: Theme.of(context).textTheme.body1),
-                    Text(module.levelField,
+                    Text(module.level,
                         style: Theme
                             .of(context)
                             .textTheme
@@ -76,19 +75,24 @@ class ItemModules extends StatelessWidget {
                             .copyWith(color: textColor)),
                   ],
                 ),
-                SizedBox(height: 10.0),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: <Widget>[
-                    Text('Year Name', style: Theme.of(context).textTheme.body1),
-                    Text(module.sessionField,
-                        style: Theme
-                            .of(context)
-                            .textTheme
-                            .body1
-                            .copyWith(color: textColor)),
-                  ],
-                ),
+                requestType == RequestType.GetMarks
+                    ? Padding(
+                        padding: const EdgeInsets.only(top: 10.0),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: <Widget>[
+                            Text('Year Name',
+                                style: Theme.of(context).textTheme.body1),
+                            Text(module.session,
+                                style: Theme
+                                    .of(context)
+                                    .textTheme
+                                    .body1
+                                    .copyWith(color: textColor)),
+                          ],
+                        ),
+                      )
+                    : Container()
               ],
             ),
           ),
