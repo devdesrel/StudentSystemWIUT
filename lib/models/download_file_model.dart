@@ -1,7 +1,20 @@
-class DownloadFileModel {
-  final String url;
-  final String fileName;
-  final int totalSize;
+import 'package:student_system_flutter/helpers/app_constants.dart';
 
-  DownloadFileModel({this.url, this.fileName, this.totalSize = 0});
+class DownloadFileModel {
+  int id;
+  String url;
+  String fileName;
+  String fileSize;
+  String folderName = '';
+
+  DownloadFileModel({this.id, this.url, this.fileName, this.fileSize});
+
+  factory DownloadFileModel.fromJson(Map<String, dynamic> json) {
+    return DownloadFileModel(
+      id: json['ID'],
+      url: json['Url'] ?? nullFixer,
+      fileName: json['Name'] ?? nullFixer,
+      fileSize: json['FileSize'] ?? '0',
+    );
+  }
 }

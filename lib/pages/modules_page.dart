@@ -7,6 +7,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:student_system_flutter/enums/ApplicationEnums.dart';
 import 'package:student_system_flutter/helpers/function_helpers.dart';
 import 'package:student_system_flutter/models/LearningMaterials/learning_materials_model.dart';
+import 'package:student_system_flutter/pages/offline_page.dart';
 
 import '../helpers/app_constants.dart';
 import '../list_items/item_modules.dart';
@@ -117,6 +118,17 @@ class _ModulesPageState extends State<ModulesPage> {
       appBar: AppBar(
         title: Text('Modules'),
         centerTitle: true,
+        actions: <Widget>[
+          widget.requestType == RequestType.GetTeachingMaterials
+              ? IconButton(
+                  icon: Icon(Icons.cloud_download),
+                  onPressed: () {
+                    Navigator.of(context).push(MaterialPageRoute(
+                        builder: (context) => OfflinePage(moduleName: '')));
+                  },
+                )
+              : Container()
+        ],
       ),
       body: Container(
         color: Theme.of(context).backgroundColor,

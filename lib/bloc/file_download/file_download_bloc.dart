@@ -16,7 +16,7 @@ class FileDownloadBloc {
     _learningMaterialsBloc = learningMaterialsBloc;
 
     _fileNameSubject.add(file.fileName);
-    _downloadFile(file.url, file.fileName);
+    _downloadFile(learningMaterialsBloc.moduleName, file);
   }
 
   Stream<String> get fileName => _fileNameSubject.stream;
@@ -43,27 +43,31 @@ class FileDownloadBloc {
     _isDownloadedSubject.close();
   }
 
-  Future<File> _downloadFile(String url, String filename) async {
-    var request = await httpClient.getUrl(Uri.parse(url));
+  Future<File> _downloadFile(
+      String moduleName, DownloadFileModel downloadingFile) async {
+    var request = await httpClient.getUrl(Uri.parse(downloadingFile.url));
     var response = await request.close();
-    var bytes = await customConsolidateHttpClientResponseBytes(response);
+    var bytes = await customConsolidateHttpClientResponseBytes(
+        response, int.parse(downloadingFile.fileSize));
     String dir = Platform.isAndroid
         ? (await getExternalStorageDirectory()).path
         : (await getApplicationDocumentsDirectory()).path;
 
-    final path = '$dir/WIUT Mobile/WAD/Lectures/Lecture 1/';
+    final path =
+        '$dir/WIUT Mobile/$moduleName/Lectures/${downloadingFile.folderName}/';
     final myDir = Directory(path);
     myDir.exists().then((isExists) async {
       if (!isExists) {
         await myDir.create(recursive: true);
       }
 
-      File file = new File('$path$filename');
+      File file = new File('$path${downloadingFile.fileName}');
       await file.writeAsBytes(bytes);
       return file;
     });
 
-    _learningMaterialsBloc.removeItemFromDownloadingList.add(url);
+    _learningMaterialsBloc.removeItemFromDownloadingList
+        .add(downloadingFile.url);
 
     return null;
   }
@@ -71,8 +75,8 @@ class FileDownloadBloc {
   // bloc.removeItemFromDownloadingList.add(widget.downloadFile.url);
 
   Future<Uint8List> customConsolidateHttpClientResponseBytes(
-      HttpClientResponse response) {
-    int _totalSize = 0;
+      HttpClientResponse response, int fileSize) {
+    // int _totalSize = 0;
 
     // response.contentLength is not trustworthy when GZIP is involved
     // or other cases where an intermediate transformer has been applied
@@ -80,21 +84,18 @@ class FileDownloadBloc {
     final Completer<Uint8List> completer = new Completer<Uint8List>.sync();
     final List<List<int>> chunks = <List<int>>[];
 
-    _totalSize = response.contentLength;
+    // _totalSize = response.contentLength;
 
-    _downloadingFileInformationSubject.add(_totalSize.toString());
-    // setState(() {
-    //   _totalSize = response.contentLength;
-    // });
+    _downloadingFileInformationSubject.add(fileSize.toString());
     int contentLength = 0;
     response.listen((List<int> chunk) {
       chunks.add(chunk);
       contentLength += chunk.length;
 
       _downloadProgressSubject
-          .add((contentLength / 1048576) / (_totalSize / 1048576));
+          .add((contentLength / 1048576) / (fileSize / 1048576));
       _downloadingFileInformationSubject.add(
-          '${(contentLength/1048576).toStringAsFixed(2)} MB / ${(_totalSize/1048576).toStringAsFixed(2)} MB');
+          '${(contentLength/1048576).toStringAsFixed(2)} MB / ${(fileSize/1048576).toStringAsFixed(2)} MB');
 
       // setState(() {
       //   //Total downloaded bytes

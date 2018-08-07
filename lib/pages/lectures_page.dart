@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:simple_permissions/simple_permissions.dart';
 import 'package:student_system_flutter/bloc/file_download/file_download_bloc.dart';
 import 'package:student_system_flutter/bloc/file_download/learning_materials_bloc.dart';
 import 'package:student_system_flutter/bloc/file_download/learning_materials_provider.dart';
@@ -6,6 +7,7 @@ import 'package:student_system_flutter/list_items/item_file_downloading.dart';
 import 'package:student_system_flutter/models/LearningMaterials/learning_materials_model.dart';
 import 'package:student_system_flutter/models/LearningMaterials/single_learning_material_model.dart';
 import 'package:student_system_flutter/models/download_file_model.dart';
+import 'package:student_system_flutter/pages/offline_page.dart';
 
 import '../helpers/app_constants.dart';
 
@@ -20,34 +22,10 @@ class LecturesPage extends StatefulWidget {
 
 class _LecturesPageState extends State<LecturesPage>
     with SingleTickerProviderStateMixin {
-  // List<LearningMaterialsModel> _lecturesList = [];
-
   TabController _controller;
-
-  // void _populateList() {
-  //   final url1 =
-  //       'https://images.pexels.com/photos/443446/pexels-photo-443446.jpeg?cs=srgb&dl=daylight-forest-glossy-443446.jpg&fm=jpg';
-  //   final filename1 = 'Lecture1.jpg';
-  //   final url2 = 'http://www.africau.edu/images/default/sample.pdf';
-  //   final filename2 = 'Lecture1.pdf';
-  //   final url3 = 'http://topmusic.uz/get/single-13449.mp3';
-  //   final filename3 = 'Lecture1.mp3';
-
-  //   List<DownloadFileModel> downloadFilesList = [
-  //     DownloadFileModel(url: url1, fileName: filename1),
-  //     DownloadFileModel(url: url2, fileName: filename2),
-  //     DownloadFileModel(url: url3, fileName: filename3),
-  //   ];
-
-  //   _lecturesList.add(LearningMaterialsModel('Lecture 1', downloadFilesList));
-  //   _lecturesList.add(LearningMaterialsModel('Lecture 2', downloadFilesList));
-  //   _lecturesList.add(LearningMaterialsModel('Lecture 3', downloadFilesList));
-  // }
 
   @override
   void initState() {
-    // _populateList();
-
     super.initState();
     _controller = TabController(length: 2, vsync: this);
   }
@@ -55,8 +33,10 @@ class _LecturesPageState extends State<LecturesPage>
   @override
   Widget build(BuildContext context) {
     var bloc = LearningMaterialsBloc();
+    bloc.moduleName = widget.module.moduleName;
+
     return LearningMaterialsProvider(
-      fileDownloadBloc: bloc,
+      learningMaterialsBloc: bloc,
       child: Scaffold(
         backgroundColor: Theme.of(context).backgroundColor,
         appBar: AppBar(
@@ -73,7 +53,9 @@ class _LecturesPageState extends State<LecturesPage>
             IconButton(
               icon: Icon(Icons.cloud_download),
               onPressed: () {
-                Navigator.of(context).pushNamed(offlinePage);
+                Navigator.of(context).push(MaterialPageRoute(
+                    builder: (context) =>
+                        OfflinePage(moduleName: widget.module.moduleName)));
               },
             )
           ],
@@ -182,72 +164,81 @@ class LearningMaterialsCard extends StatelessWidget {
       @required this.controller,
       @required this.bloc});
 
-  // List<Widget> _getDialogItems(BuildContext context) {
-  //   List<Widget> _listOfWidgets = [];
+  List<Widget> _getDialogItems(
+      BuildContext context, List<DownloadFileModel> downloadFilesList) {
+    List<Widget> _listOfWidgets = [];
 
-  //   for (var downloadFile in learningMaterialsModel.downloadFilesList) {
-  //     _listOfWidgets.add(CustomSimpleDialogOption(
-  //       controller: controller,
-  //       downloadFile: downloadFile,
-  //       bloc: bloc,
-  //       flushBar: bloc.flushBar,
-  //     ));
-  //   }
+    for (var downloadFile in downloadFilesList) {
+      downloadFile.folderName = learningMaterialsModel.title;
 
-  //   _listOfWidgets.add(Align(
-  //     alignment: Alignment.bottomRight,
-  //     child: FlatButton(
-  //       onPressed: () => Navigator.pop(context),
-  //       child: Text(
-  //         'Cancel',
-  //         style: TextStyle(color: accentColor),
-  //       ),
-  //     ),
-  //   ));
+      _listOfWidgets.add(CustomSimpleDialogOption(
+        controller: controller,
+        downloadFile: downloadFile,
+        bloc: bloc,
+        flushBar: bloc.flushBar,
+      ));
+    }
 
-  //   return _listOfWidgets;
-  // }
+    _listOfWidgets.add(Align(
+      alignment: Alignment.bottomRight,
+      child: FlatButton(
+        onPressed: () => Navigator.pop(context),
+        child: Text(
+          'Cancel',
+          style: TextStyle(color: accentColor),
+        ),
+      ),
+    ));
 
-  // _getPermissionToDownloadAndShowDialog(
-  //     BuildContext context, int moduleMaterialID) async {
-  //   var bloc = LearningMaterialsProvider.of(context);
-  //   Permission permission = Permission.WriteExternalStorage;
+    return _listOfWidgets;
+  }
 
-  //   bool result = await SimplePermissions.requestPermission(permission);
+  _getPermissionToDownloadAndShowDialog(BuildContext _context) async {
+    var bloc = LearningMaterialsProvider.of(_context);
+    Permission permission = Permission.WriteExternalStorage;
 
-  //   if (result) {
-  //     await showDialog(
-  //         context: context,
-  //         builder: (context) {
-  //           return SimpleDialog(
-  //               titlePadding: EdgeInsets.only(
-  //                   top: 15.0, left: 24.0, right: 24.0, bottom: 5.0),
-  //               contentPadding: EdgeInsets.only(bottom: 0.0),
-  //               title: Row(
-  //                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
-  //                 children: <Widget>[
-  //                   Text('Download'),
-  //                   InkWell(
-  //                       child: Padding(
-  //                         padding: const EdgeInsets.all(8.0),
-  //                         child: Icon(Icons.cloud_download),
-  //                       ),
-  //                       onTap: () {
-  //                         for (var downloadFile
-  //                             in learningMaterialsModel.downloadFilesList) {
-  //                           bloc.addFileToDownload.add(downloadFile);
-  //                         }
-  //                         Navigator.pop(context);
+    bool result = await SimplePermissions.requestPermission(permission);
 
-  //                         controller.animateTo(1);
-  //                         bloc.flushBar.show(context);
-  //                       })
-  //                 ],
-  //               ),
-  //               children: _getDialogItems(context));
-  //         });
-  //   }
-  // }
+    if (result) {
+      await showDialog(
+          context: _context,
+          builder: (context) {
+            return FutureBuilder<List<DownloadFileModel>>(
+              future: bloc.getFileUrlsToDownload(
+                  _context, learningMaterialsModel.id),
+              builder: (context, snapshot) => snapshot.hasData
+                  ? SimpleDialog(
+                      titlePadding: EdgeInsets.only(
+                          top: 15.0, left: 24.0, right: 24.0, bottom: 5.0),
+                      contentPadding: EdgeInsets.only(bottom: 0.0),
+                      title: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: <Widget>[
+                          Text('Download'),
+                          InkWell(
+                              child: Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: Icon(Icons.cloud_download),
+                              ),
+                              onTap: () {
+                                for (var downloadFile in snapshot.data) {
+                                  downloadFile.folderName =
+                                      learningMaterialsModel.title;
+                                  bloc.addFileToDownload.add(downloadFile);
+                                }
+                                Navigator.pop(context);
+
+                                controller.animateTo(1);
+                                bloc.flushBar.show(context);
+                              })
+                        ],
+                      ),
+                      children: _getDialogItems(context, snapshot.data))
+                  : Center(child: CircularProgressIndicator()),
+            );
+          });
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -255,9 +246,8 @@ class LearningMaterialsCard extends StatelessWidget {
       padding: EdgeInsets.symmetric(horizontal: 12.0, vertical: 2.0),
       child: Card(
         child: InkWell(
-          onTap: () {},
-          // onTap: () => _getPermissionToDownloadAndShowDialog(
-          //     context, learningMaterialsModel.id),
+          // onTap: () {},
+          onTap: () => _getPermissionToDownloadAndShowDialog(context),
           child: Padding(
             padding: const EdgeInsets.symmetric(vertical: 14.0),
             child: Text(
@@ -292,25 +282,21 @@ class CustomSimpleDialogOption extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SimpleDialogOption(
-      onPressed: () {
+    return ListTile(
+      contentPadding: EdgeInsets.symmetric(horizontal: 20.0),
+      onTap: () {
         bloc.addFileToDownload.add(downloadFile);
         Navigator.pop(context);
         controller.animateTo(1);
         flushBar.show(context);
       },
-      child: Row(
-        children: <Widget>[
-          Icon(
-            Icons.file_download,
-            color: lightGreyTextColor,
-          ),
-          SizedBox(width: 10.0),
-          Text(
-            downloadFile.fileName,
-            style: TextStyle(color: lightGreyTextColor),
-          )
-        ],
+      leading: Icon(
+        Icons.file_download,
+        color: lightGreyTextColor,
+      ),
+      title: Text(
+        downloadFile.fileName,
+        style: TextStyle(color: lightGreyTextColor),
       ),
     );
   }

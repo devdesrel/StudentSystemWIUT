@@ -89,10 +89,11 @@ class FileManagerState extends State<FileManager>
       } else if (snapshot.hasData) {
         dir = Directory('${snapshot.data.path}$_directory');
 
-        //   dir.exists().then((isExists) async {
-        // if (isExists) {
+        var isExists = dir.existsSync();
+        if (!isExists) {
+          dir.createSync(recursive: true);
+        }
 
-        //         }});
         _allPathsList = dir.listSync(recursive: false, followLinks: true);
 
         for (int i = 0; i < _allPathsList.length; i++) {
@@ -127,6 +128,8 @@ class FileManagerState extends State<FileManager>
           itemBuilder: (context, i) {
             return _buildRow(_filteredPathsList.elementAt(i), context);
           });
+    } else if (_allPathsList.length == 0) {
+      return Center(child: Text('There is no downloaded files'));
     } else {
       return Padding(padding: const EdgeInsets.all(16.0), child: text);
     }

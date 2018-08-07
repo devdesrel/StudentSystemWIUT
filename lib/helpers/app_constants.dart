@@ -63,6 +63,8 @@ final apiGetRooms = '$baseUrl/api/TimeTable/GetClassRoomsAsSelectList';
 final apiGetTeachers = '$baseUrl/api/TimeTable/GetTeachersAsSelectList';
 final apiUserModuleMaterialsModulesListByUserID =
     '$baseUrl/api/UserModuleMaterials/ModulesListByUserID';
+final apiGetAttachmentsByModuleMaterialIDWithFileSize =
+    '$baseUrl/api/UserModuleMaterials/GetAttachmentsByModuleMaterialIDWithFileSize';
 
 //Errors List
 final String checkInternetConnection = 'Please, check your internet connection';

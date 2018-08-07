@@ -2,13 +2,14 @@ import 'package:flutter/widgets.dart';
 import 'package:student_system_flutter/bloc/file_download/learning_materials_bloc.dart';
 
 class LearningMaterialsProvider extends InheritedWidget {
-  final LearningMaterialsBloc fileDownloadBloc;
+  final LearningMaterialsBloc learningMaterialsBloc;
 
   LearningMaterialsProvider({
     Key key,
-    LearningMaterialsBloc fileDownloadBloc,
+    LearningMaterialsBloc learningMaterialsBloc,
     Widget child,
-  })  : fileDownloadBloc = fileDownloadBloc ?? LearningMaterialsBloc(),
+  })  : learningMaterialsBloc =
+            learningMaterialsBloc ?? LearningMaterialsBloc(),
         super(key: key, child: child);
 
   @override
@@ -17,5 +18,5 @@ class LearningMaterialsProvider extends InheritedWidget {
   static LearningMaterialsBloc of(BuildContext context) =>
       (context.inheritFromWidgetOfExactType(LearningMaterialsProvider)
               as LearningMaterialsProvider)
-          .fileDownloadBloc;
+          .learningMaterialsBloc;
 }

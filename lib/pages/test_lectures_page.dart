@@ -58,7 +58,7 @@ class _LecturesPageState extends State<LecturesPage>
   Widget build(BuildContext context) {
     var bloc = LearningMaterialsBloc();
     return LearningMaterialsProvider(
-      fileDownloadBloc: bloc,
+      learningMaterialsBloc: bloc,
       child: Scaffold(
         backgroundColor: Theme.of(context).backgroundColor,
         appBar: AppBar(
