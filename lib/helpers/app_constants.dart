@@ -9,6 +9,7 @@ final primaryDarkColor = Color(0xFF0064b7);
 final accentColor = Color(0xFF0091ea);
 final redColor = Colors.red[700];
 final greenColor = Colors.green[400];
+final yellowColor = Colors.yellow;
 final greyColor = Colors.blueGrey;
 final lightOverlayColor = Color(0xBF333333);
 final backgroundColor = Colors.grey[100];
@@ -39,6 +40,7 @@ final settingsPage = '/settingsPage';
 final contactsPage = '/contactsPage';
 final mapPage = '/mapPage';
 final testPage = '/testPage';
+
 //Shared preferance keys
 final isLoggedIn = 'isLoggedIn';
 final token = 'token';
@@ -59,6 +61,8 @@ final apiGetLessons = '$baseUrl/api/TimeTable/GetLessons';
 final apiGetGroups = '$baseUrl/api/TimeTable/GetClassesAsSelectList';
 final apiGetRooms = '$baseUrl/api/TimeTable/GetClassRoomsAsSelectList';
 final apiGetTeachers = '$baseUrl/api/TimeTable/GetTeachersAsSelectList';
+final apiUserModuleMaterialsModulesListByUserID =
+    '$baseUrl/api/UserModuleMaterials/ModulesListByUserID';
 
 //Errors List
 final String checkInternetConnection = 'Please, check your internet connection';
@@ -68,3 +72,6 @@ final String usernamePasswordIncorrect =
 
 //String Helpers List
 final String nullFixer = '';
+final String downloadingMessageTitle = 'Downloading files';
+final String downloadingMessageBody =
+    'Please, don\'t leave this page until the process is done';

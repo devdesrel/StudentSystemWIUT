@@ -18,7 +18,7 @@ class MarksPage extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
-        title: Text(module != null ? module.moduleNameField : ''),
+        title: Text(module != null ? module.moduleName : ''),
       ),
       // body: CustomGridView(context).build(),
       body: Container(
@@ -43,13 +43,13 @@ class MarksPage extends StatelessWidget {
                             new CircularStackEntry(
                               <CircularSegmentEntry>[
                                 new CircularSegmentEntry(
-                                  double.parse(module.moduleMarkField),
+                                  double.parse(module.moduleMark),
                                   Colors.blue[400],
                                   rankKey: 'completed',
                                   // rankKey: 'progress',
                                 ),
                                 new CircularSegmentEntry(
-                                  100 - double.parse(module.moduleMarkField),
+                                  100 - double.parse(module.moduleMark),
                                   Colors.red[400],
                                   rankKey: 'remaining',
                                   // rankKey: 'progress',
@@ -60,7 +60,7 @@ class MarksPage extends StatelessWidget {
                           ],
                           chartType: CircularChartType.Radial,
                           percentageValues: true,
-                          holeLabel: '${module.moduleMarkField}%',
+                          holeLabel: '${module.moduleMark}%',
                           labelStyle: Theme
                               .of(context)
                               .textTheme

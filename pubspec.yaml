@@ -17,7 +17,6 @@ dependencies:
   rxdart: "^0.18.0"
   mime: ^0.9.6
   asynchronous_validator: ^1.0.2
-  
   url_launcher: ^3.0.3
   flutter_map: ^0.0.10
   flushbar: ^0.7.5

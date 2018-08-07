@@ -74,5 +74,8 @@ void _cleanUserData() async {
   SharedPreferences prefs = await SharedPreferences.getInstance();
   await prefs.setString(token, "");
   await prefs.setString(studentID, "");
+  await prefs.setString(firstName, "");
+  await prefs.setString(lastName, "");
+  await prefs.setString(groupID, "");
   await prefs.setBool(isLoggedIn, false);
 }

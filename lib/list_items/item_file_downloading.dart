@@ -58,6 +58,16 @@ class ItemFileDownloading extends StatelessWidget {
               SizedBox(
                 height: 10.0,
               ),
+              StreamBuilder(
+                  stream: bloc.isDownloaded,
+                  builder: (context, snapshot) => snapshot.hasData
+                      ? Center(
+                          child: Text('Downloaded',
+                              style: TextStyle(color: greenColor)))
+                      : Container()),
+              SizedBox(
+                height: 10.0,
+              ),
             ],
           ),
         ),

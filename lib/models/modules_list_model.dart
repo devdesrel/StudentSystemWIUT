@@ -13,38 +13,38 @@ class ModulesList {
 }
 
 class Module {
-  final String moduleIDField;
-  final String moduleNameField;
-  final String moduleCodeField;
-  final String levelField;
-  final String creditField;
-  final String sessionField;
-  final String attemptField;
-  final String moduleMarkField;
-  final String moduleGradeField;
+  final String moduleID;
+  final String moduleName;
+  final String moduleCode;
+  final String level;
+  final String credit;
+  final String session;
+  final String attempt;
+  final String moduleMark;
+  final String moduleGrade;
 
   Module({
-    this.moduleIDField,
-    this.moduleNameField,
-    this.moduleCodeField,
-    this.levelField,
-    this.creditField,
-    this.sessionField,
-    this.attemptField,
-    this.moduleMarkField,
-    this.moduleGradeField,
+    this.moduleID,
+    this.moduleName,
+    this.moduleCode,
+    this.level,
+    this.credit,
+    this.session,
+    this.attempt,
+    this.moduleMark,
+    this.moduleGrade,
   });
 
   factory Module.fromJson(Map<String, dynamic> json) {
     return Module(
-        moduleIDField: json['moduleIDField'] ?? nullFixer,
-        moduleNameField: json['moduleNameField'] ?? nullFixer,
-        moduleCodeField: json['moduleCodeField'] ?? nullFixer,
-        levelField: json['levelField'] ?? nullFixer,
-        creditField: json['creditField'] ?? nullFixer,
-        sessionField: json['sessionField'] ?? nullFixer,
-        attemptField: json['attemptField'] ?? nullFixer,
-        moduleMarkField: json['moduleMarkField'] ?? nullFixer,
-        moduleGradeField: json['moduleGradeField'] ?? nullFixer);
+        moduleID: json['moduleIDField'] ?? nullFixer,
+        moduleName: json['moduleNameField'] ?? nullFixer,
+        moduleCode: json['moduleCodeField'] ?? nullFixer,
+        level: json['levelField'] ?? nullFixer,
+        credit: json['creditField'] ?? nullFixer,
+        session: json['sessionField'] ?? nullFixer,
+        attempt: json['attemptField'] ?? nullFixer,
+        moduleMark: json['moduleMarkField'] ?? nullFixer,
+        moduleGrade: json['moduleGradeField'] ?? nullFixer);
   }
 }

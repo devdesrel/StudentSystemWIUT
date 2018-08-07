@@ -6,6 +6,7 @@ import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:student_system_flutter/enums/ApplicationEnums.dart';
 import 'package:student_system_flutter/helpers/function_helpers.dart';
+import 'package:student_system_flutter/models/LearningMaterials/learning_materials_model.dart';
 
 import '../helpers/app_constants.dart';
 import '../list_items/item_modules.dart';
@@ -58,6 +59,58 @@ class _ModulesPageState extends State<ModulesPage> {
     return modulesList.studentViewModuleMarksPropField;
   }
 
+  Future<List<LearningMaterialsModel>> _getLearningMaterials(
+      String materialType) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    final _token = prefs.getString(token);
+    final _studentID = prefs.getString(studentID);
+
+    try {
+      final response = await http.post(
+          "$apiUserModuleMaterialsModulesListByUserID?AcademicYearID=18&SelectedLTType=$materialType&UserID=$_studentID",
+          headers: {
+            "Accept": "application/json",
+            "Authorization": "Bearer $_token"
+          });
+
+      if (response.statusCode == 200) {
+        return _parseLearningMaterials(response.body);
+      } else {
+        showFlushBar('Error', tryAgain, 2, redColor, context);
+        return null;
+      }
+
+      // return compute(_parseModules, response.body);
+    } catch (e) {
+      print(e.toString());
+      showSnackBar(checkInternetConnection, _scaffoldKey, 5);
+      return null;
+    }
+  }
+
+  List<LearningMaterialsModel> _parseLearningMaterials(String responseBody) {
+    final parsed = json.decode(responseBody);
+
+    List<LearningMaterialsModel> lists = parsed
+        .map<LearningMaterialsModel>(
+            (item) => LearningMaterialsModel.fromJson(item))
+        .toList();
+
+    return lists;
+  }
+
+  // List<LearningMaterialsModel> _parseLearningMaterials(String responseBody) {
+  //   final studentViewModuleMarksPropField = 'studentViewModuleMarksPropField';
+
+  //   final parsedData = json.decode(responseBody);
+
+  //   ModulesList modulesList = ModulesList(
+  //       studentViewModuleMarksPropField:
+  //           parsedData.map<Module>((json) => Module.fromJson(json)).toList());
+
+  //   return modulesList.studentViewModuleMarksPropField;
+  // }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -68,23 +121,23 @@ class _ModulesPageState extends State<ModulesPage> {
       ),
       body: Container(
         color: Theme.of(context).backgroundColor,
-        child: FutureBuilder<List<Module>>(
+        child: FutureBuilder(
             future: widget.requestType == RequestType.GetMarks
                 ? _getModulesWithMarks()
-                : _getModulesWithMarks(),
+                : _getLearningMaterials('Lecture'),
             builder: (context, snapshot) {
               if (snapshot.hasData) {
                 var _modulesList = snapshot.data;
 
                 List<Entry> _sortedModulesList = <Entry>[
                   Entry('Level 6',
-                      _modulesList.where((m) => m.levelField == '6').toList()),
+                      _modulesList.where((m) => m.level == '6').toList()),
                   Entry('Level 5',
-                      _modulesList.where((m) => m.levelField == '5').toList()),
+                      _modulesList.where((m) => m.level == '5').toList()),
                   Entry('Level 4',
-                      _modulesList.where((m) => m.levelField == '4').toList()),
+                      _modulesList.where((m) => m.level == '4').toList()),
                   Entry('Level 3',
-                      _modulesList.where((m) => m.levelField == '3').toList()),
+                      _modulesList.where((m) => m.level == '3').toList()),
                 ];
 
                 return ListView.builder(
@@ -129,7 +182,7 @@ class Entry {
 
   final String title;
 
-  final List<Module> children;
+  final List<dynamic> children;
 }
 
 // class EntryItem extends StatefulWidget {
