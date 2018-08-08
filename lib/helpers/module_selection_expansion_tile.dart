@@ -3,7 +3,7 @@ import 'package:student_system_flutter/bloc/coursework_upload/coursework_upload_
 import 'package:student_system_flutter/bloc/file_download/learning_materials_bloc.dart';
 import 'package:student_system_flutter/helpers/app_constants.dart';
 
-class CustomExpansionTile extends StatelessWidget {
+class ModuleSelectionExpansionTile extends StatelessWidget {
   final GlobalKey<AppExpansionTileState> expansionTile;
   String value;
   final bloc;
@@ -11,7 +11,7 @@ class CustomExpansionTile extends StatelessWidget {
 
   // final ModulesList modulesList;
 
-  CustomExpansionTile(
+  ModuleSelectionExpansionTile(
       {Key key,
       @required this.expansionTile,
       @required this.value,

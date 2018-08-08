@@ -8,18 +8,15 @@ import 'package:student_system_flutter/models/Timetable/timetable_model.dart';
 
 class TimetablePage extends StatelessWidget {
   final listItemLength = 6;
-  final scaffoldKey = GlobalKey<ScaffoldState>();
 
   @override
   Widget build(BuildContext context) {
     final _bloc = TimetableBloc(context: context);
-    _bloc.scaffoldKey = scaffoldKey;
     List<String> _weekDays = populateWeekDayList();
 
     return TimetableProvider(
       timetableBloc: _bloc,
       child: Scaffold(
-        key: scaffoldKey,
         backgroundColor: Theme.of(context).backgroundColor,
         appBar: AppBar(
           centerTitle: true,

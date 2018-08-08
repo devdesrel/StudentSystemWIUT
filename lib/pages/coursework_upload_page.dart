@@ -2,7 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:path/path.dart';
 import 'package:student_system_flutter/bloc/coursework_upload/coursework_upload_provider.dart';
 import 'package:student_system_flutter/helpers/app_constants.dart';
-import 'package:student_system_flutter/helpers/custom_expansion_tile.dart';
+import 'package:student_system_flutter/helpers/function_helpers.dart';
+import 'package:student_system_flutter/helpers/module_selection_expansion_tile.dart';
 
 class CourseworkUploadPage extends StatefulWidget {
   @override
@@ -14,14 +15,24 @@ class _CourseworkUploadPageState extends State<CourseworkUploadPage> {
   @override
   Widget build(BuildContext context) {
     if (_currentPage == null) {
-      _currentPage = _createCurrentPage();
+      _currentPage = _createCurrentPage(context);
     }
 
     return _currentPage;
   }
 }
 
-Widget _createCurrentPage() {
+Widget _createCurrentPage(BuildContext context) {
+  showInfiniteFlushBar(
+      Icon(
+        Icons.info,
+        color: Colors.white,
+      ),
+      info,
+      featureNotImplemented,
+      greyColor,
+      context);
+
   return CourseworkUploadProvider(
     child: Scaffold(
       appBar: AppBar(
@@ -114,7 +125,7 @@ class CourseworkUploadItemsState extends State<CourseworkUploadItems> {
         StreamBuilder(
           initialData: value,
           stream: bloc.moduleName,
-          builder: (context, snapshot) => CustomExpansionTile(
+          builder: (context, snapshot) => ModuleSelectionExpansionTile(
               bloc: bloc,
               expansionTile: expansionTile,
               value: snapshot.hasData ? snapshot.data : value,
@@ -155,22 +166,13 @@ class CourseworkUploadItemsState extends State<CourseworkUploadItems> {
             ),
             RaisedButton(
               onPressed: () async {
-                // var filePath = await Navigator
-                //     .of(context)
-                //     .pushNamed(filePickerPage);
-
                 var filePath =
                     await Navigator.of(context).pushNamed(filePickerPage);
-                // var filePath = await Navigator.push(
-                //   context,
-                //   // We'll create the SelectionScreen in the next step!
-                //   MaterialPageRoute(
-                //       builder: (context) => FilePickerPage()),
-                // );
 
                 bloc.setFileName.add(basename(filePath.toString()));
               },
-              textColor: Theme.of(context).accentColor,
+              textColor: Colors.white,
+              color: greyColor,
               child: Text('Choose file'),
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.all(Radius.circular(5.0)),

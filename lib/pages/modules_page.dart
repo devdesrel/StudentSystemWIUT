@@ -23,8 +23,6 @@ class ModulesPage extends StatefulWidget {
 }
 
 class _ModulesPageState extends State<ModulesPage> {
-  final _scaffoldKey = GlobalKey<ScaffoldState>();
-
   Future<List<Module>> _getModulesWithMarks() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     final _token = prefs.getString(token);
@@ -40,9 +38,8 @@ class _ModulesPageState extends State<ModulesPage> {
       return _parseModules(response.body);
       // return compute(_parseModules, response.body);
     } catch (e) {
-      // showSnackBar(checkInternetConnection, _scaffoldKey, 5);
-      showFlushBar('Internet connection failure', checkInternetConnection, 5,
-          redColor, context);
+      showFlushBar(
+          connectionFailure, checkInternetConnection, 5, redColor, context);
       return null;
     }
   }
@@ -84,8 +81,8 @@ class _ModulesPageState extends State<ModulesPage> {
       // return compute(_parseModules, response.body);
     } catch (e) {
       print(e.toString());
-      showFlushBar('Internet connection failure', checkInternetConnection, 5,
-          redColor, context);
+      showFlushBar(
+          connectionFailure, checkInternetConnection, 5, redColor, context);
       return null;
     }
   }
@@ -116,7 +113,6 @@ class _ModulesPageState extends State<ModulesPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      key: _scaffoldKey,
       appBar: AppBar(
         title: Text('Modules'),
         centerTitle: true,

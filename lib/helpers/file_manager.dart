@@ -211,6 +211,7 @@ class FileManagerState extends State<FileManager>
   Future _openFile(String filePath) async {
     var sendMap = <String, dynamic>{
       'filePath': filePath,
+      'mimeType': lookupMimeType(basename(filePath))
     };
 
     try {

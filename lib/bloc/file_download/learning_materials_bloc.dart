@@ -13,6 +13,10 @@ class LearningMaterialsBloc {
   String moduleName = '';
   List<DownloadFileModel> basicList = List();
   final flushBar = Flushbar<bool>()
+    ..icon = Icon(
+      Icons.info,
+      color: Colors.white,
+    )
     ..title = downloadingMessageTitle
     ..message = downloadingMessageBody
     ..backgroundColor = greyColor;
@@ -93,8 +97,8 @@ class LearningMaterialsBloc {
         return null;
       }
     } catch (e) {
-      showFlushBar('Internet connection failure', checkInternetConnection, 5,
-          redColor, context);
+      showFlushBar(
+          connectionFailure, checkInternetConnection, 5, redColor, context);
       return null;
     }
   }

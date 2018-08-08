@@ -156,24 +156,28 @@ class ContactsPage extends StatelessWidget {
     }
 
     return Scaffold(
-        body: CustomScrollView(slivers: <Widget>[
-      SliverAppBar(
-          flexibleSpace: FlexibleSpaceBar(
-            title: Text(
-              'Contacts',
-              style: TextStyle(fontWeight: FontWeight.w400),
-            ),
-            background: Image.asset(
-              'assets/wiut_cover.png',
-            ),
-          ),
-          expandedHeight: 190.0,
-          floating: false,
-          pinned: false),
-      SliverList(
-          //delegate: SliverChildListDelegate(children: <Widget>[]
-          delegate: SliverChildListDelegate(_getWidgetsList()))
-    ]));
+      body: CustomScrollView(
+        slivers: <Widget>[
+          SliverAppBar(
+              flexibleSpace: FlexibleSpaceBar(
+                title: Text(
+                  'Contacts',
+                  style: TextStyle(fontWeight: FontWeight.w400),
+                ),
+                background: Image.asset(
+                  'assets/wiut_cover.png',
+                  fit: BoxFit.cover,
+                ),
+              ),
+              expandedHeight: 190.0,
+              floating: false,
+              pinned: false),
+          SliverList(
+              //delegate: SliverChildListDelegate(children: <Widget>[]
+              delegate: SliverChildListDelegate(_getWidgetsList()))
+        ],
+      ),
+    );
   }
 }
 

@@ -38,8 +38,8 @@ Future<List<ModuleComponentModel>> _getModulesWithComponents(
 
     return _parseComponents(response.body);
   } catch (e) {
-    showFlushBar('Internet connection failure', checkInternetConnection, 5,
-        redColor, context);
+    showFlushBar(
+        connectionFailure, checkInternetConnection, 5, redColor, context);
     return null;
   }
 }

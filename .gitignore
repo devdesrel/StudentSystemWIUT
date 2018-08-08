@@ -9,3 +9,6 @@ build/
 .flutter-plugins
 .idea/misc.xml
 .vscode/launch.json
+android/.idea/modules.xml
+android/.idea/misc.xml
+android/.idea/gradle.xml

@@ -26,7 +26,6 @@ class _LoginPageState extends State<LoginPage> implements AuthStateListener {
   var bloc = ChangePinBloc();
 
   final formKey = GlobalKey<FormState>();
-  final scaffoldKey = GlobalKey<ScaffoldState>();
   final pinFormKey = GlobalKey<FormState>();
   String pin;
 
@@ -74,11 +73,11 @@ class _LoginPageState extends State<LoginPage> implements AuthStateListener {
   void savePin(BuildContext context) async {
     final form = pinFormKey.currentState;
 
-    FocusScope.of(context).requestFocus(FocusNode());
     if (form.validate()) {
       form.save();
+      FocusScope.of(context).requestFocus(FocusNode());
 
-      await FocusScope.of(context).requestFocus(FocusNode());
+      await Future.delayed(const Duration(milliseconds: 200));
 
       SharedPreferences prefs = await SharedPreferences.getInstance();
       prefs.setString(pinCode, confirmPin);
@@ -114,7 +113,8 @@ class _LoginPageState extends State<LoginPage> implements AuthStateListener {
           Navigator.of(context).pushReplacementNamed(securityPage);
         }
       } else
-        showSnackBar(usernamePasswordIncorrect, scaffoldKey);
+        showFlushBar(
+            authProblems, usernamePasswordIncorrect, 2, redColor, context);
 
       setState(() {
         progressDialogVisible = false;
@@ -123,7 +123,9 @@ class _LoginPageState extends State<LoginPage> implements AuthStateListener {
       setState(() {
         progressDialogVisible = false;
       });
-      showSnackBar(checkInternetConnection, scaffoldKey, 5);
+
+      showFlushBar(
+          connectionFailure, checkInternetConnection, 5, redColor, context);
     }
   }
 
@@ -163,7 +165,6 @@ class _LoginPageState extends State<LoginPage> implements AuthStateListener {
     }
 
     return Scaffold(
-      key: scaffoldKey,
       body: Container(
         padding: const EdgeInsets.only(top: 0.0),
         child: Stack(

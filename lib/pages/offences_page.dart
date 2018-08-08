@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:student_system_flutter/helpers/function_helpers.dart';
 
 import '../helpers/app_constants.dart';
 import '../list_items/item_offences.dart';
@@ -8,6 +9,16 @@ int _totalOffences = 7;
 class OffencesPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    showInfiniteFlushBar(
+        Icon(
+          Icons.info,
+          color: Colors.white,
+        ),
+        info,
+        featureNotImplemented,
+        greyColor,
+        context);
+
     return Scaffold(
         backgroundColor: Theme.of(context).backgroundColor,
         appBar: AppBar(

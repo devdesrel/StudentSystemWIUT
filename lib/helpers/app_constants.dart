@@ -69,6 +69,8 @@ final apiComponentMark =
     '$baseUrl/api/StudentProfileAndMarks/StudentModuleComponentMark';
 
 //Errors List
+final String authProblems = 'Authorization problems';
+final String connectionFailure = 'Internet connection failure';
 final String checkInternetConnection = 'Please, check your internet connection';
 final String tryAgain = 'Please, try again!';
 final String usernamePasswordIncorrect =
@@ -76,6 +78,8 @@ final String usernamePasswordIncorrect =
 
 //String Helpers List
 final String nullFixer = '';
+final String info = 'Info';
+final String featureNotImplemented = 'Feature has not fully implemented yet';
 final String downloadingMessageTitle = 'Downloading files';
 final String downloadingMessageBody =
     'Please, don\'t leave this page until the process is done';

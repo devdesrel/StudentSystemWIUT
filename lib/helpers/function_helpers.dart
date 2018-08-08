@@ -28,6 +28,17 @@ void showFlushBar(String title, String message, int duration,
     ..show(context);
 }
 
+void showInfiniteFlushBar(Widget icon, String title, String message,
+    Color backgroundColor, BuildContext context) {
+  Flushbar()
+    ..icon = icon
+    ..title = title
+    ..message = message
+    ..backgroundColor = backgroundColor
+    ..shadowColor = Colors.red[800]
+    ..show(context);
+}
+
 Future<File> getImage(bool isFromCamera) async {
   return await ImagePicker.pickImage(
       source: isFromCamera ? ImageSource.camera : ImageSource.gallery);

@@ -37,7 +37,6 @@ Widget _createCurrentPage(BuildContext context) {
           title: Text('Create Post'),
           iconTheme: IconThemeData(color: whiteColor),
           elevation: 0.0,
-          backgroundColor: accentColor,
           leading: IconButton(
             onPressed: () {
               Navigator.of(context).pop();
@@ -47,6 +46,7 @@ Widget _createCurrentPage(BuildContext context) {
             ),
           ),
         ),
+        backgroundColor: whiteColor,
         body: NewPostBody(),
         bottomNavigationBar: BottomAppBar(
           color: accentColor,
@@ -90,15 +90,18 @@ class NewPostBody extends StatelessWidget {
     var _bloc = NewPostProvider.of(context);
 
     return Column(children: <Widget>[
-      TextFormField(
-        autofocus: false,
-        maxLines: null,
-        keyboardType: TextInputType.text,
-        decoration: InputDecoration(
-          border: InputBorder.none,
-          contentPadding:
-              EdgeInsets.symmetric(horizontal: 16.0, vertical: 15.0),
-          hintText: 'Share your ideas',
+      Container(
+        color: whiteColor,
+        child: TextFormField(
+          autofocus: false,
+          maxLines: 8,
+          keyboardType: TextInputType.text,
+          decoration: InputDecoration(
+            border: InputBorder.none,
+            contentPadding:
+                EdgeInsets.symmetric(horizontal: 16.0, vertical: 15.0),
+            hintText: 'Share your ideas',
+          ),
         ),
       ),
       StreamBuilder(
@@ -107,32 +110,43 @@ class NewPostBody extends StatelessWidget {
             if (snapshot.hasData && snapshot.data.length > 0) {
               // imagesList = snapshot.data.toList();
               return Expanded(
-                child: GridView.count(
-                    crossAxisCount: snapshot.data.length > 2 ? 3 : 2,
-                    children: snapshot.data
-                        .map<Widget>((File item) => Padding(
-                              padding: const EdgeInsets.symmetric(
-                                  vertical: 6.0, horizontal: 5.0),
-                              child: Image.file(
-                                item,
-                                width: 250.0,
-                                height: 400.0,
-                              ),
-                            ))
-                        .toList()),
+                child: Container(
+                  color: Colors.grey[300],
+                  child: GridView.count(
+                      crossAxisCount: snapshot.data.length > 2 ? 3 : 2,
+                      children: snapshot.data
+                          .map<Widget>((File item) => Padding(
+                                padding: const EdgeInsets.symmetric(
+                                    vertical: 6.0, horizontal: 5.0),
+                                child: Image.file(
+                                  item,
+                                  width: 250.0,
+                                  height: 400.0,
+                                ),
+                              ))
+                          .toList()),
+                ),
               );
-
-              // <Widget>[
-              //   Image.file(
-              //     snapshot.data[0],
-              //     width: 250.0,
-              //     height: 400.0,
-              //   )
-              // ],
-              // );
-
             } else {
-              return Container();
+              return Expanded(
+                child: InkWell(
+                  onTap: () async {
+                    File file = await getImage(false);
+                    if (file != null) {
+                      _bloc.addWidget.add(file);
+                    }
+                  },
+                  child: Container(
+                    color: Colors.grey[300],
+                    child: Center(
+                      child: Text(
+                        'Choose image from gallery',
+                        style: Theme.of(context).textTheme.headline,
+                      ),
+                    ),
+                  ),
+                ),
+              );
             }
           })
     ]);

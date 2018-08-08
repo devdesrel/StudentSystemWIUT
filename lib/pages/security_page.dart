@@ -16,7 +16,6 @@ class SecurityPage extends StatefulWidget {
 }
 
 class _SecurityPageState extends State<SecurityPage> {
-  final scaffoldKey = GlobalKey<ScaffoldState>();
   bool authenticated = false;
   bool isFingerPrintOn;
   bool fingerprintDenied;
@@ -81,7 +80,6 @@ class _SecurityPageState extends State<SecurityPage> {
           } else if (_pinCode.length == 4 && _pinCode != pinCode) {
             _pinCodeMask = '';
             _pinCode = '';
-            // showSnackBar('Incorrect pin. Try again.', scaffoldKey);
             showFlushBar('Incorrect PIN', 'Try again', 3, redColor, context);
           }
         }
@@ -162,7 +160,6 @@ class _SecurityPageState extends State<SecurityPage> {
     return SecurityProvider(
       securityBloc: _bloc,
       child: Scaffold(
-        key: scaffoldKey,
         body: Container(
           padding: const EdgeInsets.symmetric(horizontal: 24.0),
           color: Colors.blue,

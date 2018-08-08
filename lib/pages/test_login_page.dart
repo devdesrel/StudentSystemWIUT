@@ -27,7 +27,6 @@ class _LoginPageState extends State<LoginPage> implements AuthStateListener {
   var bloc = ChangePinBloc();
   final formKey = GlobalKey<FormState>();
   final pinFormKey = GlobalKey<FormState>();
-  final scaffoldKey = GlobalKey<ScaffoldState>();
   String pin;
 
   String currentUserPin;
@@ -105,8 +104,8 @@ class _LoginPageState extends State<LoginPage> implements AuthStateListener {
       setState(() {
         progressDialogVisible = false;
       });
-      showFlushBar('Internet connection failure', checkInternetConnection, 5,
-          redColor, context);
+      showFlushBar(
+          connectionFailure, checkInternetConnection, 5, redColor, context);
     }
   }
 
@@ -168,7 +167,6 @@ class _LoginPageState extends State<LoginPage> implements AuthStateListener {
     return ChangePinProvider(
       changePinBloc: bloc,
       child: Scaffold(
-        key: scaffoldKey,
         body: Container(
           decoration: BoxDecoration(
               image: DecorationImage(

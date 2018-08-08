@@ -27,24 +27,22 @@ public class MainActivity extends FlutterActivity {
             public void onMethodCall(MethodCall methodCall, MethodChannel.Result result) {
                 final Map<String, Object> arguments = methodCall.arguments();
                 if (methodCall.method.equals("openFile")) {
-                   openFile((String) arguments.get("filePath"));
+                   openFile((String) arguments.get("filePath"), (String) arguments.get("mimeType"));
                 }
             }
       });
   }
 
-  private void openFile(String filePath){
+  private void openFile(String filePath, String mimeType){
       File file = new File(filePath);
-      MimeTypeMap map = MimeTypeMap.getSingleton();
-      String ext = MimeTypeMap.getFileExtensionFromUrl(file.getName());
-      String mimeType = map.getMimeTypeFromExtension(ext);
+//      MimeTypeMap map = MimeTypeMap.getSingleton();
+//      String ext = MimeTypeMap.getFileExtensionFromUrl(file.getName());
+//      String mimeType = map.getMimeTypeFromExtension(ext);
 
       if (mimeType == null)
           mimeType = "*/*";
 
       Intent intent = new Intent(Intent.ACTION_VIEW);
-    //   Uri data = Uri.fromFile(file);
-    //   intent.setDataAndType(data, mimeType);
        Uri data = FileProvider.getUriForFile(
         MainActivity.this, 
         BuildConfig.APPLICATION_ID + ".com.example.studentsystemflutter.provider", file);

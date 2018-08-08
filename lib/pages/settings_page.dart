@@ -9,8 +9,6 @@ import 'package:student_system_flutter/helpers/app_constants.dart';
 import 'package:student_system_flutter/helpers/function_helpers.dart';
 
 class SettingsPage extends StatelessWidget {
-  final scaffoldKey = GlobalKey<ScaffoldState>();
-
   SharedPreferences prefs;
   String currentUserPin;
   var formKey = GlobalKey<FormState>();
@@ -47,10 +45,9 @@ class SettingsPage extends StatelessWidget {
       settingsBloc: _bloc,
       child: Scaffold(
         backgroundColor: backgroundColor,
-        key: scaffoldKey,
         appBar: AppBar(
           centerTitle: true,
-          title: Text('Settings Pagee'),
+          title: Text('Settings'),
         ),
         body: ListView(
           children: <Widget>[
