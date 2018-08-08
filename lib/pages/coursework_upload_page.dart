@@ -54,7 +54,7 @@ class CourseworkUploadItemsState extends State<CourseworkUploadItems> {
   @override
   Widget build(BuildContext context) {
     var bloc = CourseworkUploadProvider.of(context);
-    ModulesList modulesList = ModulesList(_moduleNamesList);
+
     void saveTitle() {
       final form = formKey.currentState;
       bloc.setAutoValidation.add(true);
@@ -115,9 +115,10 @@ class CourseworkUploadItemsState extends State<CourseworkUploadItems> {
           initialData: value,
           stream: bloc.moduleName,
           builder: (context, snapshot) => CustomExpansionTile(
+              bloc: bloc,
               expansionTile: expansionTile,
               value: snapshot.hasData ? snapshot.data : value,
-              modulesList: modulesList),
+              expansionChildrenList: _moduleNamesList),
         ),
         SizedBox(
           height: 2.0,

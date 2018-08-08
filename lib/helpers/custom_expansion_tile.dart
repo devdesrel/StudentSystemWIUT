@@ -1,36 +1,41 @@
 import 'package:flutter/material.dart';
-import 'package:student_system_flutter/bloc/coursework_upload/coursework_upload_provider.dart';
+import 'package:student_system_flutter/bloc/coursework_upload/coursework_upload_bloc.dart';
+import 'package:student_system_flutter/bloc/file_download/learning_materials_bloc.dart';
 import 'package:student_system_flutter/helpers/app_constants.dart';
 
 class CustomExpansionTile extends StatelessWidget {
   final GlobalKey<AppExpansionTileState> expansionTile;
   String value;
-  final ModulesList modulesList;
+  final bloc;
+  final List<String> expansionChildrenList;
 
-  CustomExpansionTile({
-    Key key,
-    @required this.expansionTile,
-    @required this.value,
-    @required this.modulesList,
-  }) : super(key: key);
+  // final ModulesList modulesList;
+
+  CustomExpansionTile(
+      {Key key,
+      @required this.expansionTile,
+      @required this.value,
+      @required this.bloc,
+      @required this.expansionChildrenList})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    var bloc = CourseworkUploadProvider.of(context);
+    // var bloc = CourseworkUploadProvider.of(context);
     return AppExpansionTile(
       key: expansionTile,
       title: Text(value),
       backgroundColor: whiteColor,
       onExpansionChanged: (b) => print(b),
-      children: modulesList.children
-          .map((moduleName) => InkWell(
+      children: expansionChildrenList
+          .map((name) => InkWell(
                 onTap: () {
-                  bloc.setModuleName.add(moduleName);
+                  if (bloc is CourseworkUploadBloc)
+                    bloc.setModuleName.add(name);
+                  else if (bloc is LearningMaterialsBloc)
+                    bloc.setLearningMaterialType.add(name);
+
                   expansionTile.currentState.collapse();
-                  // setState(() {
-                  //   widget.value = moduleName;
-                  //   widget.expansionTile.currentState.collapse();
-                  // });
                 },
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -38,8 +43,8 @@ class CustomExpansionTile extends StatelessWidget {
                     Padding(
                       padding: const EdgeInsets.symmetric(
                           vertical: 8.0, horizontal: 16.0),
-                      child: ItemModuleSelect(
-                        moduleName: moduleName,
+                      child: ItemSelection(
+                        name: name,
                       ),
                     ),
                   ],
@@ -50,30 +55,35 @@ class CustomExpansionTile extends StatelessWidget {
   }
 }
 
-class ItemModuleSelect extends StatelessWidget {
-  final moduleName;
+class ItemSelection extends StatelessWidget {
+  final name;
 
-  ItemModuleSelect({
-    @required this.moduleName,
+  ItemSelection({
+    @required this.name,
     Key key,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return Text(
-      moduleName,
-      textAlign: TextAlign.left,
+    return Column(
+      children: <Widget>[
+        Text(
+          name,
+          textAlign: TextAlign.left,
+        ),
+        Divider()
+      ],
     );
   }
 }
 
-class ModulesList {
-  ModulesList(this.children);
+// class ModulesList {
+//   ModulesList(this.children);
 
-  //final String title;
+//   //final String title;
 
-  final List<String> children;
-}
+//   final List<String> children;
+// }
 
 const Duration _kExpand = const Duration(milliseconds: 200);
 

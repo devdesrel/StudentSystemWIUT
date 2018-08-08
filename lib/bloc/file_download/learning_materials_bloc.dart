@@ -33,6 +33,10 @@ class LearningMaterialsBloc {
         flushBar.dismiss();
       }
     });
+
+    _setLearningMaterialTypeController.stream.listen((type) {
+      _learningMaterialTypeSubject.add(type);
+    });
   }
 
   Sink<DownloadFileModel> get addFileToDownload =>
@@ -45,8 +49,18 @@ class LearningMaterialsBloc {
 
   final _removeItemFromDownloadingListController = StreamController<String>();
 
+  Sink<String> get setLearningMaterialType =>
+      _setLearningMaterialTypeController.sink;
+
+  final _setLearningMaterialTypeController = StreamController<String>();
+
   Stream<List<DownloadFileModel>> get downloadingFilesList =>
       _downloadingFilesListSubject.stream;
+
+  Stream<String> get learningMaterialType =>
+      _learningMaterialTypeSubject.stream;
+
+  final _learningMaterialTypeSubject = BehaviorSubject<String>();
 
   final _downloadingFilesListSubject =
       BehaviorSubject<List<DownloadFileModel>>();
@@ -55,6 +69,8 @@ class LearningMaterialsBloc {
     _addFileToDownloadController.close();
     _removeItemFromDownloadingListController.close();
     _downloadingFilesListSubject.close();
+    _setLearningMaterialTypeController.close();
+    _learningMaterialTypeSubject.close();
   }
 
   Future<List<DownloadFileModel>> getFileUrlsToDownload(

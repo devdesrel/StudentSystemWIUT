@@ -3,6 +3,8 @@ import 'package:simple_permissions/simple_permissions.dart';
 import 'package:student_system_flutter/bloc/file_download/file_download_bloc.dart';
 import 'package:student_system_flutter/bloc/file_download/learning_materials_bloc.dart';
 import 'package:student_system_flutter/bloc/file_download/learning_materials_provider.dart';
+import 'package:student_system_flutter/helpers/custom_expansion_tile.dart';
+import 'package:student_system_flutter/helpers/function_helpers.dart';
 import 'package:student_system_flutter/list_items/item_file_downloading.dart';
 import 'package:student_system_flutter/models/LearningMaterials/learning_materials_model.dart';
 import 'package:student_system_flutter/models/LearningMaterials/single_learning_material_model.dart';
@@ -47,6 +49,7 @@ class _LecturesPageState extends State<LecturesPage>
             ],
             controller: _controller,
           ),
+          elevation: 2.0,
           title: Text(widget.module.moduleName),
           centerTitle: true,
           actions: <Widget>[
@@ -77,6 +80,7 @@ class _LecturesPageState extends State<LecturesPage>
 
 class MaterialsListTab extends StatefulWidget {
   final List<SingleLearningMaterialsModel> materialsList;
+
   final TabController controller;
   final LearningMaterialsBloc bloc;
 
@@ -93,6 +97,8 @@ class MaterialsListTab extends StatefulWidget {
 
 class _MaterialsListTabState extends State<MaterialsListTab>
     with AutomaticKeepAliveClientMixin {
+  final GlobalKey<AppExpansionTileState> expansionTile = new GlobalKey();
+
   // TODO: implement wantKeepAlive
   @override
   bool get wantKeepAlive => true;
@@ -103,21 +109,89 @@ class _MaterialsListTabState extends State<MaterialsListTab>
 
     print('Rebuild Materials List Tab');
 
-    return ListView.builder(
-        itemCount: widget.materialsList.length,
-        itemBuilder: (context, index) => index == 0
-            ? Padding(
-                padding: const EdgeInsets.only(top: 8.0),
-                child: LearningMaterialsCard(
+    List<String> _learningMaterialTypes = <String>[
+      'Lecture',
+      'Tutorial',
+      'Coursework Task'
+    ];
+
+    return CustomScrollView(
+      slivers: <Widget>[
+        SliverToBoxAdapter(
+          child: Container(
+            padding: EdgeInsets.symmetric(vertical: 0.0, horizontal: 16.0),
+            color: whiteColor,
+            child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  // Text('Learning Material',
+                  //     style: TextStyle(
+                  //         fontWeight: FontWeight.bold,
+                  //         color: accentColor,
+                  //         fontSize: 15.0)),
+                  SizedBox(
+                    width: 300.0,
+                    child: StreamBuilder(
+                      initialData: _learningMaterialTypes[0],
+                      stream: widget.bloc.learningMaterialType,
+                      builder: (context, snapshot) => CustomExpansionTile(
+                          bloc: widget.bloc,
+                          expansionTile: expansionTile,
+                          value: snapshot.hasData
+                              ? snapshot.data
+                              : _learningMaterialTypes[0],
+                          expansionChildrenList: _learningMaterialTypes),
+                    ),
+                  ),
+                  // DropdownButton(
+                  //   value: _learningMaterialTypes[0],
+                  //   items: _learningMaterialTypes
+                  //       .map((type) =>
+                  //           DropdownMenuItem(value: type, child: Text(type)))
+                  //       .toList(),
+                  //   onChanged: (value) {
+                  //     showFlushBar(
+                  //         'Dropdown Item', value, 2, greenColor, context);
+                  //   },
+                  // ),
+                ]),
+          ),
+        ),
+        SliverList(
+          delegate: SliverChildBuilderDelegate(
+            (context, index) => index == 0
+                ? Padding(
+                    padding: const EdgeInsets.only(top: 8.0),
+                    child: LearningMaterialsCard(
+                        learningMaterialsModel: widget.materialsList[index],
+                        controller: widget.controller,
+                        bloc: widget.bloc),
+                  )
+                : LearningMaterialsCard(
                     learningMaterialsModel: widget.materialsList[index],
                     controller: widget.controller,
-                    bloc: widget.bloc),
-              )
-            : LearningMaterialsCard(
-                learningMaterialsModel: widget.materialsList[index],
-                controller: widget.controller,
-                bloc: widget.bloc,
-              ));
+                    bloc: widget.bloc,
+                  ),
+            childCount: widget.materialsList.length,
+          ),
+        )
+        // itemCount: widget.materialsList.length,
+        // itemBuilder:
+        // (context, index) => index == 0
+        //     ? Padding(
+        //         padding: const EdgeInsets.only(top: 8.0),
+        //         child: LearningMaterialsCard(
+        //             learningMaterialsModel: widget.materialsList[index],
+        //             controller: widget.controller,
+        //             bloc: widget.bloc),
+        //       )
+        //     : LearningMaterialsCard(
+        //         learningMaterialsModel: widget.materialsList[index],
+        //         controller: widget.controller,
+        //         bloc: widget.bloc,
+        //       )),
+      ],
+    );
   }
 }
 
