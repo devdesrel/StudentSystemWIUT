@@ -47,7 +47,7 @@ class _LecturesPageState extends State<LecturesPage>
             ],
             controller: _controller,
           ),
-          title: Text('Lecture Materials'),
+          title: Text(widget.module.moduleName),
           centerTitle: true,
           actions: <Widget>[
             IconButton(
@@ -168,14 +168,23 @@ class LearningMaterialsCard extends StatelessWidget {
       BuildContext context, List<DownloadFileModel> downloadFilesList) {
     List<Widget> _listOfWidgets = [];
 
-    for (var downloadFile in downloadFilesList) {
-      downloadFile.folderName = learningMaterialsModel.title;
+    if (downloadFilesList.length > 0) {
+      for (var downloadFile in downloadFilesList) {
+        downloadFile.folderName = learningMaterialsModel.title;
 
-      _listOfWidgets.add(CustomSimpleDialogOption(
-        controller: controller,
-        downloadFile: downloadFile,
-        bloc: bloc,
-        flushBar: bloc.flushBar,
+        _listOfWidgets.add(CustomSimpleDialogOption(
+          controller: controller,
+          downloadFile: downloadFile,
+          bloc: bloc,
+          flushBar: bloc.flushBar,
+        ));
+      }
+    } else {
+      _listOfWidgets.add(Center(
+        child: Padding(
+          padding: const EdgeInsets.symmetric(vertical: 15.0),
+          child: Text(noFilesToDownload),
+        ),
       ));
     }
 
@@ -215,22 +224,24 @@ class LearningMaterialsCard extends StatelessWidget {
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: <Widget>[
                           Text('Download'),
-                          InkWell(
-                              child: Padding(
-                                padding: const EdgeInsets.all(8.0),
-                                child: Icon(Icons.cloud_download),
-                              ),
-                              onTap: () {
-                                for (var downloadFile in snapshot.data) {
-                                  downloadFile.folderName =
-                                      learningMaterialsModel.title;
-                                  bloc.addFileToDownload.add(downloadFile);
-                                }
-                                Navigator.pop(context);
+                          snapshot.data.length > 1
+                              ? InkWell(
+                                  child: Padding(
+                                    padding: const EdgeInsets.all(8.0),
+                                    child: Icon(Icons.cloud_download),
+                                  ),
+                                  onTap: () {
+                                    for (var downloadFile in snapshot.data) {
+                                      downloadFile.folderName =
+                                          learningMaterialsModel.title;
+                                      bloc.addFileToDownload.add(downloadFile);
+                                    }
+                                    Navigator.pop(context);
 
-                                controller.animateTo(1);
-                                bloc.flushBar.show(context);
-                              })
+                                    controller.animateTo(1);
+                                    bloc.flushBar.show(context);
+                                  })
+                              : Container()
                         ],
                       ),
                       children: _getDialogItems(context, snapshot.data))

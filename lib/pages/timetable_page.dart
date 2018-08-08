@@ -46,7 +46,7 @@ class TimetablePage extends StatelessWidget {
                     return Container();
                   }
                 }),
-            IconButton(icon: Icon(Icons.search), onPressed: () {})
+            // IconButton(icon: Icon(Icons.search), onPressed: () {})
           ],
         ),
         body: StreamBuilder<List<TimetableModel>>(

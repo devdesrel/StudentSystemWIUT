@@ -56,17 +56,30 @@ class MarksPage extends StatelessWidget {
   Widget build(BuildContext context) {
     TextStyle _getTextStyle() {
       if (module.moduleGrade == 'PASS') {
-        return Theme.of(context).textTheme.display1.copyWith(color: greenColor);
+        return Theme
+            .of(context)
+            .textTheme
+            .headline
+            .copyWith(color: greenColor, fontWeight: FontWeight.bold);
       } else if (module.moduleGrade == 'FAIL') {
-        return Theme.of(context).textTheme.display1.copyWith(color: redColor);
+        return Theme
+            .of(context)
+            .textTheme
+            .body2
+            .copyWith(color: redColor, fontWeight: FontWeight.bold);
       } else {
         return Theme
             .of(context)
             .textTheme
-            .display1
-            .copyWith(color: accentColor);
+            .body2
+            .copyWith(color: accentColor, fontWeight: FontWeight.bold);
       }
     }
+
+    var size = MediaQuery.of(context).size;
+
+    /*24 is for notification bar on Android*/
+    final double itemHeight = (size.height - kToolbarHeight - 24) / 2;
 
     return Scaffold(
       appBar: AppBar(
@@ -76,61 +89,71 @@ class MarksPage extends StatelessWidget {
       // body: CustomGridView(context).build(),
       body: Container(
         color: Theme.of(context).backgroundColor,
-        child: Column(
-          children: <Widget>[
-            CustomGridView(context, module).build(),
-            Expanded(
-              child: Container(
-                color: whiteColor,
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: <Widget>[
-                    Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: <Widget>[
-                        Text(module.moduleGrade, style: _getTextStyle()),
-                        AnimatedCircularChart(
-                          duration: Duration(seconds: 1),
-                          key: _chartKey,
-                          size: const Size(250.0, 250.0),
-                          initialChartData: <CircularStackEntry>[
-                            new CircularStackEntry(
-                              <CircularSegmentEntry>[
-                                new CircularSegmentEntry(
-                                  double.parse(module.moduleMark),
-                                  Colors.blue[400],
-                                  rankKey: 'completed',
-                                  // rankKey: 'progress',
-                                ),
-                                new CircularSegmentEntry(
-                                  100 - double.parse(module.moduleMark),
-                                  Colors.red[400],
-                                  rankKey: 'remaining',
-                                  // rankKey: 'progress',
-                                ),
-                              ],
-                              rankKey: 'progress',
-                            ),
-                          ],
-                          chartType: CircularChartType.Radial,
-                          percentageValues: true,
-                          holeLabel: '${module.moduleMark}%',
-                          labelStyle: Theme
-                              .of(context)
-                              .textTheme
-                              .display1
-                              .copyWith(
-                                  fontWeight: FontWeight.bold,
-                                  color: accentColor),
-                        ),
-                        CustomAnimatedText()
-                      ],
-                    ),
-                  ],
+        child: SingleChildScrollView(
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: <Widget>[
+              SizedBox(
+                  height: itemHeight,
+                  child: CustomGridView(context, module).build()),
+              SizedBox(
+                height: itemHeight,
+                child: Container(
+                  color: whiteColor,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: <Widget>[
+                      Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: <Widget>[
+                          AnimatedCircularChart(
+                            duration: Duration(seconds: 2),
+                            key: _chartKey,
+                            size: const Size(230.0, 230.0),
+                            initialChartData: <CircularStackEntry>[
+                              new CircularStackEntry(
+                                <CircularSegmentEntry>[
+                                  new CircularSegmentEntry(
+                                    double.parse(module.moduleMark),
+                                    greenColor,
+                                    rankKey: 'completed',
+                                    // rankKey: 'progress',
+                                  ),
+                                  new CircularSegmentEntry(
+                                    100 - double.parse(module.moduleMark),
+                                    Colors.red[400],
+                                    rankKey: 'remaining',
+                                    // rankKey: 'progress',
+                                  ),
+                                ],
+                                rankKey: 'progress',
+                              ),
+                            ],
+                            chartType: CircularChartType.Radial,
+                            percentageValues: true,
+                            holeLabel: '${module.moduleMark}%',
+                            labelStyle: Theme
+                                .of(context)
+                                .textTheme
+                                .display1
+                                .copyWith(
+                                    fontWeight: FontWeight.bold,
+                                    color: int.parse(module.moduleMark) >= 40
+                                        ? greenColor
+                                        : redColor),
+                          ),
+                          Text(module.moduleGrade, style: _getTextStyle()),
+
+                          // CustomAnimatedText()
+                        ],
+                      ),
+                    ],
+                  ),
                 ),
-              ),
-            )
-          ],
+              )
+            ],
+          ),
         ),
       ),
     );
@@ -253,31 +276,34 @@ class CustomGridView {
     return FutureBuilder<List<ModuleComponentModel>>(
       future: _getModulesWithComponents(context, module),
       builder: (context, snapshot) => snapshot.hasData
-          ? GridView.count(
-              // primary: true,
-              padding:
-                  const EdgeInsets.symmetric(vertical: 10.0, horizontal: 16.0),
-              crossAxisCount: 2,
-              childAspectRatio: (itemWidth / itemHeight), //1.38
-              shrinkWrap: true,
-              scrollDirection: Axis.vertical,
-              controller: ScrollController(keepScrollOffset: false),
-              mainAxisSpacing: 10.0,
-              crossAxisSpacing: 10.0,
-              children: snapshot.data
-                  .map<Widget>((ModuleComponentModel item) => makeGridCell(
-                      item.assessTitle,
-                      int.parse(item.mark),
-                      int.parse(item.weighting)))
-                  .toList(),
-              // children: <Widget>[
-              //   makeGridCell("СW1", 87, 20),
-              //   makeGridCell("СW2", 55, 30),
-              //   makeGridCell("СW3", 71, 30),
-              //   makeGridCell("СW4", 91, 20),
-              // ]
+          ? Center(
+              child: GridView.count(
+                // primary: true,
+                padding: EdgeInsets.symmetric(vertical: 10.0, horizontal: 16.0),
+                crossAxisCount: snapshot.data.length > 2 ? 2 : 1,
+                childAspectRatio: snapshot.data.length > 2
+                    ? (itemWidth / itemHeight)
+                    : (itemWidth / itemHeight * 2.0), //1.38
+                shrinkWrap: true,
+                scrollDirection: Axis.vertical,
+                controller: ScrollController(keepScrollOffset: false),
+                mainAxisSpacing: 10.0,
+                crossAxisSpacing: 10.0,
+                children: snapshot.data
+                    .map<Widget>((ModuleComponentModel item) => makeGridCell(
+                        item.assessTitle,
+                        int.parse(item.mark),
+                        int.parse(item.weighting)))
+                    .toList(),
+                // children: <Widget>[
+                //   makeGridCell("СW1", 87, 20),
+                //   makeGridCell("СW2", 55, 30),
+                //   makeGridCell("СW3", 71, 30),
+                //   makeGridCell("СW4", 91, 20),
+                // ]
+              ),
             )
-          : Container(),
+          : Center(child: CircularProgressIndicator()),
     );
   }
 }

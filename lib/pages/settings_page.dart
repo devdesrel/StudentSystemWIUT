@@ -54,14 +54,7 @@ class SettingsPage extends StatelessWidget {
         ),
         body: ListView(
           children: <Widget>[
-            Padding(
-              padding:
-                  const EdgeInsets.only(left: 13.0, right: 12.0, top: 10.0),
-              child: Text(
-                'Security',
-                style: TextStyle(fontSize: 16.0, color: lightGreyTextColor),
-              ),
-            ),
+            CustomSettingsCategory(text: 'Security'),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 10.0),
               child: Card(
@@ -77,9 +70,11 @@ class SettingsPage extends StatelessWidget {
                               _bloc.setSwitchtileValue.add(value);
                             },
                             secondary: Icon(Icons.fingerprint),
-                            subtitle: Text('Security'),
                             title: Text('Fingerprint to log in'),
                           ),
+                    ),
+                    Divider(
+                      height: 0.0,
                     ),
                     ListTile(
                       onTap: () {
@@ -90,7 +85,6 @@ class SettingsPage extends StatelessWidget {
                         height: 28.0,
                       ),
                       title: Text('Change PIN code'),
-                      subtitle: Text('Security'),
                     ),
                   ],
                 ),
@@ -218,6 +212,25 @@ class SettingsPage extends StatelessWidget {
           ],
         );
       },
+    );
+  }
+}
+
+class CustomSettingsCategory extends StatelessWidget {
+  final String text;
+  const CustomSettingsCategory({Key key, @required this.text})
+      : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.only(left: 14.0, top: 12.0),
+      child: Text(
+        text,
+        style: TextStyle(
+            fontWeight: FontWeight.bold, color: accentColor, fontSize: 16.0),
+        textAlign: TextAlign.start,
+      ),
     );
   }
 }

@@ -7,6 +7,7 @@ import 'package:path/path.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:simple_permissions/simple_permissions.dart';
 import 'package:mime/mime.dart';
+import 'package:student_system_flutter/helpers/app_constants.dart';
 
 bool externalStoragePermissionOkay = false;
 var _directory = '';
@@ -129,7 +130,7 @@ class FileManagerState extends State<FileManager>
             return _buildRow(_filteredPathsList.elementAt(i), context);
           });
     } else if (_allPathsList.length == 0) {
-      return Center(child: Text('There is no downloaded files'));
+      return Center(child: Text(noDownloadedFiles));
     } else {
       return Padding(padding: const EdgeInsets.all(16.0), child: text);
     }
@@ -138,43 +139,48 @@ class FileManagerState extends State<FileManager>
   Widget _buildRow(String path, BuildContext context) {
     final _fileName = basename(path);
 
-    return ListTile(
-      leading: _fileName == _back
-          ? Icon(
-              Icons.arrow_back_ios,
-              color: accentColor,
-            )
-          : _getIcon(path),
-      title: Text(
-        _fileName,
-        style:
-            TextStyle(color: _fileName == _back ? accentColor : Colors.black),
-      ),
-      onTap: () {
-        if (_fileName == _back) {
-          setState(() {
-            _directory = _directory.replaceFirst(_currentDirectory, '');
-            _currentDirectory = '/${_directory.split("/").last}';
-          });
-        } else if (FileSystemEntity.isDirectorySync(path)) {
-          _currentDirectory = '/$_fileName';
+    return Column(
+      children: <Widget>[
+        ListTile(
+          leading: _fileName == _back
+              ? Icon(
+                  Icons.arrow_back_ios,
+                  color: accentColor,
+                )
+              : _getIcon(path),
+          title: Text(
+            _fileName,
+            style: TextStyle(
+                color: _fileName == _back ? accentColor : Colors.black),
+          ),
+          onTap: () {
+            if (_fileName == _back) {
+              setState(() {
+                _directory = _directory.replaceFirst(_currentDirectory, '');
+                _currentDirectory = '/${_directory.split("/").last}';
+              });
+            } else if (FileSystemEntity.isDirectorySync(path)) {
+              _currentDirectory = '/$_fileName';
 
-          setState(() {
-            _directory = _directory + _currentDirectory;
-          });
-        } else if (FileSystemEntity.isFileSync(path)) {
-          if (widget.isFilePicker) {
-            Navigator.pop(
-              context,
-              path,
-            );
-          } else {
-            _openFile(path);
-          }
-          //Navigator.of(context).pop(path);
-          //Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) => CourseworkUploadPage(path)));
-        }
-      },
+              setState(() {
+                _directory = _directory + _currentDirectory;
+              });
+            } else if (FileSystemEntity.isFileSync(path)) {
+              if (widget.isFilePicker) {
+                Navigator.pop(
+                  context,
+                  path,
+                );
+              } else {
+                _openFile(path);
+              }
+              //Navigator.of(context).pop(path);
+              //Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) => CourseworkUploadPage(path)));
+            }
+          },
+        ),
+        Divider()
+      ],
     );
   }
 

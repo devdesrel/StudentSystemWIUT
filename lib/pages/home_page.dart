@@ -89,9 +89,9 @@ void openSelectedPage(BuildContext context, MainPageGridItems page) {
           builder: (context) =>
               ModulesPage(requestType: RequestType.GetTeachingMaterials)));
       break;
-    case MainPageGridItems.TUTORIALS:
-      Navigator.of(context).pushNamed(lecturesPage);
-      break;
+    // case MainPageGridItems.TUTORIALS:
+    //   Navigator.of(context).pushNamed(lecturesPage);
+    //   break;
     case MainPageGridItems.OFFENCES:
       Navigator.of(context).pushNamed(offencesPage);
       break;
@@ -177,16 +177,16 @@ class CustomGridView {
               MainPageGridItems.TIMETABLE, 1),
           makeGridCell(
               "Lectures", 'assets/lectures.png', MainPageGridItems.LECTURES, 2),
-          makeGridCell("Tutorials", 'assets/tutorials.png',
-              MainPageGridItems.TUTORIALS, 3),
+          // makeGridCell("Tutorials", 'assets/tutorials.png',
+          //     MainPageGridItems.TUTORIALS, 3),
           makeGridCell(
-              "Offences", 'assets/offences.png', MainPageGridItems.OFFENCES, 4),
+              "Offences", 'assets/offences.png', MainPageGridItems.OFFENCES, 3),
           makeGridCell(
-              "Payment", 'assets/payment.png', MainPageGridItems.PAYMENT, 5),
+              "Payment", 'assets/payment.png', MainPageGridItems.PAYMENT, 4),
           makeGridCell("Book ordering", 'assets/bookordering.png',
-              MainPageGridItems.BOOK_ORDERING, 6),
+              MainPageGridItems.BOOK_ORDERING, 5),
           makeGridCell(
-              "Social", 'assets/tutorials2.png', MainPageGridItems.SOCIAL, 7),
+              "Social", 'assets/tutorials2.png', MainPageGridItems.SOCIAL, 6),
         ]);
   }
 }
@@ -237,10 +237,6 @@ class _TwoPanelsState extends State<TwoPanels> {
                   SizedBox(height: 40.0),
                   CustomBackdropMenuItems(
                     itemName: 'HOME',
-                    controller: widget.controller,
-                  ),
-                  CustomBackdropMenuItems(
-                    itemName: 'NOTIFICATIONS',
                     controller: widget.controller,
                   ),
                   CustomBackdropMenuItems(
@@ -318,7 +314,7 @@ class CustomBackdropMenuItems extends StatelessWidget {
         break;
       case 'SUPPORT':
         controller.fling(velocity: 1.0);
-        Navigator.of(context).pushNamed(offencesPage);
+        // Navigator.of(context).pushNamed(offencesPage);
         break;
       case 'CONTACTS':
         controller.fling(velocity: 1.0);
