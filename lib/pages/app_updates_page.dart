@@ -7,14 +7,11 @@ class AppUpdatesPage extends StatelessWidget {
     return Scaffold(
       backgroundColor: accentColor,
       body: Column(
-        mainAxisAlignment: MainAxisAlignment.start,
+        mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: <Widget>[
           Column(
             children: <Widget>[
-              SizedBox(
-                height: 40.0,
-              ),
               Image.asset(
                 'assets/playmarket.png',
                 height: 60.0,
@@ -22,35 +19,37 @@ class AppUpdatesPage extends StatelessWidget {
               SizedBox(
                 height: 20.0,
               ),
-              Text(
-                'Application Update',
-                textAlign: TextAlign.center,
-                style: TextStyle(
+              Text('Application Update',
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
                     color: Colors.white,
-                    fontSize: 30.0,
-                    fontFamily: 'OpenSansCondensedLight'),
-              ),
+                    fontSize: 23.0,
+                  )),
               Text(
                 'Version 2.0',
                 textAlign: TextAlign.center,
                 style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 18.0,
-                    fontFamily: 'OpenSansCondensedLight'),
+                  color: Colors.white,
+                  fontSize: 15.0,
+                ),
               ),
             ],
           ),
-          Expanded(
-            child: Center(
-              child: Text(
-                'Bug fixes, performance enhancements, feature additions.',
-                textAlign: TextAlign.center,
-                style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 17.0,
-                    fontFamily: 'RalewayRegular'),
-              ),
+          SizedBox(
+            height: 50.0,
+          ),
+          Center(
+            child: Text(
+              'Bug fixes, performance enhancements, feature additions',
+              textAlign: TextAlign.center,
+              style: TextStyle(
+                  color: Colors.white,
+                  fontSize: 17.0,
+                  fontFamily: 'RalewayRegular'),
             ),
+          ),
+          SizedBox(
+            height: 50.0,
           ),
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 12.0),
@@ -75,9 +74,6 @@ class AppUpdatesPage extends StatelessWidget {
             //     'Ugrade now'.toUpperCase(),
             //   ),
             // ),
-          ),
-          SizedBox(
-            height: 20.0,
           ),
         ],
       ),
