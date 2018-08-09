@@ -20,6 +20,7 @@ dependencies:
   url_launcher: ^3.0.3
   flutter_map: ^0.0.10
   flushbar: ^0.7.5
+  package_info: ^0.3.2
 
   cupertino_icons: ^0.1.2
 

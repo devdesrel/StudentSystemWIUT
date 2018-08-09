@@ -175,8 +175,8 @@ class TimetableBloc {
 
       return _timetableList;
     } else {
-      showFlushBar(
-          connectionFailure, checkInternetConnection, 5, redColor, context);
+      showFlushBar(connectionFailure, checkInternetConnection,
+          MessageTypes.ERROR, context, 5);
       return null;
     }
   }
@@ -260,12 +260,12 @@ class TimetableBloc {
 
         return _sortedList;
       } else {
-        showFlushBar(tryAgain, '', 3, redColor, context);
+        showFlushBar('Error', tryAgain, MessageTypes.ERROR, context, 2);
         return null;
       }
     } catch (e) {
-      showFlushBar(
-          connectionFailure, checkInternetConnection, 5, redColor, context);
+      showFlushBar(connectionFailure, checkInternetConnection,
+          MessageTypes.ERROR, context, 5);
       return null;
     }
 

@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:student_system_flutter/enums/ApplicationEnums.dart';
-import 'package:student_system_flutter/models/feedback_model.dart';
+import 'package:student_system_flutter/helpers/backdrop_menu.dart';
 import 'package:student_system_flutter/pages/modules_page.dart';
+import 'package:package_info/package_info.dart';
 
 import '../helpers/app_constants.dart';
-import '../helpers/feedback_form.dart';
 import '../helpers/function_helpers.dart';
 import '../helpers/ui_helpers.dart';
 
@@ -20,6 +20,9 @@ class _HomePageState extends State<HomePage>
   void initState() {
     // TODO: implement initState
     super.initState();
+
+    _getAppVersion();
+
     controller = AnimationController(
         vsync: this, duration: Duration(milliseconds: 100), value: 1.0);
   }
@@ -74,6 +77,18 @@ class _HomePageState extends State<HomePage>
   }
 }
 
+void _getAppVersion() async {
+  PackageInfo packageInfo = await PackageInfo.fromPlatform();
+
+  String appName = packageInfo.appName;
+  String packageName = packageInfo.packageName;
+  String version = packageInfo.version;
+  String buildNumber = packageInfo.buildNumber;
+
+  print(
+      'App Name: $appName\nPackage Name: $packageName\nVersion: $version\nBuild Number: $buildNumber');
+}
+
 void openSelectedPage(BuildContext context, MainPageGridItems page) {
   switch (page) {
     case MainPageGridItems.MARKS:
@@ -84,7 +99,7 @@ void openSelectedPage(BuildContext context, MainPageGridItems page) {
     case MainPageGridItems.TIMETABLE:
       Navigator.of(context).pushNamed(timetablePage);
       break;
-    case MainPageGridItems.LECTURES:
+    case MainPageGridItems.LEARNING_MATERIALS:
       Navigator.of(context).push(MaterialPageRoute(
           builder: (context) =>
               ModulesPage(requestType: RequestType.GetTeachingMaterials)));
@@ -175,181 +190,16 @@ class CustomGridView {
           makeGridCell("Marks", 'assets/marks.png', MainPageGridItems.MARKS, 0),
           makeGridCell("Timetable", 'assets/timetable.png',
               MainPageGridItems.TIMETABLE, 1),
-          makeGridCell(
-              "Lectures", 'assets/lectures.png', MainPageGridItems.LECTURES, 2),
-          // makeGridCell("Tutorials", 'assets/tutorials.png',
-          //     MainPageGridItems.TUTORIALS, 3),
-          makeGridCell(
-              "Offences", 'assets/offences.png', MainPageGridItems.OFFENCES, 3),
-          makeGridCell(
-              "Payment", 'assets/payment.png', MainPageGridItems.PAYMENT, 4),
+          makeGridCell("Learning Materials", 'assets/lectures.png',
+              MainPageGridItems.LEARNING_MATERIALS, 2),
           makeGridCell("Book ordering", 'assets/bookordering.png',
-              MainPageGridItems.BOOK_ORDERING, 5),
+              MainPageGridItems.BOOK_ORDERING, 3),
+          makeGridCell(
+              "Offences", 'assets/offences.png', MainPageGridItems.OFFENCES, 4),
+          makeGridCell(
+              "Payment", 'assets/payment.png', MainPageGridItems.PAYMENT, 5),
           makeGridCell(
               "Social", 'assets/tutorials2.png', MainPageGridItems.SOCIAL, 6),
         ]);
-  }
-}
-
-class TwoPanels extends StatefulWidget {
-  final AnimationController controller;
-  var isPanelVisible;
-
-  TwoPanels({this.controller, this.isPanelVisible});
-
-  @override
-  _TwoPanelsState createState() => _TwoPanelsState();
-}
-
-class _TwoPanelsState extends State<TwoPanels> {
-  static const header_height = 32.0;
-
-  Animation<RelativeRect> getPanelAnimation(BoxConstraints constraints) {
-    final height = constraints.biggest.height;
-    final backPanelHeight = height - header_height;
-    final frontPanelHeight = -header_height;
-
-    return RelativeRectTween(
-            begin: RelativeRect.fromLTRB(
-                0.0, backPanelHeight, 0.0, frontPanelHeight),
-            end: RelativeRect.fromLTRB(0.0, 0.0, 0.0, 0.0))
-        .animate(
-            CurvedAnimation(parent: widget.controller, curve: Curves.linear));
-  }
-
-  Widget bothPanels(BuildContext context, BoxConstraints constraints) {
-    final ThemeData theme = Theme.of(context);
-
-    final List<FeedbackModel> _questionNumbers = <FeedbackModel>[
-      FeedbackModel(questionTitle: 'Web Application Development'),
-      FeedbackModel(questionTitle: 'Internet Marketing'),
-      FeedbackModel(questionTitle: 'Software Quality, Performance and Testing'),
-    ];
-
-    return Container(
-      child: Stack(
-        children: <Widget>[
-          Container(
-            color: theme.primaryColor,
-            child: Center(
-              child: ListView(
-                children: <Widget>[
-                  SizedBox(height: 40.0),
-                  CustomBackdropMenuItems(
-                    itemName: 'HOME',
-                    controller: widget.controller,
-                  ),
-                  CustomBackdropMenuItems(
-                    itemName: 'SUPPORT',
-                    controller: widget.controller,
-                  ),
-                  CustomBackdropMenuItems(
-                    itemName: 'CONTACTS',
-                    controller: widget.controller,
-                  ),
-                  CustomBackdropMenuItems(
-                    itemName: 'SETTINGS',
-                    controller: widget.controller,
-                  ),
-                ],
-              ),
-            ),
-          ),
-          PositionedTransition(
-            rect: getPanelAnimation(constraints),
-            child: Material(
-              elevation: 12.0,
-              borderRadius: BorderRadius.only(
-                  topLeft: Radius.circular(16.0),
-                  topRight: Radius.circular(16.0)),
-              child: Column(
-                children: <Widget>[
-                  Container(
-                    height: 0.0,
-                  ),
-                  Expanded(
-                      child: CustomScrollView(
-                    slivers: <Widget>[
-                      SliverToBoxAdapter(
-                          child:
-                              FeedbackForm(questionNumbers: _questionNumbers)),
-                      CustomGridView(context).build(),
-                    ],
-                  ))
-                ],
-              ),
-            ),
-          )
-        ],
-      ),
-    );
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return LayoutBuilder(
-      builder: bothPanels,
-    );
-  }
-}
-
-class CustomBackdropMenuItems extends StatelessWidget {
-  final String itemName;
-  final controller;
-
-  CustomBackdropMenuItems({
-    Key key,
-    @required this.itemName,
-    this.controller,
-  }) : super(key: key);
-
-  void openSelectedBackdropItem(BuildContext context, itemName) {
-    switch (itemName) {
-      case 'HOME':
-        controller.fling(velocity: 1.0);
-        break;
-      case 'NOTIFICATIONS':
-        controller.fling(velocity: 1.0);
-        Navigator.of(context).pushNamed(offencesPage);
-        break;
-      case 'SUPPORT':
-        controller.fling(velocity: 1.0);
-        // Navigator.of(context).pushNamed(offencesPage);
-        break;
-      case 'CONTACTS':
-        controller.fling(velocity: 1.0);
-        Navigator.of(context).pushNamed(contactsPage);
-        break;
-      case 'SETTINGS':
-        controller.fling(velocity: 1.0);
-        Navigator.of(context).pushNamed(settingsPage);
-        break;
-
-      default:
-        print('Nothing');
-    }
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return InkWell(
-      highlightColor: redColor,
-      splashColor: whiteColor,
-      onTap: () {
-        openSelectedBackdropItem(context, itemName);
-      },
-      child: Padding(
-        padding: const EdgeInsets.symmetric(vertical: 20.0),
-        child: Text(
-          itemName.toUpperCase(),
-          textAlign: TextAlign.center,
-          style: TextStyle(
-              fontSize: 20.0,
-              fontFamily: 'SlaboRegular',
-              letterSpacing: 2.8,
-              color: Colors.white),
-        ),
-      ),
-    );
   }
 }

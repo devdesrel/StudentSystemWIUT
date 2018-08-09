@@ -53,8 +53,7 @@ class FileDownloadBloc {
         ? (await getExternalStorageDirectory()).path
         : (await getApplicationDocumentsDirectory()).path;
 
-    final path =
-        '$dir/WIUT Mobile/$moduleName/Lectures/${downloadingFile.folderName}/';
+    final path = '$dir/WIUT Mobile/$moduleName/${downloadingFile.folderName}/';
     final myDir = Directory(path);
     myDir.exists().then((isExists) async {
       if (!isExists) {

@@ -12,16 +12,16 @@ import 'package:student_system_flutter/pages/offline_page.dart';
 
 import '../helpers/app_constants.dart';
 
-class LecturesPage extends StatefulWidget {
+class LearningMaterialsPage extends StatefulWidget {
   final LearningMaterialsModel module;
 
-  LecturesPage({this.module});
+  LearningMaterialsPage({this.module});
 
   @override
-  _LecturesPageState createState() => _LecturesPageState();
+  _LearningMaterialsPageState createState() => _LearningMaterialsPageState();
 }
 
-class _LecturesPageState extends State<LecturesPage>
+class _LearningMaterialsPageState extends State<LearningMaterialsPage>
     with SingleTickerProviderStateMixin {
   TabController _controller;
 
@@ -33,7 +33,7 @@ class _LecturesPageState extends State<LecturesPage>
 
   @override
   Widget build(BuildContext context) {
-    var bloc = LearningMaterialsBloc();
+    var bloc = LearningMaterialsBloc(widget.module.moduleMaterial);
     bloc.moduleName = widget.module.moduleName;
 
     return LearningMaterialsProvider(
@@ -43,7 +43,7 @@ class _LecturesPageState extends State<LecturesPage>
         appBar: AppBar(
           bottom: TabBar(
             tabs: [
-              Tab(text: ('Lectures')),
+              Tab(text: ('Materials')),
               Tab(text: ('Downloading')),
             ],
             controller: _controller,
@@ -135,36 +135,44 @@ class _MaterialsListTabState extends State<MaterialsListTab>
             ),
           ),
         ),
-        SliverList(
-          delegate: SliverChildBuilderDelegate(
-            (context, index) {
-              if (index == 0) {
-                return Padding(
-                  padding: const EdgeInsets.only(top: 8.0),
-                  child: LearningMaterialsCard(
-                      learningMaterialsModel: widget.materialsList[index],
-                      controller: widget.controller,
-                      bloc: widget.bloc),
-                );
-              } else if (index == widget.materialsList.length - 1) {
-                return Padding(
-                  padding: const EdgeInsets.only(bottom: 8.0),
-                  child: LearningMaterialsCard(
-                      learningMaterialsModel: widget.materialsList[index],
-                      controller: widget.controller,
-                      bloc: widget.bloc),
-                );
-              } else {
-                return LearningMaterialsCard(
-                  learningMaterialsModel: widget.materialsList[index],
-                  controller: widget.controller,
-                  bloc: widget.bloc,
-                );
-              }
-            },
-            childCount: widget.materialsList.length,
-          ),
-        )
+        StreamBuilder<List<SingleLearningMaterialsModel>>(
+            stream: widget.bloc.materialsList,
+            builder: (context, snapshot) => snapshot.hasData &&
+                    snapshot.data.length > 0
+                ? SliverList(
+                    delegate: SliverChildBuilderDelegate(
+                      (context, index) {
+                        if (index == 0) {
+                          return Padding(
+                            padding: const EdgeInsets.only(top: 8.0),
+                            child: LearningMaterialsCard(
+                                learningMaterialsModel: snapshot.data[index],
+                                controller: widget.controller,
+                                bloc: widget.bloc),
+                          );
+                        } else if (index == snapshot.data.length - 1) {
+                          return Padding(
+                            padding: const EdgeInsets.only(bottom: 8.0),
+                            child: LearningMaterialsCard(
+                                learningMaterialsModel: snapshot.data[index],
+                                controller: widget.controller,
+                                bloc: widget.bloc),
+                          );
+                        } else {
+                          return LearningMaterialsCard(
+                            learningMaterialsModel: snapshot.data[index],
+                            controller: widget.controller,
+                            bloc: widget.bloc,
+                          );
+                        }
+                      },
+                      childCount: snapshot.data.length,
+                    ),
+                  )
+                : SliverToBoxAdapter(
+                    child: Container(
+                        height: 370.0,
+                        child: Center(child: Text(noFilesToDownload)))))
         // itemCount: widget.materialsList.length,
         // itemBuilder:
         // (context, index) => index == 0
@@ -234,7 +242,10 @@ class LearningMaterialsCard extends StatelessWidget {
 
     if (downloadFilesList.length > 0) {
       for (var downloadFile in downloadFilesList) {
-        downloadFile.folderName = learningMaterialsModel.title;
+        downloadFile.folderName =
+            _getMaterialType(learningMaterialsModel.materialTypeID) +
+                '/' +
+                learningMaterialsModel.title;
 
         _listOfWidgets.add(CustomSimpleDialogOption(
           controller: controller,
@@ -264,6 +275,15 @@ class LearningMaterialsCard extends StatelessWidget {
     ));
 
     return _listOfWidgets;
+  }
+
+  String _getMaterialType(typeID) {
+    if (typeID == 1) {
+      return 'Lecture';
+    } else if (typeID == 2) {
+      return 'Tutorial';
+    }
+    return '';
   }
 
   _getPermissionToDownloadAndShowDialog(BuildContext _context) async {
@@ -297,7 +317,12 @@ class LearningMaterialsCard extends StatelessWidget {
                                   onTap: () {
                                     for (var downloadFile in snapshot.data) {
                                       downloadFile.folderName =
-                                          learningMaterialsModel.title;
+                                          _getMaterialType(
+                                                  learningMaterialsModel
+                                                      .materialTypeID) +
+                                              '/' +
+                                              learningMaterialsModel.title;
+
                                       bloc.addFileToDownload.add(downloadFile);
                                     }
                                     Navigator.pop(context);

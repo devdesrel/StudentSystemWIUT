@@ -8,6 +8,7 @@ class SingleLearningMaterialsModel {
   int academicYearID;
   String dateLastModified;
   String lastModifier;
+  int materialTypeID;
   String title;
 
   SingleLearningMaterialsModel(
@@ -18,6 +19,7 @@ class SingleLearningMaterialsModel {
       this.academicYearID,
       this.dateLastModified,
       this.lastModifier,
+      this.materialTypeID,
       this.title});
 
   factory SingleLearningMaterialsModel.fromJson(Map<String, dynamic> json) {
@@ -29,6 +31,7 @@ class SingleLearningMaterialsModel {
       academicYearID: json['AcademicYearID'],
       dateLastModified: json['DateLastModified'] ?? nullFixer,
       lastModifier: json['LastModifier'] ?? nullFixer,
+      materialTypeID: json['MaterialTypeID'],
       title: json['Title'] ?? nullFixer,
     );
   }

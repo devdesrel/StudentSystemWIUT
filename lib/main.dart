@@ -1,9 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'helpers/app_constants.dart';
 import 'helpers/routes.dart';
 
 void main() {
-  runApp(MainApp());
+  SystemChrome
+      .setPreferredOrientations([DeviceOrientation.portraitUp]).then((_) {
+    runApp(MainApp());
+  });
 }
 
 class MainApp extends StatelessWidget {

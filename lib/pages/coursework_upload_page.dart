@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:path/path.dart';
 import 'package:student_system_flutter/bloc/coursework_upload/coursework_upload_provider.dart';
+import 'package:student_system_flutter/enums/ApplicationEnums.dart';
 import 'package:student_system_flutter/helpers/app_constants.dart';
 import 'package:student_system_flutter/helpers/function_helpers.dart';
 import 'package:student_system_flutter/helpers/module_selection_expansion_tile.dart';
@@ -23,15 +24,8 @@ class _CourseworkUploadPageState extends State<CourseworkUploadPage> {
 }
 
 Widget _createCurrentPage(BuildContext context) {
-  showInfiniteFlushBar(
-      Icon(
-        Icons.info,
-        color: Colors.white,
-      ),
-      info,
-      featureNotImplemented,
-      greyColor,
-      context);
+  showFlushBar(
+      info, featureNotImplemented, MessageTypes.INFINITE_INFO, context);
 
   return CourseworkUploadProvider(
     child: Scaffold(

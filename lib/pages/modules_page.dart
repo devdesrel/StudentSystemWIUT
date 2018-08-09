@@ -35,11 +35,17 @@ class _ModulesPageState extends State<ModulesPage> {
             "Authorization": "Bearer $_token"
           });
 
-      return _parseModules(response.body);
+      if (response.statusCode == 200) {
+        return _parseModules(response.body);
+      } else {
+        showFlushBar('Error', tryAgain, MessageTypes.ERROR, context, 2);
+        return null;
+      }
+
       // return compute(_parseModules, response.body);
     } catch (e) {
-      showFlushBar(
-          connectionFailure, checkInternetConnection, 5, redColor, context);
+      showFlushBar(connectionFailure, checkInternetConnection,
+          MessageTypes.ERROR, context, 5);
       return null;
     }
   }
@@ -65,7 +71,8 @@ class _ModulesPageState extends State<ModulesPage> {
 
     try {
       final response = await http.post(
-          "$apiUserModuleMaterialsModulesListByUserID?AcademicYearID=18&SelectedLTType=$materialType&UserID=$_studentID",
+          "$apiUserModuleMaterialsModulesListByUserID?AcademicYearID=18&SelectedLTType=All&UserID=$_studentID",
+          // "$apiUserModuleMaterialsModulesListByUserID?AcademicYearID=18&SelectedLTType=$materialType&UserID=$_studentID",
           headers: {
             "Accept": "application/json",
             "Authorization": "Bearer $_token"
@@ -74,15 +81,15 @@ class _ModulesPageState extends State<ModulesPage> {
       if (response.statusCode == 200) {
         return _parseLearningMaterials(response.body);
       } else {
-        showFlushBar('Error', tryAgain, 2, redColor, context);
+        showFlushBar('Error', tryAgain, MessageTypes.ERROR, context, 2);
         return null;
       }
 
       // return compute(_parseModules, response.body);
     } catch (e) {
       print(e.toString());
-      showFlushBar(
-          connectionFailure, checkInternetConnection, 5, redColor, context);
+      showFlushBar(connectionFailure, checkInternetConnection,
+          MessageTypes.ERROR, context, 5);
       return null;
     }
   }

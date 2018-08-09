@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_circular_chart/flutter_circular_chart.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
+import 'package:student_system_flutter/enums/ApplicationEnums.dart';
 import 'package:student_system_flutter/helpers/function_helpers.dart';
 import 'package:student_system_flutter/models/modules_component.dart';
 
@@ -36,10 +37,15 @@ Future<List<ModuleComponentModel>> _getModulesWithComponents(
           "Authorization": "Bearer $_token"
         });
 
-    return _parseComponents(response.body);
+    if (response.statusCode == 200) {
+      return _parseComponents(response.body);
+    } else {
+      showFlushBar('Error', tryAgain, MessageTypes.ERROR, context, 2);
+      return null;
+    }
   } catch (e) {
-    showFlushBar(
-        connectionFailure, checkInternetConnection, 5, redColor, context);
+    showFlushBar(connectionFailure, checkInternetConnection, MessageTypes.ERROR,
+        context, 5);
     return null;
   }
 }

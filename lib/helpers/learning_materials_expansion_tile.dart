@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:student_system_flutter/bloc/file_download/learning_materials_bloc.dart';
 import 'package:student_system_flutter/helpers/app_constants.dart';
 
 class LearningMaterialsExpansionTile extends StatelessWidget {
   final GlobalKey<AppExpansionTileState> expansionTile;
-  final bloc;
+  final LearningMaterialsBloc bloc;
   String value;
   final List<String> expansionChildrenList;
 

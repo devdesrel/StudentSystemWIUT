@@ -29,8 +29,8 @@ class SettingsPage extends StatelessWidget {
       bloc.setAutoValidation.add(false);
       Navigator.pop(context);
 
-      showFlushBar(
-          'Success', 'PIN was successfully changed', 5, greenColor, context);
+      showFlushBar('Success', 'PIN was successfully changed',
+          MessageTypes.SUCCESS, context, 5);
     } else {
       bloc.setAutoValidation.add(true);
     }

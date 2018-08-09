@@ -113,8 +113,8 @@ class _LoginPageState extends State<LoginPage> implements AuthStateListener {
           Navigator.of(context).pushReplacementNamed(securityPage);
         }
       } else
-        showFlushBar(
-            authProblems, usernamePasswordIncorrect, 2, redColor, context);
+        showFlushBar(authProblems, usernamePasswordIncorrect,
+            MessageTypes.ERROR, context, 2);
 
       setState(() {
         progressDialogVisible = false;
@@ -124,8 +124,8 @@ class _LoginPageState extends State<LoginPage> implements AuthStateListener {
         progressDialogVisible = false;
       });
 
-      showFlushBar(
-          connectionFailure, checkInternetConnection, 5, redColor, context);
+      showFlushBar(connectionFailure, checkInternetConnection,
+          MessageTypes.ERROR, context, 5);
     }
   }
 

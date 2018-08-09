@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:student_system_flutter/pages/lectures_page.dart';
+import 'package:student_system_flutter/pages/learning_materials_page.dart';
 
 import '../helpers/app_constants.dart';
 import '../helpers/ui_helpers.dart';
@@ -27,7 +27,8 @@ class ItemModules extends StatelessWidget {
                 break;
               case RequestType.GetTeachingMaterials:
                 Navigator.of(context).push(MaterialPageRoute(
-                    builder: (context) => LecturesPage(module: module)));
+                    builder: (context) =>
+                        LearningMaterialsPage(module: module)));
                 break;
               default:
             }

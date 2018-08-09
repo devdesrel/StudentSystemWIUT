@@ -5,13 +5,16 @@ import 'package:flutter/material.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
+import 'package:student_system_flutter/enums/ApplicationEnums.dart';
 import 'package:student_system_flutter/helpers/app_constants.dart';
 import 'package:student_system_flutter/helpers/function_helpers.dart';
+import 'package:student_system_flutter/models/LearningMaterials/single_learning_material_model.dart';
 import 'package:student_system_flutter/models/download_file_model.dart';
 
 class LearningMaterialsBloc {
   String moduleName = '';
   List<DownloadFileModel> basicList = List();
+  List<SingleLearningMaterialsModel> allMaterialsList = [];
   final flushBar = Flushbar<bool>()
     ..icon = Icon(
       Icons.info,
@@ -21,7 +24,13 @@ class LearningMaterialsBloc {
     ..message = downloadingMessageBody
     ..backgroundColor = greyColor;
 
-  LearningMaterialsBloc() {
+  LearningMaterialsBloc(List<SingleLearningMaterialsModel> materialsList) {
+    allMaterialsList = materialsList;
+
+    //GET all lectures
+    _materialsListSubject.add(
+        allMaterialsList.where((item) => item.materialTypeID == 1).toList());
+
     _addFileToDownloadController.stream.listen((addition) {
       //Start downloading
       // _downloadFile(addition.url, addition.fileName);
@@ -40,6 +49,22 @@ class LearningMaterialsBloc {
 
     _setLearningMaterialTypeController.stream.listen((type) {
       _learningMaterialTypeSubject.add(type);
+
+      if (type == 'Lectures') {
+        _materialsListSubject.add(null);
+
+        var list =
+            allMaterialsList.where((item) => item.materialTypeID == 1).toList();
+
+        _materialsListSubject.add(list);
+      } else if (type == 'Tutorials') {
+        _materialsListSubject.add(null);
+
+        var list =
+            allMaterialsList.where((item) => item.materialTypeID == 2).toList();
+
+        _materialsListSubject.add(list);
+      }
     });
   }
 
@@ -58,6 +83,12 @@ class LearningMaterialsBloc {
 
   final _setLearningMaterialTypeController = StreamController<String>();
 
+  Stream<List<SingleLearningMaterialsModel>> get materialsList =>
+      _materialsListSubject.stream;
+
+  final _materialsListSubject =
+      BehaviorSubject<List<SingleLearningMaterialsModel>>(seedValue: []);
+
   Stream<List<DownloadFileModel>> get downloadingFilesList =>
       _downloadingFilesListSubject.stream;
 
@@ -70,6 +101,7 @@ class LearningMaterialsBloc {
       BehaviorSubject<List<DownloadFileModel>>();
 
   void dispose() {
+    _materialsListSubject.close();
     _addFileToDownloadController.close();
     _removeItemFromDownloadingListController.close();
     _downloadingFilesListSubject.close();
@@ -93,12 +125,12 @@ class LearningMaterialsBloc {
       if (response.statusCode == 200) {
         return _parseJson(response.body);
       } else {
-        showFlushBar('Error', tryAgain, 2, redColor, context);
+        showFlushBar('Error', tryAgain, MessageTypes.ERROR, context, 2);
         return null;
       }
     } catch (e) {
-      showFlushBar(
-          connectionFailure, checkInternetConnection, 5, redColor, context);
+      showFlushBar(connectionFailure, checkInternetConnection,
+          MessageTypes.ERROR, context, 5);
       return null;
     }
   }

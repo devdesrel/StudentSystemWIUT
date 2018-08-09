@@ -6,6 +6,7 @@ import 'package:flutter/services.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:student_system_flutter/bloc/security_page/security_page_bloc.dart';
 import 'package:student_system_flutter/bloc/security_page/security_page_provider.dart';
+import 'package:student_system_flutter/enums/ApplicationEnums.dart';
 import 'package:student_system_flutter/helpers/function_helpers.dart';
 
 import '../helpers/app_constants.dart';
@@ -80,7 +81,8 @@ class _SecurityPageState extends State<SecurityPage> {
           } else if (_pinCode.length == 4 && _pinCode != pinCode) {
             _pinCodeMask = '';
             _pinCode = '';
-            showFlushBar('Incorrect PIN', 'Try again', 3, redColor, context);
+            showFlushBar(
+                'Incorrect PIN', 'Try again', MessageTypes.ERROR, context, 2);
           }
         }
       }

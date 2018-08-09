@@ -1,13 +1,14 @@
 enum MainPageGridItems {
   MARKS,
   TIMETABLE,
-  LECTURES,
-  TUTORIALS,
+  LEARNING_MATERIALS,
   OFFENCES,
   PAYMENT,
   BOOK_ORDERING,
   SOCIAL
 }
+
+enum MessageTypes { ERROR, INFO, SUCCESS, INFINITE_INFO }
 
 enum TimetableDropdownlinListType { Group, Room, Teacher }
 enum ChangePinCodeDialogArguments { CurrentPin, NewPin, ConfirmPin }

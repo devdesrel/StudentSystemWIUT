@@ -56,7 +56,7 @@ class _LecturesPageState extends State<LecturesPage>
 
   @override
   Widget build(BuildContext context) {
-    var bloc = LearningMaterialsBloc();
+    var bloc = LearningMaterialsBloc([]);
     return LearningMaterialsProvider(
       learningMaterialsBloc: bloc,
       child: Scaffold(

@@ -7,7 +7,7 @@ import 'package:student_system_flutter/pages/file_picker_page.dart';
 import 'package:student_system_flutter/pages/files_downloaded_page.dart';
 
 import 'package:student_system_flutter/pages/home_page.dart';
-import 'package:student_system_flutter/pages/lectures_page.dart';
+import 'package:student_system_flutter/pages/learning_materials_page.dart';
 import 'package:student_system_flutter/pages/login_page.dart';
 import 'package:student_system_flutter/pages/map_page.dart';
 import 'package:student_system_flutter/pages/marks_page.dart';
@@ -27,14 +27,13 @@ final routes = {
   loginPage: (BuildContext context) => LoginPage(),
   securityPage: (BuildContext context) => SecurityPage(),
   homePage: (BuildContext context) => HomePage(),
-  // modulesPage: (BuildContext context) => ModulesPage(),
   marksPage: (BuildContext context) => MarksPage(),
   offencesPage: (BuildContext context) => OffencesPage(),
   socialPage: (BuildContext context) => SocialPage(),
   fileDownloaderPage: (BuildContext context) => FileDownloaderPage(),
   filesDownloadedPage: (BuildContext context) => FilesDownloadedPage(),
   tweetPage: (BuildContext context) => NewPostPage(),
-  lecturesPage: (BuildContext context) => LecturesPage(),
+  lecturesPage: (BuildContext context) => LearningMaterialsPage(),
   offlinePage: (BuildContext context) => OfflinePage(),
   courseworkUploadPage: (BuildContext context) => CourseworkUploadPage(),
   timetablePage: (BuildContext context) => TimetablePage(),
