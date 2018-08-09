@@ -279,9 +279,9 @@ class LearningMaterialsCard extends StatelessWidget {
 
   String _getMaterialType(typeID) {
     if (typeID == 1) {
-      return 'Lecture';
+      return 'Lectures';
     } else if (typeID == 2) {
-      return 'Tutorial';
+      return 'Tutorials';
     }
     return '';
   }

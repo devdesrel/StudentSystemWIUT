@@ -104,16 +104,11 @@ void openSelectedPage(BuildContext context, MainPageGridItems page) {
           builder: (context) =>
               ModulesPage(requestType: RequestType.GetTeachingMaterials)));
       break;
-    // case MainPageGridItems.TUTORIALS:
-    //   Navigator.of(context).pushNamed(lecturesPage);
-    //   break;
     case MainPageGridItems.OFFENCES:
       Navigator.of(context).pushNamed(offencesPage);
       break;
-    case MainPageGridItems.PAYMENT:
+    case MainPageGridItems.COURSEWORK_UPLOAD:
       Navigator.of(context).pushNamed(courseworkUploadPage);
-      //Navigator.of(context).pushNamed(testPage);
-      //print('Payment');
       break;
     case MainPageGridItems.BOOK_ORDERING:
       print('Book Ordering');
@@ -194,12 +189,12 @@ class CustomGridView {
               MainPageGridItems.LEARNING_MATERIALS, 2),
           makeGridCell("Book ordering", 'assets/bookordering.png',
               MainPageGridItems.BOOK_ORDERING, 3),
+          makeGridCell("Offences", 'assets/offences2.png',
+              MainPageGridItems.OFFENCES, 4),
+          makeGridCell("CW Upload", 'assets/cwupload.png',
+              MainPageGridItems.COURSEWORK_UPLOAD, 5),
           makeGridCell(
-              "Offences", 'assets/offences.png', MainPageGridItems.OFFENCES, 4),
-          makeGridCell(
-              "Payment", 'assets/payment.png', MainPageGridItems.PAYMENT, 5),
-          makeGridCell(
-              "Social", 'assets/tutorials2.png', MainPageGridItems.SOCIAL, 6),
+              "Social", 'assets/social.png', MainPageGridItems.SOCIAL, 6),
         ]);
   }
 }

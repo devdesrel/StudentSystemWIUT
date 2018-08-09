@@ -39,6 +39,7 @@ final commentsPage = '/commentsPage';
 final settingsPage = '/settingsPage';
 final contactsPage = '/contactsPage';
 final mapPage = '/mapPage';
+final appUpdatesPage = '/appUpdatesPage';
 final testPage = '/testPage';
 
 //Shared preferance keys

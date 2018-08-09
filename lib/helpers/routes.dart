@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:student_system_flutter/pages/app_updates_page.dart';
 import 'package:student_system_flutter/pages/comments_page.dart';
 import 'package:student_system_flutter/pages/contacts_page.dart';
 import 'package:student_system_flutter/pages/coursework_upload_page.dart';
@@ -23,7 +24,7 @@ import 'package:student_system_flutter/pages/timetable_page.dart';
 import 'app_constants.dart';
 
 final routes = {
-  '/': (BuildContext context) => LoginPage(),
+  '/': (BuildContext context) => AppUpdatesPage(),
   loginPage: (BuildContext context) => LoginPage(),
   securityPage: (BuildContext context) => SecurityPage(),
   homePage: (BuildContext context) => HomePage(),
@@ -42,5 +43,6 @@ final routes = {
   settingsPage: (BuildContext context) => SettingsPage(),
   contactsPage: (BuildContext context) => ContactsPage(),
   mapPage: (BuildContext context) => MapPage(),
+  appUpdatesPage: (BuildContext context) => AppUpdatesPage(),
   testPage: (BuildContext context) => TestPage(),
 };

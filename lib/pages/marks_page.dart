@@ -61,13 +61,13 @@ class MarksPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     TextStyle _getTextStyle() {
-      if (module.moduleGrade == 'PASS') {
+      if (int.parse(module.moduleMark) >= 40) {
         return Theme
             .of(context)
             .textTheme
             .headline
             .copyWith(color: greenColor, fontWeight: FontWeight.bold);
-      } else if (module.moduleGrade == 'FAIL') {
+      } else if (int.parse(module.moduleMark) < 40) {
         return Theme
             .of(context)
             .textTheme
@@ -138,11 +138,11 @@ class MarksPage extends StatelessWidget {
                             ],
                             chartType: CircularChartType.Radial,
                             percentageValues: true,
-                            holeLabel: '${module.moduleMark}%',
+                            holeLabel: '${module.moduleMark}',
                             labelStyle: Theme
                                 .of(context)
                                 .textTheme
-                                .display1
+                                .display2
                                 .copyWith(
                                     fontWeight: FontWeight.bold,
                                     color: int.parse(module.moduleMark) >= 40
@@ -241,10 +241,13 @@ class CustomGridView {
                         'Mark'.toUpperCase(),
                         style: _greyTextStyle,
                       ),
-                      Text(
-                        '$mark%',
-                        style: _accentTextStyle,
-                      )
+                      Padding(
+                        padding: const EdgeInsets.only(right: 1.0),
+                        child: Text(
+                          '$mark',
+                          style: _accentTextStyle,
+                        ),
+                      ),
                     ]),
               ),
               Container(
