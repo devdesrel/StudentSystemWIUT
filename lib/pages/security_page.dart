@@ -61,7 +61,11 @@ class _SecurityPageState extends State<SecurityPage> {
             : null;
         fingerprintDenied = true;
       } on PlatformException catch (e) {
-        print(e);
+        print(e.message);
+
+        isFingerPrintOn = false;
+        _bloc.setUseFingerprint.add(false);
+        _bloc.setFingerprintDenied.add(true);
       }
     }
   }

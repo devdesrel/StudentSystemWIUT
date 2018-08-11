@@ -25,14 +25,14 @@ class AppUpdatesPage extends StatelessWidget {
                     color: Colors.white,
                     fontSize: 23.0,
                   )),
-              Text(
-                'Version 2.0',
-                textAlign: TextAlign.center,
-                style: TextStyle(
-                  color: Colors.white,
-                  fontSize: 15.0,
-                ),
-              ),
+              // Text(
+              //   'Version 2.0',
+              //   textAlign: TextAlign.center,
+              //   style: TextStyle(
+              //     color: Colors.white,
+              //     fontSize: 15.0,
+              //   ),
+              // ),
             ],
           ),
           SizedBox(
@@ -66,14 +66,6 @@ class AppUpdatesPage extends StatelessWidget {
               ),
               onPressed: () {},
             ),
-            // RaisedButton(
-            //   padding: EdgeInsets.symmetric(vertical: 15.0),
-            //   onPressed: () {},
-            //   color: whiteColor,
-            //   child: Text(
-            //     'Ugrade now'.toUpperCase(),
-            //   ),
-            // ),
           ),
         ],
       ),

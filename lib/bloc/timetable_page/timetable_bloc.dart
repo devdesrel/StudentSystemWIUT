@@ -19,7 +19,6 @@ class TimetableBloc {
   Directory dir;
   bool fileExists = false;
   Map<String, String> fileContent;
-  String _groupName = '6BIS1';
 
   List<TimetableDropdownListModel> groupsListDropdown =
       List<TimetableDropdownListModel>();
@@ -29,9 +28,7 @@ class TimetableBloc {
       List<TimetableDropdownListModel>();
 
   TimetableBloc({this.context}) {
-    _timetableTitleSubject.add(_groupName);
-
-    _getTimetable(_groupName).then((list) {
+    _getTimetable('').then((list) {
       _timetableListSubject.add(list);
     });
 
@@ -44,7 +41,7 @@ class TimetableBloc {
 
         groupsListDropdown.insert(0, model);
 
-        _groupNameSubject.add(_groupName);
+        _groupNameSubject.add('');
       }
     });
 
@@ -163,6 +160,14 @@ class TimetableBloc {
   final _isLoadedSubject = BehaviorSubject<bool>();
 
   Future<List<TimetableModel>> _getTimetable(String groupName) async {
+    if (groupName == '') {
+      SharedPreferences prefs = await SharedPreferences.getInstance();
+      groupName = prefs.getString(groupNameSharedPref);
+
+      _timetableTitleSubject.add(groupName);
+      _groupNameSubject.add(groupName);
+    }
+
     String _groupID;
 
     var list = await _populateDropdownList(apiGetGroups);

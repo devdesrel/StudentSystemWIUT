@@ -12,6 +12,7 @@ class TimetablePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final _bloc = TimetableBloc(context: context);
+
     List<String> _weekDays = populateWeekDayList();
 
     return TimetableProvider(

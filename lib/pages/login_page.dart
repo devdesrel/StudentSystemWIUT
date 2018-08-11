@@ -17,12 +17,6 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> implements AuthStateListener {
-  // FocusNode _focusNodeId = new FocusNode();
-  // FocusNode _focusNodePassword = new FocusNode();
-  // static final TextEditingController _idController =
-  //     new TextEditingController();
-  // static final TextEditingController _passwordController =
-  //     new TextEditingController();
   var bloc = ChangePinBloc();
 
   final formKey = GlobalKey<FormState>();
@@ -48,6 +42,8 @@ class _LoginPageState extends State<LoginPage> implements AuthStateListener {
 
   @override
   initState() {
+    getMinimumAppVersion(context);
+
     super.initState();
     _setDefaultSettings();
   }
@@ -106,6 +102,8 @@ class _LoginPageState extends State<LoginPage> implements AuthStateListener {
         await prefs.setString(studentID, _username);
         await prefs.setBool(isLoggedIn, true);
         var pin = prefs.getString(pinCode);
+
+        getStudentsProfile(context);
 
         if (pin == null) {
           showPinDialog(context, bloc);
@@ -184,11 +182,11 @@ class _LoginPageState extends State<LoginPage> implements AuthStateListener {
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: <Widget>[
                     SizedBox(
-                      height: 30.0,
+                      height: 15.0,
                     ),
                     Image.asset(
-                      'assets/logo.png',
-                      height: 40.0,
+                      'assets/logo_white.png',
+                      height: 70.0,
                     ),
                     Expanded(
                         flex: 6,
@@ -241,6 +239,7 @@ class _LoginPageState extends State<LoginPage> implements AuthStateListener {
               decorationColor: Colors.white),
           autofocus: false,
           obscureText: true,
+          maxLength: 4,
           keyboardType: TextInputType.number,
           validator: (val) {
             switch (type) {
@@ -336,7 +335,7 @@ class _LoginPageState extends State<LoginPage> implements AuthStateListener {
 
 void _setDefaultSettings() async {
   SharedPreferences prefs = await SharedPreferences.getInstance();
+
   var _useFingerprint = prefs.getBool(useFingerprint);
-  // _pinCode ?? prefs.setString(pinCode, '1234');
   _useFingerprint ?? prefs.setBool(useFingerprint, true);
 }

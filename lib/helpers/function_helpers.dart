@@ -1,13 +1,71 @@
 import 'dart:async';
+import 'dart:convert';
 import 'dart:io';
 
 import 'package:flushbar/flushbar.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:http/http.dart' as http;
+import 'package:package_info/package_info.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:student_system_flutter/enums/ApplicationEnums.dart';
+import 'package:student_system_flutter/models/profile_model.dart';
 
 import 'app_constants.dart';
+
+void getMinimumAppVersion(BuildContext context) async {
+  SharedPreferences pref = await SharedPreferences.getInstance();
+  int minVersion = pref.getInt(minAppVersion) ?? 0;
+
+  try {
+    final response = await http.get("$apiGetMinAppVersion");
+
+    if (response.statusCode == 200) {
+      final version = json.decode(response.body);
+
+      minVersion = version;
+      pref.setInt(minAppVersion, version);
+    }
+  } catch (e) {
+    print('Error');
+  }
+
+  PackageInfo packageInfo = await PackageInfo.fromPlatform();
+  int buildNumber = int.parse(packageInfo.buildNumber);
+
+  if (buildNumber < minVersion) {
+    Navigator.of(context).pushReplacementNamed(appUpdatesPage);
+  }
+}
+
+void getStudentsProfile(BuildContext context) async {
+  SharedPreferences prefs = await SharedPreferences.getInstance();
+  final _token = prefs.getString(token);
+  final _studentID = prefs.getString(studentID);
+
+  try {
+    final response = await http.post("$apiStudentProfile?StudentID=$_studentID",
+        headers: {
+          "Accept": "application/json",
+          "Authorization": "Bearer $_token"
+        });
+
+    if (response.statusCode == 200) {
+      final _parsed = json.decode(response.body);
+
+      List<ProfileModel> profile = _parsed
+          .map<ProfileModel>((item) => ProfileModel.fromJson(item))
+          .toList();
+
+      var currentProfile = profile[profile.length - 1];
+
+      prefs.setString(groupNameSharedPref, currentProfile.groupName);
+      prefs.setInt(academicYearIDSharedPref, currentProfile.acadYearIDField);
+    }
+  } catch (e) {
+    print('Error');
+  }
+}
 
 void showSnackBar(String text, GlobalKey<ScaffoldState> scaffoldKey,
     [int duration = 2, bool isSuccessful = false]) {

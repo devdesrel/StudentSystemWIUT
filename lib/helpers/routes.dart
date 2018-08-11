@@ -24,7 +24,7 @@ import 'package:student_system_flutter/pages/timetable_page.dart';
 import 'app_constants.dart';
 
 final routes = {
-  '/': (BuildContext context) => AppUpdatesPage(),
+  '/': (BuildContext context) => LoginPage(),
   loginPage: (BuildContext context) => LoginPage(),
   securityPage: (BuildContext context) => SecurityPage(),
   homePage: (BuildContext context) => HomePage(),

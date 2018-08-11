@@ -12,7 +12,11 @@ class MapPage extends StatelessWidget {
         centerTitle: true,
       ),
       body: FlutterMap(
-        options: MapOptions(zoom: 17.0, center: LatLng(41.3070, 69.2834)),
+        options: MapOptions(
+            maxZoom: 18.0,
+            zoom: 17.0,
+            minZoom: 15.0,
+            center: LatLng(41.3070, 69.2834)),
         layers: [
           TileLayerOptions(
               urlTemplate: "http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",

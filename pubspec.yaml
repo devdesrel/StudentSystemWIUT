@@ -21,12 +21,24 @@ dependencies:
   flutter_map: ^0.0.10
   flushbar: ^0.7.5
   package_info: ^0.3.2
+  # flutter_launcher_icons: ^0.6.0
 
   cupertino_icons: ^0.1.2
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
+  
+  flutter_launcher_icons: ^0.6.0
+
+# flutter_icons:
+#   android: true 
+#   # ios: "Example-Icon"
+#   image_path: "assets/icon.png"
+#   image_path_android: "assets/icon.png"
+#   # image_path_ios: "assets/icon/icon_ios.png"
+#   adaptive_icon_background: "#FF0091ea"
+#   # adaptive_icon_foreground: "assets/icon/icon-foreground.png"
 
 flutter:
   uses-material-design: true

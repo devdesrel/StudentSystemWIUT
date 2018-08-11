@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:student_system_flutter/enums/ApplicationEnums.dart';
 import 'package:student_system_flutter/helpers/backdrop_menu.dart';
 import 'package:student_system_flutter/pages/modules_page.dart';
-import 'package:package_info/package_info.dart';
 
 import '../helpers/app_constants.dart';
 import '../helpers/function_helpers.dart';
@@ -16,12 +15,14 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage>
     with SingleTickerProviderStateMixin {
   AnimationController controller;
+
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
 
-    _getAppVersion();
+    getMinimumAppVersion(context);
+
+    getStudentsProfile(context);
 
     controller = AnimationController(
         vsync: this, duration: Duration(milliseconds: 100), value: 1.0);
@@ -75,18 +76,6 @@ class _HomePageState extends State<HomePage>
           isPanelVisible: isPanelVisible,
         ));
   }
-}
-
-void _getAppVersion() async {
-  PackageInfo packageInfo = await PackageInfo.fromPlatform();
-
-  String appName = packageInfo.appName;
-  String packageName = packageInfo.packageName;
-  String version = packageInfo.version;
-  String buildNumber = packageInfo.buildNumber;
-
-  print(
-      'App Name: $appName\nPackage Name: $packageName\nVersion: $version\nBuild Number: $buildNumber');
 }
 
 void openSelectedPage(BuildContext context, MainPageGridItems page) {

@@ -50,7 +50,10 @@ final firstName = 'firstName';
 final lastName = 'lastName';
 final pinCode = 'pinCode';
 final groupID = 'groupID';
+final groupNameSharedPref = 'groupNameSharedPref';
+final academicYearIDSharedPref = 'academicYearIDSharedPref';
 final useFingerprint = 'useFingerprint';
+final minAppVersion = 'minAppVersion';
 
 //API List
 final baseUrl = 'https://newintranetapi.wiut.uz';
@@ -68,6 +71,9 @@ final apiGetAttachmentsByModuleMaterialIDWithFileSize =
     '$baseUrl/api/UserModuleMaterials/GetAttachmentsByModuleMaterialIDWithFileSize';
 final apiComponentMark =
     '$baseUrl/api/StudentProfileAndMarks/StudentModuleComponentMark';
+final apiGetMinAppVersion = '$baseUrl/api/GetMinApp/GetMinApp';
+final apiStudentProfile =
+    '$baseUrl/api/StudentProfileAndMarks/GetStudentGroupByUserID';
 
 //Errors List
 final String authProblems = 'Authorization problems';

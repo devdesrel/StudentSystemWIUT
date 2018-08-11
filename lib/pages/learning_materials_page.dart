@@ -288,11 +288,109 @@ class LearningMaterialsCard extends StatelessWidget {
 
   _getPermissionToDownloadAndShowDialog(BuildContext _context) async {
     var bloc = LearningMaterialsProvider.of(_context);
-    Permission permission = Permission.WriteExternalStorage;
 
-    bool result = await SimplePermissions.requestPermission(permission);
+    try {
+      Permission permission = Permission.WriteExternalStorage;
+      bool result = await SimplePermissions.checkPermission(permission);
+      if (result) {
+        await showDialog(
+            context: _context,
+            builder: (context) {
+              return FutureBuilder<List<DownloadFileModel>>(
+                future: bloc.getFileUrlsToDownload(
+                    _context, learningMaterialsModel.id),
+                builder: (context, snapshot) => snapshot.hasData
+                    ? SimpleDialog(
+                        titlePadding: EdgeInsets.only(
+                            top: 15.0, left: 24.0, right: 24.0, bottom: 5.0),
+                        contentPadding: EdgeInsets.only(bottom: 0.0),
+                        title: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: <Widget>[
+                            Text('Download'),
+                            snapshot.data.length > 1
+                                ? InkWell(
+                                    child: Padding(
+                                      padding: const EdgeInsets.all(8.0),
+                                      child: Icon(Icons.cloud_download),
+                                    ),
+                                    onTap: () {
+                                      for (var downloadFile in snapshot.data) {
+                                        downloadFile.folderName =
+                                            _getMaterialType(
+                                                    learningMaterialsModel
+                                                        .materialTypeID) +
+                                                '/' +
+                                                learningMaterialsModel.title;
 
-    if (result) {
+                                        bloc.addFileToDownload
+                                            .add(downloadFile);
+                                      }
+                                      Navigator.pop(context);
+
+                                      controller.animateTo(1);
+                                      bloc.flushBar.show(context);
+                                    })
+                                : Container()
+                          ],
+                        ),
+                        children: _getDialogItems(context, snapshot.data))
+                    : Center(child: CircularProgressIndicator()),
+              );
+            });
+      } else {
+        bool result2 = await SimplePermissions.requestPermission(permission);
+
+        if (result2) {
+          await showDialog(
+              context: _context,
+              builder: (context) {
+                return FutureBuilder<List<DownloadFileModel>>(
+                  future: bloc.getFileUrlsToDownload(
+                      _context, learningMaterialsModel.id),
+                  builder: (context, snapshot) => snapshot.hasData
+                      ? SimpleDialog(
+                          titlePadding: EdgeInsets.only(
+                              top: 15.0, left: 24.0, right: 24.0, bottom: 5.0),
+                          contentPadding: EdgeInsets.only(bottom: 0.0),
+                          title: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: <Widget>[
+                              Text('Download'),
+                              snapshot.data.length > 1
+                                  ? InkWell(
+                                      child: Padding(
+                                        padding: const EdgeInsets.all(8.0),
+                                        child: Icon(Icons.cloud_download),
+                                      ),
+                                      onTap: () {
+                                        for (var downloadFile
+                                            in snapshot.data) {
+                                          downloadFile.folderName =
+                                              _getMaterialType(
+                                                      learningMaterialsModel
+                                                          .materialTypeID) +
+                                                  '/' +
+                                                  learningMaterialsModel.title;
+
+                                          bloc.addFileToDownload
+                                              .add(downloadFile);
+                                        }
+                                        Navigator.pop(context);
+
+                                        controller.animateTo(1);
+                                        bloc.flushBar.show(context);
+                                      })
+                                  : Container()
+                            ],
+                          ),
+                          children: _getDialogItems(context, snapshot.data))
+                      : Center(child: CircularProgressIndicator()),
+                );
+              });
+        }
+      }
+    } catch (e) {
       await showDialog(
           context: _context,
           builder: (context) {
