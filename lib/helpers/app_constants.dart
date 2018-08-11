@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 
-//Application Name
+//Application
 final appName = 'Student System';
+final playStoreUrl =
+    'https://play.google.com/store/apps/details?id=com.wiut.studentsystemflutter';
 
 //Application colors
 final primaryColor = Color(0xFF0091ea);

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:student_system_flutter/helpers/app_constants.dart';
+import 'package:student_system_flutter/helpers/function_helpers.dart';
 
 class AppUpdatesPage extends StatelessWidget {
   @override
@@ -64,7 +65,9 @@ class AppUpdatesPage extends StatelessWidget {
                 'Ugrade now'.toUpperCase(),
                 style: TextStyle(color: accentColor),
               ),
-              onPressed: () {},
+              onPressed: () {
+                launchURL(playStoreUrl, false);
+              },
             ),
           ),
         ],

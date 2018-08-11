@@ -10,6 +10,7 @@ import 'package:package_info/package_info.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:student_system_flutter/enums/ApplicationEnums.dart';
 import 'package:student_system_flutter/models/profile_model.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import 'app_constants.dart';
 
@@ -140,6 +141,20 @@ Future<File> getImage(bool isFromCamera) async {
       source: isFromCamera ? ImageSource.camera : ImageSource.gallery);
 }
 
+launchURL(String urlFrom, bool isWebView) async {
+  final url = urlFrom;
+
+  if (await canLaunch(url)) {
+    if (isWebView != null && isWebView) {
+      await launch(url, forceWebView: true);
+    } else {
+      await launch(url);
+    }
+  } else {
+    throw 'Could not launch $url';
+  }
+}
+
 //Sign out Dialog
 Future<Null> showSignOutDialog(BuildContext context) async {
   return showDialog<Null>(
@@ -184,5 +199,6 @@ void _cleanUserData() async {
   await prefs.setString(firstName, "");
   await prefs.setString(lastName, "");
   await prefs.setString(groupID, "");
+  await prefs.setString(groupNameSharedPref, "");
   await prefs.setBool(isLoggedIn, false);
 }

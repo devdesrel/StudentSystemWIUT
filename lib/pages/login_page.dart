@@ -304,9 +304,6 @@ class _LoginPageState extends State<LoginPage> implements AuthStateListener {
                 children: <Widget>[
                   customeFormField('New PIN',
                       ChangePinCodeDialogArguments.NewPin, context, bloc),
-                  SizedBox(
-                    height: 5.0,
-                  ),
                   customeFormField('Confirm new PIN',
                       ChangePinCodeDialogArguments.ConfirmPin, context, bloc),
                 ],

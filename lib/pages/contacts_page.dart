@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:student_system_flutter/helpers/app_constants.dart';
-import 'package:url_launcher/url_launcher.dart';
+import 'package:student_system_flutter/helpers/function_helpers.dart';
 
 class ContactsPage extends StatelessWidget {
   final double cardPadding = 10.0;
@@ -219,26 +219,12 @@ class CustomContactsListtile extends StatelessWidget {
       this.trailing})
       : super(key: key);
 
-  _launchURL(String urlFrom) async {
-    final url = urlFrom;
-
-    if (await canLaunch(url)) {
-      if (isWebView != null && isWebView) {
-        await launch(url, forceWebView: true);
-      } else {
-        await launch(url);
-      }
-    } else {
-      throw 'Could not launch $url';
-    }
-  }
-
   @override
   Widget build(BuildContext context) {
     return InkWell(
       onTap: () {
         if (urlFrom != null) {
-          _launchURL(urlFrom);
+          launchURL(urlFrom, isWebView);
         } else if (isMap) {
           Navigator.pushNamed(context, mapPage);
         }

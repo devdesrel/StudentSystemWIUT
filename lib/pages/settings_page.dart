@@ -111,6 +111,7 @@ class SettingsPage extends StatelessWidget {
               decorationColor: Colors.white),
           autofocus: false,
           obscureText: true,
+          maxLength: 4,
           keyboardType: TextInputType.number,
           validator: (val) {
             switch (type) {
@@ -178,14 +179,8 @@ class SettingsPage extends StatelessWidget {
                 children: <Widget>[
                   customeFormField('Current PIN',
                       ChangePinCodeDialogArguments.CurrentPin, context, bloc),
-                  SizedBox(
-                    height: 5.0,
-                  ),
                   customeFormField('New PIN',
                       ChangePinCodeDialogArguments.NewPin, context, bloc),
-                  SizedBox(
-                    height: 5.0,
-                  ),
                   customeFormField('Confirm new PIN',
                       ChangePinCodeDialogArguments.ConfirmPin, context, bloc),
                 ],
