@@ -105,13 +105,17 @@ class ItemModules extends StatelessWidget {
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: <Widget>[
                             Text('Total Mark',
-                                style: Theme.of(context).textTheme.body1),
+                                style: Theme
+                                    .of(context)
+                                    .textTheme
+                                    .body1
+                                    .copyWith(color: accentColor)),
                             Text(module.moduleMark,
                                 style: Theme
                                     .of(context)
                                     .textTheme
                                     .body1
-                                    .copyWith(color: textColor)),
+                                    .copyWith(color: accentColor)),
                           ],
                         ),
                       )
