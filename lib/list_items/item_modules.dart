@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:student_system_flutter/helpers/function_helpers.dart';
 import 'package:student_system_flutter/pages/learning_materials_page.dart';
 
 import '../helpers/app_constants.dart';
@@ -109,13 +110,17 @@ class ItemModules extends StatelessWidget {
                                     .of(context)
                                     .textTheme
                                     .body1
-                                    .copyWith(color: accentColor)),
+                                    .copyWith(
+                                        color: getMarkColor(
+                                            int.parse(module.moduleMark)))),
                             Text(module.moduleMark,
                                 style: Theme
                                     .of(context)
                                     .textTheme
                                     .body1
-                                    .copyWith(color: accentColor)),
+                                    .copyWith(
+                                        color: getMarkColor(
+                                            int.parse(module.moduleMark)))),
                           ],
                         ),
                       )

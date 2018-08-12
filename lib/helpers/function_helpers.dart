@@ -68,6 +68,14 @@ void getStudentsProfile(BuildContext context) async {
   }
 }
 
+Color getMarkColor(int moduleMark) {
+  if (moduleMark >= 40) {
+    return greenColor;
+  } else {
+    return redColor;
+  }
+}
+
 void showSnackBar(String text, GlobalKey<ScaffoldState> scaffoldKey,
     [int duration = 2, bool isSuccessful = false]) {
   scaffoldKey.currentState.showSnackBar(SnackBar(
