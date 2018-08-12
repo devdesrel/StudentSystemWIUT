@@ -18,7 +18,7 @@ class TimetableBloc {
   File jsonFile;
   Directory dir;
   bool fileExists = false;
-  Map<String, String> fileContent;
+  // Map<String, String> fileContent;
 
   List<TimetableDropdownListModel> groupsListDropdown =
       List<TimetableDropdownListModel>();
@@ -137,7 +137,7 @@ class TimetableBloc {
       _timetableListSubject.stream;
 
   final _timetableListSubject =
-      BehaviorSubject<List<TimetableModel>>(seedValue: []);
+      BehaviorSubject<List<TimetableModel>>(/*seedValue: [] */);
 
   Stream<String> get timetableTitle => _timetableTitleSubject.stream;
 

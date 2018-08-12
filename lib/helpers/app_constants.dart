@@ -94,3 +94,4 @@ final String downloadingMessageBody =
     'Please, don\'t leave this page until the process is done';
 final String noDownloadedFiles = 'There is no downloaded files';
 final String noFilesToDownload = 'There is no files to download';
+final String noAvailableTimetable = 'Nothing to show for the current week';

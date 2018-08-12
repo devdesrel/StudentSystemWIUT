@@ -62,20 +62,6 @@ class ItemModules extends StatelessWidget {
                             .copyWith(color: textColor)),
                   ],
                 ),
-                SizedBox(height: 10.0),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: <Widget>[
-                    Text('Level Name',
-                        style: Theme.of(context).textTheme.body1),
-                    Text(module.level,
-                        style: Theme
-                            .of(context)
-                            .textTheme
-                            .body1
-                            .copyWith(color: textColor)),
-                  ],
-                ),
                 requestType == RequestType.GetMarks
                     ? Padding(
                         padding: const EdgeInsets.only(top: 10.0),
@@ -85,6 +71,42 @@ class ItemModules extends StatelessWidget {
                             Text('Year Name',
                                 style: Theme.of(context).textTheme.body1),
                             Text(module.session,
+                                style: Theme
+                                    .of(context)
+                                    .textTheme
+                                    .body1
+                                    .copyWith(color: textColor)),
+                          ],
+                        ),
+                      )
+                    : Container(),
+                requestType == RequestType.GetMarks
+                    ? Padding(
+                        padding: const EdgeInsets.only(top: 10.0),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: <Widget>[
+                            Text('Credit',
+                                style: Theme.of(context).textTheme.body1),
+                            Text(module.credit,
+                                style: Theme
+                                    .of(context)
+                                    .textTheme
+                                    .body1
+                                    .copyWith(color: textColor)),
+                          ],
+                        ),
+                      )
+                    : Container(),
+                requestType == RequestType.GetMarks
+                    ? Padding(
+                        padding: const EdgeInsets.only(top: 10.0),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: <Widget>[
+                            Text('Total Mark',
+                                style: Theme.of(context).textTheme.body1),
+                            Text(module.moduleMark,
                                 style: Theme
                                     .of(context)
                                     .textTheme

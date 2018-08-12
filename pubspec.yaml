@@ -1,5 +1,5 @@
 name: student_system_flutter
-description: A new Flutter project.
+description: WIUT Intranet
 
 dependencies:
   flutter:
@@ -9,14 +9,14 @@ dependencies:
   cached_network_image: "^0.4.1+1"
   shared_preferences: "^0.4.2"
   flutter_circular_chart: "^0.0.3"
-  carousel: "^0.1.0"
+  # carousel: "^0.1.0"
   path_provider: "^0.4.1"
   simple_permissions: "^0.1.5"
   font_awesome_flutter: "^7.0.0"
   image_picker: "^0.4.5"
   rxdart: "^0.18.0"
   mime: ^0.9.6
-  asynchronous_validator: ^1.0.2
+  # asynchronous_validator: ^1.0.2
   url_launcher: ^3.0.3
   flutter_map: ^0.0.10
   flushbar: ^0.7.5
