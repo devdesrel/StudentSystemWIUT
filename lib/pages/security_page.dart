@@ -93,12 +93,15 @@ class _SecurityPageState extends State<SecurityPage> {
     });
   }
 
-  Widget _getFourthNumber(String fourthNumber) {
+  List<Widget> _getThirdNumber(
+      String firstNumber, String secondNumber, String thirdNumber) {
     TextStyle textStyle =
         Theme.of(context).textTheme.display2.copyWith(color: Colors.white);
 
-    if (fourthNumber == ' ') {
-      return StreamBuilder(
+    var widgetList = <Widget>[];
+
+    if (firstNumber == ' ') {
+      widgetList.add(StreamBuilder(
           stream: _bloc.useFingerprint,
           builder: (context, snapshot) {
             if (snapshot.hasData && snapshot.data)
@@ -112,7 +115,7 @@ class _SecurityPageState extends State<SecurityPage> {
                 },
                 child: Padding(
                   padding: const EdgeInsets.symmetric(
-                      horizontal: 15.0, vertical: 21.0),
+                      horizontal: 10.0, vertical: 21.0),
                   child: Icon(
                     Icons.fingerprint,
                     size: 40.0,
@@ -123,27 +126,31 @@ class _SecurityPageState extends State<SecurityPage> {
             else {
               return Container(
                 padding: const EdgeInsets.symmetric(
-                    horizontal: 15.0, vertical: 41.0),
+                    horizontal: 29.0, vertical: 41.0),
               );
             }
-          });
-    } else if (fourthNumber == '0') {
-      return InkWell(
+          }));
+    }
+
+    if (secondNumber == '0') {
+      widgetList.add(InkWell(
         onTap: () {
-          enterPIN(fourthNumber);
+          enterPIN(secondNumber);
         },
         child: Padding(
           padding: const EdgeInsets.all(15.0),
           child: Text(
-            fourthNumber,
+            secondNumber,
             style: textStyle,
           ),
         ),
-      );
-    } else if (fourthNumber == 'DEL') {
-      return InkWell(
+      ));
+    }
+
+    if (thirdNumber == 'DEL') {
+      widgetList.add(InkWell(
         onTap: () {
-          enterPIN(fourthNumber);
+          enterPIN(thirdNumber);
         },
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 15.0, vertical: 28.5),
@@ -153,12 +160,13 @@ class _SecurityPageState extends State<SecurityPage> {
             color: whiteColor,
           ),
         ),
-      );
+      ));
     }
 
-    return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 15.0, vertical: 41.0),
-    );
+    return widgetList;
+    // return Container(
+    //   padding: const EdgeInsets.symmetric(horizontal: 15.0, vertical: 41.0),
+    // );
   }
 
   @override
@@ -189,33 +197,36 @@ class _SecurityPageState extends State<SecurityPage> {
                 height: 25.0,
               ),
               Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 26.0),
-                child: Row(
+                padding: const EdgeInsets.symmetric(horizontal: 20.0),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: <Widget>[
                     CustomDigitColumn(
                       firstNumber: '1',
-                      secondNumber: '4',
-                      thirdNumber: '7',
-                      fourthNumber: ' ',
+                      secondNumber: '2',
+                      thirdNumber: '3',
                       enterPIN: enterPIN,
-                      getFourthNumber: _getFourthNumber,
                     ),
                     CustomDigitColumn(
-                      firstNumber: '2',
+                      firstNumber: '4',
                       secondNumber: '5',
-                      thirdNumber: '8',
-                      fourthNumber: '0',
+                      thirdNumber: '6',
                       enterPIN: enterPIN,
-                      getFourthNumber: _getFourthNumber,
                     ),
                     CustomDigitColumn(
-                      firstNumber: '3',
-                      secondNumber: '6',
+                      firstNumber: '7',
+                      secondNumber: '8',
                       thirdNumber: '9',
-                      fourthNumber: 'DEL',
                       enterPIN: enterPIN,
-                      getFourthNumber: _getFourthNumber,
+                    ),
+                    CustomDigitColumn(
+                      firstNumber: ' ',
+                      secondNumber: '0',
+                      thirdNumber: 'DEL',
+                      enterPIN: enterPIN,
+                      isFourthRaw: true,
+                      getThirdNumber: _getThirdNumber,
                     ),
                   ],
                 ),
@@ -240,22 +251,24 @@ class _SecurityPageState extends State<SecurityPage> {
 
 class CustomDigitColumn extends StatelessWidget {
   final Function enterPIN;
-  final Function getFourthNumber;
+  final Function getThirdNumber;
+  final bool isFourthRaw;
 
   const CustomDigitColumn(
       {Key key,
       this.firstNumber,
       this.secondNumber,
       this.thirdNumber,
-      this.fourthNumber,
+      this.isFourthRaw,
+      // this.fourthNumber,
       this.enterPIN,
-      this.getFourthNumber})
+      this.getThirdNumber})
       : super(key: key);
 
   final String firstNumber;
   final String secondNumber;
   final String thirdNumber;
-  final String fourthNumber;
+  // final String fourthNumber;
 
   @override
   Widget build(BuildContext context) {
@@ -264,73 +277,80 @@ class CustomDigitColumn extends StatelessWidget {
 
     return Material(
       color: Colors.blue,
-      child: Column(
-        children: <Widget>[
-          InkWell(
-            onTap: () {
-              enterPIN(firstNumber);
-            },
-            child: Padding(
-              padding: const EdgeInsets.all(15.0),
-              child: Text(
-                firstNumber,
-                style: textStyle,
-              ),
-            ),
-          ),
-          SizedBox(height: 30.0),
-          InkWell(
-            onTap: () {
-              enterPIN(secondNumber);
-            },
-            child: Padding(
-              padding: const EdgeInsets.all(15.0),
-              child: Text(
-                secondNumber,
-                style: textStyle,
-              ),
-            ),
-          ),
-          SizedBox(height: 30.0),
-          InkWell(
-            onTap: () {
-              enterPIN(thirdNumber);
-            },
-            child: Padding(
-              padding: const EdgeInsets.all(15.0),
-              child: Text(
-                thirdNumber,
-                style: textStyle,
-              ),
-            ),
-          ),
+      child: isFourthRaw == null || isFourthRaw == false
+          ? Row(
+              // crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: <Widget>[
+                InkWell(
+                  onTap: () {
+                    enterPIN(firstNumber);
+                  },
+                  child: Padding(
+                    padding: const EdgeInsets.all(15.0),
+                    child: Text(
+                      firstNumber,
+                      style: textStyle,
+                    ),
+                  ),
+                ),
+                // SizedBox(height: 30.0),
+                InkWell(
+                  onTap: () {
+                    enterPIN(secondNumber);
+                  },
+                  child: Padding(
+                    padding: const EdgeInsets.all(15.0),
+                    child: Text(
+                      secondNumber,
+                      style: textStyle,
+                    ),
+                  ),
+                ),
+                // SizedBox(height: 30.0),
+                InkWell(
+                  onTap: () {
+                    enterPIN(thirdNumber);
+                  },
+                  child: Padding(
+                    padding: const EdgeInsets.all(15.0),
+                    child: Text(
+                      thirdNumber,
+                      style: textStyle,
+                    ),
+                  ),
+                ),
 
-          SizedBox(height: 30.0),
+                // SizedBox(height: 30.0),
 
-          getFourthNumber(fourthNumber),
+                // getFourthNumber(secondNumber),
+                // getFourthNumber(firstNumber),
 
-          // fourthNumber == ' '
-          //     ? Padding(
-          //         padding: const EdgeInsets.all(15.0),
-          //         child: Text(
-          //           fourthNumber,
-          //           style: textStyle,
-          //         ),
-          //       )
-          //     : InkWell(
-          //         onTap: () {
-          //           enterPIN(fourthNumber);
-          //         },
-          //         child: Padding(
-          //           padding: const EdgeInsets.all(15.0),
-          //           child: Icon(
-          //             Icons.remove_circle,
-          //             color: whiteColor,
-          //           ),
-          //         ),
-          //       ),
-        ],
-      ),
+                // fourthNumber == ' '
+                //     ? Padding(
+                //         padding: const EdgeInsets.all(15.0),
+                //         child: Text(
+                //           fourthNumber,
+                //           style: textStyle,
+                //         ),
+                //       )
+                //     : InkWell(
+                //         onTap: () {
+                //           enterPIN(fourthNumber);
+                //         },
+                //         child: Padding(
+                //           padding: const EdgeInsets.all(15.0),
+                //           child: Icon(
+                //             Icons.remove_circle,
+                //             color: whiteColor,
+                //           ),
+                //         ),
+                //       ),
+              ],
+            )
+          : Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: getThirdNumber(firstNumber, secondNumber, thirdNumber)),
     );
   }
 }
