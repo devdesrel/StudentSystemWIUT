@@ -123,7 +123,7 @@ class _LoginPageState extends State<LoginPage> implements AuthStateListener {
       });
 
       showFlushBar(connectionFailure, checkInternetConnection,
-          MessageTypes.ERROR, context, 5);
+          MessageTypes.ERROR, context, 2);
     }
   }
 

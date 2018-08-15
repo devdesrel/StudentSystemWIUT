@@ -45,7 +45,7 @@ Future<List<ModuleComponentModel>> _getModulesWithComponents(
     }
   } catch (e) {
     showFlushBar(connectionFailure, checkInternetConnection, MessageTypes.ERROR,
-        context, 5);
+        context, 2);
     return null;
   }
 }

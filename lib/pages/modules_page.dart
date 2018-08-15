@@ -52,7 +52,7 @@ class _ModulesPageState extends State<ModulesPage> {
       // return compute(_parseModules, response.body);
     } catch (e) {
       showFlushBar(connectionFailure, checkInternetConnection,
-          MessageTypes.ERROR, context, 5);
+          MessageTypes.ERROR, context, 2);
       return null;
     }
   }
@@ -96,7 +96,7 @@ class _ModulesPageState extends State<ModulesPage> {
     } catch (e) {
       print(e.toString());
       showFlushBar(connectionFailure, checkInternetConnection,
-          MessageTypes.ERROR, context, 5);
+          MessageTypes.ERROR, context, 2);
 
       return null;
     }

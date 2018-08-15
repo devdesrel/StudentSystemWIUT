@@ -181,7 +181,7 @@ class TimetableBloc {
       return _timetableList;
     } else {
       showFlushBar(connectionFailure, checkInternetConnection,
-          MessageTypes.ERROR, context, 5);
+          MessageTypes.ERROR, context, 2);
       return null;
     }
   }
@@ -270,7 +270,7 @@ class TimetableBloc {
       }
     } catch (e) {
       showFlushBar(connectionFailure, checkInternetConnection,
-          MessageTypes.ERROR, context, 5);
+          MessageTypes.ERROR, context, 2);
       return null;
     }
 

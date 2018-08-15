@@ -130,7 +130,7 @@ class LearningMaterialsBloc {
       }
     } catch (e) {
       showFlushBar(connectionFailure, checkInternetConnection,
-          MessageTypes.ERROR, context, 5);
+          MessageTypes.ERROR, context, 2);
       return null;
     }
   }
