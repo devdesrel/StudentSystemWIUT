@@ -24,6 +24,7 @@ class LearningMaterialsPage extends StatefulWidget {
 class _LearningMaterialsPageState extends State<LearningMaterialsPage>
     with SingleTickerProviderStateMixin {
   TabController _controller;
+  Widget _currentPage;
 
   @override
   void initState() {
@@ -33,6 +34,14 @@ class _LearningMaterialsPageState extends State<LearningMaterialsPage>
 
   @override
   Widget build(BuildContext context) {
+    if (_currentPage == null) {
+      _currentPage = _createCurrentPage(context);
+    }
+
+    return _currentPage;
+  }
+
+  Widget _createCurrentPage(BuildContext context) {
     var bloc = LearningMaterialsBloc(widget.module.moduleMaterial);
     bloc.moduleName = widget.module.moduleName;
 

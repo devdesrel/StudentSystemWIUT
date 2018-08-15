@@ -99,11 +99,15 @@ class _LoginPageState extends State<LoginPage> implements AuthStateListener {
       if (res.statusCode == 200) {
         SharedPreferences prefs = await SharedPreferences.getInstance();
         await prefs.setString(token, data['token']);
+        await prefs.setString(tokenExpireDay,
+            DateTime.now().toUtc().add(Duration(days: 0)).toString());
         await prefs.setString(studentID, _username);
+        await prefs.setString(userPasssword, _password);
+
         await prefs.setBool(isLoggedIn, true);
         var pin = prefs.getString(pinCode);
 
-        getStudentsProfile(context);
+        getStudentsProfileForSelectedYear();
 
         if (pin == null) {
           showPinDialog(context, bloc);

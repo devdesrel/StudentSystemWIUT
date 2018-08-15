@@ -47,7 +47,9 @@ final testPage = '/testPage';
 //Shared preferance keys
 final isLoggedIn = 'isLoggedIn';
 final token = 'token';
+final tokenExpireDay = 'tokenExpireDay';
 final studentID = 'studentID';
+final userPasssword = 'userPasssword';
 final firstName = 'firstName';
 final lastName = 'lastName';
 final pinCode = 'pinCode';
@@ -76,6 +78,8 @@ final apiComponentMark =
 final apiGetMinAppVersion = '$baseUrl/api/GetMinApp/GetMinApp';
 final apiStudentProfile =
     '$baseUrl/api/StudentProfileAndMarks/GetStudentGroupByUserID';
+final apiStudentProfileForSelectedAcademicYear =
+    '$baseUrl/api/StudentProfileAndMarks/GetStudentGroupByUserIDAndAcadYearID';
 
 //Errors List
 final String authProblems = 'Authorization problems';
