@@ -39,7 +39,37 @@ void getMinimumAppVersion(BuildContext context) async {
   }
 }
 
-void getStudentsProfile(BuildContext context) async {
+void getStudentsProfileForSelectedYear() async {
+  SharedPreferences prefs = await SharedPreferences.getInstance();
+  final _token = prefs.getString(token);
+  final _studentID = prefs.getString(studentID);
+
+  try {
+    final response = await http.post(
+        "$apiStudentProfileForSelectedAcademicYear?StudentID=$_studentID&AcadYearID=18",
+        headers: {
+          "Accept": "application/json",
+          "Authorization": "Bearer $_token"
+        });
+
+    if (response.statusCode == 200) {
+      final _parsed = json.decode(response.body);
+
+      List<ProfileModel> profile = _parsed
+          .map<ProfileModel>((item) => ProfileModel.fromJson(item))
+          .toList();
+
+      var currentProfile = profile[profile.length - 1];
+
+      prefs.setString(groupNameSharedPref, currentProfile.groupName);
+      prefs.setInt(academicYearIDSharedPref, currentProfile.acadYearIDField);
+    }
+  } catch (e) {
+    print('Error');
+  }
+}
+
+void getStudentsProfileForTheCurrentYear(BuildContext context) async {
   SharedPreferences prefs = await SharedPreferences.getInstance();
   final _token = prefs.getString(token);
   final _studentID = prefs.getString(studentID);
