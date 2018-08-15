@@ -153,9 +153,12 @@ class CourseworkUploadItemsState extends State<CourseworkUploadItems> {
             StreamBuilder(
               initialData: chosenFile,
               stream: bloc.fileName,
-              builder: (context, snapshot) => Text(
-                    snapshot.hasData ? snapshot.data : '',
-                    style: TextStyle(color: Color(0xBF616161)),
+              builder: (context, snapshot) => Flexible(
+                    child: Text(
+                      snapshot.hasData ? snapshot.data : '',
+                      style: TextStyle(color: Color(0xBF616161)),
+                      overflow: TextOverflow.ellipsis,
+                    ),
                   ),
             ),
             RaisedButton(

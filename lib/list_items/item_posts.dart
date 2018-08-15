@@ -114,6 +114,8 @@ class CardBody extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final iconSize = 18.0;
+    final Icon postLikeIcon = Icon(FontAwesomeIcons.heart);
+
     // final heartIcon = const IconData(442, fontFamily: CuperIcon);
     // final heartIcon = const IconData(442, fontFamily: CuperIcon);
     return Column(children: <Widget>[
@@ -159,7 +161,7 @@ class CardBody extends StatelessWidget {
             child: IconButton(
               padding: const EdgeInsets.all(0.0),
               onPressed: () {},
-              icon: Icon(FontAwesomeIcons.heart),
+              icon: postLikeIcon,
               //icon: IconData (f442, fontFamily: CuperIcon),
               //TextStyle(CuperIcon ),
               iconSize: iconSize,

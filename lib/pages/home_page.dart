@@ -55,7 +55,13 @@ class _HomePageState extends State<HomePage>
             //   onPressed: () {},
             // ),
             IconButton(
-              icon: Icon(Icons.exit_to_app),
+              padding: EdgeInsets.only(top: 1.0),
+              icon: Image.asset(
+                'assets/exit_run.png',
+                height: 20.0,
+              ),
+              // icon: Icon(Icons.exit_to_app),
+              // icon: ,
               onPressed: () {
                 showSignOutDialog(context);
               },

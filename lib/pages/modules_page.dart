@@ -2,12 +2,14 @@ import 'dart:async';
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:student_system_flutter/enums/ApplicationEnums.dart';
 import 'package:student_system_flutter/helpers/function_helpers.dart';
 import 'package:student_system_flutter/models/LearningMaterials/learning_materials_model.dart';
 import 'package:student_system_flutter/pages/offline_page.dart';
+import 'package:connectivity/connectivity.dart';
 
 import '../helpers/app_constants.dart';
 import '../list_items/item_modules.dart';
@@ -23,6 +25,11 @@ class ModulesPage extends StatefulWidget {
 }
 
 class _ModulesPageState extends State<ModulesPage> {
+  @override
+  void initState() {
+    super.initState();
+  }
+
   Future<List<Module>> _getModulesWithMarks() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     final _token = prefs.getString(token);
@@ -90,6 +97,7 @@ class _ModulesPageState extends State<ModulesPage> {
       print(e.toString());
       showFlushBar(connectionFailure, checkInternetConnection,
           MessageTypes.ERROR, context, 5);
+
       return null;
     }
   }
@@ -103,6 +111,109 @@ class _ModulesPageState extends State<ModulesPage> {
         .toList();
 
     return lists;
+  }
+
+  Future<Widget> checkConnectivity() async {
+    ConnectivityResult connectionStatus;
+    final Connectivity _connectivity = new Connectivity();
+    try {
+      connectionStatus = await _connectivity.checkConnectivity();
+      if (widget.requestType == RequestType.GetTeachingMaterials &&
+          connectionStatus == ConnectivityResult.none) {
+        showFlushBar(connectionFailure, checkInternetConnection,
+            MessageTypes.ERROR, context, 2);
+        return Center(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: <Widget>[
+              Padding(
+                padding: const EdgeInsets.all(24.0),
+                child: Text(
+                  'You are in offline mode. Do you want to view Dowloaded Materials?',
+                  textAlign: TextAlign.center,
+                ),
+              ),
+              RaisedButton(
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.all(Radius.circular(100.0)),
+                ),
+                child: Text(
+                  'View',
+                  style: TextStyle(color: Colors.white),
+                ),
+                color: accentColor,
+                onPressed: () {
+                  Navigator.of(context).push(MaterialPageRoute(
+                      builder: (context) => OfflinePage(moduleName: '')));
+                },
+              ),
+            ],
+          ),
+        );
+      } else {
+        return Container(
+          color: Theme.of(context).backgroundColor,
+          child: FutureBuilder(
+              future: widget.requestType == RequestType.GetMarks
+                  ? _getModulesWithMarks()
+                  : _getLearningMaterials('Lecture'),
+              builder: (context, snapshot) {
+                if (snapshot.hasData) {
+                  var _modulesList = snapshot.data;
+
+                  List<Entry> _sortedModulesList = <Entry>[
+                    Entry('Level 6',
+                        _modulesList.where((m) => m.level == '6').toList()),
+                    Entry('Level 5',
+                        _modulesList.where((m) => m.level == '5').toList()),
+                    Entry('Level 4',
+                        _modulesList.where((m) => m.level == '4').toList()),
+                    Entry('Level 3',
+                        _modulesList.where((m) => m.level == '3').toList()),
+                  ];
+
+                  return ListView.builder(
+                      scrollDirection: Axis.vertical,
+                      itemCount: _sortedModulesList.length,
+                      itemBuilder: (context, i) {
+                        // return Text(_sortedModulesList[i].title);
+                        return Padding(
+                          padding: const EdgeInsets.symmetric(
+                              horizontal: 8.0, vertical: 10.0),
+                          child: ExpansionTile(
+                            // key: PageStorageKey<Entry>(_sortedModulesList),
+
+                            title: Text(_sortedModulesList[i].title),
+                            children: _sortedModulesList[i]
+                                .children
+                                .map((m) => ItemModules(
+                                      module: m,
+                                      requestType: widget.requestType,
+                                    ))
+                                .toList(),
+                          ),
+                        );
+
+                        // EntryItem(_sortedModulesList[i]);
+                        // ItemModules(positionIndex: i, module: snapshot.data[i]);
+                      });
+                } else if (snapshot.hasError) {
+                  return Text("${snapshot.error}");
+                }
+
+                // By default, show a loading spinner
+                return Center(child: CircularProgressIndicator());
+              }),
+        );
+      }
+      // print(connectionStatus);
+    } on PlatformException catch (e) {
+      // } catch (e) {
+      print(e.toString());
+      // connectionStatus = 'Failed to get connectivity.';
+      // return --------------;
+    }
+    return Container();
   }
 
   // List<LearningMaterialsModel> _parseLearningMaterials(String responseBody) {
@@ -135,60 +246,10 @@ class _ModulesPageState extends State<ModulesPage> {
               : Container()
         ],
       ),
-      body: Container(
-        color: Theme.of(context).backgroundColor,
-        child: FutureBuilder(
-            future: widget.requestType == RequestType.GetMarks
-                ? _getModulesWithMarks()
-                : _getLearningMaterials('Lecture'),
-            builder: (context, snapshot) {
-              if (snapshot.hasData) {
-                var _modulesList = snapshot.data;
-
-                List<Entry> _sortedModulesList = <Entry>[
-                  Entry('Level 6',
-                      _modulesList.where((m) => m.level == '6').toList()),
-                  Entry('Level 5',
-                      _modulesList.where((m) => m.level == '5').toList()),
-                  Entry('Level 4',
-                      _modulesList.where((m) => m.level == '4').toList()),
-                  Entry('Level 3',
-                      _modulesList.where((m) => m.level == '3').toList()),
-                ];
-
-                return ListView.builder(
-                    scrollDirection: Axis.vertical,
-                    itemCount: _sortedModulesList.length,
-                    itemBuilder: (context, i) {
-                      // return Text(_sortedModulesList[i].title);
-                      return Padding(
-                        padding: const EdgeInsets.symmetric(
-                            horizontal: 8.0, vertical: 10.0),
-                        child: ExpansionTile(
-                          // key: PageStorageKey<Entry>(_sortedModulesList),
-
-                          title: Text(_sortedModulesList[i].title),
-                          children: _sortedModulesList[i]
-                              .children
-                              .map((m) => ItemModules(
-                                    module: m,
-                                    requestType: widget.requestType,
-                                  ))
-                              .toList(),
-                        ),
-                      );
-
-                      // EntryItem(_sortedModulesList[i]);
-                      // ItemModules(positionIndex: i, module: snapshot.data[i]);
-                    });
-              } else if (snapshot.hasError) {
-                return Text("${snapshot.error}");
-              }
-
-              // By default, show a loading spinner
-              return Center(child: CircularProgressIndicator());
-            }),
-      ),
+      body: FutureBuilder<Widget>(
+          future: checkConnectivity(),
+          initialData: CircularProgressIndicator(),
+          builder: (context, snapshot) => snapshot.data),
     );
   }
 }
