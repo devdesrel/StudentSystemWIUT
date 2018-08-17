@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:student_system_flutter/pages/app_updates_page.dart';
+import 'package:student_system_flutter/pages/books_page.dart';
 import 'package:student_system_flutter/pages/comments_page.dart';
 import 'package:student_system_flutter/pages/contacts_page.dart';
 import 'package:student_system_flutter/pages/coursework_upload_page.dart';
@@ -18,6 +19,7 @@ import 'package:student_system_flutter/pages/offline_page.dart';
 import 'package:student_system_flutter/pages/security_page.dart';
 import 'package:student_system_flutter/pages/settings_page.dart';
 import 'package:student_system_flutter/pages/social_page.dart';
+import 'package:student_system_flutter/pages/support_page.dart';
 import 'package:student_system_flutter/pages/test_2.dart';
 import 'package:student_system_flutter/pages/timetable_page.dart';
 
@@ -45,4 +47,6 @@ final routes = {
   mapPage: (BuildContext context) => MapPage(),
   appUpdatesPage: (BuildContext context) => AppUpdatesPage(),
   testPage: (BuildContext context) => TestPage(),
+  booksPage: (BuildContext context) => BooksPage(),
+  supportPage: (BuildContext context) => SupportPage(),
 };

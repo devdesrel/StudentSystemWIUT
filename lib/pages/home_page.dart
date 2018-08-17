@@ -106,7 +106,7 @@ void openSelectedPage(BuildContext context, MainPageGridItems page) {
       Navigator.of(context).pushNamed(courseworkUploadPage);
       break;
     case MainPageGridItems.BOOK_ORDERING:
-      print('Book Ordering');
+      Navigator.of(context).pushNamed(booksPage);
       break;
     case MainPageGridItems.SOCIAL:
       Navigator.of(context).pushNamed(socialPage);

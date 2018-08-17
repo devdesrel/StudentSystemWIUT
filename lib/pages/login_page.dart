@@ -100,7 +100,7 @@ class _LoginPageState extends State<LoginPage> implements AuthStateListener {
         SharedPreferences prefs = await SharedPreferences.getInstance();
         await prefs.setString(token, data['token']);
         await prefs.setString(tokenExpireDay,
-            DateTime.now().toUtc().add(Duration(days: 0)).toString());
+            DateTime.now().toUtc().add(Duration(days: 1)).toString());
         await prefs.setString(studentID, _username);
         await prefs.setString(userPasssword, _password);
 

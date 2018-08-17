@@ -43,6 +43,8 @@ final contactsPage = '/contactsPage';
 final mapPage = '/mapPage';
 final appUpdatesPage = '/appUpdatesPage';
 final testPage = '/testPage';
+final booksPage = '/booksPage';
+final supportPage = '/supportPage';
 
 //Shared preferance keys
 final isLoggedIn = 'isLoggedIn';
