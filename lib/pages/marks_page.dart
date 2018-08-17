@@ -273,9 +273,7 @@ class CustomGridView {
                 // primary: true,
                 padding: EdgeInsets.symmetric(vertical: 10.0, horizontal: 16.0),
                 crossAxisCount: snapshot.data.length > 2 ? 2 : 1,
-                childAspectRatio: snapshot.data.length > 2
-                    ? (itemWidth / itemHeight)
-                    : (itemWidth / itemHeight * 2.5), //1.38
+                childAspectRatio: snapshot.data.length > 2 ? 1.4 : 2.8, //1.38
                 shrinkWrap: true,
                 scrollDirection: Axis.vertical,
                 controller: ScrollController(keepScrollOffset: false),
