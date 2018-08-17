@@ -151,7 +151,7 @@ class CustomGridView {
                 name.toUpperCase(),
                 textAlign: TextAlign.center,
                 style: Theme.of(context).textTheme.body1.copyWith(
-                    letterSpacing: 4.0, color: textColor, fontSize: 16.0),
+                    letterSpacing: 4.0, color: textColor, fontSize: 15.0),
               )),
             ],
           ),
@@ -170,7 +170,7 @@ class CustomGridView {
     return SliverGrid.count(
         // padding: EdgeInsets.all(16.0),
         // shrinkWrap: true,
-        childAspectRatio: (itemWidth / itemHeight), //0.85
+        childAspectRatio: 0.9, //0.85
         // scrollDirection: Axis.vertical,
         // controller: ScrollController(keepScrollOffset: false),
         crossAxisCount: 2,
