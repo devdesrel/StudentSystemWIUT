@@ -71,7 +71,8 @@ class FileManagerState extends State<FileManager>
       return FutureBuilder<Directory>(
           future: getExternalStorageDirectory(), builder: _buildDirectory);
     } else {
-      return Padding(padding: const EdgeInsets.all(16.0), child: Text(''));
+      return FutureBuilder<Directory>(
+          future: getApplicationDocumentsDirectory(), builder: _buildDirectory);
     }
   }
 

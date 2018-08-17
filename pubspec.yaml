@@ -11,7 +11,7 @@ dependencies:
   flutter_circular_chart: "^0.0.3"
   # carousel: "^0.1.0"
   path_provider: "^0.4.1"
-  simple_permissions: "^0.1.5"
+  simple_permissions: "^0.1.6"
   font_awesome_flutter: "^7.0.0"
   image_picker: "^0.4.5"
   rxdart: "^0.18.0"

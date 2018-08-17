@@ -164,13 +164,12 @@ class _SecurityPageState extends State<SecurityPage> {
     }
 
     return widgetList;
-    // return Container(
-    //   padding: const EdgeInsets.symmetric(horizontal: 15.0, vertical: 41.0),
-    // );
   }
 
   @override
   Widget build(BuildContext context) {
+    var size = MediaQuery.of(context).size;
+
     return SecurityProvider(
       securityBloc: _bloc,
       child: Scaffold(
@@ -181,7 +180,7 @@ class _SecurityPageState extends State<SecurityPage> {
           child: Column(
             children: <Widget>[
               SizedBox(
-                height: 100.0,
+                height: size.height / 3.5,
               ),
               Text(
                 _pinCodeMask,
