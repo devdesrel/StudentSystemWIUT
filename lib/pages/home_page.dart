@@ -58,7 +58,7 @@ class _HomePageState extends State<HomePage>
               padding: EdgeInsets.only(top: 1.0),
               icon: Image.asset(
                 'assets/exit_run.png',
-                height: 20.0,
+                height: 22.0,
               ),
               // icon: Icon(Icons.exit_to_app),
               // icon: ,
