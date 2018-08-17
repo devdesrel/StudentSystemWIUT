@@ -15,22 +15,12 @@ import '../helpers/app_constants.dart';
 import '../list_items/item_modules.dart';
 import '../models/modules_list_model.dart';
 
-class ModulesPage extends StatefulWidget {
+class ModulesPage extends StatelessWidget {
   final requestType;
 
   ModulesPage({@required this.requestType});
 
-  @override
-  _ModulesPageState createState() => _ModulesPageState();
-}
-
-class _ModulesPageState extends State<ModulesPage> {
-  @override
-  void initState() {
-    super.initState();
-  }
-
-  Future<List<Module>> _getModulesWithMarks() async {
+  Future<List<Module>> _getModulesWithMarks(BuildContext context) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     final _token = prefs.getString(token);
     final _studentID = prefs.getString(studentID);
@@ -71,7 +61,7 @@ class _ModulesPageState extends State<ModulesPage> {
   }
 
   Future<List<LearningMaterialsModel>> _getLearningMaterials(
-      String materialType) async {
+      String materialType, BuildContext context) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     final _token = prefs.getString(token);
     final _studentID = prefs.getString(studentID);
@@ -95,8 +85,8 @@ class _ModulesPageState extends State<ModulesPage> {
       // return compute(_parseModules, response.body);
     } catch (e) {
       print(e.toString());
-      showFlushBar(connectionFailure, checkInternetConnection,
-          MessageTypes.ERROR, context, 2);
+      // showFlushBar(connectionFailure, checkInternetConnection,
+      //     MessageTypes.ERROR, context, 2);
 
       return null;
     }
@@ -113,12 +103,12 @@ class _ModulesPageState extends State<ModulesPage> {
     return lists;
   }
 
-  Future<Widget> checkConnectivity() async {
+  Future<Widget> _checkInternetConnection(BuildContext context) async {
     ConnectivityResult connectionStatus;
     final Connectivity _connectivity = new Connectivity();
     try {
       connectionStatus = await _connectivity.checkConnectivity();
-      if (widget.requestType == RequestType.GetTeachingMaterials &&
+      if (requestType == RequestType.GetTeachingMaterials &&
           connectionStatus == ConnectivityResult.none) {
         showFlushBar(connectionFailure, checkInternetConnection,
             MessageTypes.ERROR, context, 2);
@@ -127,12 +117,14 @@ class _ModulesPageState extends State<ModulesPage> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
               Padding(
-                padding: const EdgeInsets.all(24.0),
+                padding: const EdgeInsets.symmetric(horizontal: 24.0),
                 child: Text(
                   'You are in offline mode. Do you want to view Dowloaded Materials?',
                   textAlign: TextAlign.center,
+                  style: TextStyle(height: 1.3),
                 ),
               ),
+              SizedBox(height: 10.0),
               RaisedButton(
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.all(Radius.circular(100.0)),
@@ -154,9 +146,9 @@ class _ModulesPageState extends State<ModulesPage> {
         return Container(
           color: Theme.of(context).backgroundColor,
           child: FutureBuilder(
-              future: widget.requestType == RequestType.GetMarks
-                  ? _getModulesWithMarks()
-                  : _getLearningMaterials('Lecture'),
+              future: requestType == RequestType.GetMarks
+                  ? _getModulesWithMarks(context)
+                  : _getLearningMaterials('Lecture', context),
               builder: (context, snapshot) {
                 if (snapshot.hasData) {
                   var _modulesList = snapshot.data;
@@ -188,7 +180,7 @@ class _ModulesPageState extends State<ModulesPage> {
                                 .children
                                 .map((m) => ItemModules(
                                       module: m,
-                                      requestType: widget.requestType,
+                                      requestType: requestType,
                                     ))
                                 .toList(),
                           ),
@@ -235,7 +227,7 @@ class _ModulesPageState extends State<ModulesPage> {
         title: Text('Modules'),
         centerTitle: true,
         actions: <Widget>[
-          widget.requestType == RequestType.GetTeachingMaterials
+          requestType == RequestType.GetTeachingMaterials
               ? IconButton(
                   icon: Icon(Icons.cloud_download),
                   onPressed: () {
@@ -247,7 +239,7 @@ class _ModulesPageState extends State<ModulesPage> {
         ],
       ),
       body: FutureBuilder<Widget>(
-          future: checkConnectivity(),
+          future: _checkInternetConnection(context),
           initialData: CircularProgressIndicator(),
           builder: (context, snapshot) => snapshot.data),
     );
