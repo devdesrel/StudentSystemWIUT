@@ -100,7 +100,11 @@ class _LoginPageState extends State<LoginPage> implements AuthStateListener {
         SharedPreferences prefs = await SharedPreferences.getInstance();
         await prefs.setString(token, data['token']);
         await prefs.setString(tokenExpireDay,
+<<<<<<< HEAD
             DateTime.now().toUtc().add(Duration(days: 1)).toString());
+=======
+            DateTime.now().toUtc().add(Duration(days: 6)).toString());
+>>>>>>> 4d06c52c1fa9f912b61706cfef22445a6d6ccc40
         await prefs.setString(studentID, _username);
         await prefs.setString(userPasssword, _password);
 
@@ -176,48 +180,48 @@ class _LoginPageState extends State<LoginPage> implements AuthStateListener {
               'assets/bg.png',
               fit: BoxFit.fill,
             ),
-            Padding(
-              padding:
-                  const EdgeInsets.symmetric(horizontal: 24.0, vertical: 10.0),
-              child: Form(
-                key: formKey,
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.stretch,
-                  children: <Widget>[
-                    SizedBox(
-                      height: 15.0,
-                    ),
-                    Image.asset(
-                      'assets/logo_white.png',
-                      height: 70.0,
-                    ),
-                    Expanded(
-                        flex: 6,
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: <Widget>[
-                            authTextFields('WIUT ID', false),
-                            Container(
-                              height: 15.0,
-                            ),
-                            authTextFields('Password', true),
-                          ],
-                        )),
-                    RaisedButton(
-                      padding: const EdgeInsets.symmetric(vertical: 15.0),
-                      color: Theme.of(context).accentColor,
-                      elevation: 8.0,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.all(Radius.circular(100.0)),
+            SafeArea(
+              child: Padding(
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 24.0, vertical: 0.0),
+                child: Form(
+                  key: formKey,
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.stretch,
+                    children: <Widget>[
+                      Image.asset(
+                        'assets/logo_white.png',
+                        height: 70.0,
                       ),
-                      child: Text(
-                        'Login',
-                        style: TextStyle(color: Colors.white),
+                      Expanded(
+                          flex: 6,
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: <Widget>[
+                              authTextFields('WIUT ID', false),
+                              Container(
+                                height: 15.0,
+                              ),
+                              authTextFields('Password', true),
+                            ],
+                          )),
+                      RaisedButton(
+                        padding: const EdgeInsets.symmetric(vertical: 15.0),
+                        color: Theme.of(context).accentColor,
+                        elevation: 8.0,
+                        shape: RoundedRectangleBorder(
+                          borderRadius:
+                              BorderRadius.all(Radius.circular(100.0)),
+                        ),
+                        child: Text(
+                          'Login',
+                          style: TextStyle(color: Colors.white),
+                        ),
+                        onPressed: _login,
                       ),
-                      onPressed: _login,
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
               ),
             ),
