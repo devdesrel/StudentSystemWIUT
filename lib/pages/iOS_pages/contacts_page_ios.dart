@@ -220,7 +220,7 @@ class CustomContactsCategory extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.only(left: 14.0, top: 12.0),
+      padding: const EdgeInsets.only(left: 18.0, top: 12.0),
       child: Text(
         text.toUpperCase(),
         style: TextStyle(
