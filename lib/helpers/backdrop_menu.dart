@@ -140,7 +140,7 @@ class CustomBackdropMenuItems extends StatelessWidget {
         break;
       case 'Support':
         controller.fling(velocity: 1.0);
-        // Navigator.of(context).pushNamed(offencesPage);
+        Navigator.of(context).pushNamed(supportPage);
         break;
       case 'Contacts':
         controller.fling(velocity: 1.0);
