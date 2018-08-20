@@ -53,22 +53,22 @@ class _TwoPanelsState extends State<TwoPanels> {
                   SizedBox(height: 40.0),
                   CustomBackdropMenuItems(
                     itemName: 'Home',
-                    icon: CupertinoIcons.home,
+                    icon: 0xF447,
                     controller: widget.controller,
                   ),
                   CustomBackdropMenuItems(
                     itemName: 'Support',
-                    icon: CupertinoIcons.conversation_bubble,
+                    icon: 0xF3FB,
                     controller: widget.controller,
                   ),
                   CustomBackdropMenuItems(
                     itemName: 'Contacts',
-                    icon: CupertinoIcons.phone,
+                    icon: 0xF4B8,
                     controller: widget.controller,
                   ),
                   CustomBackdropMenuItems(
                     itemName: 'Settings',
-                    icon: CupertinoIcons.share,
+                    icon: 0xF411,
                     controller: widget.controller,
                   ),
                 ],
@@ -119,7 +119,7 @@ class _TwoPanelsState extends State<TwoPanels> {
 
 class CustomBackdropMenuItems extends StatelessWidget {
   final String itemName;
-  final IconData icon;
+  final int icon;
   final controller;
 
   CustomBackdropMenuItems({
@@ -167,7 +167,10 @@ class CustomBackdropMenuItems extends StatelessWidget {
       child: Padding(
         padding: const EdgeInsets.symmetric(vertical: 10.0, horizontal: 20.0),
         child: ListTile(
-          leading: Icon(icon),
+          leading: Icon(
+            IconData(icon, fontFamily: 'CuperIcon'),
+            size: 26.0,
+          ),
           title: Text(
             itemName,
             style: TextStyle(color: Platform.isIOS ? blackColor : Colors.white),
