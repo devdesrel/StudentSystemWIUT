@@ -1,3 +1,6 @@
+import 'dart:io';
+
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:student_system_flutter/helpers/app_constants.dart';
 import 'package:student_system_flutter/helpers/feedback_form.dart';
@@ -43,25 +46,29 @@ class _TwoPanelsState extends State<TwoPanels> {
       child: Stack(
         children: <Widget>[
           Container(
-            color: theme.primaryColor,
+            color: Platform.isIOS ? backgroundColor : theme.primaryColor,
             child: Center(
               child: ListView(
                 children: <Widget>[
                   SizedBox(height: 40.0),
                   CustomBackdropMenuItems(
-                    itemName: 'HOME',
+                    itemName: 'Home',
+                    icon: CupertinoIcons.home,
                     controller: widget.controller,
                   ),
                   CustomBackdropMenuItems(
-                    itemName: 'SUPPORT',
+                    itemName: 'Support',
+                    icon: CupertinoIcons.conversation_bubble,
                     controller: widget.controller,
                   ),
                   CustomBackdropMenuItems(
-                    itemName: 'CONTACTS',
+                    itemName: 'Contacts',
+                    icon: CupertinoIcons.phone,
                     controller: widget.controller,
                   ),
                   CustomBackdropMenuItems(
-                    itemName: 'SETTINGS',
+                    itemName: 'Settings',
+                    icon: CupertinoIcons.share,
                     controller: widget.controller,
                   ),
                 ],
@@ -72,9 +79,11 @@ class _TwoPanelsState extends State<TwoPanels> {
             rect: getPanelAnimation(constraints),
             child: Material(
               elevation: 12.0,
-              borderRadius: BorderRadius.only(
-                  topLeft: Radius.circular(16.0),
-                  topRight: Radius.circular(16.0)),
+              borderRadius: Platform.isIOS
+                  ? BorderRadius.all(Radius.circular(0.0))
+                  : BorderRadius.only(
+                      topLeft: Radius.circular(16.0),
+                      topRight: Radius.circular(16.0)),
               child: Column(
                 children: <Widget>[
                   Container(
@@ -84,8 +93,10 @@ class _TwoPanelsState extends State<TwoPanels> {
                       child: CustomScrollView(
                     slivers: <Widget>[
                       SliverToBoxAdapter(
-                          child:
-                              FeedbackForm(questionNumbers: _questionNumbers)),
+                          child: SafeArea(
+                              bottom: false,
+                              child: FeedbackForm(
+                                  questionNumbers: _questionNumbers))),
                       CustomGridView(context).build(),
                     ],
                   ))
@@ -108,32 +119,34 @@ class _TwoPanelsState extends State<TwoPanels> {
 
 class CustomBackdropMenuItems extends StatelessWidget {
   final String itemName;
+  final IconData icon;
   final controller;
 
   CustomBackdropMenuItems({
     Key key,
     @required this.itemName,
+    @required this.icon,
     this.controller,
   }) : super(key: key);
 
   void openSelectedBackdropItem(BuildContext context, itemName) {
     switch (itemName) {
-      case 'HOME':
+      case 'Home':
         controller.fling(velocity: 1.0);
         break;
       case 'NOTIFICATIONS':
         controller.fling(velocity: 1.0);
         Navigator.of(context).pushNamed(offencesPage);
         break;
-      case 'SUPPORT':
+      case 'Support':
         controller.fling(velocity: 1.0);
         // Navigator.of(context).pushNamed(offencesPage);
         break;
-      case 'CONTACTS':
+      case 'Contacts':
         controller.fling(velocity: 1.0);
         Navigator.of(context).pushNamed(iosContactsPage);
         break;
-      case 'SETTINGS':
+      case 'Settings':
         controller.fling(velocity: 1.0);
         Navigator.of(context).pushNamed(settingsPage);
         break;
@@ -152,15 +165,13 @@ class CustomBackdropMenuItems extends StatelessWidget {
         openSelectedBackdropItem(context, itemName);
       },
       child: Padding(
-        padding: const EdgeInsets.symmetric(vertical: 20.0),
-        child: Text(
-          itemName.toUpperCase(),
-          textAlign: TextAlign.center,
-          style: TextStyle(
-              fontSize: 20.0,
-              fontFamily: 'SlaboRegular',
-              letterSpacing: 2.8,
-              color: Colors.white),
+        padding: const EdgeInsets.symmetric(vertical: 10.0, horizontal: 20.0),
+        child: ListTile(
+          leading: Icon(icon),
+          title: Text(
+            itemName,
+            style: TextStyle(color: Platform.isIOS ? blackColor : Colors.white),
+          ),
         ),
       ),
     );

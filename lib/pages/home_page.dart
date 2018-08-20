@@ -1,3 +1,6 @@
+import 'dart:io';
+
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:student_system_flutter/enums/ApplicationEnums.dart';
 import 'package:student_system_flutter/helpers/backdrop_menu.dart';
@@ -41,32 +44,45 @@ class _HomePageState extends State<HomePage>
         status == AnimationStatus.forward;
   }
 
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
+  Widget _getIOSWidgets() {
+    return Material(
+      child: CupertinoPageScaffold(
         backgroundColor: Theme.of(context).backgroundColor,
-        appBar: AppBar(
-          centerTitle: true,
-          elevation: 0.0,
-          title: Text('WIUT'),
-          actions: <Widget>[
-            // IconButton(
-            //   icon: Icon(Icons.lock_open),
-            //   onPressed: () {},
-            // ),
-            IconButton(
-              padding: EdgeInsets.only(top: 1.0),
-              icon: Image.asset(
-                'assets/exit_run.png',
-                height: 22.0,
-              ),
-              // icon: Icon(Icons.exit_to_app),
-              // icon: ,
-              onPressed: () {
-                showSignOutDialog(context);
-              },
-            ),
-          ],
+        // child: CustomScrollView(
+        //   slivers: <Widget>[
+        //     CupertinoSliverNavigationBar(
+        //       leading: IconButton(
+        //         onPressed: () {
+        //           controller.fling(velocity: isPanelVisible ? -1.0 : 1.0);
+        //         },
+        //         icon: AnimatedIcon(
+        //           icon: AnimatedIcons.close_menu,
+        //           progress: controller.view,
+        //         ),
+        //       ),
+        //       largeTitle: Text("Contacts"),
+        //         trailing: IconButton(
+        //           padding: EdgeInsets.only(top: 1.0),
+        //           icon: Image.asset(
+        //             'assets/exit_run.png',
+        //             height: 22.0,
+        //           ),
+        //           // icon: Icon(Icons.exit_to_app),
+        //           // icon: ,
+        //           onPressed: () {
+        //             showSignOutDialog(context);
+        //           },
+        //         ),
+        //       // ),
+        //     ),
+        //     SliverToBoxAdapter(
+        //         child: TwoPanels(
+        //       controller: controller,
+        //       isPanelVisible: isPanelVisible,
+        //     ))
+        //   ],
+        // )
+        navigationBar: CupertinoNavigationBar(
           leading: IconButton(
             onPressed: () {
               controller.fling(velocity: isPanelVisible ? -1.0 : 1.0);
@@ -74,13 +90,72 @@ class _HomePageState extends State<HomePage>
             icon: AnimatedIcon(
               icon: AnimatedIcons.close_menu,
               progress: controller.view,
+              color: blackColor,
             ),
           ),
+          middle: Text("Cupertino"),
+          trailing: IconButton(
+            padding: EdgeInsets.only(top: 1.0),
+            // icon: Icon(CupertinoIcons.plus_circled),
+            icon: Image.asset(
+              'assets/exit_run_black.png',
+              height: 21.0,
+            ),
+            onPressed: () {
+              showSignOutDialog(context);
+            },
+          ),
         ),
-        body: TwoPanels(
+        child: TwoPanels(
           controller: controller,
           isPanelVisible: isPanelVisible,
-        ));
+        ),
+      ),
+    );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Platform.isAndroid
+        ? Scaffold(
+            backgroundColor: Theme.of(context).backgroundColor,
+            appBar: AppBar(
+              centerTitle: true,
+              elevation: 0.0,
+              title: Text('WIUT'),
+              actions: <Widget>[
+                // IconButton(
+                //   icon: Icon(Icons.lock_open),
+                //   onPressed: () {},
+                // ),
+                IconButton(
+                  padding: EdgeInsets.only(top: 1.0),
+                  icon: Image.asset(
+                    'assets/exit_run.png',
+                    height: 22.0,
+                  ),
+                  // icon: Icon(Icons.exit_to_app),
+                  // icon: ,
+                  onPressed: () {
+                    showSignOutDialog(context);
+                  },
+                ),
+              ],
+              leading: IconButton(
+                onPressed: () {
+                  controller.fling(velocity: isPanelVisible ? -1.0 : 1.0);
+                },
+                icon: AnimatedIcon(
+                  icon: AnimatedIcons.close_menu,
+                  progress: controller.view,
+                ),
+              ),
+            ),
+            body: TwoPanels(
+              controller: controller,
+              isPanelVisible: isPanelVisible,
+            ))
+        : _getIOSWidgets();
   }
 }
 

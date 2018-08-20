@@ -158,19 +158,26 @@ class IosContactsPage extends StatelessWidget {
 
     return Material(
       child: CupertinoPageScaffold(
+          backgroundColor: backgroundColor,
           child: CustomScrollView(
-        slivers: <Widget>[
-          CupertinoSliverNavigationBar(
-            largeTitle: Text("Contacts"),
-          ),
-          SliverToBoxAdapter(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: _getWidgetsList(),
-            ),
-          )
-        ],
-      )),
+            slivers: <Widget>[
+              CupertinoSliverNavigationBar(
+                leading: InkWell(
+                  onTap: Navigator.of(context).pop,
+                  child: Row(
+                    children: <Widget>[Icon(CupertinoIcons.back), Text('Back')],
+                  ),
+                ),
+                largeTitle: Text("Contacts"),
+              ),
+              SliverToBoxAdapter(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: _getWidgetsList(),
+                ),
+              )
+            ],
+          )),
     );
   }
 }

@@ -48,7 +48,6 @@ flutter:
   assets:
     - assets/
     - assets/file_manager_icons/
-
     - assets/fonts/CupertinoIcons.ttf
 
   fonts:
