@@ -156,28 +156,21 @@ class IosContactsPage extends StatelessWidget {
       ];
     }
 
-    return CupertinoPageScaffold(
-      child: CustomScrollView(
+    return Material(
+      child: CupertinoPageScaffold(
+          child: CustomScrollView(
         slivers: <Widget>[
-          SliverAppBar(
-              flexibleSpace: FlexibleSpaceBar(
-                title: Text(
-                  'Contacts',
-                  style: TextStyle(fontWeight: FontWeight.w400),
-                ),
-                background: Image.asset(
-                  'assets/wiut_cover.png',
-                  fit: BoxFit.cover,
-                ),
-              ),
-              expandedHeight: 190.0,
-              floating: false,
-              pinned: false),
-          SliverList(
-              //delegate: SliverChildListDelegate(children: <Widget>[]
-              delegate: SliverChildListDelegate(_getWidgetsList()))
+          CupertinoSliverNavigationBar(
+            largeTitle: Text("Contacts"),
+          ),
+          SliverToBoxAdapter(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: _getWidgetsList(),
+            ),
+          )
         ],
-      ),
+      )),
     );
   }
 }
@@ -195,7 +188,7 @@ class CustomContactsCategory extends StatelessWidget {
         text,
         style: TextStyle(
             fontWeight: FontWeight.bold, color: accentColor, fontSize: 16.0),
-        textAlign: TextAlign.start,
+        textAlign: TextAlign.left,
       ),
     );
   }
