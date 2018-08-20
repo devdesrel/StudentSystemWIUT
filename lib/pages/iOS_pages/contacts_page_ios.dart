@@ -14,9 +14,9 @@ class IosContactsPage extends StatelessWidget {
           text: 'Phone',
         ),
         Padding(
-          padding: const EdgeInsets.only(left: 10.0, right: 10.0, top: 5.0),
-          child: Card(
-            elevation: 2.0,
+          padding: const EdgeInsets.only(top: 5.0),
+          child: Container(
+            color: Colors.white,
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
@@ -25,6 +25,7 @@ class IosContactsPage extends StatelessWidget {
                   subtitle: 'Enquiry office',
                   icon: CupertinoIcons.phone,
                   urlFrom: 'tel:+998 71 238 74 00',
+                  isFromAssets: false,
                 ),
                 Divider(
                   height: 0.0,
@@ -34,6 +35,7 @@ class IosContactsPage extends StatelessWidget {
                   subtitle: 'Enquiry office',
                   icon: CupertinoIcons.phone,
                   urlFrom: 'tel:+998712387444',
+                  isFromAssets: false,
                 ),
                 Divider(
                   height: 0.0,
@@ -43,6 +45,7 @@ class IosContactsPage extends StatelessWidget {
                   subtitle: 'For Masters\' programmes',
                   icon: CupertinoIcons.phone,
                   urlFrom: 'tel:+998712387445',
+                  isFromAssets: false,
                 ),
               ],
             ),
@@ -52,16 +55,20 @@ class IosContactsPage extends StatelessWidget {
           text: 'Email',
         ),
         Padding(
-          padding: const EdgeInsets.only(left: 10.0, right: 10.0, top: 5.0),
-          child: Card(
-            elevation: 2.0,
+          padding: const EdgeInsets.only(top: 5.0),
+          child: Container(
+            color: Colors.white,
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
                 CustomContactsListtile(
                   title: 'info@wiut.uz',
                   subtitle: 'Enquiry office',
-                  icon: Icons.email,
+                  // icon: 'assets/email_ios.png',
+                  imageurl: 'assets/email_ios.png',
+                  // icon: ImageIcon(AssetImage('assets/email_ios.png')),
+                  // icon: Icons.email,
+                  isFromAssets: true,
                   urlFrom: 'mailto:info@wiut.uz?',
                 ),
                 Divider(
@@ -70,8 +77,9 @@ class IosContactsPage extends StatelessWidget {
                 CustomContactsListtile(
                   title: 'admission@wiut.uz',
                   subtitle: "Academic Registrar's office",
-                  icon: Icons.email,
+                  imageurl: 'assets/email_ios.png',
                   urlFrom: 'mailto:admission@wiut.uz?',
+                  isFromAssets: true,
                 ),
               ],
             ),
@@ -81,18 +89,20 @@ class IosContactsPage extends StatelessWidget {
           text: 'Social',
         ),
         Padding(
-          padding: const EdgeInsets.only(left: 10.0, right: 10.0, top: 5.0),
-          child: Card(
-            elevation: 2.0,
+          padding: const EdgeInsets.only(top: 5.0),
+          child: Container(
+            color: Colors.white,
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
                 CustomContactsListtile(
                   title: 'wiut.uz',
                   subtitle: 'Web page',
-                  icon: FontAwesomeIcons.internetExplorer,
+                  // icon: FontAwesomeIcons.internetExplorer,
+                  imageurl: 'assets/internet.png',
                   urlFrom: 'http://wiut.uz/',
                   isWebView: false,
+                  isFromAssets: true,
                 ),
                 Divider(
                   height: 0.0,
@@ -100,9 +110,11 @@ class IosContactsPage extends StatelessWidget {
                 CustomContactsListtile(
                   title: 'facebook.com/wiut.uz',
                   subtitle: 'Facebook page',
-                  icon: FontAwesomeIcons.facebook,
+                  // icon: FontAwesomeIcons.facebook,
+                  imageurl: 'assets/facebook.png',
                   isWebView: false,
                   urlFrom: 'https://www.facebook.com/wiut.uz',
+                  isFromAssets: true,
                 ),
                 Divider(
                   height: 0.0,
@@ -110,9 +122,23 @@ class IosContactsPage extends StatelessWidget {
                 CustomContactsListtile(
                   title: 'instagram.com/westminster.uz',
                   subtitle: 'Instagram page',
-                  icon: FontAwesomeIcons.instagram,
+                  // icon: FontAwesomeIcons.instagram,
+                  imageurl: 'assets/instagram.png',
                   isWebView: false,
                   urlFrom: 'https://www.instagram.com/westminster.uz/',
+                  isFromAssets: true,
+                ),
+                Divider(
+                  height: 0.0,
+                ),
+                CustomContactsListtile(
+                  title: 'WIUT bot',
+                  subtitle: 'Telegram bot',
+                  // icon: FontAwesomeIcons.instagram,
+                  imageurl: 'assets/telegram.png',
+                  isWebView: false,
+                  urlFrom: 'https://t.me/WestTimesBot',
+                  isFromAssets: true,
                 ),
               ],
             ),
@@ -122,18 +148,20 @@ class IosContactsPage extends StatelessWidget {
           text: 'Address',
         ),
         Padding(
-          padding: const EdgeInsets.only(left: 10.0, right: 10.0, top: 5.0),
-          child: Card(
-            elevation: 2.0,
+          padding: const EdgeInsets.only(top: 5.0),
+          child: Container(
+            color: Colors.white,
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
                 CustomContactsListtile(
                   title: '12 Istiqbol Street, 100047',
                   subtitle: 'Tashkent Uzbekistan',
-                  icon: Icons.home,
+                  // icon: Icons.home,
+                  imageurl: 'assets/home.png',
                   trailing: FontAwesomeIcons.mapMarkerAlt,
                   isMap: true,
+                  isFromAssets: true,
                 ),
                 Divider(
                   height: 0.0,
@@ -141,7 +169,9 @@ class IosContactsPage extends StatelessWidget {
                 CustomContactsListtile(
                   title: '(+998 71) 236-35-99',
                   subtitle: 'Fax',
-                  icon: FontAwesomeIcons.fax,
+                  // icon: FontAwesomeIcons.fax,
+                  imageurl: 'assets/fax.png',
+                  isFromAssets: true,
                 ),
                 // SizedBox(
                 //   height: 10.0,
@@ -158,19 +188,20 @@ class IosContactsPage extends StatelessWidget {
 
     return Material(
       child: CupertinoPageScaffold(
+          backgroundColor: backgroundColor,
           child: CustomScrollView(
-        slivers: <Widget>[
-          CupertinoSliverNavigationBar(
-            largeTitle: Text("Contacts"),
-          ),
-          SliverToBoxAdapter(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: _getWidgetsList(),
-            ),
-          )
-        ],
-      )),
+            slivers: <Widget>[
+              CupertinoSliverNavigationBar(
+                largeTitle: Text("Contacts"),
+              ),
+              SliverToBoxAdapter(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: _getWidgetsList(),
+                ),
+              )
+            ],
+          )),
     );
   }
 }
@@ -185,9 +216,11 @@ class CustomContactsCategory extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.only(left: 14.0, top: 12.0),
       child: Text(
-        text,
+        text.toUpperCase(),
         style: TextStyle(
-            fontWeight: FontWeight.bold, color: accentColor, fontSize: 16.0),
+            // fontWeight: FontWeight.bold,
+            color: lightGreyTextColor,
+            fontSize: 14.0),
         textAlign: TextAlign.left,
       ),
     );
@@ -202,36 +235,53 @@ class CustomContactsListtile extends StatelessWidget {
   final isWebView;
   final isMap;
   final trailing;
+  final isFromAssets;
+  final imageurl;
   const CustomContactsListtile(
       {Key key,
       @required this.title,
       @required this.subtitle,
-      @required this.icon,
+      this.icon,
       this.urlFrom,
       this.isWebView,
       this.isMap,
-      this.trailing})
+      this.trailing,
+      this.isFromAssets,
+      this.imageurl})
       : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return InkWell(
-      onTap: () {
-        if (urlFrom != null) {
-          launchURL(urlFrom, isWebView);
-        } else if (isMap) {
-          Navigator.pushNamed(context, mapPage);
-        }
-      },
-      child: ListTile(
-        title: Text(title),
-        leading: Icon(icon),
-        subtitle: Text(subtitle),
-        trailing: Icon(
-          trailing,
-          color: Colors.red[600],
-        ),
-      ),
-    );
+        onTap: () {
+          if (urlFrom != null) {
+            launchURL(urlFrom, isWebView);
+          } else if (isMap) {
+            Navigator.pushNamed(context, mapPage);
+          }
+        },
+        child: isFromAssets
+            ? ListTile(
+                title: Text(title),
+                leading: Image.asset(
+                  imageurl,
+                  height: 20.0,
+                  color: Colors.grey,
+                ),
+                subtitle: Text(subtitle),
+                trailing: Icon(
+                  trailing,
+                  color: Colors.red[600],
+                ),
+              )
+            : ListTile(
+                title: Text(title),
+                leading: Icon(icon),
+                subtitle: Text(subtitle),
+                trailing: Icon(
+                  trailing,
+                  color: Colors.red[600],
+                ),
+              ));
   }
 }
