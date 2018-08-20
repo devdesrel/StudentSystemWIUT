@@ -43,7 +43,7 @@ final contactsPage = '/contactsPage';
 final mapPage = '/mapPage';
 final appUpdatesPage = '/appUpdatesPage';
 final testPage = '/testPage';
-
+final iosContactsPage = '/iosContactsPage';
 //Shared preferance keys
 final isLoggedIn = 'isLoggedIn';
 final token = 'token';
