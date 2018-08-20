@@ -1,10 +1,10 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:student_system_flutter/helpers/app_constants.dart';
 import 'package:student_system_flutter/helpers/function_helpers.dart';
-import 'package:community_material_icon/community_material_icon.dart';
 
-class ContactsPage extends StatelessWidget {
+class IosContactsPage extends StatelessWidget {
   final double cardPadding = 10.0;
   @override
   Widget build(BuildContext context) {
@@ -23,7 +23,7 @@ class ContactsPage extends StatelessWidget {
                 CustomContactsListtile(
                   title: '(+998 71) 238 74 00',
                   subtitle: 'Enquiry office',
-                  icon: Icons.phone,
+                  icon: CupertinoIcons.phone,
                   urlFrom: 'tel:+998 71 238 74 00',
                 ),
                 Divider(
@@ -32,7 +32,7 @@ class ContactsPage extends StatelessWidget {
                 CustomContactsListtile(
                   title: '(+998 71) 238 74 44',
                   subtitle: 'Enquiry office',
-                  icon: Icons.phone,
+                  icon: CupertinoIcons.phone,
                   urlFrom: 'tel:+998712387444',
                 ),
                 Divider(
@@ -41,7 +41,7 @@ class ContactsPage extends StatelessWidget {
                 CustomContactsListtile(
                   title: '(+998 71) 238 74 45',
                   subtitle: 'For Masters\' programmes',
-                  icon: Icons.phone,
+                  icon: CupertinoIcons.phone,
                   urlFrom: 'tel:+998712387445',
                 ),
               ],
@@ -114,17 +114,6 @@ class ContactsPage extends StatelessWidget {
                   isWebView: false,
                   urlFrom: 'https://www.instagram.com/westminster.uz/',
                 ),
-                Divider(
-                  height: 0.0,
-                ),
-                CustomContactsListtile(
-                  title: 'WIUT bot',
-                  subtitle: 'Telegram bot',
-                  // icon: Icons.voice_chat,
-                  icon: CommunityMaterialIcons.telegram,
-                  isWebView: false,
-                  urlFrom: 'https://t.me/WestTimesBot',
-                ),
               ],
             ),
           ),
@@ -167,28 +156,21 @@ class ContactsPage extends StatelessWidget {
       ];
     }
 
-    return Scaffold(
-      body: CustomScrollView(
+    return Material(
+      child: CupertinoPageScaffold(
+          child: CustomScrollView(
         slivers: <Widget>[
-          SliverAppBar(
-              flexibleSpace: FlexibleSpaceBar(
-                title: Text(
-                  'Contacts',
-                  style: TextStyle(fontWeight: FontWeight.w400),
-                ),
-                background: Image.asset(
-                  'assets/wiut_cover.png',
-                  fit: BoxFit.cover,
-                ),
-              ),
-              expandedHeight: 190.0,
-              floating: false,
-              pinned: false),
-          SliverList(
-              //delegate: SliverChildListDelegate(children: <Widget>[]
-              delegate: SliverChildListDelegate(_getWidgetsList()))
+          CupertinoSliverNavigationBar(
+            largeTitle: Text("Contacts"),
+          ),
+          SliverToBoxAdapter(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: _getWidgetsList(),
+            ),
+          )
         ],
-      ),
+      )),
     );
   }
 }
@@ -206,7 +188,7 @@ class CustomContactsCategory extends StatelessWidget {
         text,
         style: TextStyle(
             fontWeight: FontWeight.bold, color: accentColor, fontSize: 16.0),
-        textAlign: TextAlign.start,
+        textAlign: TextAlign.left,
       ),
     );
   }

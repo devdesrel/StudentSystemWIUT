@@ -9,6 +9,7 @@ import 'package:student_system_flutter/pages/file_picker_page.dart';
 import 'package:student_system_flutter/pages/files_downloaded_page.dart';
 
 import 'package:student_system_flutter/pages/home_page.dart';
+import 'package:student_system_flutter/pages/iOS_pages/contacts_page_ios.dart';
 import 'package:student_system_flutter/pages/learning_materials_page.dart';
 import 'package:student_system_flutter/pages/login_page.dart';
 import 'package:student_system_flutter/pages/map_page.dart';
@@ -49,4 +50,5 @@ final routes = {
   testPage: (BuildContext context) => TestPage(),
   booksPage: (BuildContext context) => BooksPage(),
   supportPage: (BuildContext context) => SupportPage(),
+  iosContactsPage: (BuildContext context) => IosContactsPage(),
 };

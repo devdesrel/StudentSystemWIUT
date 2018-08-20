@@ -45,6 +45,7 @@ final appUpdatesPage = '/appUpdatesPage';
 final testPage = '/testPage';
 final booksPage = '/booksPage';
 final supportPage = '/supportPage';
+final iosContactsPage = '/iosContactsPage';
 
 //Shared preferance keys
 final isLoggedIn = 'isLoggedIn';
