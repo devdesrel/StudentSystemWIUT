@@ -117,45 +117,47 @@ class _HomePageState extends State<HomePage>
   @override
   Widget build(BuildContext context) {
     return Platform.isAndroid
-        ? Scaffold(
-            backgroundColor: Theme.of(context).backgroundColor,
-            appBar: AppBar(
-              centerTitle: true,
-              elevation: 0.0,
-              title: Text('WIUT'),
-              actions: <Widget>[
-                // IconButton(
-                //   icon: Icon(Icons.lock_open),
-                //   onPressed: () {},
-                // ),
-                IconButton(
-                  padding: EdgeInsets.only(top: 1.0),
-                  icon: Image.asset(
-                    'assets/exit_run.png',
-                    height: 22.0,
+        ? RepaintBoundary(
+            child: Scaffold(
+                backgroundColor: Theme.of(context).backgroundColor,
+                appBar: AppBar(
+                  elevation: 0.0,
+                  centerTitle: true,
+                  title: Text('WIUT'),
+                  actions: <Widget>[
+                    // IconButton(
+                    //   icon: Icon(Icons.lock_open),
+                    //   onPressed: () {},
+                    // ),
+                    IconButton(
+                      padding: EdgeInsets.only(top: 1.0),
+                      icon: Image.asset(
+                        'assets/exit_run.png',
+                        height: 22.0,
+                      ),
+                      // icon: Icon(Icons.exit_to_app),
+                      // icon: ,
+                      onPressed: () {
+                        showSignOutDialog(context);
+                      },
+                    ),
+                  ],
+                  leading: IconButton(
+                    onPressed: () {
+                      controller.fling(velocity: isPanelVisible ? -1.0 : 1.0);
+                    },
+                    icon: AnimatedIcon(
+                      icon: AnimatedIcons.close_menu,
+                      progress: controller.view,
+                    ),
                   ),
-                  // icon: Icon(Icons.exit_to_app),
-                  // icon: ,
-                  onPressed: () {
-                    showSignOutDialog(context);
-                  },
                 ),
-              ],
-              leading: IconButton(
-                onPressed: () {
-                  controller.fling(velocity: isPanelVisible ? -1.0 : 1.0);
-                },
-                icon: AnimatedIcon(
-                  icon: AnimatedIcons.close_menu,
-                  progress: controller.view,
-                ),
-              ),
-            ),
-            body: TwoPanels(
-              controller: controller,
-              isPanelVisible: isPanelVisible,
-            ))
-        : _getIOSWidgets();
+                body: TwoPanels(
+                  controller: controller,
+                  isPanelVisible: isPanelVisible,
+                )),
+          )
+        : RepaintBoundary(child: _getIOSWidgets());
   }
 }
 
@@ -236,11 +238,11 @@ class CustomGridView {
   }
 
   SliverGrid build() {
-    var size = MediaQuery.of(context).size;
+    // var size = MediaQuery.of(context).size;
 
     /*24 is for notification bar on Android*/
-    final double itemHeight = (size.height - kToolbarHeight - 24) / 2.5;
-    final double itemWidth = size.width / 1.55;
+    // final double itemHeight = (size.height - kToolbarHeight - 24) / 2.5;
+    // final double itemWidth = size.width / 1.55;
 
     return SliverGrid.count(
         // padding: EdgeInsets.all(16.0),

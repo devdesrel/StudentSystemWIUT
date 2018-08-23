@@ -192,10 +192,12 @@ class IosContactsPage extends StatelessWidget {
           child: CustomScrollView(
             slivers: <Widget>[
               CupertinoSliverNavigationBar(
-                leading: InkWell(
-                  onTap: Navigator.of(context).pop,
-                  child: Row(
-                    children: <Widget>[Icon(CupertinoIcons.back), Text('Back')],
+                automaticallyImplyLeading: false,
+                trailing: InkWell(
+                  onTap: () => Navigator.of(context).pop(),
+                  child: Text(
+                    'Close',
+                    style: TextStyle(color: accentColor),
                   ),
                 ),
                 largeTitle: Text("Contacts"),

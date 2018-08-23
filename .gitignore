@@ -13,3 +13,4 @@ android/.idea/modules.xml
 android/.idea/misc.xml
 android/.idea/gradle.xml
 android/key.properties
+lib/helpers/dsn.dart

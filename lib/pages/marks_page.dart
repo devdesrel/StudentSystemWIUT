@@ -260,11 +260,11 @@ class CustomGridView {
   }
 
   Widget build() {
-    var size = MediaQuery.of(context).size;
+    // var size = MediaQuery.of(context).size;
 
     /*24 is for notification bar on Android*/
-    final double itemHeight = (size.height - kToolbarHeight - 24) / 2;
-    final double itemWidth = size.width / 0.94;
+    // final double itemHeight = (size.height - kToolbarHeight - 24) / 2;
+    // final double itemWidth = size.width / 0.94;
     return FutureBuilder<List<ModuleComponentModel>>(
       future: _getModulesWithComponents(context, module),
       builder: (context, snapshot) => snapshot.hasData
