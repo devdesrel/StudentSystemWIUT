@@ -159,7 +159,7 @@ class IosContactsPage extends StatelessWidget {
                   subtitle: 'Tashkent Uzbekistan',
                   // icon: Icons.home,
                   imageurl: 'assets/home.png',
-                  trailing: FontAwesomeIcons.mapMarkerAlt,
+                  trailing: FontAwesomeIcons.locationArrow,
                   isMap: true,
                   isFromAssets: true,
                 ),

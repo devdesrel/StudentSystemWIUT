@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:flushbar/flushbar.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:http/http.dart' as http;
@@ -199,32 +200,61 @@ Future<Null> showSignOutDialog(BuildContext context) async {
     context: context,
     barrierDismissible: false, // user must tap button!
     builder: (BuildContext context) {
-      return AlertDialog(
-        title: Text('Sign out'),
-        content: SingleChildScrollView(
-          child: ListBody(
-            children: <Widget>[
-              Text('Do you want to sign out from the system?'),
-            ],
+      if (Platform.isAndroid) {
+        return AlertDialog(
+          title: Text('Sign out'),
+          content: SingleChildScrollView(
+            child: ListBody(
+              children: <Widget>[
+                Text('Do you want to sign out from the system?'),
+              ],
+            ),
           ),
-        ),
-        actions: <Widget>[
-          FlatButton(
-            child: Text('Yes'.toUpperCase()),
-            onPressed: () {
-              Navigator.of(context).pop();
-              _cleanUserData();
-              Navigator.of(context).pushReplacementNamed(loginPage);
-            },
+          actions: <Widget>[
+            FlatButton(
+              child: Text('Yes'.toUpperCase()),
+              onPressed: () {
+                Navigator.of(context).pop();
+                _cleanUserData();
+                Navigator.of(context).pushReplacementNamed(loginPage);
+              },
+            ),
+            FlatButton(
+              child: Text('No'.toUpperCase()),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+          ],
+        );
+      } else if (Platform.isIOS) {
+        return CupertinoAlertDialog(
+          title: Text('Sign out'),
+          content: SingleChildScrollView(
+            child: ListBody(
+              children: <Widget>[
+                Text('Do you want to sign out from the system?'),
+              ],
+            ),
           ),
-          FlatButton(
-            child: Text('No'.toUpperCase()),
-            onPressed: () {
-              Navigator.of(context).pop();
-            },
-          ),
-        ],
-      );
+          actions: <Widget>[
+            CupertinoDialogAction(
+              child: Text('Yes'.toUpperCase()),
+              onPressed: () {
+                Navigator.of(context).pop();
+                _cleanUserData();
+                Navigator.of(context).pushReplacementNamed(loginPage);
+              },
+            ),
+            CupertinoDialogAction(
+              child: Text('No'.toUpperCase()),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+          ],
+        );
+      }
     },
   );
 }
