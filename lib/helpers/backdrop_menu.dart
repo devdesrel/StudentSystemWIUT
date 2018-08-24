@@ -175,7 +175,9 @@ class CustomBackdropMenuItems extends StatelessWidget {
         break;
       case 'Contacts':
         controller.fling(velocity: 1.0);
-        Navigator.of(context).pushNamed(iosContactsPage);
+        Platform.isAndroid
+            ? Navigator.of(context).pushNamed(contactsPage)
+            : Navigator.of(context).pushNamed(iosContactsPage);
         break;
       case 'Settings':
         controller.fling(velocity: 1.0);

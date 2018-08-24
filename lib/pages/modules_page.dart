@@ -1,6 +1,8 @@
 import 'dart:async';
 import 'dart:convert';
+import 'dart:io';
 
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:http/http.dart' as http;
@@ -222,27 +224,47 @@ class ModulesPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text('Modules'),
-        centerTitle: true,
-        actions: <Widget>[
-          requestType == RequestType.GetTeachingMaterials
-              ? IconButton(
-                  icon: Icon(Icons.cloud_download),
-                  onPressed: () {
-                    Navigator.of(context).push(MaterialPageRoute(
-                        builder: (context) => OfflinePage(moduleName: '')));
-                  },
-                )
-              : Container()
-        ],
-      ),
-      body: FutureBuilder<Widget>(
-          future: _checkInternetConnection(context),
-          initialData: CircularProgressIndicator(),
-          builder: (context, snapshot) => snapshot.data),
-    );
+    return Platform.isAndroid
+        ? Scaffold(
+            appBar: AppBar(
+              title: Text('Modules'),
+              centerTitle: true,
+              actions: <Widget>[
+                requestType == RequestType.GetTeachingMaterials
+                    ? IconButton(
+                        icon: Icon(Icons.cloud_download),
+                        onPressed: () {
+                          Navigator.of(context).push(MaterialPageRoute(
+                              builder: (context) =>
+                                  OfflinePage(moduleName: '')));
+                        },
+                      )
+                    : Container()
+              ],
+            ),
+            body: FutureBuilder<Widget>(
+                future: _checkInternetConnection(context),
+                initialData: CircularProgressIndicator(),
+                builder: (context, snapshot) => snapshot.data),
+          )
+        : CupertinoPageScaffold(
+            navigationBar: CupertinoNavigationBar(
+                middle: Text('Modules'),
+                trailing: requestType == RequestType.GetTeachingMaterials
+                    ? IconButton(
+                        icon: Icon(Icons.cloud_download),
+                        onPressed: () {
+                          Navigator.of(context).push(MaterialPageRoute(
+                              builder: (context) =>
+                                  OfflinePage(moduleName: '')));
+                        },
+                      )
+                    : Container()),
+            child: FutureBuilder<Widget>(
+                future: _checkInternetConnection(context),
+                initialData: CircularProgressIndicator(),
+                builder: (context, snapshot) => snapshot.data),
+          );
   }
 }
 

@@ -1,3 +1,6 @@
+import 'dart:io';
+
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:student_system_flutter/enums/ApplicationEnums.dart';
 import 'package:student_system_flutter/helpers/function_helpers.dart';
@@ -13,20 +16,32 @@ class OffencesPage extends StatelessWidget {
     showFlushBar(
         info, featureNotImplemented, MessageTypes.INFINITE_INFO, context);
 
-    return Scaffold(
-        backgroundColor: Theme.of(context).backgroundColor,
-        appBar: AppBar(
-          elevation: 3.0,
-          centerTitle: true,
-          title: Text('Offences'),
-        ),
-        body: CustomScrollView(
-          slivers: <Widget>[
-            OffenceHeaderMessage(),
-            SliverToBoxAdapter(child: SizedBox(height: 5.0)),
-            OffenceBody(),
-          ],
-        ));
+    return Platform.isAndroid
+        ? Scaffold(
+            backgroundColor: Theme.of(context).backgroundColor,
+            appBar: AppBar(
+              elevation: 3.0,
+              centerTitle: true,
+              title: Text('Offences'),
+            ),
+            body: CustomScrollView(
+              slivers: <Widget>[
+                OffenceHeaderMessage(),
+                SliverToBoxAdapter(child: SizedBox(height: 5.0)),
+                OffenceBody(),
+              ],
+            ))
+        : CupertinoPageScaffold(
+            navigationBar: CupertinoNavigationBar(
+              middle: Text('Offences'),
+            ),
+            child: CustomScrollView(
+              slivers: <Widget>[
+                OffenceHeaderMessage(),
+                SliverToBoxAdapter(child: SizedBox(height: 5.0)),
+                OffenceBody(),
+              ],
+            ));
   }
 }
 

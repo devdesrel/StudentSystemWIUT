@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/cupertino.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:flutter/material.dart';
@@ -17,81 +19,158 @@ class TimetablePage extends StatelessWidget {
     List<String> _weekDays = populateWeekDayList();
 
     return TimetableProvider(
-      timetableBloc: _bloc,
-      child: Scaffold(
-        backgroundColor: Theme.of(context).backgroundColor,
-        appBar: AppBar(
-          centerTitle: true,
-          title: StreamBuilder(
-              stream: _bloc.timetableTitle,
-              builder: (context, snapshot) =>
-                  snapshot.hasData ? Text(snapshot.data) : Text('Timetable')),
-          actions: <Widget>[
-            StreamBuilder(
-                stream: _bloc.isLoaded,
-                builder: (context, snapshot) {
-                  if (snapshot.hasData && snapshot.data) {
-                    return IconButton(
-                        icon: Icon(FontAwesomeIcons.filter),
-                        iconSize: 17.0,
-                        onPressed: () {
-                          showModalBottomSheet<void>(
-                              context: context,
-                              builder: (BuildContext context) {
-                                return DrawBottomSheetWidget(bloc: _bloc);
-                              });
-                        });
-                  } else {
-                    return Container();
-                  }
-                }),
-            // IconButton(icon: Icon(Icons.search), onPressed: () {})
-          ],
-        ),
-        body: StreamBuilder<List<TimetableModel>>(
-            stream: _bloc.timetableList,
-            builder: (context, snapshot) {
-              if (snapshot.hasData && snapshot.data.length > 0) {
-                return ListView.builder(
-                    itemCount: listItemLength,
-                    scrollDirection: Axis.horizontal,
-                    itemBuilder: (_, index) {
-                      if (index == 0)
-                        return Padding(
-                            padding: const EdgeInsets.only(left: 8.0),
-                            child: ItemWeekTimetable(
-                                dayName: _weekDays[index],
-                                timetableList: snapshot.data
-                                    .where((item) =>
-                                        item.dayOfWeek == _weekDays[index])
-                                    .toList()));
-                      else if (index == listItemLength - 1)
-                        return Padding(
-                            padding: const EdgeInsets.only(right: 8.0),
-                            child: ItemWeekTimetable(
-                                dayName: _weekDays[index],
-                                timetableList: snapshot.data
-                                    .where((item) =>
-                                        item.dayOfWeek == _weekDays[index])
-                                    .toList()));
-                      return ItemWeekTimetable(
-                          dayName: _weekDays[index],
-                          timetableList: snapshot.data
-                              .where(
-                                  (item) => item.dayOfWeek == _weekDays[index])
-                              .toList());
-                    });
-              } else if (snapshot.data == null) {
-                return Center(child: CircularProgressIndicator());
-              }
+        timetableBloc: _bloc,
+        child: Platform.isAndroid
+            ? Scaffold(
+                backgroundColor: Theme.of(context).backgroundColor,
+                appBar: AppBar(
+                  centerTitle: true,
+                  title: StreamBuilder(
+                      stream: _bloc.timetableTitle,
+                      builder: (context, snapshot) => snapshot.hasData
+                          ? Text(snapshot.data)
+                          : Text('Timetable')),
+                  actions: <Widget>[
+                    StreamBuilder(
+                        stream: _bloc.isLoaded,
+                        builder: (context, snapshot) {
+                          if (snapshot.hasData && snapshot.data) {
+                            return IconButton(
+                                icon: Icon(FontAwesomeIcons.filter),
+                                iconSize: 17.0,
+                                onPressed: () {
+                                  showModalBottomSheet<void>(
+                                      context: context,
+                                      builder: (BuildContext context) {
+                                        return DrawBottomSheetWidget(
+                                            bloc: _bloc);
+                                      });
+                                });
+                          } else {
+                            return Container();
+                          }
+                        }),
+                    // IconButton(icon: Icon(Icons.search), onPressed: () {})
+                  ],
+                ),
+                body: StreamBuilder<List<TimetableModel>>(
+                    stream: _bloc.timetableList,
+                    builder: (context, snapshot) {
+                      if (snapshot.hasData && snapshot.data.length > 0) {
+                        return ListView.builder(
+                            itemCount: listItemLength,
+                            scrollDirection: Axis.horizontal,
+                            itemBuilder: (_, index) {
+                              if (index == 0)
+                                return Padding(
+                                    padding: const EdgeInsets.only(left: 8.0),
+                                    child: ItemWeekTimetable(
+                                        dayName: _weekDays[index],
+                                        timetableList: snapshot.data
+                                            .where((item) =>
+                                                item.dayOfWeek ==
+                                                _weekDays[index])
+                                            .toList()));
+                              else if (index == listItemLength - 1)
+                                return Padding(
+                                    padding: const EdgeInsets.only(right: 8.0),
+                                    child: ItemWeekTimetable(
+                                        dayName: _weekDays[index],
+                                        timetableList: snapshot.data
+                                            .where((item) =>
+                                                item.dayOfWeek ==
+                                                _weekDays[index])
+                                            .toList()));
+                              return ItemWeekTimetable(
+                                  dayName: _weekDays[index],
+                                  timetableList: snapshot.data
+                                      .where((item) =>
+                                          item.dayOfWeek == _weekDays[index])
+                                      .toList());
+                            });
+                      } else if (snapshot.data == null) {
+                        return Center(child: CircularProgressIndicator());
+                      }
 
-              return Container(
-                  child: Center(
-                child: Text(noAvailableTimetable),
+                      return Container(
+                          child: Center(
+                        child: Text(noAvailableTimetable),
+                      ));
+                    }),
+              )
+            : CupertinoPageScaffold(
+                backgroundColor: Theme.of(context).backgroundColor,
+                navigationBar: CupertinoNavigationBar(
+                  middle: StreamBuilder(
+                      stream: _bloc.timetableTitle,
+                      builder: (context, snapshot) => snapshot.hasData
+                          ? Text(snapshot.data)
+                          : Text('Timetable')),
+                  trailing: StreamBuilder(
+                      stream: _bloc.isLoaded,
+                      builder: (context, snapshot) {
+                        if (snapshot.hasData && snapshot.data) {
+                          return IconButton(
+                              icon: Icon(FontAwesomeIcons.filter),
+                              iconSize: 17.0,
+                              onPressed: () {
+                                showModalBottomSheet<void>(
+                                    context: context,
+                                    builder: (BuildContext context) {
+                                      return DrawBottomSheetWidget(bloc: _bloc);
+                                    });
+                              });
+                        } else {
+                          return Container();
+                        }
+                      }),
+                  // IconButton(icon: Icon(Icons.search), onPressed: () {})
+                ),
+                child: StreamBuilder<List<TimetableModel>>(
+                    stream: _bloc.timetableList,
+                    builder: (context, snapshot) {
+                      if (snapshot.hasData && snapshot.data.length > 0) {
+                        return ListView.builder(
+                            itemCount: listItemLength,
+                            scrollDirection: Axis.horizontal,
+                            itemBuilder: (_, index) {
+                              if (index == 0)
+                                return Padding(
+                                    padding: const EdgeInsets.only(left: 8.0),
+                                    child: ItemWeekTimetable(
+                                        dayName: _weekDays[index],
+                                        timetableList: snapshot.data
+                                            .where((item) =>
+                                                item.dayOfWeek ==
+                                                _weekDays[index])
+                                            .toList()));
+                              else if (index == listItemLength - 1)
+                                return Padding(
+                                    padding: const EdgeInsets.only(right: 8.0),
+                                    child: ItemWeekTimetable(
+                                        dayName: _weekDays[index],
+                                        timetableList: snapshot.data
+                                            .where((item) =>
+                                                item.dayOfWeek ==
+                                                _weekDays[index])
+                                            .toList()));
+                              return ItemWeekTimetable(
+                                  dayName: _weekDays[index],
+                                  timetableList: snapshot.data
+                                      .where((item) =>
+                                          item.dayOfWeek == _weekDays[index])
+                                      .toList());
+                            });
+                      } else if (snapshot.data == null) {
+                        return Center(child: CircularProgressIndicator());
+                      }
+
+                      return Container(
+                          child: Center(
+                        child: Text(noAvailableTimetable),
+                      ));
+                    }),
               ));
-            }),
-      ),
-    );
   }
 }
 

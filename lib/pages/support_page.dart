@@ -15,36 +15,42 @@ class SupportPage extends StatelessWidget {
               title: Text('Support'),
               centerTitle: true,
             ),
-            body: ListView(
-              children: <Widget>[
-                Card(
-                  margin: EdgeInsets.all(8.0),
-                  child: Padding(
-                    padding: const EdgeInsets.all(14.0),
-                    child: Text(
-                      'If you have faced technical problems (e.g. Pin code was not changed, no marks or timetable displayed) hit the call button. You will be contacted with IT-support of the current application',
-                      style: TextStyle(
-                        fontSize: 16.0,
+            body: Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: <Widget>[
+                  Expanded(
+                    child: Padding(
+                      padding: const EdgeInsets.all(24.0),
+                      child: Center(
+                        child: Text(
+                          'If you have faced technical problems or suggest improvements, feel free to contact IT-support',
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                            fontSize: 16.0,
+                          ),
+                        ),
                       ),
                     ),
                   ),
-                ),
-                RaisedButton(
-                  padding: const EdgeInsets.symmetric(vertical: 15.0),
-                  elevation: 8.0,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.all(Radius.circular(100.0)),
-                  ),
-                  color: greenColor,
-                  onPressed: () {
-                    launchURL('tel:+998909276478', false);
-                  },
-                  child: Text(
-                    'Call',
-                    style: TextStyle(color: Colors.white),
-                  ),
-                )
-              ],
+                  RaisedButton(
+                    padding: const EdgeInsets.symmetric(vertical: 15.0),
+                    elevation: 8.0,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.all(Radius.circular(100.0)),
+                    ),
+                    color: accentColor,
+                    onPressed: () {
+                      launchURL('https://t.me/wiutintranetsupport', false);
+                    },
+                    child: Text(
+                      'Contact',
+                      style: TextStyle(color: Colors.white),
+                    ),
+                  )
+                ],
+              ),
             ),
           )
         : CupertinoPageScaffold(
