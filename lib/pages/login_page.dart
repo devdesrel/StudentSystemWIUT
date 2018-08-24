@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'dart:convert';
+import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -202,19 +203,23 @@ class _LoginPageState extends State<LoginPage> implements AuthStateListener {
                               authTextFields('Password', true),
                             ],
                           )),
-                      RaisedButton(
-                        padding: const EdgeInsets.symmetric(vertical: 15.0),
-                        color: Theme.of(context).accentColor,
-                        elevation: 8.0,
-                        shape: RoundedRectangleBorder(
-                          borderRadius:
-                              BorderRadius.all(Radius.circular(100.0)),
+                      Padding(
+                        padding: EdgeInsets.only(
+                            bottom: Platform.isAndroid ? 12.0 : 0.0),
+                        child: RaisedButton(
+                          padding: const EdgeInsets.symmetric(vertical: 15.0),
+                          color: Theme.of(context).accentColor,
+                          elevation: 8.0,
+                          shape: RoundedRectangleBorder(
+                            borderRadius:
+                                BorderRadius.all(Radius.circular(100.0)),
+                          ),
+                          child: Text(
+                            'Login',
+                            style: TextStyle(color: Colors.white),
+                          ),
+                          onPressed: _login,
                         ),
-                        child: Text(
-                          'Login',
-                          style: TextStyle(color: Colors.white),
-                        ),
-                        onPressed: _login,
                       ),
                     ],
                   ),

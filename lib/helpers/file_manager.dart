@@ -12,18 +12,6 @@ import 'package:student_system_flutter/helpers/app_constants.dart';
 bool externalStoragePermissionOkay = false;
 var _directory = '';
 
-// class FileManagerBuilder extends StatelessWidget {
-//   final String mainDirectory;
-
-//   FileManagerBuilder({@required this.mainDirectory, });
-
-//   @override
-//   Widget build(BuildContext context) {
-//     return FileManager(
-
-//     );
-//   }
-// }
 class FileManager extends StatefulWidget {
   final String mainDirectory;
   final bool isFilePicker;
@@ -55,17 +43,14 @@ class FileManagerState extends State<FileManager>
   @override
   initState() {
     _directory = widget.mainDirectory;
+    _initPlatformState();
 
     super.initState();
-
-    _initPlatformState();
   }
 
   @override
   Widget build(BuildContext context) {
     super.build(context);
-
-    print('Rebuild File Manager Tab');
 
     if (Platform.isAndroid && externalStoragePermissionOkay) {
       return FutureBuilder<Directory>(
@@ -82,13 +67,12 @@ class FileManagerState extends State<FileManager>
     _filteredPathsList = [];
     _directoriesList = [];
     _filesList = [];
-    Text text = const Text('');
     Directory dir;
 
     if (snapshot.connectionState == ConnectionState.done) {
       if (snapshot.hasError) {
-        text = Text('Error: ${snapshot.error}');
-      } else if (snapshot.hasData) {
+        print('Error: ${snapshot.error}');
+      } else if (snapshot.hasData && snapshot.data.path != null) {
         dir = Directory('${snapshot.data.path}$_directory');
 
         var isExists = dir.existsSync();
@@ -120,21 +104,22 @@ class FileManagerState extends State<FileManager>
         if (_directory != widget.mainDirectory)
           _filteredPathsList.insert(0, _back);
       } else {
-        text = const Text('path unavailable');
+        print('path unavailable');
+      }
+
+      if (_allPathsList != null && _allPathsList.length > 0) {
+        return ListView.builder(
+            padding: const EdgeInsets.all(16.0),
+            itemCount: _filteredPathsList.length,
+            itemBuilder: (context, i) {
+              return _buildRow(_filteredPathsList.elementAt(i), context);
+            });
+      } else if (_allPathsList != null && _allPathsList.length == 0) {
+        return Center(child: Text(noDownloadedFiles));
       }
     }
-    if (_allPathsList != null) {
-      return ListView.builder(
-          padding: const EdgeInsets.all(16.0),
-          itemCount: _filteredPathsList.length,
-          itemBuilder: (context, i) {
-            return _buildRow(_filteredPathsList.elementAt(i), context);
-          });
-    } else if (_allPathsList.length == 0) {
-      return Center(child: Text(noDownloadedFiles));
-    } else {
-      return Padding(padding: const EdgeInsets.all(16.0), child: text);
-    }
+
+    return Container();
   }
 
   Widget _buildRow(String path, BuildContext context) {
@@ -195,15 +180,15 @@ class FileManagerState extends State<FileManager>
               .requestPermission(Permission.WriteExternalStorage)
               .then((okDone) {
             if (okDone) {
+              externalStoragePermissionOkay = okDone;
+
               setState(() {
                 externalStoragePermissionOkay = okDone;
               });
             }
           });
         } else {
-          setState(() {
-            externalStoragePermissionOkay = checkOkay;
-          });
+          externalStoragePermissionOkay = checkOkay;
         }
       });
     }

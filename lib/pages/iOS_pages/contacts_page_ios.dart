@@ -192,6 +192,14 @@ class IosContactsPage extends StatelessWidget {
           child: CustomScrollView(
             slivers: <Widget>[
               CupertinoSliverNavigationBar(
+                automaticallyImplyLeading: false,
+                trailing: InkWell(
+                  onTap: () => Navigator.of(context).pop(),
+                  child: Text(
+                    'Close',
+                    style: TextStyle(color: accentColor),
+                  ),
+                ),
                 largeTitle: Text("Contacts"),
               ),
               SliverToBoxAdapter(
@@ -214,7 +222,7 @@ class CustomContactsCategory extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.only(left: 14.0, top: 12.0),
+      padding: const EdgeInsets.only(left: 18.0, top: 12.0),
       child: Text(
         text.toUpperCase(),
         style: TextStyle(
