@@ -41,94 +41,96 @@ class _TwoPanelsState extends State<TwoPanels> {
     ];
 
     return RepaintBoundary(
-      child: Container(
-        child: Stack(
-          children: <Widget>[
-            Container(
-              color: Platform.isIOS ? backgroundColor : accentColor,
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                children: <Widget>[
-                  CustomBackdropMenuItems(
-                    itemName: 'Home',
-                    icon: Platform.isAndroid ? 0xe88a : 0xF447,
-                    iconFont:
-                        Platform.isAndroid ? 'MaterialIcons' : 'CuperIcon',
-                    controller: widget.controller,
-                    selected: true,
-                  ),
-                  CustomBackdropMenuItems(
-                    itemName: 'Support',
-                    icon: Platform.isAndroid ? 0xe0c9 : 0xF3FB,
-                    iconFont:
-                        Platform.isAndroid ? 'MaterialIcons' : 'CuperIcon',
-                    controller: widget.controller,
-                    selected: false,
-                  ),
-                  CustomBackdropMenuItems(
-                    itemName: 'Contacts',
-                    icon: Platform.isAndroid ? 0xe0b0 : 0xF4B8,
-                    iconFont:
-                        Platform.isAndroid ? 'MaterialIcons' : 'CuperIcon',
-                    controller: widget.controller,
-                    selected: false,
-                  ),
-                  CustomBackdropMenuItems(
-                    itemName: 'Settings',
-                    icon: Platform.isAndroid ? 0xe8b8 : 0xF411,
-                    iconFont:
-                        Platform.isAndroid ? 'MaterialIcons' : 'CuperIcon',
-                    controller: widget.controller,
-                    selected: false,
-                  ),
-                ],
-              ),
-            ),
-            PositionedTransition(
-              rect: getPanelAnimation(constraints),
-              child: Material(
-                elevation: 12.0,
-                borderRadius: Platform.isIOS
-                    ? BorderRadius.all(Radius.circular(0.0))
-                    : BorderRadius.only(
-                        topLeft: Radius.circular(16.0),
-                        topRight: Radius.circular(16.0)),
+      child: SafeArea(
+        child: Container(
+          child: Stack(
+            children: <Widget>[
+              Container(
+                color: Platform.isIOS ? backgroundColor : accentColor,
                 child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: <Widget>[
-                    // new GestureDetector(
-                    //   behavior: HitTestBehavior.opaque,
-                    //   // onVerticalDragUpdate: onVerticalDragUpdate,
-                    //   // onVerticalDragEnd: onVerticalDragEnd,
-                    //   onTap: () {
-                    //     widget.controller
-                    //         .fling(velocity: widget.isPanelVisible ? -2.0 : 2.0);
-                    //   },
-                    //   child: new Container(
-                    //     height: 48.0,
-                    //     padding: const EdgeInsetsDirectional.only(start: 16.0),
-                    //     alignment: AlignmentDirectional.centerStart,
-                    //     child: Container(),
-                    //   ),
-                    // ),
-                    Container(),
-                    Expanded(
-                        child: RepaintBoundary(
-                      child: CustomScrollView(
-                        slivers: <Widget>[
-                          SliverToBoxAdapter(
-                              child: SafeArea(
-                                  bottom: false,
-                                  child: FeedbackForm(
-                                      questionNumbers: _questionNumbers))),
-                          CustomGridView(context).build(),
-                        ],
-                      ),
-                    ))
+                    CustomBackdropMenuItems(
+                      itemName: 'Home',
+                      icon: Platform.isAndroid ? 0xe88a : 0xF447,
+                      iconFont:
+                          Platform.isAndroid ? 'MaterialIcons' : 'CuperIcon',
+                      controller: widget.controller,
+                      selected: true,
+                    ),
+                    CustomBackdropMenuItems(
+                      itemName: 'Support',
+                      icon: Platform.isAndroid ? 0xe0c9 : 0xF3FB,
+                      iconFont:
+                          Platform.isAndroid ? 'MaterialIcons' : 'CuperIcon',
+                      controller: widget.controller,
+                      selected: false,
+                    ),
+                    CustomBackdropMenuItems(
+                      itemName: 'Contacts',
+                      icon: Platform.isAndroid ? 0xe0b0 : 0xF4B8,
+                      iconFont:
+                          Platform.isAndroid ? 'MaterialIcons' : 'CuperIcon',
+                      controller: widget.controller,
+                      selected: false,
+                    ),
+                    CustomBackdropMenuItems(
+                      itemName: 'Settings',
+                      icon: Platform.isAndroid ? 0xe8b8 : 0xF411,
+                      iconFont:
+                          Platform.isAndroid ? 'MaterialIcons' : 'CuperIcon',
+                      controller: widget.controller,
+                      selected: false,
+                    ),
                   ],
                 ),
               ),
-            )
-          ],
+              PositionedTransition(
+                rect: getPanelAnimation(constraints),
+                child: Material(
+                  elevation: 12.0,
+                  borderRadius: Platform.isIOS
+                      ? BorderRadius.all(Radius.circular(0.0))
+                      : BorderRadius.only(
+                          topLeft: Radius.circular(16.0),
+                          topRight: Radius.circular(16.0)),
+                  child: Column(
+                    children: <Widget>[
+                      // new GestureDetector(
+                      //   behavior: HitTestBehavior.opaque,
+                      //   // onVerticalDragUpdate: onVerticalDragUpdate,
+                      //   // onVerticalDragEnd: onVerticalDragEnd,
+                      //   onTap: () {
+                      //     widget.controller
+                      //         .fling(velocity: widget.isPanelVisible ? -2.0 : 2.0);
+                      //   },
+                      //   child: new Container(
+                      //     height: 48.0,
+                      //     padding: const EdgeInsetsDirectional.only(start: 16.0),
+                      //     alignment: AlignmentDirectional.centerStart,
+                      //     child: Container(),
+                      //   ),
+                      // ),
+                      Container(),
+                      Expanded(
+                          child: RepaintBoundary(
+                        child: CustomScrollView(
+                          slivers: <Widget>[
+                            SliverToBoxAdapter(
+                                child: SafeArea(
+                                    bottom: false,
+                                    child: FeedbackForm(
+                                        questionNumbers: _questionNumbers))),
+                            CustomGridView(context).build(),
+                          ],
+                        ),
+                      ))
+                    ],
+                  ),
+                ),
+              )
+            ],
+          ),
         ),
       ),
     );
