@@ -104,66 +104,71 @@ class SettingsPage extends StatelessWidget {
                 navigationBar: CupertinoNavigationBar(
                   middle: Text('Settings Page'),
                 ),
-                child: ListView(
-                  children: <Widget>[
-                    CustomSettingsCategory(
-                      text: 'Security',
-                      color: lightGreyTextColor,
-                      textWeight: FontWeight.normal,
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 10.0),
-                      child: Container(
-                        // elevation: 2.0,
-                        child: Column(
-                          children: <Widget>[
-                            StreamBuilder(
-                              stream: _bloc.switchtileValue,
-                              builder: (context, snapshot) => ListTile(
-                                    leading: Icon(Icons.fingerprint),
-                                    title: Text('Fingerprint to log in'),
-                                    trailing: CupertinoSwitch(
-                                      value: snapshot.hasData
-                                          ? snapshot.data
-                                          : true,
-                                      onChanged: (value) {
-                                        //_onChanged(value);
-                                        _bloc.setSwitchtileValue.add(value);
-                                      },
-                                    ),
-                                  ),
-                            ),
-                            // StreamBuilder(
-                            //   stream: _bloc.switchtileValue,
-                            //   builder: (context, snapshot) => SwitchListTile(
-                            //         value:
-                            //             snapshot.hasData ? snapshot.data : true,
-                            //         onChanged: (value) {
-                            //           //_onChanged(value);
-                            //           _bloc.setSwitchtileValue.add(value);
-                            //         },
-                            //         secondary: Icon(Icons.fingerprint),
-                            //         title: Text('Fingerprint to log in'),
-                            //       ),
-                            // ),
-                            Divider(
-                              height: 0.0,
-                            ),
-                            ListTile(
-                              onTap: () {
-                                showPinDialog(context, _bloc);
-                              },
-                              leading: Image.asset(
-                                'assets/key.png',
-                                height: 28.0,
-                              ),
-                              title: Text('Change PIN code'),
-                            ),
-                          ],
+                child: Material(
+                  child: ListView(
+                    children: <Widget>[
+                      Padding(
+                        padding: const EdgeInsets.only(left: 8.0),
+                        child: CustomSettingsCategory(
+                          text: 'Security',
+                          color: lightGreyTextColor,
+                          textWeight: FontWeight.normal,
                         ),
                       ),
-                    )
-                  ],
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 10.0),
+                        child: Container(
+                          // elevation: 2.0,
+                          child: Column(
+                            children: <Widget>[
+                              StreamBuilder(
+                                stream: _bloc.switchtileValue,
+                                builder: (context, snapshot) => ListTile(
+                                      leading: Icon(Icons.fingerprint),
+                                      title: Text('Fingerprint to log in'),
+                                      trailing: CupertinoSwitch(
+                                        value: snapshot.hasData
+                                            ? snapshot.data
+                                            : true,
+                                        onChanged: (value) {
+                                          //_onChanged(value);
+                                          _bloc.setSwitchtileValue.add(value);
+                                        },
+                                      ),
+                                    ),
+                              ),
+                              // StreamBuilder(
+                              //   stream: _bloc.switchtileValue,
+                              //   builder: (context, snapshot) => SwitchListTile(
+                              //         value:
+                              //             snapshot.hasData ? snapshot.data : true,
+                              //         onChanged: (value) {
+                              //           //_onChanged(value);
+                              //           _bloc.setSwitchtileValue.add(value);
+                              //         },
+                              //         secondary: Icon(Icons.fingerprint),
+                              //         title: Text('Fingerprint to log in'),
+                              //       ),
+                              // ),
+                              Divider(
+                                height: 0.0,
+                              ),
+                              ListTile(
+                                onTap: () {
+                                  showPinDialog(context, _bloc);
+                                },
+                                leading: Image.asset(
+                                  'assets/key.png',
+                                  height: 28.0,
+                                ),
+                                title: Text('Change PIN code'),
+                              ),
+                            ],
+                          ),
+                        ),
+                      )
+                    ],
+                  ),
                 ),
               ));
   }
@@ -289,20 +294,29 @@ class SettingsPage extends StatelessWidget {
             content: SingleChildScrollView(
               child: Form(
                 key: formKey,
-                child: ListBody(
-                  children: <Widget>[
-                    customeFormField('Current PIN',
-                        ChangePinCodeDialogArguments.CurrentPin, context, bloc),
-                    customeFormField('New PIN',
-                        ChangePinCodeDialogArguments.NewPin, context, bloc),
-                    customeFormField('Confirm new PIN',
-                        ChangePinCodeDialogArguments.ConfirmPin, context, bloc),
-                  ],
+                child: Material(
+                  child: ListBody(
+                    children: <Widget>[
+                      customeFormField(
+                          'Current PIN',
+                          ChangePinCodeDialogArguments.CurrentPin,
+                          context,
+                          bloc),
+                      customeFormField('New PIN',
+                          ChangePinCodeDialogArguments.NewPin, context, bloc),
+                      customeFormField(
+                          'Confirm new PIN',
+                          ChangePinCodeDialogArguments.ConfirmPin,
+                          context,
+                          bloc),
+                    ],
+                  ),
                 ),
               ),
             ),
             actions: <Widget>[
               CupertinoDialogAction(
+                isDestructiveAction: true,
                 child: Text('Cancel'.toUpperCase()),
                 onPressed: () {
                   Navigator.of(context).pop();
@@ -310,6 +324,7 @@ class SettingsPage extends StatelessWidget {
                 },
               ),
               CupertinoDialogAction(
+                isDefaultAction: false,
                 child: Text('Save'.toUpperCase()),
                 onPressed: () {
                   savePin(context, bloc);
