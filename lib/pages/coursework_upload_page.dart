@@ -39,11 +39,13 @@ Widget _createCurrentPage(BuildContext context) {
               ),
               body: CourseworkUploadItems(),
             )
-          : CupertinoPageScaffold(
-              navigationBar: CupertinoNavigationBar(
-                middle: Text('Coursework Upload'),
+          : Material(
+              child: CupertinoPageScaffold(
+                navigationBar: CupertinoNavigationBar(
+                  middle: Text('Coursework Upload'),
+                ),
+                child: CourseworkUploadItems(),
               ),
-              child: CourseworkUploadItems(),
             ));
 }
 
@@ -206,12 +208,9 @@ class CourseworkUploadItemsState extends State<CourseworkUploadItems> {
                 color: accentColor,
                 // onPressed: saveTitle,
                 onPressed: saveTitle,
-                child: Padding(
-                  padding: const EdgeInsets.all(12.0),
-                  child: Text(
-                    'Upload',
-                    style: TextStyle(color: Colors.white),
-                  ),
+                child: Text(
+                  'Upload',
+                  style: TextStyle(color: Colors.white),
                 ),
               )
       ]),

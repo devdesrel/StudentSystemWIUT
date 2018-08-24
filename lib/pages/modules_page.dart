@@ -247,23 +247,27 @@ class ModulesPage extends StatelessWidget {
                 initialData: CircularProgressIndicator(),
                 builder: (context, snapshot) => snapshot.data),
           )
-        : CupertinoPageScaffold(
-            navigationBar: CupertinoNavigationBar(
-                middle: Text('Modules'),
-                trailing: requestType == RequestType.GetTeachingMaterials
-                    ? IconButton(
-                        icon: Icon(Icons.cloud_download),
-                        onPressed: () {
-                          Navigator.of(context).push(MaterialPageRoute(
-                              builder: (context) =>
-                                  OfflinePage(moduleName: '')));
-                        },
-                      )
-                    : Container()),
-            child: FutureBuilder<Widget>(
-                future: _checkInternetConnection(context),
-                initialData: CircularProgressIndicator(),
-                builder: (context, snapshot) => snapshot.data),
+        : Material(
+            child: CupertinoPageScaffold(
+              navigationBar: CupertinoNavigationBar(
+                  middle: Text('Modules'),
+                  trailing: requestType == RequestType.GetTeachingMaterials
+                      ? IconButton(
+                          icon: Icon(Icons.cloud_download),
+                          onPressed: () {
+                            Navigator.of(context).push(MaterialPageRoute(
+                                builder: (context) =>
+                                    OfflinePage(moduleName: '')));
+                          },
+                        )
+                      : Container(
+                          width: 2.0,
+                        )),
+              child: FutureBuilder<Widget>(
+                  future: _checkInternetConnection(context),
+                  initialData: CircularProgressIndicator(),
+                  builder: (context, snapshot) => snapshot.data),
+            ),
           );
   }
 }

@@ -53,26 +53,32 @@ class OffenceHeaderMessage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SliverToBoxAdapter(
-      child: Container(
-        padding: const EdgeInsets.symmetric(vertical: 7.0),
-        color: redColor,
-        child: Column(
-          children: <Widget>[
-            Text(
-              _totalOffences.toString().toUpperCase(),
-              textAlign: TextAlign.center,
-              style: Theme
-                  .of(context)
-                  .textTheme
-                  .display2
-                  .copyWith(color: whiteColor),
-            ),
-            Text(
-              'Total points'.toUpperCase(),
-              style:
-                  Theme.of(context).textTheme.body2.copyWith(color: whiteColor),
-            ),
-          ],
+      child: SafeArea(
+        bottom: false,
+        child: Container(
+          padding: const EdgeInsets.symmetric(vertical: 7.0),
+          color: redColor,
+          child: Column(
+            children: <Widget>[
+              Text(
+                _totalOffences.toString().toUpperCase(),
+                textAlign: TextAlign.center,
+                style: Theme
+                    .of(context)
+                    .textTheme
+                    .display2
+                    .copyWith(color: whiteColor),
+              ),
+              Text(
+                'Total points'.toUpperCase(),
+                style: Theme
+                    .of(context)
+                    .textTheme
+                    .body2
+                    .copyWith(color: whiteColor),
+              ),
+            ],
+          ),
         ),
       ),
     );

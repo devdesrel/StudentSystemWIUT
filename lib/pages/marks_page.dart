@@ -151,76 +151,84 @@ class MarksPage extends StatelessWidget {
               ),
             ),
           )
-        : CupertinoPageScaffold(
-            navigationBar: CupertinoNavigationBar(
-              middle: Text(module != null ? module.moduleName : ''),
-            ),
-            child: Container(
-              color: Theme.of(context).backgroundColor,
-              child: SingleChildScrollView(
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  children: <Widget>[
-                    SizedBox(
+        : Material(
+            child: CupertinoPageScaffold(
+              navigationBar: CupertinoNavigationBar(
+                middle: Text(
+                  module != null ? module.moduleName : '',
+                  overflow: TextOverflow.ellipsis,
+                ),
+              ),
+              child: Container(
+                color: Theme.of(context).backgroundColor,
+                child: SingleChildScrollView(
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: <Widget>[
+                      SizedBox(
+                          height: itemHeight,
+                          child: SafeArea(
+                              bottom: false,
+                              child: CustomGridView(context, module).build())),
+                      SizedBox(
                         height: itemHeight,
-                        child: CustomGridView(context, module).build()),
-                    SizedBox(
-                      height: itemHeight,
-                      child: Container(
-                        color: whiteColor,
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: <Widget>[
-                            Column(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: <Widget>[
-                                AnimatedCircularChart(
-                                    duration: Duration(seconds: 2),
-                                    key: _chartKey,
-                                    size: const Size(230.0, 230.0),
-                                    initialChartData: <CircularStackEntry>[
-                                      new CircularStackEntry(
-                                        <CircularSegmentEntry>[
-                                          new CircularSegmentEntry(
-                                            double.parse(module.moduleMark),
-                                            greenColor,
-                                            rankKey: 'completed',
-                                            // rankKey: 'progress',
-                                          ),
-                                          new CircularSegmentEntry(
-                                            100 -
-                                                double.parse(module.moduleMark),
-                                            Colors.red[400],
-                                            rankKey: 'remaining',
-                                            // rankKey: 'progress',
-                                          ),
-                                        ],
-                                        rankKey: 'progress',
-                                      ),
-                                    ],
-                                    chartType: CircularChartType.Radial,
-                                    percentageValues: true,
-                                    holeLabel: '${module.moduleMark}',
-                                    labelStyle: Theme
-                                        .of(context)
-                                        .textTheme
-                                        .display2
-                                        .copyWith(
-                                            fontWeight: FontWeight.bold,
-                                            color: getMarkColor(
-                                                int.parse(module.moduleMark)))),
-                                Text(module.moduleGrade,
-                                    style: _getTextStyle()),
+                        child: Container(
+                          color: whiteColor,
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: <Widget>[
+                              Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: <Widget>[
+                                  AnimatedCircularChart(
+                                      duration: Duration(seconds: 2),
+                                      key: _chartKey,
+                                      size: const Size(230.0, 230.0),
+                                      initialChartData: <CircularStackEntry>[
+                                        new CircularStackEntry(
+                                          <CircularSegmentEntry>[
+                                            new CircularSegmentEntry(
+                                              double.parse(module.moduleMark),
+                                              greenColor,
+                                              rankKey: 'completed',
+                                              // rankKey: 'progress',
+                                            ),
+                                            new CircularSegmentEntry(
+                                              100 -
+                                                  double
+                                                      .parse(module.moduleMark),
+                                              Colors.red[400],
+                                              rankKey: 'remaining',
+                                              // rankKey: 'progress',
+                                            ),
+                                          ],
+                                          rankKey: 'progress',
+                                        ),
+                                      ],
+                                      chartType: CircularChartType.Radial,
+                                      percentageValues: true,
+                                      holeLabel: '${module.moduleMark}',
+                                      labelStyle: Theme
+                                          .of(context)
+                                          .textTheme
+                                          .display2
+                                          .copyWith(
+                                              fontWeight: FontWeight.bold,
+                                              color: getMarkColor(int
+                                                  .parse(module.moduleMark)))),
+                                  Text(module.moduleGrade,
+                                      style: _getTextStyle()),
 
-                                // CustomAnimatedText()
-                              ],
-                            ),
-                          ],
+                                  // CustomAnimatedText()
+                                ],
+                              ),
+                            ],
+                          ),
                         ),
-                      ),
-                    )
-                  ],
+                      )
+                    ],
+                  ),
                 ),
               ),
             ),

@@ -98,78 +98,84 @@ class TimetablePage extends StatelessWidget {
                       ));
                     }),
               )
-            : CupertinoPageScaffold(
-                backgroundColor: Theme.of(context).backgroundColor,
-                navigationBar: CupertinoNavigationBar(
-                  middle: StreamBuilder(
-                      stream: _bloc.timetableTitle,
-                      builder: (context, snapshot) => snapshot.hasData
-                          ? Text(snapshot.data)
-                          : Text('Timetable')),
-                  trailing: StreamBuilder(
-                      stream: _bloc.isLoaded,
+            : Material(
+                child: CupertinoPageScaffold(
+                  backgroundColor: Theme.of(context).backgroundColor,
+                  navigationBar: CupertinoNavigationBar(
+                    middle: StreamBuilder(
+                        stream: _bloc.timetableTitle,
+                        builder: (context, snapshot) => snapshot.hasData
+                            ? Text(snapshot.data)
+                            : Text('Timetable')),
+                    trailing: StreamBuilder(
+                        stream: _bloc.isLoaded,
+                        builder: (context, snapshot) {
+                          if (snapshot.hasData && snapshot.data) {
+                            return IconButton(
+                                icon: Icon(FontAwesomeIcons.filter),
+                                iconSize: 17.0,
+                                onPressed: () {
+                                  showModalBottomSheet<void>(
+                                      context: context,
+                                      builder: (BuildContext context) {
+                                        return DrawBottomSheetWidget(
+                                            bloc: _bloc);
+                                      });
+                                });
+                          } else {
+                            return Container(
+                              width: 2.0,
+                            );
+                          }
+                        }),
+                    // IconButton(icon: Icon(Icons.search), onPressed: () {})
+                  ),
+                  child: StreamBuilder<List<TimetableModel>>(
+                      stream: _bloc.timetableList,
                       builder: (context, snapshot) {
-                        if (snapshot.hasData && snapshot.data) {
-                          return IconButton(
-                              icon: Icon(FontAwesomeIcons.filter),
-                              iconSize: 17.0,
-                              onPressed: () {
-                                showModalBottomSheet<void>(
-                                    context: context,
-                                    builder: (BuildContext context) {
-                                      return DrawBottomSheetWidget(bloc: _bloc);
-                                    });
+                        if (snapshot.hasData && snapshot.data.length > 0) {
+                          return ListView.builder(
+                              itemCount: listItemLength,
+                              scrollDirection: Axis.horizontal,
+                              itemBuilder: (_, index) {
+                                if (index == 0)
+                                  return Padding(
+                                      padding: const EdgeInsets.only(left: 8.0),
+                                      child: ItemWeekTimetable(
+                                          dayName: _weekDays[index],
+                                          timetableList: snapshot.data
+                                              .where((item) =>
+                                                  item.dayOfWeek ==
+                                                  _weekDays[index])
+                                              .toList()));
+                                else if (index == listItemLength - 1)
+                                  return Padding(
+                                      padding:
+                                          const EdgeInsets.only(right: 8.0),
+                                      child: ItemWeekTimetable(
+                                          dayName: _weekDays[index],
+                                          timetableList: snapshot.data
+                                              .where((item) =>
+                                                  item.dayOfWeek ==
+                                                  _weekDays[index])
+                                              .toList()));
+                                return ItemWeekTimetable(
+                                    dayName: _weekDays[index],
+                                    timetableList: snapshot.data
+                                        .where((item) =>
+                                            item.dayOfWeek == _weekDays[index])
+                                        .toList());
                               });
-                        } else {
-                          return Container();
+                        } else if (snapshot.data == null) {
+                          return Center(child: CircularProgressIndicator());
                         }
-                      }),
-                  // IconButton(icon: Icon(Icons.search), onPressed: () {})
-                ),
-                child: StreamBuilder<List<TimetableModel>>(
-                    stream: _bloc.timetableList,
-                    builder: (context, snapshot) {
-                      if (snapshot.hasData && snapshot.data.length > 0) {
-                        return ListView.builder(
-                            itemCount: listItemLength,
-                            scrollDirection: Axis.horizontal,
-                            itemBuilder: (_, index) {
-                              if (index == 0)
-                                return Padding(
-                                    padding: const EdgeInsets.only(left: 8.0),
-                                    child: ItemWeekTimetable(
-                                        dayName: _weekDays[index],
-                                        timetableList: snapshot.data
-                                            .where((item) =>
-                                                item.dayOfWeek ==
-                                                _weekDays[index])
-                                            .toList()));
-                              else if (index == listItemLength - 1)
-                                return Padding(
-                                    padding: const EdgeInsets.only(right: 8.0),
-                                    child: ItemWeekTimetable(
-                                        dayName: _weekDays[index],
-                                        timetableList: snapshot.data
-                                            .where((item) =>
-                                                item.dayOfWeek ==
-                                                _weekDays[index])
-                                            .toList()));
-                              return ItemWeekTimetable(
-                                  dayName: _weekDays[index],
-                                  timetableList: snapshot.data
-                                      .where((item) =>
-                                          item.dayOfWeek == _weekDays[index])
-                                      .toList());
-                            });
-                      } else if (snapshot.data == null) {
-                        return Center(child: CircularProgressIndicator());
-                      }
 
-                      return Container(
-                          child: Center(
-                        child: Text(noAvailableTimetable),
-                      ));
-                    }),
+                        return Container(
+                            child: Center(
+                          child: Text(noAvailableTimetable),
+                        ));
+                      }),
+                ),
               ));
   }
 }
