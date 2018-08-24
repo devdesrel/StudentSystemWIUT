@@ -1,3 +1,6 @@
+import 'dart:io';
+
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:student_system_flutter/helpers/file_manager.dart';
 
@@ -8,13 +11,24 @@ class OfflinePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        centerTitle: true,
-        title: Text('Downloaded Materials'),
-      ),
-      body: FileManager(
-          mainDirectory: '/WIUT Mobile/$moduleName', isFilePicker: false),
-    );
+    return Platform.isAndroid
+        ? Scaffold(
+            appBar: AppBar(
+              centerTitle: true,
+              title: Text('Downloaded Materials'),
+            ),
+            body: FileManager(
+                mainDirectory: '/WIUT Mobile/$moduleName', isFilePicker: false),
+          )
+        : Material(
+            child: CupertinoPageScaffold(
+              navigationBar: CupertinoNavigationBar(
+                middle: Text('Downloaded Materials'),
+              ),
+              child: FileManager(
+                  mainDirectory: '/WIUT Mobile/$moduleName',
+                  isFilePicker: false),
+            ),
+          );
   }
 }
