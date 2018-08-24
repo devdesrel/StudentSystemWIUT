@@ -99,81 +99,89 @@ class SettingsPage extends StatelessWidget {
                 ],
               ),
             )
-          : CupertinoPageScaffold(
-              backgroundColor: backgroundColor,
-              // navigationBar: CupertinoNavigationBar(
-              //   middle: Text('Settings Page'),
-              // ),
-              child: CustomScrollView(
-                slivers: <Widget>[
-                  CupertinoSliverNavigationBar(
-                    automaticallyImplyLeading: false,
-                    trailing: InkWell(
-                      onTap: () => Navigator.of(context).pop(),
-                      child: Text(
-                        'Close',
-                        style: TextStyle(color: accentColor),
+          : Material(
+              child: CupertinoPageScaffold(
+                backgroundColor: backgroundColor,
+                // navigationBar: CupertinoNavigationBar(
+                //   middle: Text('Settings Page'),
+                // ),
+                child: CustomScrollView(
+                  slivers: <Widget>[
+                    CupertinoSliverNavigationBar(
+                      automaticallyImplyLeading: false,
+                      trailing: InkWell(
+                        onTap: () => Navigator.of(context).pop(),
+                        child: Text(
+                          'Close',
+                          style: TextStyle(color: accentColor),
+                        ),
+                      ),
+                      largeTitle: Text("Settings"),
+                    ),
+                    SliverToBoxAdapter(
+                      child: CustomSettingsCategory(
+                        text: 'Security',
+                        color: lightGreyTextColor,
+                        textWeight: FontWeight.normal,
                       ),
                     ),
-                    largeTitle: Text("Settings"),
-                  ),
-                  CustomSettingsCategory(
-                    text: 'Security',
-                    color: lightGreyTextColor,
-                    textWeight: FontWeight.normal,
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 10.0),
-                    child: SliverToBoxAdapter(
-                      // elevation: 2.0,
-                      child: Column(
-                        children: <Widget>[
-                          StreamBuilder(
-                            stream: _bloc.switchtileValue,
-                            builder: (context, snapshot) => ListTile(
-                                  leading: Icon(Icons.fingerprint),
-                                  title: Text('Fingerprint to log in'),
-                                  trailing: CupertinoSwitch(
-                                    value:
-                                        snapshot.hasData ? snapshot.data : true,
-                                    onChanged: (value) {
-                                      //_onChanged(value);
-                                      _bloc.setSwitchtileValue.add(value);
-                                    },
-                                  ),
+                    SliverToBoxAdapter(
+                      child: Container(
+                        color: Colors.white,
+                        child: Padding(
+                          padding: EdgeInsets.symmetric(
+                              horizontal: Platform.isAndroid ? 10.0 : 3.0),
+                          child: Column(
+                            children: <Widget>[
+                              StreamBuilder(
+                                stream: _bloc.switchtileValue,
+                                builder: (context, snapshot) => ListTile(
+                                      leading: Icon(Icons.fingerprint),
+                                      title: Text('Fingerprint to log in'),
+                                      trailing: CupertinoSwitch(
+                                        value: snapshot.hasData
+                                            ? snapshot.data
+                                            : true,
+                                        onChanged: (value) {
+                                          //_onChanged(value);
+                                          _bloc.setSwitchtileValue.add(value);
+                                        },
+                                      ),
+                                    ),
+                              ),
+                              // StreamBuilder(
+                              //   stream: _bloc.switchtileValue,
+                              //   builder: (context, snapshot) => SwitchListTile(
+                              //         value:
+                              //             snapshot.hasData ? snapshot.data : true,
+                              //         onChanged: (value) {
+                              //           //_onChanged(value);
+                              //           _bloc.setSwitchtileValue.add(value);
+                              //         },
+                              //         secondary: Icon(Icons.fingerprint),
+                              //         title: Text('Fingerprint to log in'),
+                              //       ),
+                              // ),
+                              Divider(
+                                height: 0.0,
+                              ),
+                              ListTile(
+                                onTap: () {
+                                  showPinDialog(context, _bloc);
+                                },
+                                leading: Image.asset(
+                                  'assets/key.png',
+                                  height: 28.0,
                                 ),
+                                title: Text('Change PIN code'),
+                              ),
+                            ],
                           ),
-                          // StreamBuilder(
-                          //   stream: _bloc.switchtileValue,
-                          //   builder: (context, snapshot) => SwitchListTile(
-                          //         value:
-                          //             snapshot.hasData ? snapshot.data : true,
-                          //         onChanged: (value) {
-                          //           //_onChanged(value);
-                          //           _bloc.setSwitchtileValue.add(value);
-                          //         },
-                          //         secondary: Icon(Icons.fingerprint),
-                          //         title: Text('Fingerprint to log in'),
-                          //       ),
-                          // ),
-                          Divider(
-                            height: 0.0,
-                          ),
-                          ListTile(
-                            onTap: () {
-                              showPinDialog(context, _bloc);
-                            },
-                            leading: Image.asset(
-                              'assets/key.png',
-                              height: 28.0,
-                            ),
-                            title: Text('Change PIN code'),
-                          ),
-                        ],
+                        ),
                       ),
-                    ),
-                  )
-                ],
+                    )
+                  ],
+                ),
               ),
             ),
     );
@@ -358,7 +366,8 @@ class CustomSettingsCategory extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.only(left: 14.0, top: 12.0),
+      padding: EdgeInsets.only(
+          left: Platform.isAndroid ? 14.0 : 19.0, top: 12.0, bottom: 5.0),
       child: Text(
         text,
         style: TextStyle(fontWeight: textWeight, color: color, fontSize: 16.0),
