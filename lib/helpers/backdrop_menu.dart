@@ -41,11 +41,11 @@ class _TwoPanelsState extends State<TwoPanels> {
     ];
 
     return RepaintBoundary(
-      child: SafeArea(
-        child: Container(
-          child: Stack(
-            children: <Widget>[
-              Container(
+      child: Container(
+        child: Stack(
+          children: <Widget>[
+            SafeArea(
+              child: Container(
                 color: Platform.isIOS ? backgroundColor : accentColor,
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -85,52 +85,53 @@ class _TwoPanelsState extends State<TwoPanels> {
                   ],
                 ),
               ),
-              PositionedTransition(
-                rect: getPanelAnimation(constraints),
-                child: Material(
-                  elevation: 12.0,
-                  borderRadius: Platform.isIOS
-                      ? BorderRadius.all(Radius.circular(0.0))
-                      : BorderRadius.only(
-                          topLeft: Radius.circular(16.0),
-                          topRight: Radius.circular(16.0)),
-                  child: Column(
-                    children: <Widget>[
-                      // new GestureDetector(
-                      //   behavior: HitTestBehavior.opaque,
-                      //   // onVerticalDragUpdate: onVerticalDragUpdate,
-                      //   // onVerticalDragEnd: onVerticalDragEnd,
-                      //   onTap: () {
-                      //     widget.controller
-                      //         .fling(velocity: widget.isPanelVisible ? -2.0 : 2.0);
-                      //   },
-                      //   child: new Container(
-                      //     height: 48.0,
-                      //     padding: const EdgeInsetsDirectional.only(start: 16.0),
-                      //     alignment: AlignmentDirectional.centerStart,
-                      //     child: Container(),
-                      //   ),
-                      // ),
-                      Container(),
-                      Expanded(
-                          child: RepaintBoundary(
-                        child: CustomScrollView(
-                          slivers: <Widget>[
-                            SliverToBoxAdapter(
-                                child: SafeArea(
-                                    bottom: false,
-                                    child: FeedbackForm(
-                                        questionNumbers: _questionNumbers))),
-                            CustomGridView(context).build(),
-                          ],
-                        ),
-                      ))
-                    ],
-                  ),
+            ),
+            PositionedTransition(
+              rect: getPanelAnimation(constraints),
+              child: Material(
+                elevation: 12.0,
+                borderRadius: Platform.isIOS
+                    ? BorderRadius.all(Radius.circular(0.0))
+                    : BorderRadius.only(
+                        topLeft: Radius.circular(16.0),
+                        topRight: Radius.circular(16.0)),
+                child: Column(
+                  children: <Widget>[
+                    // new GestureDetector(
+                    //   behavior: HitTestBehavior.opaque,
+                    //   // onVerticalDragUpdate: onVerticalDragUpdate,
+                    //   // onVerticalDragEnd: onVerticalDragEnd,
+                    //   onTap: () {
+                    //     widget.controller
+                    //         .fling(velocity: widget.isPanelVisible ? -2.0 : 2.0);
+                    //   },
+                    //   child: new Container(
+                    //     height: 48.0,
+                    //     padding: const EdgeInsetsDirectional.only(start: 16.0),
+                    //     alignment: AlignmentDirectional.centerStart,
+                    //     child: Container(),
+                    //   ),
+                    // ),
+                    Container(),
+                    Expanded(
+                        child: RepaintBoundary(
+                      child: CustomScrollView(
+                        slivers: <Widget>[
+                          SliverToBoxAdapter(
+                              child: SafeArea(
+                            bottom: false,
+                            child:
+                                FeedbackForm(questionNumbers: _questionNumbers),
+                          )),
+                          CustomGridView(context).build(),
+                        ],
+                      ),
+                    ))
+                  ],
                 ),
-              )
-            ],
-          ),
+              ),
+            )
+          ],
         ),
       ),
     );
@@ -218,7 +219,7 @@ class CustomBackdropMenuItems extends StatelessWidget {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.start,
               children: <Widget>[
-                SizedBox(width: 16.0),
+                SizedBox(width: Platform.isAndroid ? 16.0 : 30.0),
                 Icon(
                   IconData(icon, fontFamily: iconFont),
                   size: 24.0,

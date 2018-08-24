@@ -190,7 +190,7 @@ launchURL(String urlFrom, bool isWebView) async {
       await launch(url);
     }
   } else {
-    throw 'Could not launch $url';
+    print('Could not launch $url');
   }
 }
 
