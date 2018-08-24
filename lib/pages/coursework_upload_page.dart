@@ -1,3 +1,6 @@
+import 'dart:io';
+
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:path/path.dart';
 import 'package:student_system_flutter/bloc/coursework_upload/coursework_upload_provider.dart';
@@ -28,14 +31,20 @@ Widget _createCurrentPage(BuildContext context) {
       info, featureNotImplemented, MessageTypes.INFINITE_INFO, context);
 
   return CourseworkUploadProvider(
-    child: Scaffold(
-      appBar: AppBar(
-        centerTitle: true,
-        title: Text('Coursework Upload'),
-      ),
-      body: CourseworkUploadItems(),
-    ),
-  );
+      child: Platform.isAndroid
+          ? Scaffold(
+              appBar: AppBar(
+                centerTitle: true,
+                title: Text('Coursework Upload'),
+              ),
+              body: CourseworkUploadItems(),
+            )
+          : CupertinoPageScaffold(
+              navigationBar: CupertinoNavigationBar(
+                middle: Text('Coursework Upload'),
+              ),
+              child: CourseworkUploadItems(),
+            ));
 }
 
 class CourseworkUploadItems extends StatefulWidget {
@@ -180,18 +189,31 @@ class CourseworkUploadItemsState extends State<CourseworkUploadItems> {
         SizedBox(
           height: 36.0,
         ),
-        RaisedButton(
-          color: accentColor,
-          // onPressed: saveTitle,
-          onPressed: saveTitle,
-          child: Padding(
-            padding: const EdgeInsets.all(12.0),
-            child: Text(
-              'Upload',
-              style: TextStyle(color: Colors.white),
-            ),
-          ),
-        ),
+        Platform.isAndroid
+            ? RaisedButton(
+                color: accentColor,
+                // onPressed: saveTitle,
+                onPressed: saveTitle,
+                child: Padding(
+                  padding: const EdgeInsets.all(12.0),
+                  child: Text(
+                    'Upload',
+                    style: TextStyle(color: Colors.white),
+                  ),
+                ),
+              )
+            : CupertinoButton(
+                color: accentColor,
+                // onPressed: saveTitle,
+                onPressed: saveTitle,
+                child: Padding(
+                  padding: const EdgeInsets.all(12.0),
+                  child: Text(
+                    'Upload',
+                    style: TextStyle(color: Colors.white),
+                  ),
+                ),
+              )
       ]),
     );
   }

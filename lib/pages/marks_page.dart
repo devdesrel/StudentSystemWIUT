@@ -1,6 +1,8 @@
 import 'dart:async';
 import 'dart:convert';
+import 'dart:io';
 
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_circular_chart/flutter_circular_chart.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -72,80 +74,157 @@ class MarksPage extends StatelessWidget {
     /*24 is for notification bar on Android*/
     final double itemHeight = (size.height - kToolbarHeight - 24) / 2;
 
-    return Scaffold(
-      appBar: AppBar(
-        centerTitle: true,
-        title: Text(module != null ? module.moduleName : ''),
-      ),
-      // body: CustomGridView(context).build(),
-      body: Container(
-        color: Theme.of(context).backgroundColor,
-        child: SingleChildScrollView(
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: <Widget>[
-              SizedBox(
-                  height: itemHeight,
-                  child: CustomGridView(context, module).build()),
-              SizedBox(
-                height: itemHeight,
-                child: Container(
-                  color: whiteColor,
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: <Widget>[
-                      Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: <Widget>[
-                          AnimatedCircularChart(
-                              duration: Duration(seconds: 2),
-                              key: _chartKey,
-                              size: const Size(230.0, 230.0),
-                              initialChartData: <CircularStackEntry>[
-                                new CircularStackEntry(
-                                  <CircularSegmentEntry>[
-                                    new CircularSegmentEntry(
-                                      double.parse(module.moduleMark),
-                                      greenColor,
-                                      rankKey: 'completed',
-                                      // rankKey: 'progress',
-                                    ),
-                                    new CircularSegmentEntry(
-                                      100 - double.parse(module.moduleMark),
-                                      Colors.red[400],
-                                      rankKey: 'remaining',
-                                      // rankKey: 'progress',
-                                    ),
-                                  ],
-                                  rankKey: 'progress',
-                                ),
-                              ],
-                              chartType: CircularChartType.Radial,
-                              percentageValues: true,
-                              holeLabel: '${module.moduleMark}',
-                              labelStyle: Theme
-                                  .of(context)
-                                  .textTheme
-                                  .display2
-                                  .copyWith(
-                                      fontWeight: FontWeight.bold,
-                                      color: getMarkColor(
-                                          int.parse(module.moduleMark)))),
-                          Text(module.moduleGrade, style: _getTextStyle()),
+    return Platform.isAndroid
+        ? Scaffold(
+            appBar: AppBar(
+              centerTitle: true,
+              title: Text(module != null ? module.moduleName : ''),
+            ),
+            // body: CustomGridView(context).build(),
+            body: Container(
+              color: Theme.of(context).backgroundColor,
+              child: SingleChildScrollView(
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: <Widget>[
+                    SizedBox(
+                        height: itemHeight,
+                        child: CustomGridView(context, module).build()),
+                    SizedBox(
+                      height: itemHeight,
+                      child: Container(
+                        color: whiteColor,
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: <Widget>[
+                            Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: <Widget>[
+                                AnimatedCircularChart(
+                                    duration: Duration(seconds: 2),
+                                    key: _chartKey,
+                                    size: const Size(230.0, 230.0),
+                                    initialChartData: <CircularStackEntry>[
+                                      new CircularStackEntry(
+                                        <CircularSegmentEntry>[
+                                          new CircularSegmentEntry(
+                                            double.parse(module.moduleMark),
+                                            greenColor,
+                                            rankKey: 'completed',
+                                            // rankKey: 'progress',
+                                          ),
+                                          new CircularSegmentEntry(
+                                            100 -
+                                                double.parse(module.moduleMark),
+                                            Colors.red[400],
+                                            rankKey: 'remaining',
+                                            // rankKey: 'progress',
+                                          ),
+                                        ],
+                                        rankKey: 'progress',
+                                      ),
+                                    ],
+                                    chartType: CircularChartType.Radial,
+                                    percentageValues: true,
+                                    holeLabel: '${module.moduleMark}',
+                                    labelStyle: Theme
+                                        .of(context)
+                                        .textTheme
+                                        .display2
+                                        .copyWith(
+                                            fontWeight: FontWeight.bold,
+                                            color: getMarkColor(
+                                                int.parse(module.moduleMark)))),
+                                Text(module.moduleGrade,
+                                    style: _getTextStyle()),
 
-                          // CustomAnimatedText()
-                        ],
+                                // CustomAnimatedText()
+                              ],
+                            ),
+                          ],
+                        ),
                       ),
-                    ],
-                  ),
+                    )
+                  ],
                 ),
-              )
-            ],
-          ),
-        ),
-      ),
-    );
+              ),
+            ),
+          )
+        : CupertinoPageScaffold(
+            navigationBar: CupertinoNavigationBar(
+              middle: Text(module != null ? module.moduleName : ''),
+            ),
+            child: Container(
+              color: Theme.of(context).backgroundColor,
+              child: SingleChildScrollView(
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: <Widget>[
+                    SizedBox(
+                        height: itemHeight,
+                        child: CustomGridView(context, module).build()),
+                    SizedBox(
+                      height: itemHeight,
+                      child: Container(
+                        color: whiteColor,
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: <Widget>[
+                            Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: <Widget>[
+                                AnimatedCircularChart(
+                                    duration: Duration(seconds: 2),
+                                    key: _chartKey,
+                                    size: const Size(230.0, 230.0),
+                                    initialChartData: <CircularStackEntry>[
+                                      new CircularStackEntry(
+                                        <CircularSegmentEntry>[
+                                          new CircularSegmentEntry(
+                                            double.parse(module.moduleMark),
+                                            greenColor,
+                                            rankKey: 'completed',
+                                            // rankKey: 'progress',
+                                          ),
+                                          new CircularSegmentEntry(
+                                            100 -
+                                                double.parse(module.moduleMark),
+                                            Colors.red[400],
+                                            rankKey: 'remaining',
+                                            // rankKey: 'progress',
+                                          ),
+                                        ],
+                                        rankKey: 'progress',
+                                      ),
+                                    ],
+                                    chartType: CircularChartType.Radial,
+                                    percentageValues: true,
+                                    holeLabel: '${module.moduleMark}',
+                                    labelStyle: Theme
+                                        .of(context)
+                                        .textTheme
+                                        .display2
+                                        .copyWith(
+                                            fontWeight: FontWeight.bold,
+                                            color: getMarkColor(
+                                                int.parse(module.moduleMark)))),
+                                Text(module.moduleGrade,
+                                    style: _getTextStyle()),
+
+                                // CustomAnimatedText()
+                              ],
+                            ),
+                          ],
+                        ),
+                      ),
+                    )
+                  ],
+                ),
+              ),
+            ),
+          );
   }
 }
 

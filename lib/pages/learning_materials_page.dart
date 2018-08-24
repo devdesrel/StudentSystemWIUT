@@ -1,4 +1,8 @@
+import 'dart:io';
+
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:simple_permissions/simple_permissions.dart';
 import 'package:student_system_flutter/bloc/file_download/file_download_bloc.dart';
 import 'package:student_system_flutter/bloc/file_download/learning_materials_bloc.dart';
@@ -46,43 +50,75 @@ class _LearningMaterialsPageState extends State<LearningMaterialsPage>
     bloc.moduleName = widget.module.moduleName;
 
     return LearningMaterialsProvider(
-      learningMaterialsBloc: bloc,
-      child: Scaffold(
-        backgroundColor: Theme.of(context).backgroundColor,
-        appBar: AppBar(
-          bottom: TabBar(
-            tabs: [
-              Tab(text: ('Materials')),
-              Tab(text: ('Downloading')),
+        learningMaterialsBloc: bloc,
+        child:
+            // Platform.isAndroid
+            //     ?
+            Scaffold(
+          backgroundColor: Theme.of(context).backgroundColor,
+          appBar: AppBar(
+            bottom: TabBar(
+              tabs: [
+                Tab(text: ('Materials')),
+                Tab(text: ('Downloading')),
+              ],
+              controller: _controller,
+            ),
+            elevation: 0.0,
+            title: Text(widget.module.moduleName),
+            centerTitle: true,
+            actions: <Widget>[
+              IconButton(
+                icon: Icon(Icons.cloud_download),
+                onPressed: () {
+                  Navigator.of(context).push(MaterialPageRoute(
+                      builder: (context) =>
+                          OfflinePage(moduleName: widget.module.moduleName)));
+                },
+              )
             ],
-            controller: _controller,
           ),
-          elevation: 0.0,
-          title: Text(widget.module.moduleName),
-          centerTitle: true,
-          actions: <Widget>[
-            IconButton(
-              icon: Icon(Icons.cloud_download),
-              onPressed: () {
-                Navigator.of(context).push(MaterialPageRoute(
-                    builder: (context) =>
-                        OfflinePage(moduleName: widget.module.moduleName)));
-              },
-            )
-          ],
-        ),
-        body: TabBarView(
-          controller: _controller,
-          children: [
-            MaterialsListTab(
-                materialsList: widget.module.moduleMaterial,
-                controller: _controller,
-                bloc: bloc),
-            FileDownloadingTab(),
-          ],
-        ),
-      ),
-    );
+          body: TabBarView(
+            controller: _controller,
+            children: [
+              MaterialsListTab(
+                  materialsList: widget.module.moduleMaterial,
+                  controller: _controller,
+                  bloc: bloc),
+              FileDownloadingTab(),
+            ],
+          ),
+        )
+        // : CupertinoTabScaffold(
+        //     tabBar: CupertinoTabBar(
+        //       items: <BottomNavigationBarItem>[
+        //         BottomNavigationBarItem(
+        //           icon: Icon(FontAwesomeIcons.file),
+        //           title: Text('Materials'),
+        //         ),
+        //         BottomNavigationBarItem(
+        //           icon: Icon(FontAwesomeIcons.levelDownAlt),
+        //           title: Text('Downloading'),
+        //         ),
+        //       ],
+        //     ),
+        // navigationBar: CupertinoNavigationBar(
+        //   middle: Text(widget.module.moduleName),
+        //   backgroundColor: Theme.of(context).backgroundColor,
+        // ),
+
+        // child:CupertinoTabView(
+        //   controller: _controller,
+        //   children: [
+        //     MaterialsListTab(
+        //         materialsList: widget.module.moduleMaterial,
+        //         controller: _controller,
+        //         bloc: bloc),
+        //     FileDownloadingTab(),
+        //   ],
+        // ),
+        // )
+        );
   }
 }
 
