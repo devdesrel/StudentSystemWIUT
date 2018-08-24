@@ -1,5 +1,7 @@
 import 'dart:async';
+import 'dart:io';
 
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:student_system_flutter/bloc/settings_page/settings_bloc.dart';
@@ -7,6 +9,7 @@ import 'package:student_system_flutter/bloc/settings_page/settings_provider.dart
 import 'package:student_system_flutter/enums/ApplicationEnums.dart';
 import 'package:student_system_flutter/helpers/app_constants.dart';
 import 'package:student_system_flutter/helpers/function_helpers.dart';
+import 'package:flutter/services.dart';
 
 class SettingsPage extends StatelessWidget {
   SharedPreferences prefs;
@@ -42,55 +45,127 @@ class SettingsPage extends StatelessWidget {
     _getCurrentUserPin();
 
     return SettingsProvider(
-      settingsBloc: _bloc,
-      child: Scaffold(
-        backgroundColor: backgroundColor,
-        appBar: AppBar(
-          centerTitle: true,
-          title: Text('Settings'),
-        ),
-        body: ListView(
-          children: <Widget>[
-            CustomSettingsCategory(text: 'Security'),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 10.0),
-              child: Card(
-                elevation: 2.0,
-                child: Column(
+        settingsBloc: _bloc,
+        child: Platform.isAndroid
+            ? Scaffold(
+                backgroundColor: backgroundColor,
+                appBar: AppBar(
+                  centerTitle: true,
+                  title: Text('Settings'),
+                ),
+                body: ListView(
                   children: <Widget>[
-                    StreamBuilder(
-                      stream: _bloc.switchtileValue,
-                      builder: (context, snapshot) => SwitchListTile(
-                            value: snapshot.hasData ? snapshot.data : true,
-                            onChanged: (value) {
-                              //_onChanged(value);
-                              _bloc.setSwitchtileValue.add(value);
-                            },
-                            secondary: Icon(Icons.fingerprint),
-                            title: Text('Fingerprint to log in'),
-                          ),
+                    CustomSettingsCategory(
+                      text: 'Security',
+                      color: accentColor,
+                      textWeight: FontWeight.bold,
                     ),
-                    Divider(
-                      height: 0.0,
-                    ),
-                    ListTile(
-                      onTap: () {
-                        showPinDialog(context, _bloc);
-                      },
-                      leading: Image.asset(
-                        'assets/key.png',
-                        height: 28.0,
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 10.0),
+                      child: Card(
+                        elevation: 2.0,
+                        child: Column(
+                          children: <Widget>[
+                            StreamBuilder(
+                              stream: _bloc.switchtileValue,
+                              builder: (context, snapshot) => SwitchListTile(
+                                    value:
+                                        snapshot.hasData ? snapshot.data : true,
+                                    onChanged: (value) {
+                                      //_onChanged(value);
+                                      _bloc.setSwitchtileValue.add(value);
+                                    },
+                                    secondary: Icon(Icons.fingerprint),
+                                    title: Text('Fingerprint to log in'),
+                                  ),
+                            ),
+                            Divider(
+                              height: 0.0,
+                            ),
+                            ListTile(
+                              onTap: () {
+                                showPinDialog(context, _bloc);
+                              },
+                              leading: Image.asset(
+                                'assets/key.png',
+                                height: 28.0,
+                              ),
+                              title: Text('Change PIN code'),
+                            ),
+                          ],
+                        ),
                       ),
-                      title: Text('Change PIN code'),
-                    ),
+                    )
                   ],
                 ),
-              ),
-            )
-          ],
-        ),
-      ),
-    );
+              )
+            : CupertinoPageScaffold(
+                backgroundColor: backgroundColor,
+                navigationBar: CupertinoNavigationBar(
+                  middle: Text('Settings Page'),
+                ),
+                child: ListView(
+                  children: <Widget>[
+                    CustomSettingsCategory(
+                      text: 'Security',
+                      color: lightGreyTextColor,
+                      textWeight: FontWeight.normal,
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 10.0),
+                      child: Container(
+                        // elevation: 2.0,
+                        child: Column(
+                          children: <Widget>[
+                            StreamBuilder(
+                              stream: _bloc.switchtileValue,
+                              builder: (context, snapshot) => ListTile(
+                                    leading: Icon(Icons.fingerprint),
+                                    title: Text('Fingerprint to log in'),
+                                    trailing: CupertinoSwitch(
+                                      value: snapshot.hasData
+                                          ? snapshot.data
+                                          : true,
+                                      onChanged: (value) {
+                                        //_onChanged(value);
+                                        _bloc.setSwitchtileValue.add(value);
+                                      },
+                                    ),
+                                  ),
+                            ),
+                            // StreamBuilder(
+                            //   stream: _bloc.switchtileValue,
+                            //   builder: (context, snapshot) => SwitchListTile(
+                            //         value:
+                            //             snapshot.hasData ? snapshot.data : true,
+                            //         onChanged: (value) {
+                            //           //_onChanged(value);
+                            //           _bloc.setSwitchtileValue.add(value);
+                            //         },
+                            //         secondary: Icon(Icons.fingerprint),
+                            //         title: Text('Fingerprint to log in'),
+                            //       ),
+                            // ),
+                            Divider(
+                              height: 0.0,
+                            ),
+                            ListTile(
+                              onTap: () {
+                                showPinDialog(context, _bloc);
+                              },
+                              leading: Image.asset(
+                                'assets/key.png',
+                                height: 28.0,
+                              ),
+                              title: Text('Change PIN code'),
+                            ),
+                          ],
+                        ),
+                      ),
+                    )
+                  ],
+                ),
+              ));
   }
 
   _getCurrentUserPin() async {
@@ -168,41 +243,81 @@ class SettingsPage extends StatelessWidget {
       context: context,
       barrierDismissible: false, // user must tap button!
       builder: (BuildContext context) {
-        return AlertDialog(
-          titlePadding: EdgeInsets.only(top: 20.0, left: 20.0),
-          contentPadding: EdgeInsets.symmetric(horizontal: 23.0, vertical: 0.0),
-          title: Text('Change PIN code'),
-          content: SingleChildScrollView(
-            child: Form(
-              key: formKey,
-              child: ListBody(
-                children: <Widget>[
-                  customeFormField('Current PIN',
-                      ChangePinCodeDialogArguments.CurrentPin, context, bloc),
-                  customeFormField('New PIN',
-                      ChangePinCodeDialogArguments.NewPin, context, bloc),
-                  customeFormField('Confirm new PIN',
-                      ChangePinCodeDialogArguments.ConfirmPin, context, bloc),
-                ],
+        if (Platform.isAndroid) {
+          return AlertDialog(
+            titlePadding: EdgeInsets.only(top: 20.0, left: 20.0),
+            contentPadding:
+                EdgeInsets.symmetric(horizontal: 23.0, vertical: 0.0),
+            title: Text('Change PIN code'),
+            content: SingleChildScrollView(
+              child: Form(
+                key: formKey,
+                child: ListBody(
+                  children: <Widget>[
+                    customeFormField('Current PIN',
+                        ChangePinCodeDialogArguments.CurrentPin, context, bloc),
+                    customeFormField('New PIN',
+                        ChangePinCodeDialogArguments.NewPin, context, bloc),
+                    customeFormField('Confirm new PIN',
+                        ChangePinCodeDialogArguments.ConfirmPin, context, bloc),
+                  ],
+                ),
               ),
             ),
-          ),
-          actions: <Widget>[
-            FlatButton(
-              child: Text('Cancel'.toUpperCase()),
-              onPressed: () {
-                Navigator.of(context).pop();
-                bloc.setAutoValidation.add(false);
-              },
+            actions: <Widget>[
+              FlatButton(
+                child: Text('Cancel'.toUpperCase()),
+                onPressed: () {
+                  Navigator.of(context).pop();
+                  bloc.setAutoValidation.add(false);
+                },
+              ),
+              FlatButton(
+                child: Text('Save'.toUpperCase()),
+                onPressed: () {
+                  savePin(context, bloc);
+                },
+              ),
+            ],
+          );
+        } else if (Platform.isIOS) {
+          return CupertinoAlertDialog(
+// titlePadding: EdgeInsets.only(top: 20.0, left: 20.0),
+            // contentPadding:
+            //     EdgeInsets.symmetric(horizontal: 23.0, vertical: 0.0),
+            title: Text('Change PIN code'),
+            content: SingleChildScrollView(
+              child: Form(
+                key: formKey,
+                child: ListBody(
+                  children: <Widget>[
+                    customeFormField('Current PIN',
+                        ChangePinCodeDialogArguments.CurrentPin, context, bloc),
+                    customeFormField('New PIN',
+                        ChangePinCodeDialogArguments.NewPin, context, bloc),
+                    customeFormField('Confirm new PIN',
+                        ChangePinCodeDialogArguments.ConfirmPin, context, bloc),
+                  ],
+                ),
+              ),
             ),
-            FlatButton(
-              child: Text('Save'.toUpperCase()),
-              onPressed: () {
-                savePin(context, bloc);
-              },
-            ),
-          ],
-        );
+            actions: <Widget>[
+              CupertinoDialogAction(
+                child: Text('Cancel'.toUpperCase()),
+                onPressed: () {
+                  Navigator.of(context).pop();
+                  bloc.setAutoValidation.add(false);
+                },
+              ),
+              CupertinoDialogAction(
+                child: Text('Save'.toUpperCase()),
+                onPressed: () {
+                  savePin(context, bloc);
+                },
+              ),
+            ],
+          );
+        }
       },
     );
   }
@@ -210,7 +325,13 @@ class SettingsPage extends StatelessWidget {
 
 class CustomSettingsCategory extends StatelessWidget {
   final String text;
-  const CustomSettingsCategory({Key key, @required this.text})
+  final Color color;
+  final textWeight;
+  const CustomSettingsCategory(
+      {Key key,
+      @required this.text,
+      @required this.color,
+      @required this.textWeight})
       : super(key: key);
 
   @override
@@ -219,8 +340,7 @@ class CustomSettingsCategory extends StatelessWidget {
       padding: const EdgeInsets.only(left: 14.0, top: 12.0),
       child: Text(
         text,
-        style: TextStyle(
-            fontWeight: FontWeight.bold, color: accentColor, fontSize: 16.0),
+        style: TextStyle(fontWeight: textWeight, color: color, fontSize: 16.0),
         textAlign: TextAlign.start,
       ),
     );
