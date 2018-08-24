@@ -101,11 +101,22 @@ class SettingsPage extends StatelessWidget {
               )
             : CupertinoPageScaffold(
                 backgroundColor: backgroundColor,
-                navigationBar: CupertinoNavigationBar(
-                  middle: Text('Settings Page'),
-                ),
-                child: ListView(
-                  children: <Widget>[
+                // navigationBar: CupertinoNavigationBar(
+                //   middle: Text('Settings Page'),
+                // ),
+                child: CustomScrollView(
+                  slivers: <Widget>[
+                    CupertinoSliverNavigationBar(
+                      automaticallyImplyLeading: false,
+                      trailing: InkWell(
+                        onTap: () => Navigator.of(context).pop(),
+                        child: Text(
+                          'Close',
+                          style: TextStyle(color: accentColor),
+                        ),
+                      ),
+                      largeTitle: Text("Settings"),
+                    ),
                     CustomSettingsCategory(
                       text: 'Security',
                       color: lightGreyTextColor,
@@ -113,7 +124,7 @@ class SettingsPage extends StatelessWidget {
                     ),
                     Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 10.0),
-                      child: Container(
+                      child: SliverToBoxAdapter(
                         // elevation: 2.0,
                         child: Column(
                           children: <Widget>[
