@@ -163,6 +163,7 @@ class MaterialsListTab extends StatefulWidget {
   final List<SingleLearningMaterialsModel> materialsList;
 
   final TabController controller;
+
   final LearningMaterialsBloc bloc;
 
   MaterialsListTab({

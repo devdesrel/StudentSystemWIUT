@@ -230,7 +230,10 @@ class _LoginPageState extends State<LoginPage> implements AuthStateListener {
             progressDialogVisible
                 ? Container(
                     color: lightOverlayColor,
-                    child: Center(child: CircularProgressIndicator()))
+                    child: Center(
+                        child: Platform.isAndroid
+                            ? CircularProgressIndicator()
+                            : CupertinoActivityIndicator()))
                 : Container()
           ],
         ),

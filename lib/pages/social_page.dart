@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:student_system_flutter/enums/ApplicationEnums.dart';
 import 'package:student_system_flutter/helpers/function_helpers.dart';
@@ -66,7 +68,9 @@ class SocialPage extends StatelessWidget {
           //       ],
           //     )),
           floatingActionButton: FloatingActionButton(
-            child: Icon(Icons.edit),
+            child: Platform.isAndroid
+                ? Icon(Icons.edit)
+                : Icon(IconData(0xF418, fontFamily: 'CuperIcon')),
             onPressed: () {
               Navigator.of(context).pushNamed(tweetPage);
             },

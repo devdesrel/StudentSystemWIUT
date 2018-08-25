@@ -31,7 +31,9 @@ Widget _createCurrentPage(BuildContext context) {
 
   return NewPostProvider(
       newPostBloc: bloc,
-      child: Scaffold(
+      child:
+          //Platform.isAndroid?
+          Scaffold(
         appBar: AppBar(
           centerTitle: true,
           title: Text('Create Post'),
@@ -81,7 +83,11 @@ Widget _createCurrentPage(BuildContext context) {
           onPressed: () => print("Pressed"),
         ),
         floatingActionButtonLocation: FloatingActionButtonLocation.endDocked,
-      ));
+      )
+
+      ///TODO: ios version
+      // : CupertinoPageScaffold()
+      );
 }
 
 class NewPostBody extends StatelessWidget {
