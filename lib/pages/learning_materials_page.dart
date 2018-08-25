@@ -2,7 +2,6 @@ import 'dart:io';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:simple_permissions/simple_permissions.dart';
 import 'package:student_system_flutter/bloc/file_download/file_download_bloc.dart';
 import 'package:student_system_flutter/bloc/file_download/learning_materials_bloc.dart';
@@ -110,6 +109,14 @@ class _LearningMaterialsPageState extends State<LearningMaterialsPage>
                         middle: Text(
                           widget.module.moduleName,
                           overflow: TextOverflow.ellipsis,
+                        ),
+                        trailing: IconButton(
+                          icon: Icon(Icons.cloud_download),
+                          onPressed: () {
+                            Navigator.of(context).push(MaterialPageRoute(
+                                builder: (context) => OfflinePage(
+                                    moduleName: widget.module.moduleName)));
+                          },
                         ),
                       ),
                       child: index == 0
