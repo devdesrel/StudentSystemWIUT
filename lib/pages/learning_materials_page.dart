@@ -51,45 +51,75 @@ class _LearningMaterialsPageState extends State<LearningMaterialsPage>
 
     return LearningMaterialsProvider(
         learningMaterialsBloc: bloc,
-        child:
-            // Platform.isAndroid
-            //     ?
-            Scaffold(
-          backgroundColor: Theme.of(context).backgroundColor,
-          appBar: AppBar(
-            bottom: TabBar(
-              tabs: [
-                Tab(text: ('Materials')),
-                Tab(text: ('Downloading')),
-              ],
-              controller: _controller,
-            ),
-            elevation: 0.0,
-            title: Text(widget.module.moduleName),
-            centerTitle: true,
-            actions: <Widget>[
-              IconButton(
-                icon: Icon(Icons.cloud_download),
-                onPressed: () {
-                  Navigator.of(context).push(MaterialPageRoute(
-                      builder: (context) =>
-                          OfflinePage(moduleName: widget.module.moduleName)));
-                },
-              )
-            ],
-          ),
-          body: TabBarView(
-            controller: _controller,
-            children: [
-              MaterialsListTab(
-                  materialsList: widget.module.moduleMaterial,
+        child: Platform.isAndroid
+            ? Scaffold(
+                backgroundColor: Theme.of(context).backgroundColor,
+                appBar: AppBar(
+                  bottom: TabBar(
+                    tabs: [
+                      Tab(text: ('Materials')),
+                      Tab(text: ('Downloading')),
+                    ],
+                    controller: _controller,
+                  ),
+                  elevation: 0.0,
+                  title: Text(widget.module.moduleName),
+                  centerTitle: true,
+                  actions: <Widget>[
+                    IconButton(
+                      icon: Icon(Icons.cloud_download),
+                      onPressed: () {
+                        Navigator.of(context).push(MaterialPageRoute(
+                            builder: (context) => OfflinePage(
+                                moduleName: widget.module.moduleName)));
+                      },
+                    )
+                  ],
+                ),
+                body: TabBarView(
                   controller: _controller,
-                  bloc: bloc),
-              FileDownloadingTab(),
-            ],
-          ),
-        )
-        // : CupertinoTabScaffold(
+                  children: [
+                    MaterialsListTab(
+                        materialsList: widget.module.moduleMaterial,
+                        controller: _controller,
+                        bloc: bloc),
+                    FileDownloadingTab(),
+                  ],
+                ),
+              )
+            : Material(
+                child: CupertinoTabScaffold(
+                  tabBar: CupertinoTabBar(items: <BottomNavigationBarItem>[
+                    BottomNavigationBarItem(
+                      icon: Icon(
+                        Icons.list,
+                        size: 18.0,
+                      ),
+                      title: Text('Materials'),
+                    ),
+                    BottomNavigationBarItem(
+                      icon: Icon(
+                        Icons.file_download,
+                        size: 18.0,
+                      ),
+                      title: Text('Downloading'),
+                    ),
+                  ]),
+                  tabBuilder: (context, index) => CupertinoPageScaffold(
+                      navigationBar: CupertinoNavigationBar(
+                        middle: Text(
+                          widget.module.moduleName,
+                          overflow: TextOverflow.ellipsis,
+                        ),
+                      ),
+                      child: index == 0
+                          ? MaterialsListTab(
+                              materialsList: widget.module.moduleMaterial,
+                              controller: _controller,
+                              bloc: bloc)
+                          : FileDownloadingTab()),
+                ),
+              )
         //     tabBar: CupertinoTabBar(
         //       items: <BottomNavigationBarItem>[
         //         BottomNavigationBarItem(
@@ -169,13 +199,16 @@ class _MaterialsListTabState extends State<MaterialsListTab>
               child: StreamBuilder(
                 initialData: _learningMaterialTypes[0],
                 stream: widget.bloc.learningMaterialType,
-                builder: (context, snapshot) => LearningMaterialsExpansionTile(
-                    bloc: widget.bloc,
-                    expansionTile: expansionTile,
-                    value: snapshot.hasData
-                        ? snapshot.data
-                        : _learningMaterialTypes[0],
-                    expansionChildrenList: _learningMaterialTypes),
+                builder: (context, snapshot) => SafeArea(
+                      bottom: false,
+                      child: LearningMaterialsExpansionTile(
+                          bloc: widget.bloc,
+                          expansionTile: expansionTile,
+                          value: snapshot.hasData
+                              ? snapshot.data
+                              : _learningMaterialTypes[0],
+                          expansionChildrenList: _learningMaterialTypes),
+                    ),
               ),
             ),
           ),
@@ -196,12 +229,15 @@ class _MaterialsListTabState extends State<MaterialsListTab>
                                 bloc: widget.bloc),
                           );
                         } else if (index == snapshot.data.length - 1) {
-                          return Padding(
-                            padding: const EdgeInsets.only(bottom: 8.0),
-                            child: LearningMaterialsCard(
-                                learningMaterialsModel: snapshot.data[index],
-                                controller: widget.controller,
-                                bloc: widget.bloc),
+                          return SafeArea(
+                            top: false,
+                            child: Padding(
+                              padding: const EdgeInsets.only(bottom: 8.0),
+                              child: LearningMaterialsCard(
+                                  learningMaterialsModel: snapshot.data[index],
+                                  controller: widget.controller,
+                                  bloc: widget.bloc),
+                            ),
                           );
                         } else {
                           return LearningMaterialsCard(
@@ -443,6 +479,7 @@ class LearningMaterialsCard extends StatelessWidget {
               future: bloc.getFileUrlsToDownload(
                   _context, learningMaterialsModel.id),
               builder: (context, snapshot) => snapshot.hasData
+                  // ? Platform.isAndroid
                   ? SimpleDialog(
                       titlePadding: EdgeInsets.only(
                           top: 15.0, left: 24.0, right: 24.0, bottom: 5.0),
@@ -477,6 +514,44 @@ class LearningMaterialsCard extends StatelessWidget {
                         ],
                       ),
                       children: _getDialogItems(context, snapshot.data))
+                  // : CupertinoAlertDialog(
+                  //     title: Row(
+                  //       mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  //       children: <Widget>[
+                  //         Text('Download'),
+                  //         snapshot.data.length > 1
+                  //             ? Material(
+                  //                 child: InkWell(
+                  //                     child: Padding(
+                  //                       padding:
+                  //                           const EdgeInsets.all(8.0),
+                  //                       child: Icon(Icons.cloud_download),
+                  //                     ),
+                  //                     onTap: () {
+                  //                       for (var downloadFile
+                  //                           in snapshot.data) {
+                  //                         downloadFile
+                  //                             .folderName = _getMaterialType(
+                  //                                 learningMaterialsModel
+                  //                                     .materialTypeID) +
+                  //                             '/' +
+                  //                             learningMaterialsModel
+                  //                                 .title;
+
+                  //                         bloc.addFileToDownload
+                  //                             .add(downloadFile);
+                  //                       }
+                  //                       Navigator.pop(context);
+
+                  //                       controller.animateTo(1);
+                  //                       bloc.flushBar.show(context);
+                  //                     }),
+                  //               )
+                  //             : Container()
+                  //       ],
+                  //     ),
+                  //     actions: _getDialogItems(context, snapshot.data),
+                  //   )
                   : Center(child: CircularProgressIndicator()),
             );
           });

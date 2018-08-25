@@ -111,9 +111,11 @@ class FileManagerState extends State<FileManager>
         return ListView.builder(
             padding: const EdgeInsets.all(16.0),
             itemCount: _filteredPathsList.length,
-            itemBuilder: (context, i) {
-              return _buildRow(_filteredPathsList.elementAt(i), context);
-            });
+            itemBuilder: (context, i) => i == 0
+                ? SafeArea(
+                    bottom: false,
+                    child: _buildRow(_filteredPathsList.elementAt(i), context))
+                : _buildRow(_filteredPathsList.elementAt(i), context));
       } else if (_allPathsList != null && _allPathsList.length == 0) {
         return Center(child: Text(noDownloadedFiles));
       }
