@@ -167,7 +167,7 @@ class TimetablePage extends StatelessWidget {
                                         .toList());
                               });
                         } else if (snapshot.data == null) {
-                          return Center(child: CircularProgressIndicator());
+                          return Center(child: CupertinoActivityIndicator());
                         }
 
                         return Container(

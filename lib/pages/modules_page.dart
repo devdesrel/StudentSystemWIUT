@@ -196,7 +196,11 @@ class ModulesPage extends StatelessWidget {
                 }
 
                 // By default, show a loading spinner
-                return Center(child: CircularProgressIndicator());
+                return Platform.isAndroid
+                    ? Center(child: CircularProgressIndicator())
+                    : Center(
+                        child: CupertinoActivityIndicator(),
+                      );
               }),
         );
       }
@@ -265,7 +269,7 @@ class ModulesPage extends StatelessWidget {
                         )),
               child: FutureBuilder<Widget>(
                   future: _checkInternetConnection(context),
-                  initialData: CircularProgressIndicator(),
+                  initialData: CupertinoActivityIndicator(),
                   builder: (context, snapshot) => snapshot.data),
             ),
           );

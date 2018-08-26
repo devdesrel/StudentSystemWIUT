@@ -1,3 +1,7 @@
+import 'dart:io';
+
+import 'package:community_material_icon/community_material_icon.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:student_system_flutter/enums/ApplicationEnums.dart';
@@ -12,90 +16,188 @@ class CommentsPage extends StatefulWidget {
 class _CommentsPageState extends State<CommentsPage> {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: backgroundColor,
-      appBar: AppBar(
-        centerTitle: true,
-        title: Text('Comments page'),
-      ),
-      body: Column(children: <Widget>[
-        Expanded(
-          child: ListView(
-            shrinkWrap: true,
-            children: <Widget>[
-              ListTile(
-                leading: Icon(Icons.account_circle),
-                title: Text('Name goes here'),
-                isThreeLine: false,
-                subtitle: Text.rich(TextSpan(text: 'comment goes here')),
-              ),
-              ListTile(
-                leading: Icon(Icons.account_circle),
-                title: Text('Name goes here2'),
-                isThreeLine: false,
-                subtitle: Text.rich(TextSpan(text: 'comment goes here')),
-              ),
-            ],
-          ),
-        ),
-        Container(
-          color: whiteColor,
-          width: double.infinity,
-          padding: const EdgeInsets.symmetric(vertical: 6.0, horizontal: 4.0),
-          child: Row(
-            crossAxisAlignment: CrossAxisAlignment.end,
-            children: <Widget>[
-              CustomSizedBox(
-                icon: FontAwesomeIcons.camera,
-                type: AttachmentTypes.CAMERA,
-              ),
-              // getImage: getImage(true)
-              CustomSizedBox(
-                icon: FontAwesomeIcons.image,
-                type: AttachmentTypes.GALLERY,
-                // getImage: getImage(false),
-              ),
+    return Platform.isAndroid
+        ? Scaffold(
+            backgroundColor: backgroundColor,
+            appBar: AppBar(
+              centerTitle: true,
+              title: Text('Comments page'),
+            ),
+            body: Column(children: <Widget>[
               Expanded(
-                child: Container(
-                  constraints: BoxConstraints.loose(Size.fromHeight(100.0)),
-                  child: Theme(
-                    data: ThemeData(hintColor: greyColor),
-                    child: TextField(
-                        maxLines: null,
-                        keyboardType: TextInputType.multiline,
-                        decoration: InputDecoration(
-                          border: InputBorder.none,
-                          contentPadding: EdgeInsets.only(
-                              left: 10.0, right: 10.0, bottom: 10.0, top: 0.0),
-                          // border: OutlineInputBorder(
-                          //     borderRadius: BorderRadius.circular(50.0)),
-                          hintText: 'Comment',
-                        )
-                        // filled: true,
-                        // fillColor: backgroundColor),
-                        ),
-                  ),
+                child: ListView(
+                  shrinkWrap: true,
+                  children: <Widget>[
+                    ListTile(
+                      leading: Icon(Icons.account_circle),
+                      title: Text('Name goes here'),
+                      isThreeLine: false,
+                      subtitle: Text.rich(TextSpan(text: 'comment goes here')),
+                    ),
+                    ListTile(
+                      leading: Icon(Icons.account_circle),
+                      title: Text('Name goes here2'),
+                      isThreeLine: false,
+                      subtitle: Text.rich(TextSpan(text: 'comment goes here')),
+                    ),
+                  ],
                 ),
               ),
-              CustomSizedBox(
-                icon: Icons.insert_emoticon,
-                type: AttachmentTypes.STICKER,
-              )
-              //SEND BUTTON
-              // FloatingActionButton(
-              //   child: Icon(Icons.send),
-              //   onPressed: () => debugPrint("Pressed"),
-              //   //elevation: 4.0,
-              // ),
-              // TextField(),
+              Container(
+                color: whiteColor,
+                width: double.infinity,
+                padding:
+                    const EdgeInsets.symmetric(vertical: 6.0, horizontal: 4.0),
+                child: Row(
+                  crossAxisAlignment: CrossAxisAlignment.end,
+                  children: <Widget>[
+                    CustomSizedBox(
+                      icon: FontAwesomeIcons.camera,
+                      type: AttachmentTypes.CAMERA,
+                    ),
+                    // getImage: getImage(true)
+                    CustomSizedBox(
+                      icon: FontAwesomeIcons.image,
+                      type: AttachmentTypes.GALLERY,
+                      // getImage: getImage(false),
+                    ),
+                    Expanded(
+                      child: Container(
+                        constraints:
+                            BoxConstraints.loose(Size.fromHeight(100.0)),
+                        child: Theme(
+                          data: ThemeData(hintColor: greyColor),
+                          child: TextField(
+                              maxLines: null,
+                              keyboardType: TextInputType.multiline,
+                              decoration: InputDecoration(
+                                border: InputBorder.none,
+                                contentPadding: EdgeInsets.only(
+                                    left: 10.0,
+                                    right: 10.0,
+                                    bottom: 10.0,
+                                    top: 0.0),
+                                // border: OutlineInputBorder(
+                                //     borderRadius: BorderRadius.circular(50.0)),
+                                hintText: 'Comment',
+                              )
+                              // filled: true,
+                              // fillColor: backgroundColor),
+                              ),
+                        ),
+                      ),
+                    ),
+                    CustomSizedBox(
+                      icon: Icons.insert_emoticon,
+                      type: AttachmentTypes.STICKER,
+                    )
+                    //SEND BUTTON
+                    // FloatingActionButton(
+                    //   child: Icon(Icons.send),
+                    //   onPressed: () => debugPrint("Pressed"),
+                    //   //elevation: 4.0,
+                    // ),
+                    // TextField(),
 
-              // TextField(),
-              // Icon(Icons.insert_emoticon)
-            ],
-          ),
-        ),
-      ]),
-    );
+                    // TextField(),
+                    // Icon(Icons.insert_emoticon)
+                  ],
+                ),
+              ),
+            ]),
+          )
+        : Material(
+            child: CupertinoPageScaffold(
+              backgroundColor: backgroundColor,
+              navigationBar: CupertinoNavigationBar(
+                middle: Text('Comments page'),
+              ),
+              child: Column(children: <Widget>[
+                Expanded(
+                  child: ListView(
+                    shrinkWrap: true,
+                    children: <Widget>[
+                      ListTile(
+                        leading: Icon(Icons.account_circle),
+                        title: Text('Name goes here'),
+                        isThreeLine: false,
+                        subtitle:
+                            Text.rich(TextSpan(text: 'comment goes here')),
+                      ),
+                      ListTile(
+                        leading: Icon(Icons.account_circle),
+                        title: Text('Name goes here2'),
+                        isThreeLine: false,
+                        subtitle:
+                            Text.rich(TextSpan(text: 'comment goes here')),
+                      ),
+                    ],
+                  ),
+                ),
+                Container(
+                  color: whiteColor,
+                  width: double.infinity,
+                  padding: const EdgeInsets.symmetric(
+                      vertical: 6.0, horizontal: 4.0),
+                  child: Row(
+                    crossAxisAlignment: CrossAxisAlignment.end,
+                    children: <Widget>[
+                      CustomSizedBox(
+                        icon: CommunityMaterialIcons.camera,
+                        type: AttachmentTypes.CAMERA,
+                      ),
+                      // getImage: getImage(true)
+                      CustomSizedBox(
+                        icon: FontAwesomeIcons.image,
+                        type: AttachmentTypes.GALLERY,
+                        // getImage: getImage(false),
+                      ),
+                      Expanded(
+                        child: Container(
+                          constraints:
+                              BoxConstraints.loose(Size.fromHeight(100.0)),
+                          child: Theme(
+                            data: ThemeData(hintColor: greyColor),
+                            child: TextField(
+                                maxLines: null,
+                                keyboardType: TextInputType.multiline,
+                                decoration: InputDecoration(
+                                  border: InputBorder.none,
+                                  contentPadding: EdgeInsets.only(
+                                      left: 10.0,
+                                      right: 10.0,
+                                      bottom: 10.0,
+                                      top: 0.0),
+                                  // border: OutlineInputBorder(
+                                  //     borderRadius: BorderRadius.circular(50.0)),
+                                  hintText: 'Comment',
+                                )
+                                // filled: true,
+                                // fillColor: backgroundColor),
+                                ),
+                          ),
+                        ),
+                      ),
+                      CustomSizedBox(
+                        icon: Icons.insert_emoticon,
+                        type: AttachmentTypes.STICKER,
+                      )
+                      //SEND BUTTON
+                      // FloatingActionButton(
+                      //   child: Icon(Icons.send),
+                      //   onPressed: () => debugPrint("Pressed"),
+                      //   //elevation: 4.0,
+                      // ),
+                      // TextField(),
+
+                      // TextField(),
+                      // Icon(Icons.insert_emoticon)
+                    ],
+                  ),
+                ),
+              ]),
+            ),
+          );
   }
 }
 

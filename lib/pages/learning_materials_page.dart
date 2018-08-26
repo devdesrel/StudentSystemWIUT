@@ -110,6 +110,14 @@ class _LearningMaterialsPageState extends State<LearningMaterialsPage>
                           widget.module.moduleName,
                           overflow: TextOverflow.ellipsis,
                         ),
+                        trailing: IconButton(
+                          icon: Icon(Icons.cloud_download),
+                          onPressed: () {
+                            Navigator.of(context).push(MaterialPageRoute(
+                                builder: (context) => OfflinePage(
+                                    moduleName: widget.module.moduleName)));
+                          },
+                        ),
                       ),
                       child: index == 0
                           ? MaterialsListTab(
@@ -155,6 +163,7 @@ class MaterialsListTab extends StatefulWidget {
   final List<SingleLearningMaterialsModel> materialsList;
 
   final TabController controller;
+
   final LearningMaterialsBloc bloc;
 
   MaterialsListTab({
