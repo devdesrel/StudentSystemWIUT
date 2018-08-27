@@ -31,63 +31,119 @@ Widget _createCurrentPage(BuildContext context) {
 
   return NewPostProvider(
       newPostBloc: bloc,
-      child:
-          //Platform.isAndroid?
-          Scaffold(
-        appBar: AppBar(
-          centerTitle: true,
-          title: Text('Create Post'),
-          iconTheme: IconThemeData(color: whiteColor),
-          elevation: 0.0,
-          leading: IconButton(
-            onPressed: () {
-              Navigator.of(context).pop();
-            },
-            icon: Icon(
-              Icons.close,
-            ),
-          ),
-        ),
-        backgroundColor: whiteColor,
-        body: NewPostBody(),
-        bottomNavigationBar: BottomAppBar(
-          color: accentColor,
-          hasNotch: true,
-          elevation: 5.0,
-          child: Theme(
-            data: ThemeData(
-                iconTheme: IconThemeData(color: whiteColor, size: 20.0)),
-            child: ButtonBar(
-              alignment: MainAxisAlignment.start,
-              children: <Widget>[
-                CustomSizedBox(
-                  icon: FontAwesomeIcons.camera,
-                  type: AttachmentTypes.CAMERA,
+      child: Platform.isAndroid
+          ? Scaffold(
+              appBar: AppBar(
+                centerTitle: true,
+                title: Text('Create post'),
+                iconTheme: IconThemeData(color: Colors.white),
+                elevation: 0.0,
+                leading: IconButton(
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                  },
+                  icon: Icon(
+                    Icons.close,
+                  ),
                 ),
-                // getImage: getImage(true)
-                CustomSizedBox(
-                  icon: FontAwesomeIcons.image,
-                  type: AttachmentTypes.GALLERY,
+              ),
+              backgroundColor: whiteColor,
+              body: NewPostBody(),
+              bottomNavigationBar: BottomAppBar(
+                color: accentColor,
+                hasNotch: true,
+                elevation: 5.0,
+                child: Theme(
+                  data: ThemeData(
+                      iconTheme: IconThemeData(color: whiteColor, size: 20.0)),
+                  child: ButtonBar(
+                    alignment: MainAxisAlignment.start,
+                    children: <Widget>[
+                      CustomSizedBox(
+                        icon: FontAwesomeIcons.camera,
+                        type: AttachmentTypes.CAMERA,
+                      ),
+                      // getImage: getImage(true)
+                      CustomSizedBox(
+                        icon: FontAwesomeIcons.image,
+                        type: AttachmentTypes.GALLERY,
+                      ),
+                      CustomSizedBox(
+                          icon: FontAwesomeIcons.tasks,
+                          type: AttachmentTypes.QUESTIONNAIRE),
+                      CustomSizedBox(
+                          icon: Icons.attach_file, type: AttachmentTypes.FILE),
+                    ],
+                  ),
                 ),
-                CustomSizedBox(
-                    icon: FontAwesomeIcons.tasks,
-                    type: AttachmentTypes.QUESTIONNAIRE),
-                CustomSizedBox(
-                    icon: Icons.attach_file, type: AttachmentTypes.FILE),
-              ],
-            ),
-          ),
-        ),
-        floatingActionButton: FloatingActionButton(
-          child: Icon(Icons.send),
-          onPressed: () => print("Pressed"),
-        ),
-        floatingActionButtonLocation: FloatingActionButtonLocation.endDocked,
-      )
+              ),
+              floatingActionButton: FloatingActionButton(
+                child: Icon(Icons.send),
+                onPressed: () => print("Pressed"),
+              ),
+              floatingActionButtonLocation:
+                  FloatingActionButtonLocation.endDocked,
+            )
 
-      ///TODO: ios version
-      // : CupertinoPageScaffold()
-      );
+          //     ///TODO: ios version
+          //     // : CupertinoPageScaffold()
+          : Scaffold(
+              appBar: CupertinoNavigationBar(
+                backgroundColor: backgroundColor,
+                // bottomOpacity: 1.0,
+                // centerTitle: true,
+                middle: Text(
+                  'Create post',
+                  style: TextStyle(color: blackColor),
+                ),
+                // iconTheme: IconThemeData(color: whiteColor),
+                // elevation: 0.0,
+                leading: IconButton(
+                  color: blackColor,
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                  },
+                  icon: Icon(
+                    Icons.close,
+                  ),
+                ),
+              ),
+              backgroundColor: whiteColor,
+              body: NewPostBody(),
+              bottomNavigationBar: BottomAppBar(
+                color: backgroundColor,
+                hasNotch: true,
+                elevation: 5.0,
+                child: Theme(
+                  data: ThemeData(iconTheme: IconThemeData(size: 20.0)),
+                  child: ButtonBar(
+                    alignment: MainAxisAlignment.start,
+                    children: <Widget>[
+                      CustomSizedBox(
+                        icon: FontAwesomeIcons.camera,
+                        type: AttachmentTypes.CAMERA,
+                      ),
+                      // getImage: getImage(true)
+                      CustomSizedBox(
+                        icon: FontAwesomeIcons.image,
+                        type: AttachmentTypes.GALLERY,
+                      ),
+                      CustomSizedBox(
+                          icon: FontAwesomeIcons.tasks,
+                          type: AttachmentTypes.QUESTIONNAIRE),
+                      CustomSizedBox(
+                          icon: Icons.attach_file, type: AttachmentTypes.FILE),
+                    ],
+                  ),
+                ),
+              ),
+              floatingActionButton: FloatingActionButton(
+                child: Icon(Icons.send),
+                onPressed: () => print("Pressed"),
+              ),
+              floatingActionButtonLocation:
+                  FloatingActionButtonLocation.endDocked,
+            ));
 }
 
 class NewPostBody extends StatelessWidget {
@@ -175,6 +231,7 @@ class CustomSizedBox extends StatelessWidget {
     return SizedBox(
       height: 20.0,
       child: IconButton(
+          color: Platform.isAndroid ? Colors.white : lightGreyTextColor,
           padding: const EdgeInsets.all(0.0),
           icon: Icon(icon),
           onPressed: () async {

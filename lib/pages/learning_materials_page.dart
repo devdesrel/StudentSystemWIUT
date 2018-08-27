@@ -50,83 +50,155 @@ class _LearningMaterialsPageState extends State<LearningMaterialsPage>
 
     return LearningMaterialsProvider(
         learningMaterialsBloc: bloc,
-        child: Platform.isAndroid
-            ? Scaffold(
-                backgroundColor: Theme.of(context).backgroundColor,
-                appBar: AppBar(
-                  bottom: TabBar(
-                    tabs: [
-                      Tab(text: ('Materials')),
-                      Tab(text: ('Downloading')),
-                    ],
-                    controller: _controller,
-                  ),
-                  elevation: 0.0,
-                  title: Text(widget.module.moduleName),
-                  centerTitle: true,
-                  actions: <Widget>[
-                    IconButton(
-                      icon: Icon(Icons.cloud_download),
-                      onPressed: () {
-                        Navigator.of(context).push(MaterialPageRoute(
-                            builder: (context) => OfflinePage(
-                                moduleName: widget.module.moduleName)));
-                      },
-                    )
-                  ],
+        child:
+            // Platform.isAndroid
+            //     ?
+            ///Android version
+            //  Scaffold(
+            //     backgroundColor: Theme.of(context).backgroundColor,
+            //     appBar: AppBar(
+            //       bottom: TabBar(
+            //         tabs: [
+            //           Tab(text: ('Materials')),
+            //           Tab(text: ('Downloading')),
+            //         ],
+            //         controller: _controller,
+            //       ),
+            //       elevation: 0.0,
+            //       title: Text(widget.module.moduleName),
+            //       centerTitle: true,
+            //       actions: <Widget>[
+            //         IconButton(
+            //           icon: Icon(Icons.cloud_download),
+            //           onPressed: () {
+            //             Navigator.of(context).push(MaterialPageRoute(
+            //                 builder: (context) => OfflinePage(
+            //                     moduleName: widget.module.moduleName)));
+            //           },
+            //         )
+            //       ],
+            //     ),
+            //     body: TabBarView(
+            //       controller: _controller,
+            //       children: [
+            //         MaterialsListTab(
+            //             materialsList: widget.module.moduleMaterial,
+            //             controller: _controller,
+            //             bloc: bloc),
+            //         FileDownloadingTab(),
+            //       ],
+            //     ),
+            //   )
+            ///End of Android version
+            // :
+            Scaffold(
+          backgroundColor: Theme.of(context).backgroundColor,
+          appBar: CupertinoNavigationBar(
+              backgroundColor: backgroundColor,
+              middle: Text(
+                widget.module.moduleName,
+                overflow: TextOverflow.ellipsis,
+              ),
+              leading: IconButton(
+                icon: Icon(CupertinoIcons.back),
+                color: blackColor,
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+              ),
+              // bottom: TabBar(
+              //   tabs: [
+              //     Tab(text: ('Materials')),
+              //     Tab(text: ('Downloading')),
+              //   ],
+              //   controller: _controller,
+              // ),
+              // elevation: 0.0,
+              // title: Text(
+              //   widget.module.moduleName,
+              //   style: TextStyle(color: blackColor),
+              // ),
+              // centerTitle: true,
+              trailing: IconButton(
+                icon: Icon(
+                  Icons.cloud_download,
+                  color: accentColor,
                 ),
-                body: TabBarView(
+                onPressed: () {
+                  Navigator.of(context).push(MaterialPageRoute(
+                      builder: (context) =>
+                          OfflinePage(moduleName: widget.module.moduleName)));
+                },
+              )
+              // ],
+              ),
+          body: TabBarView(
+            controller: _controller,
+            children: [
+              MaterialsListTab(
+                  materialsList: widget.module.moduleMaterial,
                   controller: _controller,
-                  children: [
-                    MaterialsListTab(
-                        materialsList: widget.module.moduleMaterial,
-                        controller: _controller,
-                        bloc: bloc),
-                    FileDownloadingTab(),
-                  ],
-                ),
-              )
-            : Material(
-                child: CupertinoTabScaffold(
-                  tabBar: CupertinoTabBar(items: <BottomNavigationBarItem>[
-                    BottomNavigationBarItem(
-                      icon: Icon(
-                        Icons.list,
-                        size: 18.0,
-                      ),
-                      title: Text('Materials'),
-                    ),
-                    BottomNavigationBarItem(
-                      icon: Icon(
-                        Icons.file_download,
-                        size: 18.0,
-                      ),
-                      title: Text('Downloading'),
-                    ),
-                  ]),
-                  tabBuilder: (context, index) => CupertinoPageScaffold(
-                      navigationBar: CupertinoNavigationBar(
-                        middle: Text(
-                          widget.module.moduleName,
-                          overflow: TextOverflow.ellipsis,
-                        ),
-                        trailing: IconButton(
-                          icon: Icon(Icons.cloud_download),
-                          onPressed: () {
-                            Navigator.of(context).push(MaterialPageRoute(
-                                builder: (context) => OfflinePage(
-                                    moduleName: widget.module.moduleName)));
-                          },
-                        ),
-                      ),
-                      child: index == 0
-                          ? MaterialsListTab(
-                              materialsList: widget.module.moduleMaterial,
-                              controller: _controller,
-                              bloc: bloc)
-                          : FileDownloadingTab()),
-                ),
-              )
+                  bloc: bloc),
+              FileDownloadingTab(),
+            ],
+          ),
+          bottomNavigationBar: BottomNavigationBar(
+            items: [
+              BottomNavigationBarItem(
+                icon: Icon(Icons.flag),
+                title: Text('Materials'),
+              ),
+              BottomNavigationBarItem(
+                icon: Icon(Icons.flag),
+                title: Text('Dowloading'),
+              ),
+            ],
+          ),
+        )
+
+        ///START
+        // Material(
+        //     child: CupertinoTabScaffold(
+        //       tabBar: CupertinoTabBar(items: <BottomNavigationBarItem>[
+        //         BottomNavigationBarItem(
+        //           icon: Icon(
+        //             Icons.list,
+        //             size: 18.0,
+        //           ),
+        //           title: Text('Materials'),
+        //         ),
+        //         BottomNavigationBarItem(
+        //           icon: Icon(
+        //             Icons.file_download,
+        //             size: 18.0,
+        //           ),
+        //           title: Text('Downloading'),
+        //         ),
+        //       ]),
+        //       tabBuilder: (context, index) => CupertinoPageScaffold(
+        //           navigationBar: CupertinoNavigationBar(
+        //             middle: Text(
+        //               widget.module.moduleName,
+        //               overflow: TextOverflow.ellipsis,
+        //             ),
+        //             trailing: IconButton(
+        //               icon: Icon(Icons.cloud_download),
+        //               onPressed: () {
+        //                 Navigator.of(context).push(MaterialPageRoute(
+        //                     builder: (context) => OfflinePage(
+        //                         moduleName: widget.module.moduleName)));
+        //               },
+        //             ),
+        //           ),
+        //           child: index == 0
+        //               ? MaterialsListTab(
+        //                   materialsList: widget.module.moduleMaterial,
+        //                   controller: _controller,
+        //                   bloc: bloc)
+        //               : FileDownloadingTab()),
+        //     ),
+        //   )
+        ///END
         //     tabBar: CupertinoTabBar(
         //       items: <BottomNavigationBarItem>[
         //         BottomNavigationBarItem(
