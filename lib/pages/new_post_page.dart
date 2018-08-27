@@ -84,14 +84,9 @@ Widget _createCurrentPage(BuildContext context) {
               floatingActionButtonLocation:
                   FloatingActionButtonLocation.endDocked,
             )
-
-          //     ///TODO: ios version
-          //     // : CupertinoPageScaffold()
           : Scaffold(
               appBar: CupertinoNavigationBar(
                 backgroundColor: backgroundColor,
-                // bottomOpacity: 1.0,
-                // centerTitle: true,
                 middle: Text(
                   'Create post',
                   style: TextStyle(color: blackColor),

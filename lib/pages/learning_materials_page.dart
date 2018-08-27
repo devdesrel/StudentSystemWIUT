@@ -92,45 +92,44 @@ class _LearningMaterialsPageState extends State<LearningMaterialsPage>
             //End of Android version
             : Scaffold(
                 backgroundColor: Theme.of(context).backgroundColor,
-                appBar: CupertinoNavigationBar(
-                    backgroundColor: backgroundColor,
-                    middle: Text(
-                      widget.module.moduleName,
-                      overflow: TextOverflow.ellipsis,
-                    ),
-                    leading: IconButton(
-                      icon: Icon(CupertinoIcons.back),
-                      color: blackColor,
-                      onPressed: () {
-                        Navigator.of(context).pop();
-                      },
-                    ),
-                    // bottom: TabBar(
-                    //   tabs: [
-                    //     Tab(text: ('Materials')),
-                    //     Tab(text: ('Downloading')),
-                    //   ],
-                    //   controller: _controller,
-                    // ),
-                    // elevation: 0.0,
-                    // title: Text(
-                    //   widget.module.moduleName,
-                    //   style: TextStyle(color: blackColor),
-                    // ),
-                    // centerTitle: true,
-                    trailing: IconButton(
-                      icon: Icon(
-                        Icons.cloud_download,
-                        color: accentColor,
-                      ),
+                appBar: AppBar(
+                  backgroundColor: backgroundColor,
+                  centerTitle: true,
+                  title: Text(
+                    widget.module.moduleName,
+                    overflow: TextOverflow.ellipsis,
+                    style: TextStyle(color: Colors.black),
+                  ),
+                  leading: IconButton(
+                    icon: Icon(CupertinoIcons.back),
+                    color: blackColor,
+                    onPressed: () {
+                      Navigator.of(context).pop();
+                    },
+                  ),
+                  // bottom: TabBar(
+                  //   tabs: [
+                  //     Tab(text: ('Materials')),
+                  //     Tab(text: ('Downloading')),
+                  //   ],
+                  //   controller: _controller,
+                  // ),
+                  // elevation: 0.0,
+
+                  // centerTitle: true,
+
+                  actions: <Widget>[
+                    IconButton(
+                      icon: Icon(Icons.cloud_download),
+                      color: accentColor,
                       onPressed: () {
                         Navigator.of(context).push(MaterialPageRoute(
                             builder: (context) => OfflinePage(
                                 moduleName: widget.module.moduleName)));
                       },
-                    )
-                    // ],
                     ),
+                  ],
+                ),
                 body: TabBarView(
                   controller: _controller,
                   children: [
