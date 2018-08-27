@@ -6,7 +6,6 @@
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
   [GeneratedPluginRegistrant registerWithRegistry:self];
   // Override point for customization after application launch.
-
     
     FlutterViewController* controller = (FlutterViewController*)self.window.rootViewController;
 
@@ -19,7 +18,7 @@
         NSString *mimeType = call.arguments[@"mimeType"];
         
         if([@"openFile" isEqualToString:call.method]){
-            result(@"");
+          
         }
     }];
     
@@ -27,9 +26,3 @@
 }
 
 @end
-
-
-
-
-
-  

@@ -88,22 +88,24 @@ class _LearningMaterialsPageState extends State<LearningMaterialsPage>
               )
             : Material(
                 child: CupertinoTabScaffold(
-                  tabBar: CupertinoTabBar(items: <BottomNavigationBarItem>[
-                    BottomNavigationBarItem(
-                      icon: Icon(
-                        Icons.list,
-                        size: 18.0,
+                  tabBar: CupertinoTabBar(
+                    items: <BottomNavigationBarItem>[
+                      BottomNavigationBarItem(
+                        icon: Icon(
+                          Icons.list,
+                          size: 18.0,
+                        ),
+                        title: Text('Materials'),
                       ),
-                      title: Text('Materials'),
-                    ),
-                    BottomNavigationBarItem(
-                      icon: Icon(
-                        Icons.file_download,
-                        size: 18.0,
+                      BottomNavigationBarItem(
+                        icon: Icon(
+                          Icons.file_download,
+                          size: 18.0,
+                        ),
+                        title: Text('Downloading'),
                       ),
-                      title: Text('Downloading'),
-                    ),
-                  ]),
+                    ],
+                  ),
                   tabBuilder: (context, index) => CupertinoPageScaffold(
                       navigationBar: CupertinoNavigationBar(
                         middle: Text(
@@ -120,10 +122,17 @@ class _LearningMaterialsPageState extends State<LearningMaterialsPage>
                         ),
                       ),
                       child: index == 0
-                          ? MaterialsListTab(
-                              materialsList: widget.module.moduleMaterial,
-                              controller: _controller,
-                              bloc: bloc)
+                          // ? Center(child: RaisedButton(
+                          //     child: Text('Move'),
+                          //     onPressed: () => CupertinoTabBar.currentIndex = 1
+                          //   ),)
+                          ? Container(
+                              color: backgroundColor,
+                              child: MaterialsListTab(
+                                  materialsList: widget.module.moduleMaterial,
+                                  controller: _controller,
+                                  bloc: bloc),
+                            )
                           : FileDownloadingTab()),
                 ),
               )
@@ -260,7 +269,7 @@ class _MaterialsListTabState extends State<MaterialsListTab>
                   )
                 : SliverToBoxAdapter(
                     child: Container(
-                        height: 370.0,
+                        height: MediaQuery.of(context).size.height / 1.5,
                         child: Center(child: Text(noFilesToDownload)))))
         // itemCount: widget.materialsList.length,
         // itemBuilder:
@@ -424,7 +433,10 @@ class LearningMaterialsCard extends StatelessWidget {
                           ],
                         ),
                         children: _getDialogItems(context, snapshot.data))
-                    : Center(child: CircularProgressIndicator()),
+                    : Center(
+                        child: Platform.isAndroid
+                            ? CircularProgressIndicator()
+                            : CupertinoActivityIndicator()),
               );
             });
       } else {
@@ -474,7 +486,10 @@ class LearningMaterialsCard extends StatelessWidget {
                             ],
                           ),
                           children: _getDialogItems(context, snapshot.data))
-                      : Center(child: CircularProgressIndicator()),
+                      : Center(
+                          child: Platform.isAndroid
+                              ? CircularProgressIndicator()
+                              : CupertinoActivityIndicator()),
                 );
               });
         }
@@ -560,7 +575,10 @@ class LearningMaterialsCard extends StatelessWidget {
                   //     ),
                   //     actions: _getDialogItems(context, snapshot.data),
                   //   )
-                  : Center(child: CircularProgressIndicator()),
+                  : Center(
+                      child: Platform.isAndroid
+                          ? CircularProgressIndicator()
+                          : CupertinoActivityIndicator()),
             );
           });
     }

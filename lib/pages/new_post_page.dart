@@ -32,7 +32,7 @@ Widget _createCurrentPage(BuildContext context) {
   return NewPostProvider(
       newPostBloc: bloc,
       child:
-          //Platform.isAndroid?
+          // Platform.isAndroid ?
           Scaffold(
         appBar: AppBar(
           centerTitle: true,
@@ -86,7 +86,55 @@ Widget _createCurrentPage(BuildContext context) {
       )
 
       ///TODO: ios version
-      // : CupertinoPageScaffold()
+//       : CupertinoPageScaffold(
+// navigationBar: CupertinoNavigationBar(
+//           middle: Text('Create Post'),
+//           leading: IconButton(
+//             onPressed: () {
+//               Navigator.of(context).pop();
+//             },
+//             icon: Icon(
+//               Icons.close,
+//             ),
+//           ),
+//         ),
+//         backgroundColor: whiteColor,
+//         body: NewPostBody(),
+//         tabBar: BottomAppBar(
+//           color: accentColor,
+//           hasNotch: true,
+//           elevation: 5.0,
+//           child: Theme(
+//             data: ThemeData(
+//                 iconTheme: IconThemeData(color: whiteColor, size: 20.0)),
+//             child: ButtonBar(
+//               alignment: MainAxisAlignment.start,
+//               children: <Widget>[
+//                 CustomSizedBox(
+//                   icon: FontAwesomeIcons.camera,
+//                   type: AttachmentTypes.CAMERA,
+//                 ),
+//                 // getImage: getImage(true)
+//                 CustomSizedBox(
+//                   icon: FontAwesomeIcons.image,
+//                   type: AttachmentTypes.GALLERY,
+//                 ),
+//                 CustomSizedBox(
+//                     icon: FontAwesomeIcons.tasks,
+//                     type: AttachmentTypes.QUESTIONNAIRE),
+//                 CustomSizedBox(
+//                     icon: Icons.attach_file, type: AttachmentTypes.FILE),
+//               ],
+//             ),
+//           ),
+//         ),
+//         // floatingActionButton: FloatingActionButton(
+//         //   child: Icon(Icons.send),
+//         //   onPressed: () => print("Pressed"),
+//         // ),
+//         // floatingActionButtonLocation: FloatingActionButtonLocation.endDocked,
+
+//       )
       );
 }
 
