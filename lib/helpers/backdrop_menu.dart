@@ -3,7 +3,7 @@ import 'dart:io';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:student_system_flutter/helpers/app_constants.dart';
-import 'package:student_system_flutter/helpers/feedback_form.dart';
+// import 'package:student_system_flutter/helpers/feedback_form.dart';
 import 'package:student_system_flutter/models/feedback_model.dart';
 import 'package:student_system_flutter/pages/home_page.dart';
 
@@ -119,10 +119,10 @@ class _TwoPanelsState extends State<TwoPanels> {
                         slivers: <Widget>[
                           SliverToBoxAdapter(
                               child: SafeArea(
-                            bottom: false,
-                            child:
-                                FeedbackForm(questionNumbers: _questionNumbers),
-                          )),
+                                  bottom: false,
+                                  child:
+                                      // FeedbackForm(questionNumbers: _questionNumbers),
+                                      SizedBox(height: 10.0))),
                           CustomGridView(context).build(),
                         ],
                       ),

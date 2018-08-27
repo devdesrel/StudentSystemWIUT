@@ -25,7 +25,7 @@ class SupportPage extends StatelessWidget {
                       padding: const EdgeInsets.all(24.0),
                       child: Center(
                         child: Text(
-                          'If you have faced technical problems or suggest improvements, feel free to contact IT-support',
+                          'If you have faced technical problems or want to suggest improvements, feel free to contact IT-support',
                           textAlign: TextAlign.center,
                           style: TextStyle(
                             fontSize: 16.0,
@@ -73,7 +73,7 @@ class SupportPage extends StatelessWidget {
                             child: Padding(
                               padding: const EdgeInsets.all(24.0),
                               child: Text(
-                                'If you have faced technical problems or suggest improvements, feel free to contact IT-support',
+                                'If you have faced technical problems or want to suggest improvements, feel free to contact IT-support',
                                 textAlign: TextAlign.center,
                                 style: TextStyle(
                                     fontSize: 16.0, color: lightGreyTextColor),
