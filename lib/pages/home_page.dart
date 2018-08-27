@@ -93,7 +93,7 @@ class _HomePageState extends State<HomePage>
               color: blackColor,
             ),
           ),
-          middle: Text("Cupertino"),
+          middle: Text("WIUT"),
           trailing: IconButton(
             padding: EdgeInsets.only(top: 1.0),
             // icon: Icon(CupertinoIcons.plus_circled),
