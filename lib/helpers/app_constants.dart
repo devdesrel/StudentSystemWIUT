@@ -46,6 +46,7 @@ final testPage = '/testPage';
 final booksPage = '/booksPage';
 final supportPage = '/supportPage';
 final iosContactsPage = '/iosContactsPage';
+final previewPage = '/previewPage';
 
 //Shared preferance keys
 final isLoggedIn = 'isLoggedIn';
@@ -61,6 +62,7 @@ final groupNameSharedPref = 'groupNameSharedPref';
 final academicYearIDSharedPref = 'academicYearIDSharedPref';
 final useFingerprint = 'useFingerprint';
 final minAppVersion = 'minAppVersion';
+final isPinFilled = 'isPinFilled';
 
 //API List
 final baseUrl = 'https://newintranetapi.wiut.uz';

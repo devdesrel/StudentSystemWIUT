@@ -8,6 +8,7 @@ import 'helpers/app_constants.dart';
 import 'helpers/routes.dart';
 
 Future<Null> main() async {
+  // SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle.light);
   // This captures errors reported by the Flutter framework.
   FlutterError.onError = (FlutterErrorDetails details) async {
     if (isInDebugMode) {
