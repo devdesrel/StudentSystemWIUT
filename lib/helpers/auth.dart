@@ -28,6 +28,7 @@ class AuthStateProvider {
   void initState() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     bool _isLoggedIn = prefs.getBool(isLoggedIn) ?? false;
+    bool _isPinFilled = prefs.getBool(isPinFilled) ?? false;
     if (_isLoggedIn)
       _setMainPage();
     else

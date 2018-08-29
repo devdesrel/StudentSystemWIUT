@@ -17,6 +17,7 @@ import 'package:student_system_flutter/pages/marks_page.dart';
 import 'package:student_system_flutter/pages/new_post_page.dart';
 import 'package:student_system_flutter/pages/offences_page.dart';
 import 'package:student_system_flutter/pages/offline_page.dart';
+import 'package:student_system_flutter/pages/preview_page.dart';
 import 'package:student_system_flutter/pages/security_page.dart';
 import 'package:student_system_flutter/pages/settings_page.dart';
 import 'package:student_system_flutter/pages/social_page.dart';
@@ -51,4 +52,5 @@ final routes = {
   booksPage: (BuildContext context) => BooksPage(),
   supportPage: (BuildContext context) => SupportPage(),
   iosContactsPage: (BuildContext context) => IosContactsPage(),
+  previewPage: (BuildContext context) => PreviewPage(),
 };

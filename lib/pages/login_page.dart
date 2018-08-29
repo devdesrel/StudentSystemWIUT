@@ -80,6 +80,10 @@ class _LoginPageState extends State<LoginPage> implements AuthStateListener {
       SharedPreferences prefs = await SharedPreferences.getInstance();
       prefs.setString(pinCode, confirmPin);
 
+      ///TODO: check
+      prefs.setBool(isPinFilled, true);
+
+      ///
       bloc.setAutoValidation.add(false);
       Navigator.pop(context);
       Navigator.of(context).pushReplacementNamed(securityPage);
@@ -105,7 +109,6 @@ class _LoginPageState extends State<LoginPage> implements AuthStateListener {
             DateTime.now().toUtc().add(Duration(days: 6)).toString());
         await prefs.setString(studentID, _username);
         await prefs.setString(userPasssword, _password);
-
         await prefs.setBool(isLoggedIn, true);
         var pin = prefs.getString(pinCode);
 
