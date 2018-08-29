@@ -63,6 +63,7 @@ final academicYearIDSharedPref = 'academicYearIDSharedPref';
 final useFingerprint = 'useFingerprint';
 final minAppVersion = 'minAppVersion';
 final isPinFilled = 'isPinFilled';
+final isPreviewSeen = 'isPreviewSeen';
 
 //API List
 final baseUrl = 'https://newintranetapi.wiut.uz';
@@ -104,3 +105,6 @@ final String downloadingMessageBody =
 final String noDownloadedFiles = 'You haven\'t downloaded any files yet';
 final String noFilesToDownload = 'There is no files to download';
 final String noAvailableTimetable = 'Nothing to show for the current week';
+
+//Screen Size constants
+final smallDeviceHeight = 800;

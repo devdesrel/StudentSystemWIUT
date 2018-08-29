@@ -24,7 +24,7 @@ class IosContactsPage extends StatelessWidget {
                   title: '(+998 71) 238 74 00',
                   subtitle: 'Enquiry office',
                   icon: CupertinoIcons.phone,
-                  urlFrom: 'tel:+998 71 238 74 00',
+                  urlFrom: 'tel:+998712387400',
                   isFromAssets: false,
                 ),
                 Divider(

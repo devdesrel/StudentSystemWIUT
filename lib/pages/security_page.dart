@@ -171,7 +171,7 @@ class _SecurityPageState extends State<SecurityPage> {
     var size = MediaQuery.of(context).size;
     bool isSmallScreen = false;
 
-    if (size.height < 700) {
+    if (size.height < smallDeviceHeight) {
       isSmallScreen = true;
     }
 

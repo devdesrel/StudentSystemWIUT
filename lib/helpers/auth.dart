@@ -2,12 +2,11 @@ import 'dart:async';
 import 'dart:convert';
 
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:student_system_flutter/enums/ApplicationEnums.dart';
 import 'package:student_system_flutter/helpers/function_helpers.dart';
 import 'package:http/http.dart' as http;
 
 import 'app_constants.dart';
-
-enum AuthState { LOGGED_IN, LOGGED_OUT }
 
 abstract class AuthStateListener {
   void onAuthStateChanged(AuthState state);
@@ -28,11 +27,16 @@ class AuthStateProvider {
   void initState() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     bool _isLoggedIn = prefs.getBool(isLoggedIn) ?? false;
-    bool _isPinFilled = prefs.getBool(isPinFilled) ?? false;
-    if (_isLoggedIn)
-      _setMainPage();
-    else
-      notify(AuthState.LOGGED_OUT);
+    bool _isPreviewSeen = prefs.getBool(isPreviewSeen) ?? false;
+
+    if (_isPreviewSeen) {
+      if (_isLoggedIn)
+        _setMainPage();
+      else
+        notify(AuthState.LOGGED_OUT);
+    } else {
+      notify(AuthState.SHOW_PREVIEW_PAGE);
+    }
   }
 
   void _setMainPage() async {
@@ -42,11 +46,17 @@ class AuthStateProvider {
     var password = prefs.getString(userPasssword);
     var userToken = prefs.getString(token);
 
-    if (userToken != null && userToken != '') {
-      if (expirationDate.difference(DateTime.now().toUtc()).inDays <= 0) {
-        postAuthData(username, password);
+    bool _isPinFilled = prefs.getBool(isPinFilled) ?? false;
+
+    if (_isPinFilled) {
+      if (userToken != null && userToken != '') {
+        if (expirationDate.difference(DateTime.now().toUtc()).inDays <= 0) {
+          postAuthData(username, password);
+        } else {
+          notify(AuthState.LOGGED_IN);
+        }
       } else {
-        notify(AuthState.LOGGED_IN);
+        notify(AuthState.LOGGED_OUT);
       }
     } else {
       notify(AuthState.LOGGED_OUT);

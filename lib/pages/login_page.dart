@@ -209,7 +209,7 @@ class _LoginPageState extends State<LoginPage> implements AuthStateListener {
                           )),
                       Padding(
                         padding: EdgeInsets.only(
-                            bottom: Platform.isAndroid ? 12.0 : 0.0),
+                            bottom: Platform.isAndroid ? 12.0 : 7.0),
                         child: RaisedButton(
                           padding: const EdgeInsets.symmetric(vertical: 15.0),
                           color: Theme.of(context).accentColor,
@@ -373,7 +373,9 @@ class _LoginPageState extends State<LoginPage> implements AuthStateListener {
 
   @override
   void onAuthStateChanged(AuthState state) {
-    if (state == AuthState.LOGGED_IN)
+    if (state == AuthState.SHOW_PREVIEW_PAGE)
+      Navigator.of(context).pushReplacementNamed(previewPage);
+    else if (state == AuthState.LOGGED_IN)
       Navigator.of(context).pushReplacementNamed(securityPage);
   }
 }
