@@ -66,6 +66,10 @@ class LearningMaterialsBloc {
         _materialsListSubject.add(list);
       }
     });
+
+    _setCurrentIndexController.stream.listen((index) {
+      _currentIndexSubject.add(index);
+    });
   }
 
   Sink<DownloadFileModel> get addFileToDownload =>
@@ -82,6 +86,14 @@ class LearningMaterialsBloc {
       _setLearningMaterialTypeController.sink;
 
   final _setLearningMaterialTypeController = StreamController<String>();
+
+  Sink<int> get setCurrentIndex => _setCurrentIndexController.sink;
+
+  final _setCurrentIndexController = StreamController<int>();
+
+  Stream<int> get currentIndex => _currentIndexSubject.stream;
+
+  final _currentIndexSubject = BehaviorSubject<int>();
 
   Stream<List<SingleLearningMaterialsModel>> get materialsList =>
       _materialsListSubject.stream;
@@ -107,6 +119,8 @@ class LearningMaterialsBloc {
     _downloadingFilesListSubject.close();
     _setLearningMaterialTypeController.close();
     _learningMaterialTypeSubject.close();
+    _setCurrentIndexController.close();
+    _currentIndexSubject.close();
   }
 
   Future<List<DownloadFileModel>> getFileUrlsToDownload(
