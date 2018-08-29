@@ -288,9 +288,8 @@ class _LoginPageState extends State<LoginPage> implements AuthStateListener {
                 ? confirmPin = val
                 : null;
           },
-          decoration: InputDecoration(
-            labelText: placeholder,
-          )),
+          decoration:
+              InputDecoration(labelText: placeholder, fillColor: Colors.red)),
     );
   }
 
@@ -315,7 +314,7 @@ class _LoginPageState extends State<LoginPage> implements AuthStateListener {
             content: SingleChildScrollView(
               child: Form(
                 key: pinFormKey,
-                child: ListBody(
+                child: ListView(
                   children: <Widget>[
                     customeFormField('New PIN',
                         ChangePinCodeDialogArguments.NewPin, context, bloc),
