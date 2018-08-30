@@ -287,6 +287,13 @@ class CustomGridView2 {
 
   Widget makeGridCell(
       String name, String imageSource, MainPageGridItems page, int position) {
+    var size = MediaQuery.of(context).size;
+    bool isSmallScreen = false;
+
+    if (size.height < smallDeviceHeight) {
+      isSmallScreen = true;
+    }
+
     return Padding(
       padding: position.isEven
           ? EdgeInsets.only(left: 18.0, bottom: 10.0)
@@ -317,7 +324,9 @@ class CustomGridView2 {
                   name.toUpperCase(),
                   textAlign: TextAlign.center,
                   style: Theme.of(context).textTheme.body1.copyWith(
-                      letterSpacing: 4.0, color: textColor, fontSize: 15.0),
+                      letterSpacing: 4.0,
+                      color: textColor,
+                      fontSize: isSmallScreen ? 12.0 : 15.0),
                 )),
               ],
             ),

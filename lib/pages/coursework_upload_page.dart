@@ -170,19 +170,15 @@ class CourseworkUploadItemsState extends State<CourseworkUploadItems> {
                     ),
                   ),
             ),
-            RaisedButton(
+            FlatButton(
               onPressed: () async {
                 var filePath =
                     await Navigator.of(context).pushNamed(filePickerPage);
 
                 bloc.setFileName.add(basename(filePath.toString()));
               },
-              textColor: Colors.white,
-              color: greyColor,
+              textColor: accentColor,
               child: Text('Choose file'),
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.all(Radius.circular(5.0)),
-              ),
             ),
           ],
         ),
