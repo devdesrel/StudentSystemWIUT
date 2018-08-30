@@ -124,6 +124,23 @@ class _TwoPanelsState extends State<TwoPanels> {
                                       // FeedbackForm(questionNumbers: _questionNumbers),
                                       SizedBox(height: 10.0))),
                           CustomGridView(context).build(),
+                          SliverToBoxAdapter(
+                              child: Center(
+                            child: Padding(
+                              padding: const EdgeInsets.only(
+                                  top: 22.0, bottom: 16.0),
+                              child: Text(
+                                'Under development',
+                                style: TextStyle(
+                                    color: Platform.isAndroid
+                                        ? accentColor
+                                        : lightGreyTextColor,
+                                    fontSize: 18.0,
+                                    fontWeight: FontWeight.bold),
+                              ),
+                            ),
+                          )),
+                          CustomGridView2(context).build(),
                         ],
                       ),
                     ))

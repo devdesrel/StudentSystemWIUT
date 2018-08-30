@@ -47,6 +47,7 @@ final booksPage = '/booksPage';
 final supportPage = '/supportPage';
 final iosContactsPage = '/iosContactsPage';
 final previewPage = '/previewPage';
+final iosPinSetPage = '/iosPinSetPage';
 
 //Shared preferance keys
 final isLoggedIn = 'isLoggedIn';

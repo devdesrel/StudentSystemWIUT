@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:student_system_flutter/helpers/app_constants.dart';
 
 //Material Drawer
 class CustomAndroidDrawer extends StatelessWidget {
@@ -62,7 +63,9 @@ class CustomAndroidDrawer extends StatelessWidget {
 class CustomCard extends StatelessWidget {
   final Widget _child;
 
-  CustomCard(this._child);
+  CustomCard(
+    this._child,
+  );
 
   @override
   Widget build(BuildContext context) {

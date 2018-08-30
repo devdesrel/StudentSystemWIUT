@@ -111,11 +111,21 @@ class _LoginPageState extends State<LoginPage> implements AuthStateListener {
         await prefs.setString(userPasssword, _password);
         await prefs.setBool(isLoggedIn, true);
         var pin = prefs.getString(pinCode);
+        // AnimationController controller;
+        // Animation<double> animation =
+        //     new Tween(begin: 0.1, end: 1.0).animate(controller);
 
         getStudentsProfileForSelectedYear();
 
         if (pin == null) {
-          showPinDialog(context, bloc);
+          // Platform.isAndroid
+          //     ? showPinDialog(context, bloc)
+          //     :
+          Navigator.of(context).pushNamed(iosPinSetPage);
+
+          //Navigator.of(context).pushReplacementNamed(iosPinSetPage);
+          // return CupertinoFullscreenDialogTransition(
+          //     child: Container(color: Colors.redAccent), animation: animation);
         } else {
           Navigator.of(context).pushReplacementNamed(securityPage);
         }
@@ -309,65 +319,62 @@ class _LoginPageState extends State<LoginPage> implements AuthStateListener {
       context: context,
       barrierDismissible: false, // user must tap button!
       builder: (BuildContext context) {
-        if (Platform.isAndroid) {
-          return AlertDialog(
-            titlePadding: EdgeInsets.only(top: 20.0, left: 20.0),
-            contentPadding:
-                EdgeInsets.symmetric(horizontal: 23.0, vertical: 0.0),
-            title: Text('Set PIN code'),
-            content: SingleChildScrollView(
-              child: Form(
-                key: pinFormKey,
-                child: ListBody(
-                  children: <Widget>[
-                    customeFormField('New PIN',
-                        ChangePinCodeDialogArguments.NewPin, context, bloc),
-                    customeFormField('Confirm new PIN',
-                        ChangePinCodeDialogArguments.ConfirmPin, context, bloc),
-                  ],
-                ),
+        AlertDialog(
+          titlePadding: EdgeInsets.only(top: 20.0, left: 20.0),
+          contentPadding: EdgeInsets.symmetric(horizontal: 23.0, vertical: 0.0),
+          title: Text('Set PIN code'),
+          content: SingleChildScrollView(
+            child: Form(
+              key: pinFormKey,
+              child: ListBody(
+                children: <Widget>[
+                  customeFormField('New PIN',
+                      ChangePinCodeDialogArguments.NewPin, context, bloc),
+                  customeFormField('Confirm new PIN',
+                      ChangePinCodeDialogArguments.ConfirmPin, context, bloc),
+                ],
               ),
             ),
-            actions: <Widget>[
-              FlatButton(
-                child: Text('Save'.toUpperCase()),
-                onPressed: () async {
-                  savePin(context);
-                },
-              ),
-            ],
-          );
-        } else {
-          return CupertinoAlertDialog(
-            title: Text('Set PIN code'),
-            content: SingleChildScrollView(
-              child: Form(
-                key: pinFormKey,
-                child: Material(
-                  child: ListBody(
-                    children: <Widget>[
-                      customeFormField('New PIN',
-                          ChangePinCodeDialogArguments.NewPin, context, bloc),
-                      customeFormField(
-                          'Confirm new PIN',
-                          ChangePinCodeDialogArguments.ConfirmPin,
-                          context,
-                          bloc),
-                    ],
-                  ),
-                ),
-              ),
+          ),
+          actions: <Widget>[
+            FlatButton(
+              child: Text('Save'.toUpperCase()),
+              onPressed: () async {
+                savePin(context);
+              },
             ),
-            actions: <Widget>[
-              CupertinoDialogAction(
-                child: Text('Save'.toUpperCase()),
-                onPressed: () async {
-                  savePin(context);
-                },
-              ),
-            ],
-          );
-        }
+          ],
+        );
+
+        // return CupertinoAlertDialog(
+        //   title: Text('Set PIN code'),
+        //   content: SingleChildScrollView(
+        //     child: Form(
+        //       key: pinFormKey,
+        //       child: Material(
+        //         child: ListBody(
+        //           children: <Widget>[
+        //             customeFormField('New PIN',
+        //                 ChangePinCodeDialogArguments.NewPin, context, bloc),
+        //             customeFormField(
+        //                 'Confirm new PIN',
+        //                 ChangePinCodeDialogArguments.ConfirmPin,
+        //                 context,
+        //                 bloc),
+        //           ],
+        //         ),
+        //       ),
+        //     ),
+        //   ),
+        //   actions: <Widget>[
+        //     CupertinoDialogAction(
+        //       child: Text('Save'.toUpperCase()),
+        //       onPressed: () async {
+        //         savePin(context);
+        //       },
+        //     ),
+        //   ],
+        // );
       },
     );
   }
