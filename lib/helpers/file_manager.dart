@@ -203,9 +203,9 @@ class FileManagerState extends State<FileManager>
     };
 
     try {
-      await platform.invokeMethod('openFile', sendMap);
+      await platform.invokeMethod('openFile', filePath);
     } catch (e) {
-      print(e);
+      print(e.toString());
     }
   }
 }
