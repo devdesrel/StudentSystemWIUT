@@ -177,7 +177,7 @@ void openSelectedPage(BuildContext context, MainPageGridItems page) {
               ModulesPage(requestType: RequestType.GetTeachingMaterials)));
       break;
     case MainPageGridItems.OFFENCES:
-      Navigator.of(context).pushNamed(previewPage);
+      Navigator.of(context).pushNamed(offencesPage);
       break;
     case MainPageGridItems.COURSEWORK_UPLOAD:
       Navigator.of(context).pushNamed(courseworkUploadPage);
@@ -263,19 +263,86 @@ class CustomGridView {
         mainAxisSpacing: 0.0,
         crossAxisSpacing: 10.0,
         children: <Widget>[
+          // SliverToBoxAdapter(
+          // SliverToBoxAdapter(
+          //   child: SliverGrid.count(
+          //     crossAxisCount: 2,
+          //     children: <Widget>[
           makeGridCell("Marks", 'assets/marks.png', MainPageGridItems.MARKS, 0),
           makeGridCell("Timetable", 'assets/timetable.png',
               MainPageGridItems.TIMETABLE, 1),
           makeGridCell("Learning Materials", 'assets/lectures.png',
               MainPageGridItems.LEARNING_MATERIALS, 2),
+          //     ],
+          //   ),
+          // ),
+        ]);
+  }
+}
+
+class CustomGridView2 {
+  BuildContext context;
+
+  CustomGridView2(this.context);
+
+  Widget makeGridCell(
+      String name, String imageSource, MainPageGridItems page, int position) {
+    return Padding(
+      padding: position.isEven
+          ? EdgeInsets.only(left: 18.0, bottom: 10.0)
+          : EdgeInsets.only(right: 18.0, bottom: 10.0),
+      child: Opacity(
+        opacity: 0.6,
+        child: CustomCard(
+          InkWell(
+            onTap: () {
+              openSelectedPage(context, page);
+            },
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              mainAxisAlignment: MainAxisAlignment.center,
+              mainAxisSize: MainAxisSize.min,
+              verticalDirection: VerticalDirection.down,
+              children: <Widget>[
+                Center(
+                    child: Image.asset(
+                  imageSource,
+                  height: 60.0,
+                )),
+                SizedBox(
+                  height: 20.0,
+                ),
+                Center(
+                    child: Text(
+                  name.toUpperCase(),
+                  textAlign: TextAlign.center,
+                  style: Theme.of(context).textTheme.body1.copyWith(
+                      letterSpacing: 4.0, color: textColor, fontSize: 15.0),
+                )),
+              ],
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+
+  SliverGrid build() {
+    return SliverGrid.count(
+        childAspectRatio: 0.9, //0.85
+
+        crossAxisCount: 2,
+        mainAxisSpacing: 0.0,
+        crossAxisSpacing: 10.0,
+        children: <Widget>[
           makeGridCell("Book ordering", 'assets/bookordering.png',
-              MainPageGridItems.BOOK_ORDERING, 3),
+              MainPageGridItems.BOOK_ORDERING, 0),
           makeGridCell("Offences", 'assets/offences2.png',
-              MainPageGridItems.OFFENCES, 4),
+              MainPageGridItems.OFFENCES, 1),
           makeGridCell("CW Upload", 'assets/cwupload.png',
-              MainPageGridItems.COURSEWORK_UPLOAD, 5),
+              MainPageGridItems.COURSEWORK_UPLOAD, 2),
           makeGridCell(
-              "Social", 'assets/social.png', MainPageGridItems.SOCIAL, 6),
+              "Social", 'assets/social.png', MainPageGridItems.SOCIAL, 3),
         ]);
   }
 }

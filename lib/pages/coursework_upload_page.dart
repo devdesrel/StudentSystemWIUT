@@ -4,9 +4,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:path/path.dart';
 import 'package:student_system_flutter/bloc/coursework_upload/coursework_upload_provider.dart';
-import 'package:student_system_flutter/enums/ApplicationEnums.dart';
 import 'package:student_system_flutter/helpers/app_constants.dart';
-import 'package:student_system_flutter/helpers/function_helpers.dart';
 import 'package:student_system_flutter/helpers/module_selection_expansion_tile.dart';
 
 class CourseworkUploadPage extends StatefulWidget {
@@ -27,8 +25,8 @@ class _CourseworkUploadPageState extends State<CourseworkUploadPage> {
 }
 
 Widget _createCurrentPage(BuildContext context) {
-  showFlushBar(
-      info, featureNotImplemented, MessageTypes.INFINITE_INFO, context);
+  // showFlushBar(
+  //     info, featureNotImplemented, MessageTypes.INFINITE_INFO, context);
 
   return CourseworkUploadProvider(
       child: Platform.isAndroid
