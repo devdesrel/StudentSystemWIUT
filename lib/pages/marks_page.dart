@@ -72,7 +72,15 @@ class MarksPage extends StatelessWidget {
     var size = MediaQuery.of(context).size;
 
     /*24 is for notification bar on Android*/
-    final double itemHeight = (size.height - kToolbarHeight - 24) / 2;
+    final double itemHeight = Platform.isAndroid
+        ? (size.height - kToolbarHeight - 24) / 2
+        : size.height / 2;
+
+    bool isSmallScreen = false;
+
+    if (size.height < smallDeviceHeight) {
+      isSmallScreen = true;
+    }
 
     return Platform.isAndroid
         ? Scaffold(
@@ -104,7 +112,9 @@ class MarksPage extends StatelessWidget {
                                 AnimatedCircularChart(
                                     duration: Duration(seconds: 2),
                                     key: _chartKey,
-                                    size: const Size(230.0, 230.0),
+                                    size: isSmallScreen
+                                        ? Size(200.0, 200.0)
+                                        : Size(230.0, 230.0),
                                     initialChartData: <CircularStackEntry>[
                                       new CircularStackEntry(
                                         <CircularSegmentEntry>[
@@ -184,7 +194,9 @@ class MarksPage extends StatelessWidget {
                                   AnimatedCircularChart(
                                       duration: Duration(seconds: 2),
                                       key: _chartKey,
-                                      size: const Size(230.0, 230.0),
+                                      size: isSmallScreen
+                                          ? Size(200.0, 200.0)
+                                          : Size(230.0, 230.0),
                                       initialChartData: <CircularStackEntry>[
                                         new CircularStackEntry(
                                           <CircularSegmentEntry>[
@@ -299,6 +311,7 @@ class CustomGridView {
                   componentName.toUpperCase(),
                   textAlign: TextAlign.center,
                   maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
                   style: _componentNameTextStyle,
                 ),
               ),
@@ -347,11 +360,12 @@ class CustomGridView {
   }
 
   Widget build() {
-    // var size = MediaQuery.of(context).size;
+    var size = MediaQuery.of(context).size;
+    bool isSmallScreen = false;
 
-    /*24 is for notification bar on Android*/
-    // final double itemHeight = (size.height - kToolbarHeight - 24) / 2;
-    // final double itemWidth = size.width / 0.94;
+    if (size.height < smallDeviceHeight) {
+      isSmallScreen = true;
+    }
     return FutureBuilder<List<ModuleComponentModel>>(
       future: _getModulesWithComponents(context, module),
       builder: (context, snapshot) => snapshot.hasData
@@ -360,7 +374,9 @@ class CustomGridView {
                 // primary: true,
                 padding: EdgeInsets.symmetric(vertical: 10.0, horizontal: 16.0),
                 crossAxisCount: snapshot.data.length > 2 ? 2 : 1,
-                childAspectRatio: snapshot.data.length > 2 ? 1.4 : 2.8, //1.38
+                childAspectRatio: isSmallScreen
+                    ? snapshot.data.length > 2 ? 1.2 : 2.4
+                    : snapshot.data.length > 2 ? 1.4 : 2.8, //1.38
                 shrinkWrap: true,
                 scrollDirection: Axis.vertical,
                 controller: ScrollController(keepScrollOffset: false),

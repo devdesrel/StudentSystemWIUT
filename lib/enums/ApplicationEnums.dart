@@ -1,3 +1,5 @@
+enum AuthState { LOGGED_IN, LOGGED_OUT, SHOW_PREVIEW_PAGE }
+
 enum MainPageGridItems {
   MARKS,
   TIMETABLE,

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:student_system_flutter/helpers/app_constants.dart';
 import 'package:student_system_flutter/helpers/feature_preview_carousel.dart';
 
@@ -11,7 +12,7 @@ class PreviewPage extends StatelessWidget {
           dotSize: 5.0,
           autoplay: false,
           images: [
-//Marks
+            //Marks
             CustomPreviewContainer(
               logoPath: 'assets/marks.png',
               text1: 'Marks'.toUpperCase(),
@@ -60,7 +61,7 @@ class PreviewPage extends StatelessWidget {
               hasButton: false,
             ),
 
-//Social
+            //Social
             CustomPreviewContainer(
               logoPath: 'assets/social.png',
               text1: 'Coursework submisson'.toUpperCase(),
@@ -119,7 +120,11 @@ class CustomPreviewContainer extends StatelessWidget {
                       horizontal: 8.0, vertical: 14.0),
                   child: hasButton
                       ? RaisedButton(
-                          onPressed: () {
+                          onPressed: () async {
+                            SharedPreferences prefs =
+                                await SharedPreferences.getInstance();
+
+                            await prefs.setBool(isPreviewSeen, true);
                             Navigator
                                 .of(context)
                                 .pushReplacementNamed(loginPage);

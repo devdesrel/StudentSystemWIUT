@@ -105,7 +105,10 @@ class TimetablePage extends StatelessWidget {
                     middle: StreamBuilder(
                         stream: _bloc.timetableTitle,
                         builder: (context, snapshot) => snapshot.hasData
-                            ? Text(snapshot.data)
+                            ? Text(
+                                snapshot.data,
+                                overflow: TextOverflow.ellipsis,
+                              )
                             : Text('Timetable')),
                     trailing: StreamBuilder(
                         stream: _bloc.isLoaded,
@@ -187,7 +190,7 @@ class DrawBottomSheetWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 24.0),
+      padding: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 12.0),
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: <Widget>[
@@ -245,7 +248,10 @@ class DrawBottomSheetWidget extends StatelessWidget {
                             : bloc.teachersListDropdown[0].text,
                         items: bloc.teachersListDropdown
                             .map((model) => DropdownMenuItem(
-                                value: model.text, child: Text(model.text)))
+                                value: model.text,
+                                child: Text(
+                                  model.text,
+                                )))
                             .toList(),
                         onChanged: (value) {
                           bloc.setTeacher.add(value);

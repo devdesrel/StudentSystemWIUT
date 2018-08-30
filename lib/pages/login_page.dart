@@ -219,7 +219,7 @@ class _LoginPageState extends State<LoginPage> implements AuthStateListener {
                           )),
                       Padding(
                         padding: EdgeInsets.only(
-                            bottom: Platform.isAndroid ? 12.0 : 0.0),
+                            bottom: Platform.isAndroid ? 12.0 : 7.0),
                         child: RaisedButton(
                           padding: const EdgeInsets.symmetric(vertical: 15.0),
                           color: Theme.of(context).accentColor,
@@ -301,9 +301,8 @@ class _LoginPageState extends State<LoginPage> implements AuthStateListener {
                 ? confirmPin = val
                 : null;
           },
-          decoration: InputDecoration(
-            labelText: placeholder,
-          )),
+          decoration:
+              InputDecoration(labelText: placeholder, fillColor: Colors.red)),
     );
   }
 
@@ -319,14 +318,14 @@ class _LoginPageState extends State<LoginPage> implements AuthStateListener {
       context: context,
       barrierDismissible: false, // user must tap button!
       builder: (BuildContext context) {
-        AlertDialog(
+        return AlertDialog(
           titlePadding: EdgeInsets.only(top: 20.0, left: 20.0),
           contentPadding: EdgeInsets.symmetric(horizontal: 23.0, vertical: 0.0),
           title: Text('Set PIN code'),
           content: SingleChildScrollView(
             child: Form(
               key: pinFormKey,
-              child: ListBody(
+              child: ListView(
                 children: <Widget>[
                   customeFormField('New PIN',
                       ChangePinCodeDialogArguments.NewPin, context, bloc),
@@ -381,7 +380,9 @@ class _LoginPageState extends State<LoginPage> implements AuthStateListener {
 
   @override
   void onAuthStateChanged(AuthState state) {
-    if (state == AuthState.LOGGED_IN)
+    if (state == AuthState.SHOW_PREVIEW_PAGE)
+      Navigator.of(context).pushReplacementNamed(previewPage);
+    else if (state == AuthState.LOGGED_IN)
       Navigator.of(context).pushReplacementNamed(securityPage);
   }
 }

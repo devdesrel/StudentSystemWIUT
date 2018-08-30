@@ -169,6 +169,11 @@ class _SecurityPageState extends State<SecurityPage> {
   @override
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;
+    bool isSmallScreen = false;
+
+    if (size.height < smallDeviceHeight) {
+      isSmallScreen = true;
+    }
 
     return SecurityProvider(
       securityBloc: _bloc,
@@ -180,7 +185,7 @@ class _SecurityPageState extends State<SecurityPage> {
           child: Column(
             children: <Widget>[
               SizedBox(
-                height: size.height / 3.5,
+                height: isSmallScreen ? size.height / 5.0 : size.height / 3.5,
               ),
               Text(
                 _pinCodeMask,
@@ -198,8 +203,8 @@ class _SecurityPageState extends State<SecurityPage> {
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 20.0),
                 child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.stretch,
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  // crossAxisAlignment: CrossAxisAlignment.stretch,
+                  // mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: <Widget>[
                     CustomDigitColumn(
                       firstNumber: '1',
