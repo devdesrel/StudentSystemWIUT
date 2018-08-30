@@ -149,14 +149,6 @@ class _IosPinSetPageState extends State<IosPinSetPage> {
                   SizedBox(height: 20.0),
                   customeFormField('Confirm new PIN',
                       ChangePinCodeDialogArguments.ConfirmPin, context, bloc),
-
-                  // CupertinoButton(
-                  //   color: accentColor,
-                  //   onPressed: () async {
-                  //     savePin(context);
-                  //   },
-                  //   child: Text('Save'),
-                  // ),
                 ],
               ),
             ),

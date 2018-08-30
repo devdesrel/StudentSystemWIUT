@@ -118,10 +118,9 @@ class _LoginPageState extends State<LoginPage> implements AuthStateListener {
         getStudentsProfileForSelectedYear();
 
         if (pin == null) {
-          // Platform.isAndroid
-          //     ? showPinDialog(context, bloc)
-          //     :
-          Navigator.of(context).pushNamed(iosPinSetPage);
+          Platform.isAndroid
+              ? showPinDialog(context, bloc)
+              : Navigator.of(context).pushNamed(iosPinSetPage);
 
           //Navigator.of(context).pushReplacementNamed(iosPinSetPage);
           // return CupertinoFullscreenDialogTransition(
@@ -325,7 +324,7 @@ class _LoginPageState extends State<LoginPage> implements AuthStateListener {
           content: SingleChildScrollView(
             child: Form(
               key: pinFormKey,
-              child: ListView(
+              child: ListBody(
                 children: <Widget>[
                   customeFormField('New PIN',
                       ChangePinCodeDialogArguments.NewPin, context, bloc),
