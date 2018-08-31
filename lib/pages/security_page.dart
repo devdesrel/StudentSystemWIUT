@@ -56,9 +56,9 @@ class _SecurityPageState extends State<SecurityPage> {
             localizedReason: 'Scan your fingerprint to authenticate',
             useErrorDialogs: true,
             stickyAuth: true);
-        authenticated
-            ? Navigator.of(context).pushReplacementNamed(homePage)
-            : null;
+
+        if (authenticated) Navigator.of(context).pushReplacementNamed(homePage);
+
         fingerprintDenied = true;
       } on PlatformException catch (e) {
         print(e.message);
@@ -190,8 +190,7 @@ class _SecurityPageState extends State<SecurityPage> {
               Text(
                 _pinCodeMask,
                 maxLines: 1,
-                style: Theme
-                    .of(context)
+                style: Theme.of(context)
                     .textTheme
                     .display3
                     .copyWith(color: Colors.white70, letterSpacing: 40.0),

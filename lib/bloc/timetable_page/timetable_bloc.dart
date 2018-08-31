@@ -317,7 +317,7 @@ class TimetableBloc {
         TimetableDropdownListModel model =
             TimetableDropdownListModel(text: '', value: '');
 
-        return List<TimetableDropdownListModel>().add(model);
+        return <TimetableDropdownListModel>[model];
       }
     } catch (e) {
       return null;

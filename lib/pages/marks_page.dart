@@ -138,8 +138,7 @@ class MarksPage extends StatelessWidget {
                                     chartType: CircularChartType.Radial,
                                     percentageValues: true,
                                     holeLabel: '${module.moduleMark}',
-                                    labelStyle: Theme
-                                        .of(context)
+                                    labelStyle: Theme.of(context)
                                         .textTheme
                                         .display2
                                         .copyWith(
@@ -208,8 +207,8 @@ class MarksPage extends StatelessWidget {
                                             ),
                                             new CircularSegmentEntry(
                                               100 -
-                                                  double
-                                                      .parse(module.moduleMark),
+                                                  double.parse(
+                                                      module.moduleMark),
                                               Colors.red[400],
                                               rankKey: 'remaining',
                                               // rankKey: 'progress',
@@ -221,14 +220,13 @@ class MarksPage extends StatelessWidget {
                                       chartType: CircularChartType.Radial,
                                       percentageValues: true,
                                       holeLabel: '${module.moduleMark}',
-                                      labelStyle: Theme
-                                          .of(context)
+                                      labelStyle: Theme.of(context)
                                           .textTheme
                                           .display2
                                           .copyWith(
                                               fontWeight: FontWeight.bold,
-                                              color: getMarkColor(int
-                                                  .parse(module.moduleMark)))),
+                                              color: getMarkColor(int.parse(
+                                                  module.moduleMark)))),
                                   Text(module.moduleGrade,
                                       style: _getTextStyle()),
 
@@ -280,13 +278,11 @@ class CustomGridView {
     TextStyle _componentNameTextStyle =
         Theme.of(context).textTheme.headline.copyWith(color: whiteColor);
 
-    TextStyle _greyTextStyle = Theme
-        .of(context)
+    TextStyle _greyTextStyle = Theme.of(context)
         .textTheme
         .headline
         .copyWith(color: Theme.of(context).textSelectionColor, fontSize: 17.0);
-    TextStyle _accentTextStyle = Theme
-        .of(context)
+    TextStyle _accentTextStyle = Theme.of(context)
         .textTheme
         .headline
         .copyWith(color: Theme.of(context).accentColor, fontSize: 16.0);

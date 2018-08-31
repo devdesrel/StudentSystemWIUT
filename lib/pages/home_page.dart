@@ -2,6 +2,8 @@ import 'dart:io';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:student_system_flutter/bloc/backdrop/backdrop_bloc.dart';
+import 'package:student_system_flutter/bloc/backdrop/backdrop_provider.dart';
 import 'package:student_system_flutter/enums/ApplicationEnums.dart';
 import 'package:student_system_flutter/helpers/backdrop_menu.dart';
 import 'package:student_system_flutter/pages/modules_page.dart';
@@ -18,6 +20,8 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage>
     with SingleTickerProviderStateMixin {
   AnimationController controller;
+
+  var _bloc = BackdropBloc();
 
   @override
   void initState() {
@@ -38,77 +42,50 @@ class _HomePageState extends State<HomePage>
     controller.dispose();
   }
 
-  bool get isPanelVisible {
-    final AnimationStatus status = controller.status;
-    return status == AnimationStatus.completed ||
-        status == AnimationStatus.forward;
+  Widget _buildSignOutAction() {
+    return IconButton(
+      padding: EdgeInsets.only(top: 1.0),
+      icon: Image.asset(
+        'assets/exit_run.png',
+        height: 22.0,
+      ),
+      onPressed: () {
+        showSignOutDialog(context);
+      },
+    );
   }
+
+  Widget _buildMenuAction() {
+    return IconButton(
+      onPressed: () {
+        controller.fling(velocity: _bloc.isBackdropPanelHidden ? -1.0 : 1.0);
+
+        _bloc.setBackdropPanelHidden.add(!_bloc.isBackdropPanelHidden);
+      },
+      icon: AnimatedIcon(
+        icon: AnimatedIcons.close_menu,
+        progress: controller.view,
+        color: Platform.isAndroid ? Colors.white : blackColor,
+      ),
+    );
+  }
+
+  // bool get isPanelVisible {
+  //   final AnimationStatus status = controller.status;
+  //   return status == AnimationStatus.completed ||
+  //       status == AnimationStatus.forward;
+  // }
 
   Widget _getIOSWidgets() {
     return Material(
       child: CupertinoPageScaffold(
         backgroundColor: Theme.of(context).backgroundColor,
-        // child: CustomScrollView(
-        //   slivers: <Widget>[
-        //     CupertinoSliverNavigationBar(
-        //       leading: IconButton(
-        //         onPressed: () {
-        //           controller.fling(velocity: isPanelVisible ? -1.0 : 1.0);
-        //         },
-        //         icon: AnimatedIcon(
-        //           icon: AnimatedIcons.close_menu,
-        //           progress: controller.view,
-        //         ),
-        //       ),
-        //       largeTitle: Text("Contacts"),
-        //         trailing: IconButton(
-        //           padding: EdgeInsets.only(top: 1.0),
-        //           icon: Image.asset(
-        //             'assets/exit_run.png',
-        //             height: 22.0,
-        //           ),
-        //           // icon: Icon(Icons.exit_to_app),
-        //           // icon: ,
-        //           onPressed: () {
-        //             showSignOutDialog(context);
-        //           },
-        //         ),
-        //       // ),
-        //     ),
-        //     SliverToBoxAdapter(
-        //         child: TwoPanels(
-        //       controller: controller,
-        //       isPanelVisible: isPanelVisible,
-        //     ))
-        //   ],
-        // )
         navigationBar: CupertinoNavigationBar(
-          leading: IconButton(
-            onPressed: () {
-              controller.fling(velocity: isPanelVisible ? -1.0 : 1.0);
-            },
-            icon: AnimatedIcon(
-              icon: AnimatedIcons.close_menu,
-              progress: controller.view,
-              color: blackColor,
-            ),
-          ),
-          middle: Text("WIUT"),
-          trailing: IconButton(
-            padding: EdgeInsets.only(top: 1.0),
-            // icon: Icon(CupertinoIcons.plus_circled),
-            icon: Image.asset(
-              'assets/exit_run_black.png',
-              height: 21.0,
-            ),
-            onPressed: () {
-              showSignOutDialog(context);
-            },
-          ),
-        ),
+            leading: _buildMenuAction(),
+            middle: Text("WIUT"),
+            trailing: _buildSignOutAction()),
         child: TwoPanels(
           controller: controller,
-          isPanelVisible: isPanelVisible,
         ),
       ),
     );
@@ -118,46 +95,24 @@ class _HomePageState extends State<HomePage>
   Widget build(BuildContext context) {
     return Platform.isAndroid
         ? RepaintBoundary(
-            child: Scaffold(
-                backgroundColor: Theme.of(context).backgroundColor,
-                appBar: AppBar(
-                  elevation: 0.0,
-                  centerTitle: true,
-                  title: Text('WIUT'),
-                  actions: <Widget>[
-                    // IconButton(
-                    //   icon: Icon(Icons.lock_open),
-                    //   onPressed: () {},
-                    // ),
-                    IconButton(
-                      padding: EdgeInsets.only(top: 1.0),
-                      icon: Image.asset(
-                        'assets/exit_run.png',
-                        height: 22.0,
-                      ),
-                      // icon: Icon(Icons.exit_to_app),
-                      // icon: ,
-                      onPressed: () {
-                        showSignOutDialog(context);
-                      },
-                    ),
-                  ],
-                  leading: IconButton(
-                    onPressed: () {
-                      controller.fling(velocity: isPanelVisible ? -1.0 : 1.0);
-                    },
-                    icon: AnimatedIcon(
-                      icon: AnimatedIcons.close_menu,
-                      progress: controller.view,
-                    ),
-                  ),
-                ),
-                body: TwoPanels(
-                  controller: controller,
-                  isPanelVisible: isPanelVisible,
-                )),
+            child: BackdropProvider(
+              bloc: _bloc,
+              child: Scaffold(
+                  appBar: AppBar(
+                      elevation: 0.0,
+                      centerTitle: true,
+                      title: Text('WIUT'),
+                      actions: <Widget>[
+                        _buildSignOutAction(),
+                      ],
+                      leading: _buildMenuAction()),
+                  body: TwoPanels(
+                    controller: controller,
+                  )),
+            ),
           )
-        : RepaintBoundary(child: _getIOSWidgets());
+        : RepaintBoundary(
+            child: BackdropProvider(bloc: _bloc, child: _getIOSWidgets()));
   }
 }
 

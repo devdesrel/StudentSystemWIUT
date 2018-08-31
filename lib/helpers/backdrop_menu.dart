@@ -2,16 +2,16 @@ import 'dart:io';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:student_system_flutter/bloc/backdrop/backdrop_provider.dart';
 import 'package:student_system_flutter/helpers/app_constants.dart';
 // import 'package:student_system_flutter/helpers/feedback_form.dart';
-import 'package:student_system_flutter/models/feedback_model.dart';
+// import 'package:student_system_flutter/models/feedback_model.dart';
 import 'package:student_system_flutter/pages/home_page.dart';
 
 class TwoPanels extends StatefulWidget {
   final AnimationController controller;
-  var isPanelVisible;
 
-  TwoPanels({this.controller, this.isPanelVisible});
+  TwoPanels({this.controller});
 
   @override
   _TwoPanelsState createState() => _TwoPanelsState();
@@ -34,105 +34,106 @@ class _TwoPanelsState extends State<TwoPanels> {
   }
 
   Widget bothPanels(BuildContext context, BoxConstraints constraints) {
-    final List<FeedbackModel> _questionNumbers = <FeedbackModel>[
-      FeedbackModel(questionTitle: 'Web Application Development'),
-      FeedbackModel(questionTitle: 'Internet Marketing'),
-      FeedbackModel(questionTitle: 'Software Quality, Performance and Testing'),
-    ];
+    // final List<FeedbackModel> _questionNumbers = <FeedbackModel>[
+    //   FeedbackModel(questionTitle: 'Web Application Development'),
+    //   FeedbackModel(questionTitle: 'Internet Marketing'),
+    //   FeedbackModel(questionTitle: 'Software Quality, Performance and Testing'),
+    // ];
+    var _bloc = BackdropProvider.of(context);
 
-    return RepaintBoundary(
-      child: Container(
-        child: Stack(
-          children: <Widget>[
-            SafeArea(
-              child: Container(
-                color: Platform.isIOS ? backgroundColor : accentColor,
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.stretch,
-                  children: <Widget>[
-                    CustomBackdropMenuItems(
-                      itemName: 'Home',
-                      icon: Platform.isAndroid ? 0xe88a : 0xF447,
-                      iconFont:
-                          Platform.isAndroid ? 'MaterialIcons' : 'CuperIcon',
-                      controller: widget.controller,
-                      selected: true,
-                    ),
-                    CustomBackdropMenuItems(
-                      itemName: 'Support',
-                      icon: Platform.isAndroid ? 0xe0c9 : 0xF3FB,
-                      iconFont:
-                          Platform.isAndroid ? 'MaterialIcons' : 'CuperIcon',
-                      controller: widget.controller,
-                      selected: false,
-                    ),
-                    CustomBackdropMenuItems(
-                      itemName: 'Contacts',
-                      icon: Platform.isAndroid ? 0xe0b0 : 0xF4B8,
-                      iconFont:
-                          Platform.isAndroid ? 'MaterialIcons' : 'CuperIcon',
-                      controller: widget.controller,
-                      selected: false,
-                    ),
-                    CustomBackdropMenuItems(
-                      itemName: 'Settings',
-                      icon: Platform.isAndroid ? 0xe8b8 : 0xF411,
-                      iconFont:
-                          Platform.isAndroid ? 'MaterialIcons' : 'CuperIcon',
-                      controller: widget.controller,
-                      selected: false,
-                    ),
-                  ],
-                ),
+    return Container(
+      child: Stack(
+        children: <Widget>[
+          SafeArea(
+            child: Container(
+              color: Platform.isIOS ? backgroundColor : accentColor,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: <Widget>[
+                  CustomBackdropMenuItems(
+                    itemName: 'Home',
+                    icon: Platform.isAndroid ? 0xe88a : 0xF447,
+                    iconFont:
+                        Platform.isAndroid ? 'MaterialIcons' : 'CuperIcon',
+                    controller: widget.controller,
+                    selected: true,
+                  ),
+                  CustomBackdropMenuItems(
+                    itemName: 'Support',
+                    icon: Platform.isAndroid ? 0xe0c9 : 0xF3FB,
+                    iconFont:
+                        Platform.isAndroid ? 'MaterialIcons' : 'CuperIcon',
+                    controller: widget.controller,
+                    selected: false,
+                  ),
+                  CustomBackdropMenuItems(
+                    itemName: 'Contacts',
+                    icon: Platform.isAndroid ? 0xe0b0 : 0xF4B8,
+                    iconFont:
+                        Platform.isAndroid ? 'MaterialIcons' : 'CuperIcon',
+                    controller: widget.controller,
+                    selected: false,
+                  ),
+                  CustomBackdropMenuItems(
+                    itemName: 'Settings',
+                    icon: Platform.isAndroid ? 0xe8b8 : 0xF411,
+                    iconFont:
+                        Platform.isAndroid ? 'MaterialIcons' : 'CuperIcon',
+                    controller: widget.controller,
+                    selected: false,
+                  ),
+                ],
               ),
             ),
-            PositionedTransition(
-              rect: getPanelAnimation(constraints),
-              child: Material(
-                elevation: 12.0,
-                borderRadius: Platform.isIOS
-                    ? BorderRadius.all(Radius.circular(0.0))
-                    : BorderRadius.only(
-                        topLeft: Radius.circular(16.0),
-                        topRight: Radius.circular(16.0)),
-                child: Column(
-                  children: <Widget>[
-                    // new GestureDetector(
-                    //   behavior: HitTestBehavior.opaque,
-                    //   // onVerticalDragUpdate: onVerticalDragUpdate,
-                    //   // onVerticalDragEnd: onVerticalDragEnd,
-                    //   onTap: () {
-                    //     widget.controller
-                    //         .fling(velocity: widget.isPanelVisible ? -2.0 : 2.0);
-                    //   },
-                    //   child: new Container(
-                    //     height: 48.0,
-                    //     padding: const EdgeInsetsDirectional.only(start: 16.0),
-                    //     alignment: AlignmentDirectional.centerStart,
-                    //     child: Container(),
-                    //   ),
-                    // ),
-                    Container(),
-                    Expanded(
-                        child: RepaintBoundary(
-                      child: CustomScrollView(
-                        slivers: <Widget>[
-                          SliverToBoxAdapter(
-                              child: SafeArea(
-                                  bottom: false,
-                                  child:
-                                      // FeedbackForm(questionNumbers: _questionNumbers),
-                                      SizedBox(height: 10.0))),
-                          CustomGridView(context).build(),
-                        ],
-                      ),
-                    ))
-                  ],
-                ),
+          ),
+          PositionedTransition(
+            rect: getPanelAnimation(constraints),
+            child: Material(
+              elevation: 12.0,
+              borderRadius: Platform.isIOS
+                  ? BorderRadius.all(Radius.circular(0.0))
+                  : BorderRadius.only(
+                      topLeft: Radius.circular(16.0),
+                      topRight: Radius.circular(16.0)),
+              child: CustomScrollView(
+                slivers: <Widget>[
+                  SliverToBoxAdapter(
+                    child: GestureDetector(
+                      behavior: HitTestBehavior.opaque,
+                      // onVerticalDragUpdate: onVerticalDragUpdate,
+                      // onVerticalDragEnd: onVerticalDragEnd,
+                      onTap: () {
+                        widget.controller.fling(
+                            velocity: _bloc.isBackdropPanelHidden ? -2.0 : 2.0);
+
+                        _bloc.setBackdropPanelHidden
+                            .add(!_bloc.isBackdropPanelHidden);
+                      },
+                      child: new Container(
+                          padding: EdgeInsets.only(top: 5.0),
+                          width: double.infinity,
+                          child: StreamBuilder<bool>(
+                            stream: _bloc.backdropPanelHidden,
+                            initialData: true,
+                            builder: (context, snapshot) => RotatedBox(
+                                  child: Icon(CupertinoIcons.left_chevron),
+                                  quarterTurns: snapshot.data ? 3 : 1,
+                                ),
+                          )),
+                    ),
+                  ),
+                  SliverToBoxAdapter(
+                      child: SafeArea(
+                          bottom: false,
+                          child:
+                              // FeedbackForm(questionNumbers: _questionNumbers),
+                              SizedBox(height: 10.0))),
+                  CustomGridView(context).build(),
+                ],
               ),
-            )
-          ],
-        ),
+            ),
+          )
+        ],
       ),
     );
   }

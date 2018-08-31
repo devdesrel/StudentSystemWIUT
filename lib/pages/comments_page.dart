@@ -1,6 +1,5 @@
 import 'dart:io';
 
-import 'package:community_material_icon/community_material_icon.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -143,7 +142,7 @@ class _CommentsPageState extends State<CommentsPage> {
                     crossAxisAlignment: CrossAxisAlignment.end,
                     children: <Widget>[
                       CustomSizedBox(
-                        icon: CommunityMaterialIcons.camera,
+                        icon: Icons.camera,
                         type: AttachmentTypes.CAMERA,
                       ),
                       // getImage: getImage(true)

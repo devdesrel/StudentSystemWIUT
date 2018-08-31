@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 
 import '../helpers/app_constants.dart';
 import '../helpers/ui_helpers.dart';
@@ -53,7 +53,7 @@ class CardHeader extends StatelessWidget {
             radius: 22.0,
             backgroundImage: CachedNetworkImageProvider(
                 'https://picsum.photos/100/100/?random'),
-            // child: Text("A"),
+            child: Text("A"),
           ),
           Container(width: 12.0),
           Expanded(
@@ -191,14 +191,14 @@ class CardBody extends StatelessWidget {
             ),
           )
         ],
-      )
-      //  child: Center(
-      //     child: CachedNetworkImage(
-      //       placeholder: CircularProgressIndicator(),
-      //       imageUrl: 'https://picsum.photos/520/300/?random',
-      //       fit: BoxFit.fill,
-      //     ),
-      //   ),
+      ),
+      Center(
+        child: CachedNetworkImage(
+          placeholder: CircularProgressIndicator(),
+          imageUrl: 'https://picsum.photos/520/300/?random',
+          fit: BoxFit.fill,
+        ),
+      ),
     ]);
   }
 }

@@ -22,8 +22,8 @@ Future<Null> main() async {
   };
 
   runZoned<Future<Null>>(() async {
-    SystemChrome
-        .setPreferredOrientations([DeviceOrientation.portraitUp]).then((_) {
+    SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp])
+        .then((_) {
       runApp(MainApp());
     });
   }, onError: (error, stackTrace) {
@@ -52,6 +52,7 @@ class MainApp extends StatelessWidget {
           primaryColorDark: primaryDarkColor,
           iconTheme: IconThemeData(color: accentColor),
           backgroundColor: backgroundColor,
+          scaffoldBackgroundColor: accentColor,
           textSelectionColor: textColor,
           brightness: Brightness.light,
           textTheme: _textTheme),

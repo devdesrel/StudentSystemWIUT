@@ -240,9 +240,8 @@ class SettingsPage extends StatelessWidget {
             }
           },
           onSaved: (val) {
-            type == ChangePinCodeDialogArguments.ConfirmPin
-                ? confirmPin = val
-                : null;
+            if (type == ChangePinCodeDialogArguments.ConfirmPin)
+              confirmPin = val;
           },
           decoration: InputDecoration(
             labelText: placeholder,

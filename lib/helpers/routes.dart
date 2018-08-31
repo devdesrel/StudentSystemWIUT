@@ -22,7 +22,6 @@ import 'package:student_system_flutter/pages/security_page.dart';
 import 'package:student_system_flutter/pages/settings_page.dart';
 import 'package:student_system_flutter/pages/social_page.dart';
 import 'package:student_system_flutter/pages/support_page.dart';
-import 'package:student_system_flutter/pages/test_2.dart';
 import 'package:student_system_flutter/pages/timetable_page.dart';
 
 import 'app_constants.dart';
@@ -48,7 +47,6 @@ final routes = {
   contactsPage: (BuildContext context) => ContactsPage(),
   mapPage: (BuildContext context) => MapPage(),
   appUpdatesPage: (BuildContext context) => AppUpdatesPage(),
-  testPage: (BuildContext context) => TestPage(),
   booksPage: (BuildContext context) => BooksPage(),
   supportPage: (BuildContext context) => SupportPage(),
   iosContactsPage: (BuildContext context) => IosContactsPage(),

@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:student_system_flutter/helpers/app_constants.dart';
 import 'package:student_system_flutter/helpers/file_manager.dart';
 
 class OfflinePage extends StatelessWidget {
@@ -13,6 +14,7 @@ class OfflinePage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Platform.isAndroid
         ? Scaffold(
+            backgroundColor: backgroundColor,
             appBar: AppBar(
               centerTitle: true,
               title: Text('Downloaded Materials'),
@@ -22,6 +24,7 @@ class OfflinePage extends StatelessWidget {
           )
         : Material(
             child: CupertinoPageScaffold(
+              backgroundColor: backgroundColor,
               navigationBar: CupertinoNavigationBar(
                 middle: Text('Downloaded Materials'),
               ),

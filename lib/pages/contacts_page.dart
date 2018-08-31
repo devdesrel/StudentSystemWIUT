@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:student_system_flutter/helpers/app_constants.dart';
 import 'package:student_system_flutter/helpers/function_helpers.dart';
-import 'package:community_material_icon/community_material_icon.dart';
 
 class ContactsPage extends StatelessWidget {
   final double cardPadding = 10.0;
@@ -121,7 +120,7 @@ class ContactsPage extends StatelessWidget {
                   title: 'WIUT bot',
                   subtitle: 'Telegram bot',
                   // icon: Icons.voice_chat,
-                  icon: CommunityMaterialIcons.telegram,
+                  icon: Icons.message,
                   isWebView: false,
                   urlFrom: 'https://t.me/WestTimesBot',
                 ),
