@@ -4,9 +4,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:path/path.dart';
 import 'package:student_system_flutter/bloc/coursework_upload/coursework_upload_provider.dart';
-import 'package:student_system_flutter/enums/ApplicationEnums.dart';
 import 'package:student_system_flutter/helpers/app_constants.dart';
-import 'package:student_system_flutter/helpers/function_helpers.dart';
 import 'package:student_system_flutter/helpers/module_selection_expansion_tile.dart';
 
 class CourseworkUploadPage extends StatefulWidget {
@@ -27,8 +25,8 @@ class _CourseworkUploadPageState extends State<CourseworkUploadPage> {
 }
 
 Widget _createCurrentPage(BuildContext context) {
-  showFlushBar(
-      info, featureNotImplemented, MessageTypes.INFINITE_INFO, context);
+  // showFlushBar(
+  //     info, featureNotImplemented, MessageTypes.INFINITE_INFO, context);
 
   return CourseworkUploadProvider(
       child: Platform.isAndroid
@@ -172,19 +170,15 @@ class CourseworkUploadItemsState extends State<CourseworkUploadItems> {
                     ),
                   ),
             ),
-            RaisedButton(
+            FlatButton(
               onPressed: () async {
                 var filePath =
                     await Navigator.of(context).pushNamed(filePickerPage);
 
                 bloc.setFileName.add(basename(filePath.toString()));
               },
-              textColor: Colors.white,
-              color: greyColor,
+              textColor: accentColor,
               child: Text('Choose file'),
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.all(Radius.circular(5.0)),
-              ),
             ),
           ],
         ),

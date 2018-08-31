@@ -2,8 +2,6 @@ import 'dart:io';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:student_system_flutter/enums/ApplicationEnums.dart';
-import 'package:student_system_flutter/helpers/function_helpers.dart';
 
 import '../helpers/app_constants.dart';
 import '../list_items/item_offences.dart';
@@ -13,8 +11,8 @@ int _totalOffences = 7;
 class OffencesPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    showFlushBar(
-        info, featureNotImplemented, MessageTypes.INFINITE_INFO, context);
+    // showFlushBar(
+    //     info, featureNotImplemented, MessageTypes.INFINITE_INFO, context);
 
     return Platform.isAndroid
         ? Scaffold(
