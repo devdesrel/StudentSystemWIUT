@@ -230,6 +230,7 @@ class ModulesPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Platform.isAndroid
         ? Scaffold(
+            backgroundColor: backgroundColor,
             appBar: AppBar(
               title: Text('Modules'),
               centerTitle: true,

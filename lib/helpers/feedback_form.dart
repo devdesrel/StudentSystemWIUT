@@ -24,7 +24,7 @@ class _FeedbackFormState extends State<FeedbackForm> {
     TextStyle _buttonStyle =
         Theme.of(context).textTheme.button.copyWith(color: textColor);
     return Container(
-      padding: const EdgeInsets.symmetric(vertical: 12.0, horizontal: 16.0),
+      padding: const EdgeInsets.symmetric(vertical: 12.0, horizontal: 18.0),
       height: 155.0,
       child: PageView.builder(
           controller: _controller,

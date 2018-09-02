@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:student_system_flutter/helpers/app_constants.dart';
 
 //Material Drawer
 class CustomAndroidDrawer extends StatelessWidget {

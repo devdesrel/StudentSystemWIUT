@@ -43,8 +43,7 @@ class ItemModules extends StatelessWidget {
                 Text(
                   module.moduleName,
                   textAlign: TextAlign.center,
-                  style: Theme
-                      .of(context)
+                  style: Theme.of(context)
                       .textTheme
                       .headline
                       .copyWith(color: accentColor),
@@ -56,8 +55,7 @@ class ItemModules extends StatelessWidget {
                     Text('Module Code',
                         style: Theme.of(context).textTheme.body1),
                     Text(module.moduleCode,
-                        style: Theme
-                            .of(context)
+                        style: Theme.of(context)
                             .textTheme
                             .body1
                             .copyWith(color: textColor)),
@@ -72,8 +70,7 @@ class ItemModules extends StatelessWidget {
                             Text('Year Name',
                                 style: Theme.of(context).textTheme.body1),
                             Text(module.session,
-                                style: Theme
-                                    .of(context)
+                                style: Theme.of(context)
                                     .textTheme
                                     .body1
                                     .copyWith(color: textColor)),
@@ -90,8 +87,7 @@ class ItemModules extends StatelessWidget {
                             Text('Credit',
                                 style: Theme.of(context).textTheme.body1),
                             Text(module.credit,
-                                style: Theme
-                                    .of(context)
+                                style: Theme.of(context)
                                     .textTheme
                                     .body1
                                     .copyWith(color: textColor)),
@@ -106,21 +102,19 @@ class ItemModules extends StatelessWidget {
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: <Widget>[
                             Text('Total Mark',
-                                style: Theme
-                                    .of(context)
+                                style: Theme.of(context)
                                     .textTheme
                                     .body1
                                     .copyWith(
-                                        color: getMarkColor(
-                                            int.parse(module.moduleMark)))),
+                                        color:
+                                            getMarkColor(module.moduleMark))),
                             Text(module.moduleMark,
-                                style: Theme
-                                    .of(context)
+                                style: Theme.of(context)
                                     .textTheme
                                     .body1
                                     .copyWith(
-                                        color: getMarkColor(
-                                            int.parse(module.moduleMark)))),
+                                        color:
+                                            getMarkColor(module.moduleMark))),
                           ],
                         ),
                       )

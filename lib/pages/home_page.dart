@@ -171,30 +171,33 @@ class CustomGridView {
           onTap: () {
             openSelectedPage(context, page);
           },
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            mainAxisAlignment: MainAxisAlignment.center,
-            mainAxisSize: MainAxisSize.min,
-            verticalDirection: VerticalDirection.down,
-            children: <Widget>[
-              Center(
-                  child: Image.asset(
-                imageSource,
-                height: 60.0,
-              )),
-              SizedBox(
-                height: 20.0,
-              ),
-              Center(
-                  child: Text(
-                name.toUpperCase(),
-                textAlign: TextAlign.center,
-                style: Theme.of(context).textTheme.body1.copyWith(
-                    letterSpacing: 4.0,
-                    color: textColor,
-                    fontSize: isSmallScreen ? 12.0 : 15.0),
-              )),
-            ],
+          child: Padding(
+            padding: EdgeInsets.symmetric(horizontal: 10.0),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              mainAxisAlignment: MainAxisAlignment.center,
+              mainAxisSize: MainAxisSize.min,
+              verticalDirection: VerticalDirection.down,
+              children: <Widget>[
+                Center(
+                    child: Image.asset(
+                  imageSource,
+                  height: 60.0,
+                )),
+                SizedBox(
+                  height: 20.0,
+                ),
+                Center(
+                    child: Text(
+                  name.toUpperCase(),
+                  textAlign: TextAlign.center,
+                  style: Theme.of(context).textTheme.body1.copyWith(
+                      letterSpacing: 4.0,
+                      color: textColor,
+                      fontSize: isSmallScreen ? 15.0 : 15.0),
+                )),
+              ],
+            ),
           ),
         ),
       ),
@@ -260,30 +263,33 @@ class CustomGridView2 {
             onTap: () {
               openSelectedPage(context, page);
             },
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              mainAxisAlignment: MainAxisAlignment.center,
-              mainAxisSize: MainAxisSize.min,
-              verticalDirection: VerticalDirection.down,
-              children: <Widget>[
-                Center(
-                    child: Image.asset(
-                  imageSource,
-                  height: 60.0,
-                )),
-                SizedBox(
-                  height: 20.0,
-                ),
-                Center(
-                    child: Text(
-                  name.toUpperCase(),
-                  textAlign: TextAlign.center,
-                  style: Theme.of(context).textTheme.body1.copyWith(
-                      letterSpacing: 4.0,
-                      color: textColor,
-                      fontSize: isSmallScreen ? 12.0 : 15.0),
-                )),
-              ],
+            child: Padding(
+              padding: EdgeInsets.symmetric(horizontal: 10.0),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                mainAxisAlignment: MainAxisAlignment.center,
+                mainAxisSize: MainAxisSize.min,
+                verticalDirection: VerticalDirection.down,
+                children: <Widget>[
+                  Center(
+                      child: Image.asset(
+                    imageSource,
+                    height: 60.0,
+                  )),
+                  SizedBox(
+                    height: 20.0,
+                  ),
+                  Center(
+                      child: Text(
+                    name.toUpperCase(),
+                    textAlign: TextAlign.center,
+                    style: Theme.of(context).textTheme.body1.copyWith(
+                        letterSpacing: 4.0,
+                        color: textColor,
+                        fontSize: isSmallScreen ? 15.0 : 15.0),
+                  )),
+                ],
+              ),
             ),
           ),
         ),

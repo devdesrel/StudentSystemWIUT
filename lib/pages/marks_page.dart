@@ -64,7 +64,7 @@ class MarksPage extends StatelessWidget {
   Widget build(BuildContext context) {
     TextStyle _getTextStyle() {
       return Theme.of(context).textTheme.headline.copyWith(
-          color: getMarkColor(int.parse(module.moduleMark)),
+          color: getMarkColor(module.moduleMark),
           fontSize: 17.0,
           fontWeight: FontWeight.bold);
     }
@@ -81,6 +81,14 @@ class MarksPage extends StatelessWidget {
     if (size.height < smallDeviceHeight) {
       isSmallScreen = true;
     }
+
+    MediaQueryData queryData;
+    queryData = MediaQuery.of(context);
+
+    print('Query Data' + queryData.devicePixelRatio.toString());
+
+    print('QWidth: ${queryData.size.width}; QHeight: ${queryData.size.height}');
+    print('Width: ${queryData.size.width}; Height: ${queryData.size.height}');
 
     return Platform.isAndroid
         ? Scaffold(
@@ -119,15 +127,16 @@ class MarksPage extends StatelessWidget {
                                       new CircularStackEntry(
                                         <CircularSegmentEntry>[
                                           new CircularSegmentEntry(
-                                            double.parse(module.moduleMark),
+                                            getMarkInDouble(module.moduleMark),
                                             greenColor,
                                             rankKey: 'completed',
                                             // rankKey: 'progress',
                                           ),
                                           new CircularSegmentEntry(
                                             100 -
-                                                double.parse(module.moduleMark),
-                                            Colors.red[400],
+                                                getMarkInDouble(
+                                                    module.moduleMark),
+                                            getMarkColor(module.moduleMark),
                                             rankKey: 'remaining',
                                             // rankKey: 'progress',
                                           ),
@@ -144,8 +153,12 @@ class MarksPage extends StatelessWidget {
                                         .copyWith(
                                             fontWeight: FontWeight.bold,
                                             color: getMarkColor(
-                                                int.parse(module.moduleMark)))),
-                                Text(module.moduleGrade,
+                                                module.moduleMark))),
+                                Text(
+                                    module.moduleGrade == '' &&
+                                            module.moduleMark == 'TBA'
+                                        ? toBeAnnounced
+                                        : module.moduleGrade,
                                     style: _getTextStyle()),
 
                                 // CustomAnimatedText()
@@ -200,16 +213,18 @@ class MarksPage extends StatelessWidget {
                                         new CircularStackEntry(
                                           <CircularSegmentEntry>[
                                             new CircularSegmentEntry(
-                                              double.parse(module.moduleMark),
+                                              getMarkInDouble(
+                                                  module.moduleMark),
                                               greenColor,
                                               rankKey: 'completed',
                                               // rankKey: 'progress',
                                             ),
                                             new CircularSegmentEntry(
                                               100 -
-                                                  double.parse(
+                                                  getMarkInDouble(
                                                       module.moduleMark),
-                                              Colors.red[400],
+
+                                              getMarkColor(module.moduleMark),
                                               rankKey: 'remaining',
                                               // rankKey: 'progress',
                                             ),
@@ -225,9 +240,13 @@ class MarksPage extends StatelessWidget {
                                           .display2
                                           .copyWith(
                                               fontWeight: FontWeight.bold,
-                                              color: getMarkColor(int.parse(
-                                                  module.moduleMark)))),
-                                  Text(module.moduleGrade,
+                                              color: getMarkColor(
+                                                  module.moduleMark))),
+                                  Text(
+                                      module.moduleGrade == '' &&
+                                              module.moduleMark == 'TBA'
+                                          ? toBeAnnounced
+                                          : module.moduleGrade,
                                       style: _getTextStyle()),
 
                                   // CustomAnimatedText()
@@ -358,6 +377,8 @@ class CustomGridView {
   Widget build() {
     var size = MediaQuery.of(context).size;
     bool isSmallScreen = false;
+
+    print('Width: ${size.width}; Height: ${size.height}');
 
     if (size.height < smallDeviceHeight) {
       isSmallScreen = true;

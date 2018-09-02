@@ -109,3 +109,6 @@ final String noAvailableTimetable = 'Nothing to show for the current week';
 
 //Screen Size constants
 final smallDeviceHeight = 800;
+
+//Academic Words
+final toBeAnnounced = 'To Be Announced';

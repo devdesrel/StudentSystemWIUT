@@ -174,12 +174,10 @@ class FileManagerState extends State<FileManager>
 
   _initPlatformState() async {
     if (Platform.isAndroid) {
-      SimplePermissions
-          .checkPermission(Permission.WriteExternalStorage)
+      SimplePermissions.checkPermission(Permission.WriteExternalStorage)
           .then((checkOkay) {
         if (!checkOkay) {
-          SimplePermissions
-              .requestPermission(Permission.WriteExternalStorage)
+          SimplePermissions.requestPermission(Permission.WriteExternalStorage)
               .then((okDone) {
             if (okDone) {
               externalStoragePermissionOkay = okDone;
@@ -197,10 +195,10 @@ class FileManagerState extends State<FileManager>
   }
 
   Future _openFile(String filePath) async {
-    var sendMap = <String, dynamic>{
-      'filePath': filePath,
-      'mimeType': lookupMimeType(basename(filePath))
-    };
+    // var sendMap = <String, dynamic>{
+    //   'filePath': filePath,
+    //   'mimeType': lookupMimeType(basename(filePath))
+    // };
 
     try {
       await platform.invokeMethod('openFile', filePath);

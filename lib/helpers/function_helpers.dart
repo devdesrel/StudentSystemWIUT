@@ -99,12 +99,31 @@ void getStudentsProfileForTheCurrentYear(BuildContext context) async {
   }
 }
 
-Color getMarkColor(int moduleMark) {
-  if (moduleMark >= 40) {
-    return greenColor;
+Color getMarkColor(String moduleMark) {
+  if (isNumeric(moduleMark)) {
+    if (int.parse(moduleMark) >= 40) {
+      return greenColor;
+    } else {
+      return redColor;
+    }
   } else {
-    return redColor;
+    return accentColor;
   }
+}
+
+double getMarkInDouble(String moduleMark) {
+  if (isNumeric(moduleMark)) {
+    return double.parse(moduleMark);
+  } else {
+    return 0.0;
+  }
+}
+
+bool isNumeric(String s) {
+  if (s == null) {
+    return false;
+  }
+  return double.parse(s, (e) => null) != null;
 }
 
 void showSnackBar(String text, GlobalKey<ScaffoldState> scaffoldKey,

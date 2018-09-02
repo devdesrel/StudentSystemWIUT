@@ -31,6 +31,7 @@ Widget _createCurrentPage(BuildContext context) {
   return CourseworkUploadProvider(
       child: Platform.isAndroid
           ? Scaffold(
+              backgroundColor: Colors.white,
               appBar: AppBar(
                 centerTitle: true,
                 title: Text('Coursework Upload'),

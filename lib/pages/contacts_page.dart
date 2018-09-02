@@ -167,6 +167,7 @@ class ContactsPage extends StatelessWidget {
     }
 
     return Scaffold(
+      backgroundColor: backgroundColor,
       body: CustomScrollView(
         slivers: <Widget>[
           SliverAppBar(

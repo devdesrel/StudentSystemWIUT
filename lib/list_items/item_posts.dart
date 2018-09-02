@@ -192,13 +192,13 @@ class CardBody extends StatelessWidget {
           )
         ],
       ),
-      Center(
-        child: CachedNetworkImage(
-          placeholder: CircularProgressIndicator(),
-          imageUrl: 'https://picsum.photos/520/300/?random',
-          fit: BoxFit.fill,
-        ),
-      ),
+      // Center(
+      //   child: CachedNetworkImage(
+      //     placeholder: CircularProgressIndicator(),
+      //     imageUrl: 'https://picsum.photos/520/300/?random',
+      //     fit: BoxFit.fill,
+      //   ),
+      // ),
     ]);
   }
 }
