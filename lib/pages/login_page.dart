@@ -98,9 +98,7 @@ class _LoginPageState extends State<LoginPage> implements AuthStateListener {
           body: {"Username": _username, "Password": _password},
           headers: {"Accept": "application/json"}); // post api call
 
-      print('${res.body}');
       Map data = json.decode(res.body);
-      print(data['token']);
 
       if (res.statusCode == 200) {
         SharedPreferences prefs = await SharedPreferences.getInstance();

@@ -160,29 +160,38 @@ class TimetableBloc {
   final _isLoadedSubject = BehaviorSubject<bool>();
 
   Future<List<TimetableModel>> _getTimetable(String groupName) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    String _groupID;
+
     if (groupName == '') {
-      SharedPreferences prefs = await SharedPreferences.getInstance();
       groupName = prefs.getString(groupNameSharedPref);
+      _groupID = prefs.getString(groupID);
 
       _timetableTitleSubject.add(groupName);
       _groupNameSubject.add(groupName);
     }
 
-    String _groupID;
+    if (groupName != '' && _groupID == '') {
+      var list = await _populateDropdownList(apiGetGroups);
 
-    var list = await _populateDropdownList(apiGetGroups);
+      if (list != null) {
+        _groupID = list.firstWhere((group) => group.text == groupName).value;
+        prefs.setString(groupID, _groupID);
+      }
+    }
 
-    if (list != null) {
-      _groupID = list.firstWhere((group) => group.text == groupName).value;
+    if (_groupID == '') {
+      showFlushBar(error, youDontHaveGroup, MessageTypes.ERROR, context, 2);
 
+      return [];
+    } else if (_groupID != null && _groupID != '') {
       List<TimetableModel> _timetableList =
           await _getTimetableList(TimetableDropdownlinListType.Group, _groupID);
 
       return _timetableList;
     } else {
-      showFlushBar(connectionFailure, checkInternetConnection,
-          MessageTypes.ERROR, context, 2);
-      return null;
+      showFlushBar(error, tryAgain, MessageTypes.ERROR, context, 2);
+      return [];
     }
   }
 
@@ -266,7 +275,7 @@ class TimetableBloc {
         return _sortedList;
       } else {
         showFlushBar('Error', tryAgain, MessageTypes.ERROR, context, 2);
-        return null;
+        return [];
       }
     } catch (e) {
       showFlushBar(connectionFailure, checkInternetConnection,

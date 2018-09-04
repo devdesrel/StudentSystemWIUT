@@ -47,7 +47,7 @@ void getStudentsProfileForSelectedYear() async {
 
   try {
     final response = await http.post(
-        "$apiStudentProfileForSelectedAcademicYear?StudentID=$_studentID&AcadYearID=18",
+        "$apiStudentProfileForSelectedAcademicYear?StudentID=$_studentID&AcadYearID=$currentYearID",
         headers: {
           "Accept": "application/json",
           "Authorization": "Bearer $_token"

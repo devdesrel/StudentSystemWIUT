@@ -70,8 +70,8 @@ class ModulesPage extends StatelessWidget {
 
     try {
       final response = await http.post(
-          "$apiUserModuleMaterialsModulesListByUserID?AcademicYearID=18&SelectedLTType=All&UserID=$_studentID",
-          // "$apiUserModuleMaterialsModulesListByUserID?AcademicYearID=18&SelectedLTType=$materialType&UserID=$_studentID",
+          "$apiUserModuleMaterialsModulesListByUserID?AcademicYearID=$currentYearID&SelectedLTType=All&UserID=$_studentID",
+          // "$apiUserModuleMaterialsModulesListByUserID?AcademicYearID=$currentYearID&SelectedLTType=$materialType&UserID=$_studentID",
           headers: {
             "Accept": "application/json",
             "Authorization": "Bearer $_token"
@@ -155,16 +155,21 @@ class ModulesPage extends StatelessWidget {
                 if (snapshot.hasData) {
                   var _modulesList = snapshot.data;
 
-                  List<Entry> _sortedModulesList = <Entry>[
-                    Entry('Level 6',
-                        _modulesList.where((m) => m.level == '6').toList()),
-                    Entry('Level 5',
-                        _modulesList.where((m) => m.level == '5').toList()),
-                    Entry('Level 4',
-                        _modulesList.where((m) => m.level == '4').toList()),
-                    Entry('Level 3',
-                        _modulesList.where((m) => m.level == '3').toList()),
-                  ];
+                  List<Entry> _sortedModulesList = [];
+
+                  int _initialLevel = 6;
+
+                  for (var i = 0; i < 4; i++) {
+                    List<dynamic> _modules = _modulesList
+                        .where((m) => m.level == _initialLevel.toString())
+                        .toList();
+                    if (_modules.length > 0) {
+                      _sortedModulesList
+                          .add(Entry('Level $_initialLevel', _modules));
+                    }
+
+                    _initialLevel--;
+                  }
 
                   return ListView.builder(
                       scrollDirection: Axis.vertical,
@@ -172,21 +177,20 @@ class ModulesPage extends StatelessWidget {
                       itemBuilder: (context, i) {
                         // return Text(_sortedModulesList[i].title);
                         return Padding(
-                          padding: const EdgeInsets.symmetric(
-                              horizontal: 8.0, vertical: 10.0),
-                          child: ExpansionTile(
-                            // key: PageStorageKey<Entry>(_sortedModulesList),
-
-                            title: Text(_sortedModulesList[i].title),
-                            children: _sortedModulesList[i]
-                                .children
-                                .map((m) => ItemModules(
-                                      module: m,
-                                      requestType: requestType,
-                                    ))
-                                .toList(),
-                          ),
-                        );
+                            padding: const EdgeInsets.symmetric(
+                                horizontal: 8.0, vertical: 10.0),
+                            child: ExpansionTile(
+                              // key: PageStorageKey<Entry>(_sortedModulesList),
+                              initiallyExpanded: i == 0 ? true : false,
+                              title: Text(_sortedModulesList[i].title),
+                              children: _sortedModulesList[i]
+                                  .children
+                                  .map((m) => ItemModules(
+                                        module: m,
+                                        requestType: requestType,
+                                      ))
+                                  .toList(),
+                            ));
 
                         // EntryItem(_sortedModulesList[i]);
                         // ItemModules(positionIndex: i, module: snapshot.data[i]);

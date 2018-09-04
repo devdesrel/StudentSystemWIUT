@@ -68,6 +68,7 @@ final isPreviewSeen = 'isPreviewSeen';
 
 //API List
 final baseUrl = 'https://newintranetapi.wiut.uz';
+final currentYearID = '19';
 final apiAuthenticate = '$baseUrl/api/Account/Authenticate';
 final apiStudentMarks =
     '$baseUrl/api/StudentProfileAndMarks/StudentProfileAndMarksForStudent';
@@ -92,7 +93,9 @@ final apiStudentProfileForSelectedAcademicYear =
 final String authProblems = 'Authorization problems';
 final String connectionFailure = 'Internet connection failure';
 final String checkInternetConnection = 'Please, check your internet connection';
-final String tryAgain = 'Please, try again!';
+final String error = 'Error';
+final String tryAgain = 'Please, try again later!';
+final String youDontHaveGroup = 'You aren\'t allocated to any group yet';
 final String usernamePasswordIncorrect =
     'Username or Password is incorrect. Try again!';
 

@@ -128,7 +128,9 @@ class MarksPage extends StatelessWidget {
                                         <CircularSegmentEntry>[
                                           new CircularSegmentEntry(
                                             getMarkInDouble(module.moduleMark),
-                                            greenColor,
+                                            isNumeric(module.moduleMark)
+                                                ? greenColor
+                                                : accentColor,
                                             rankKey: 'completed',
                                             // rankKey: 'progress',
                                           ),
@@ -136,7 +138,10 @@ class MarksPage extends StatelessWidget {
                                             100 -
                                                 getMarkInDouble(
                                                     module.moduleMark),
-                                            getMarkColor(module.moduleMark),
+                                            isNumeric(module.moduleMark)
+                                                ? redColor
+                                                : accentColor,
+
                                             rankKey: 'remaining',
                                             // rankKey: 'progress',
                                           ),
@@ -215,7 +220,9 @@ class MarksPage extends StatelessWidget {
                                             new CircularSegmentEntry(
                                               getMarkInDouble(
                                                   module.moduleMark),
-                                              greenColor,
+                                              isNumeric(module.moduleMark)
+                                                  ? greenColor
+                                                  : accentColor,
                                               rankKey: 'completed',
                                               // rankKey: 'progress',
                                             ),
@@ -223,8 +230,10 @@ class MarksPage extends StatelessWidget {
                                               100 -
                                                   getMarkInDouble(
                                                       module.moduleMark),
+                                              isNumeric(module.moduleMark)
+                                                  ? redColor
+                                                  : accentColor,
 
-                                              getMarkColor(module.moduleMark),
                                               rankKey: 'remaining',
                                               // rankKey: 'progress',
                                             ),
