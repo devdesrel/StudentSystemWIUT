@@ -174,10 +174,12 @@ class FileManagerState extends State<FileManager>
 
   _initPlatformState() async {
     if (Platform.isAndroid) {
-      SimplePermissions.checkPermission(Permission.WriteExternalStorage)
+      SimplePermissions
+          .checkPermission(Permission.WriteExternalStorage)
           .then((checkOkay) {
         if (!checkOkay) {
-          SimplePermissions.requestPermission(Permission.WriteExternalStorage)
+          SimplePermissions
+              .requestPermission(Permission.WriteExternalStorage)
               .then((okDone) {
             if (okDone) {
               externalStoragePermissionOkay = okDone;
