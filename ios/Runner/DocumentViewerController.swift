@@ -21,9 +21,22 @@ class DocumentViewerController: UIViewController {
         super.viewDidLoad()
         /// Setting UIDocumentInteractionController delegate.
       
-        self.share(url: <#T##URL#>)
+      
         documentInteractionController.delegate = self
+        let url1 = URL(fileURLWithPath: urlForFilePath!, isDirectory: false)
+        share(url: url1 )
     }
+  
+  var urlForFilePath: String? {
+    didSet{
+      
+      if let text = urlForFilePath {
+        print("New name is \(text)")
+        let url1 = URL(fileURLWithPath: text, isDirectory: false)
+        share(url: url1)
+      }
+    }
+  }
   
 //    @IBAction func showOptionsTapped(_ sender: UIButton) {
 //        /// Passing the remote URL of the file, to be stored and then opted with mutliple actions for the user to perform
@@ -45,6 +58,7 @@ extension DocumentViewerController {
   
     /// This function will set all the required properties, and then provide a preview for the document
     func share(url: URL) {
+        documentInteractionController.delegate = self
         documentInteractionController.url = url
         documentInteractionController.uti = url.typeIdentifier ?? "public.data, public.content"
         documentInteractionController.name = url.localizedName ?? url.lastPathComponent
