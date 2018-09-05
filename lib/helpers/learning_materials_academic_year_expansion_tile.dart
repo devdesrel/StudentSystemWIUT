@@ -2,15 +2,15 @@ import 'package:flutter/material.dart';
 import 'package:student_system_flutter/bloc/file_download/learning_materials_bloc.dart';
 import 'package:student_system_flutter/helpers/app_constants.dart';
 
-class LearningMaterialsExpansionTile extends StatelessWidget {
-  final GlobalKey<AppExpansionTileState> expansionTile;
+class LearningMaterialsAcademicYearExpansionTile extends StatelessWidget {
+  final GlobalKey<AppExpansionTileState2> expansionTile;
   final LearningMaterialsBloc bloc;
   String value;
-  final List<String> expansionChildrenList;
+  final Map<int, String> expansionChildrenList;
 
   // final ModulesList modulesList;
 
-  LearningMaterialsExpansionTile(
+  LearningMaterialsAcademicYearExpansionTile(
       {Key key,
       @required this.expansionTile,
       @required this.bloc,
@@ -18,30 +18,34 @@ class LearningMaterialsExpansionTile extends StatelessWidget {
       @required this.expansionChildrenList})
       : super(key: key);
 
+  List<Widget> _getWidgets() {
+    List<Widget> _widgetsList = [];
+
+    expansionChildrenList.forEach((yearID, yearName) {
+      _widgetsList.add(InkWell(
+        onTap: () {
+          bloc.setAcademicYear.add(yearID);
+
+          expansionTile.currentState.collapse();
+        },
+        child: ItemSelection(
+          name: yearName,
+        ),
+      ));
+    });
+
+    return _widgetsList;
+  }
+
   @override
   Widget build(BuildContext context) {
     // var bloc = CourseworkUploadProvider.of(context);
-    return AppExpansionTile(
-      key: expansionTile,
-      title: Text(value),
-      backgroundColor: whiteColor,
-      // onExpansionChanged: (b) => print(b),
-      children: expansionChildrenList
-          .map((name) => InkWell(
-                onTap: () {
-                  if (name == 'Lectures') {
-                    bloc.setLearningMaterialType.add(1);
-                  } else if (name == 'Tutorials') {
-                    bloc.setLearningMaterialType.add(2);
-                  }
-                  expansionTile.currentState.collapse();
-                },
-                child: ItemSelection(
-                  name: name,
-                ),
-              ))
-          .toList(),
-    );
+    return AppExpansionTile2(
+        key: expansionTile,
+        title: Text(value),
+        backgroundColor: whiteColor,
+        // onExpansionChanged: (b) => print(b),
+        children: _getWidgets());
   }
 }
 
@@ -84,8 +88,8 @@ class ItemSelection extends StatelessWidget {
 
 const Duration _kExpand = const Duration(milliseconds: 200);
 
-class AppExpansionTile extends StatefulWidget {
-  const AppExpansionTile({
+class AppExpansionTile2 extends StatefulWidget {
+  const AppExpansionTile2({
     Key key,
     this.leading,
     @required this.title,
@@ -106,10 +110,10 @@ class AppExpansionTile extends StatefulWidget {
   final bool initiallyExpanded;
 
   @override
-  AppExpansionTileState createState() => new AppExpansionTileState();
+  AppExpansionTileState2 createState() => new AppExpansionTileState2();
 }
 
-class AppExpansionTileState extends State<AppExpansionTile>
+class AppExpansionTileState2 extends State<AppExpansionTile2>
     with SingleTickerProviderStateMixin {
   AnimationController _controller;
   CurvedAnimation _easeOutAnimation;

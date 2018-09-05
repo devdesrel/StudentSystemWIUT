@@ -2,6 +2,7 @@ import 'package:student_system_flutter/helpers/app_constants.dart';
 
 class SingleLearningMaterialsModel {
   int id;
+  int moduleID;
   String academicYear;
   String creator;
   String dateCreated;
@@ -13,6 +14,7 @@ class SingleLearningMaterialsModel {
 
   SingleLearningMaterialsModel(
       {this.id,
+      this.moduleID,
       this.academicYear,
       this.creator,
       this.dateCreated,
@@ -25,6 +27,7 @@ class SingleLearningMaterialsModel {
   factory SingleLearningMaterialsModel.fromJson(Map<String, dynamic> json) {
     return SingleLearningMaterialsModel(
       id: json['ID'],
+      moduleID: json['ModuleID'],
       academicYear: json['AcademicYear'] ?? nullFixer,
       creator: json['Creator'] ?? nullFixer,
       dateCreated: json['DateCreated'] ?? nullFixer,

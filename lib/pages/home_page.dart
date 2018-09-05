@@ -160,7 +160,7 @@ class CustomGridView {
     var size = MediaQuery.of(context).size;
     bool isSmallScreen = false;
 
-    if (size.width < smallDeviceWidth) {
+    if (size.width <= smallDeviceWidth) {
       isSmallScreen = true;
     }
 
@@ -196,7 +196,7 @@ class CustomGridView {
                   style: Theme.of(context).textTheme.body1.copyWith(
                       letterSpacing: 4.0,
                       color: textColor,
-                      fontSize: isSmallScreen ? 12.0 : 15.0),
+                      fontSize: isSmallScreen ? 13.0 : 15.0),
                 )),
               ],
             ),
@@ -288,7 +288,7 @@ class CustomGridView2 {
                     style: Theme.of(context).textTheme.body1.copyWith(
                         letterSpacing: 4.0,
                         color: textColor,
-                        fontSize: isSmallScreen ? 12.0 : 15.0),
+                        fontSize: isSmallScreen ? 13.0 : 15.0),
                   )),
                 ],
               ),

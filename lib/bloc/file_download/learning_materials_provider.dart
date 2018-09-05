@@ -9,7 +9,7 @@ class LearningMaterialsProvider extends InheritedWidget {
     LearningMaterialsBloc learningMaterialsBloc,
     Widget child,
   })  : learningMaterialsBloc =
-            learningMaterialsBloc ?? LearningMaterialsBloc([]),
+            learningMaterialsBloc ?? LearningMaterialsBloc(null, 0, []),
         super(key: key, child: child);
 
   @override

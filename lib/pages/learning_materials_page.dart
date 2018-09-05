@@ -6,6 +6,7 @@ import 'package:simple_permissions/simple_permissions.dart';
 import 'package:student_system_flutter/bloc/file_download/file_download_bloc.dart';
 import 'package:student_system_flutter/bloc/file_download/learning_materials_bloc.dart';
 import 'package:student_system_flutter/bloc/file_download/learning_materials_provider.dart';
+import 'package:student_system_flutter/helpers/learning_materials_academic_year_expansion_tile.dart';
 import 'package:student_system_flutter/helpers/learning_materials_expansion_tile.dart';
 import 'package:student_system_flutter/list_items/item_file_downloading.dart';
 import 'package:student_system_flutter/models/LearningMaterials/learning_materials_model.dart';
@@ -45,7 +46,8 @@ class _LearningMaterialsPageState extends State<LearningMaterialsPage>
   }
 
   Widget _createCurrentPage(BuildContext context) {
-    var bloc = LearningMaterialsBloc(widget.module.moduleMaterial);
+    var bloc = LearningMaterialsBloc(
+        context, widget.module.moduleID, widget.module.moduleMaterial);
     bloc.moduleName = widget.module.moduleName;
 
     return LearningMaterialsProvider(
@@ -328,7 +330,10 @@ class MaterialsListTab extends StatefulWidget {
 
 class _MaterialsListTabState extends State<MaterialsListTab>
     with AutomaticKeepAliveClientMixin {
-  final GlobalKey<AppExpansionTileState> expansionTile = new GlobalKey();
+  final GlobalKey<AppExpansionTileState2> acadYearExpansionTile =
+      new GlobalKey();
+  final GlobalKey<AppExpansionTileState> materialTypeExpansionTile =
+      new GlobalKey();
 
   // TODO: implement wantKeepAlive
   @override
@@ -340,77 +345,120 @@ class _MaterialsListTabState extends State<MaterialsListTab>
 
     print('Rebuild Materials List Tab');
 
+    Map<int, String> _academicYearsList = {};
+    _academicYearsList[19] = '2018/2019';
+    _academicYearsList[18] = '2017/2018';
+    _academicYearsList[17] = '2016/2017';
+
     List<String> _learningMaterialTypes = <String>[
       'Lectures',
       'Tutorials',
       // 'Courseworks'
     ];
 
+    double halfWidth = (MediaQuery.of(context).size.width / 2) - 7.0;
+
     return CustomScrollView(
       slivers: <Widget>[
         SliverToBoxAdapter(
-          child: Container(
-            color: backgroundColor,
-            child: SizedBox(
-              width: 300.0,
-              child: StreamBuilder(
-                initialData: _learningMaterialTypes[0],
-                stream: widget.bloc.learningMaterialType,
-                builder: (context, snapshot) => SafeArea(
-                      bottom: false,
-                      child: LearningMaterialsExpansionTile(
-                          bloc: widget.bloc,
-                          expansionTile: expansionTile,
-                          value: snapshot.hasData
-                              ? snapshot.data
-                              : _learningMaterialTypes[0],
-                          expansionChildrenList: _learningMaterialTypes),
-                    ),
+          child: Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: <Widget>[
+              Container(
+                padding: EdgeInsets.only(left: 4.0, right: 3.0, top: 10.0),
+                color: backgroundColor,
+                child: SizedBox(
+                  width: halfWidth,
+                  child: StreamBuilder(
+                    initialData: _academicYearsList[19],
+                    stream: widget.bloc.academicYearStream,
+                    builder: (context, snapshot) => SafeArea(
+                          bottom: false,
+                          child: LearningMaterialsAcademicYearExpansionTile(
+                              bloc: widget.bloc,
+                              expansionTile: acadYearExpansionTile,
+                              value: snapshot.hasData
+                                  ? snapshot.data
+                                  : _academicYearsList[19],
+                              expansionChildrenList: _academicYearsList),
+                        ),
+                  ),
+                ),
               ),
-            ),
+              Container(
+                padding: EdgeInsets.only(left: 3.0, right: 4.0, top: 10.0),
+                color: backgroundColor,
+                child: SizedBox(
+                  width: halfWidth,
+                  child: StreamBuilder(
+                    initialData: _learningMaterialTypes[0].toString(),
+                    stream: widget.bloc.learningMaterialType,
+                    builder: (context, snapshot) => SafeArea(
+                          bottom: false,
+                          child: LearningMaterialsExpansionTile(
+                              bloc: widget.bloc,
+                              expansionTile: materialTypeExpansionTile,
+                              value: snapshot.hasData
+                                  ? snapshot.data
+                                  : _learningMaterialTypes[0],
+                              expansionChildrenList: _learningMaterialTypes),
+                        ),
+                  ),
+                ),
+              ),
+            ],
           ),
         ),
         StreamBuilder<List<SingleLearningMaterialsModel>>(
             stream: widget.bloc.materialsList,
-            builder: (context, snapshot) => snapshot.hasData &&
-                    snapshot.data.length > 0
-                ? SliverList(
-                    delegate: SliverChildBuilderDelegate(
-                      (context, index) {
-                        if (index == 0) {
-                          return Padding(
-                            padding: const EdgeInsets.only(top: 8.0),
-                            child: LearningMaterialsCard(
+            builder: (context, snapshot) => snapshot.hasData
+                ? snapshot.data.length > 0
+                    ? SliverList(
+                        delegate: SliverChildBuilderDelegate(
+                          (context, index) {
+                            if (index == 0) {
+                              return Padding(
+                                padding: const EdgeInsets.only(top: 8.0),
+                                child: LearningMaterialsCard(
+                                    learningMaterialsModel:
+                                        snapshot.data[index],
+                                    controller: widget.controller,
+                                    bloc: widget.bloc),
+                              );
+                            } else if (index == snapshot.data.length - 1) {
+                              return SafeArea(
+                                top: false,
+                                child: Padding(
+                                  padding: const EdgeInsets.only(bottom: 8.0),
+                                  child: LearningMaterialsCard(
+                                      learningMaterialsModel:
+                                          snapshot.data[index],
+                                      controller: widget.controller,
+                                      bloc: widget.bloc),
+                                ),
+                              );
+                            } else {
+                              return LearningMaterialsCard(
                                 learningMaterialsModel: snapshot.data[index],
                                 controller: widget.controller,
-                                bloc: widget.bloc),
-                          );
-                        } else if (index == snapshot.data.length - 1) {
-                          return SafeArea(
-                            top: false,
-                            child: Padding(
-                              padding: const EdgeInsets.only(bottom: 8.0),
-                              child: LearningMaterialsCard(
-                                  learningMaterialsModel: snapshot.data[index],
-                                  controller: widget.controller,
-                                  bloc: widget.bloc),
-                            ),
-                          );
-                        } else {
-                          return LearningMaterialsCard(
-                            learningMaterialsModel: snapshot.data[index],
-                            controller: widget.controller,
-                            bloc: widget.bloc,
-                          );
-                        }
-                      },
-                      childCount: snapshot.data.length,
-                    ),
-                  )
+                                bloc: widget.bloc,
+                              );
+                            }
+                          },
+                          childCount: snapshot.data.length,
+                        ),
+                      )
+                    : SliverToBoxAdapter(
+                        child: Container(
+                            height: MediaQuery.of(context).size.height / 1.5,
+                            child: Center(child: Text(noFilesToDownload))))
                 : SliverToBoxAdapter(
-                    child: Container(
-                        height: MediaQuery.of(context).size.height / 1.5,
-                        child: Center(child: Text(noFilesToDownload)))))
+                    child: Padding(
+                        padding: EdgeInsets.only(top: 20.0),
+                        child: Center(
+                            child: Platform.isAndroid
+                                ? CircularProgressIndicator()
+                                : CupertinoActivityIndicator()))))
         // itemCount: widget.materialsList.length,
         // itemBuilder:
         // (context, index) => index == 0

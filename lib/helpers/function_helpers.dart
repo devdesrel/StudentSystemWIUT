@@ -36,7 +36,7 @@ void getMinimumAppVersion(BuildContext context) async {
   int buildNumber = int.parse(packageInfo.buildNumber);
 
   if (buildNumber < minVersion) {
-    Navigator.of(context).pushReplacementNamed(appUpdatesPage);
+    Navigator.of(context).pushNamed(appUpdatesPage);
   }
 }
 

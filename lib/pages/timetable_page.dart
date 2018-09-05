@@ -22,6 +22,15 @@ class TimetablePage extends StatelessWidget {
         timetableBloc: _bloc,
         child: Platform.isAndroid
             ? Scaffold(
+                bottomNavigationBar: Container(
+                    padding:
+                        EdgeInsets.symmetric(horizontal: 10.0, vertical: 10.0),
+                    color: redColor,
+                    child: Text(
+                      'Timetable for the current academic year isn\'t available',
+                      overflow: TextOverflow.ellipsis,
+                      style: TextStyle(color: Colors.white),
+                    )),
                 backgroundColor: Theme.of(context).backgroundColor,
                 appBar: AppBar(
                   centerTitle: true,

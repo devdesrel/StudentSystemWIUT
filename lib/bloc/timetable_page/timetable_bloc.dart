@@ -161,9 +161,9 @@ class TimetableBloc {
 
   Future<List<TimetableModel>> _getTimetable(String groupName) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    String _groupID;
+    String _groupID = '';
 
-    if (groupName == '') {
+    if (groupName == null || groupName == '') {
       groupName = prefs.getString(groupNameSharedPref);
       _groupID = prefs.getString(groupID);
 
