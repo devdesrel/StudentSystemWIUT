@@ -111,7 +111,8 @@ final String noFilesToDownload = 'There is no files to download';
 final String noAvailableTimetable = 'Nothing to show for the current week';
 
 //Screen Size constants
-final smallDeviceHeight = 800;
+final smallDeviceWidth = 360;
+final smallDeviceHeight = 600;
 
 //Academic Words
 final toBeAnnounced = 'To Be Announced';

@@ -185,12 +185,13 @@ class _SecurityPageState extends State<SecurityPage> {
           child: Column(
             children: <Widget>[
               SizedBox(
-                height: isSmallScreen ? size.height / 5.0 : size.height / 3.5,
+                height: isSmallScreen ? size.height / 5.7 : size.height / 3.5,
               ),
               Text(
                 _pinCodeMask,
                 maxLines: 1,
-                style: Theme.of(context)
+                style: Theme
+                    .of(context)
                     .textTheme
                     .display3
                     .copyWith(color: Colors.white70, letterSpacing: 40.0),

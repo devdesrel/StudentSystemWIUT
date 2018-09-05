@@ -161,7 +161,7 @@ packages:
       name: flutter_map
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.1.1"
+    version: "0.0.11+1"
   flutter_test:
     dependency: "direct dev"
     description: flutter
@@ -264,7 +264,7 @@ packages:
       name: latlong
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.6.1"
+    version: "0.5.3"
   local_auth:
     dependency: "direct main"
     description:
@@ -285,7 +285,7 @@ packages:
       name: matcher
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.12.3+1"
+    version: "0.12.2+1"
   material_design_icons_flutter:
     dependency: "direct main"
     description:
@@ -320,14 +320,7 @@ packages:
       name: node_preamble
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "1.4.4"
-  open_file:
-    dependency: "direct main"
-    description:
-      name: open_file
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "1.0.7"
+    version: "1.4.1"
   package_config:
     dependency: transitive
     description:
