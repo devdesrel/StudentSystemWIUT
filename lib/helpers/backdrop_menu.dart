@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:student_system_flutter/bloc/backdrop/backdrop_provider.dart';
+import 'package:student_system_flutter/bloc/home_page/home_page_bloc.dart';
 import 'package:student_system_flutter/helpers/app_constants.dart';
 import 'package:student_system_flutter/models/deadlines_model.dart';
 // import 'package:student_system_flutter/helpers/feedback_form.dart';
@@ -52,354 +53,396 @@ class _TwoPanelsState extends State<TwoPanels> {
     var deadlineTextStyle = TextStyle(color: Colors.white);
 
     var _bloc = BackdropProvider.of(context);
+    var homePageBloc = HomePageBloc();
 
     return SafeArea(
       bottom: true,
       child: Container(
-        child: Stack(
-          children: <Widget>[
-            SafeArea(
-              child: Container(
-                color: Platform.isIOS ? backgroundColor : accentColor,
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.stretch,
-                  children: <Widget>[
-                    CustomBackdropMenuItems(
-                      itemName: 'Home',
-                      icon: Platform.isAndroid ? 0xe88a : 0xF447,
-                      iconFont:
-                          Platform.isAndroid ? 'MaterialIcons' : 'CuperIcon',
-                      controller: widget.controller,
-                      selected: true,
-                    ),
-                    CustomBackdropMenuItems(
-                      itemName: 'Support',
-                      icon: Platform.isAndroid ? 0xe0c9 : 0xF3FB,
-                      iconFont:
-                          Platform.isAndroid ? 'MaterialIcons' : 'CuperIcon',
-                      controller: widget.controller,
-                      selected: false,
-                    ),
-                    CustomBackdropMenuItems(
-                      itemName: 'Contacts',
-                      icon: Platform.isAndroid ? 0xe0b0 : 0xF4B8,
-                      iconFont:
-                          Platform.isAndroid ? 'MaterialIcons' : 'CuperIcon',
-                      controller: widget.controller,
-                      selected: false,
-                    ),
-                    CustomBackdropMenuItems(
-                      itemName: 'Settings',
-                      icon: Platform.isAndroid ? 0xe8b8 : 0xF411,
-                      iconFont:
-                          Platform.isAndroid ? 'MaterialIcons' : 'CuperIcon',
-                      controller: widget.controller,
-                      selected: false,
-                    ),
-                  ],
+          child: Stack(children: <Widget>[
+        SafeArea(
+          child: Container(
+            color: Platform.isIOS ? backgroundColor : accentColor,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: <Widget>[
+                CustomBackdropMenuItems(
+                  itemName: 'Home',
+                  icon: Platform.isAndroid ? 0xe88a : 0xF447,
+                  iconFont: Platform.isAndroid ? 'MaterialIcons' : 'CuperIcon',
+                  controller: widget.controller,
+                  selected: true,
                 ),
-              ),
+                CustomBackdropMenuItems(
+                  itemName: 'Support',
+                  icon: Platform.isAndroid ? 0xe0c9 : 0xF3FB,
+                  iconFont: Platform.isAndroid ? 'MaterialIcons' : 'CuperIcon',
+                  controller: widget.controller,
+                  selected: false,
+                ),
+                CustomBackdropMenuItems(
+                  itemName: 'Contacts',
+                  icon: Platform.isAndroid ? 0xe0b0 : 0xF4B8,
+                  iconFont: Platform.isAndroid ? 'MaterialIcons' : 'CuperIcon',
+                  controller: widget.controller,
+                  selected: false,
+                ),
+                CustomBackdropMenuItems(
+                  itemName: 'Settings',
+                  icon: Platform.isAndroid ? 0xe8b8 : 0xF411,
+                  iconFont: Platform.isAndroid ? 'MaterialIcons' : 'CuperIcon',
+                  controller: widget.controller,
+                  selected: false,
+                ),
+              ],
             ),
-            PositionedTransition(
-              rect: getPanelAnimation(constraints),
-              child: Material(
-                color: backgroundColor,
-                elevation: 12.0,
-                borderRadius: Platform.isIOS
-                    ? BorderRadius.all(Radius.circular(0.0))
-                    : BorderRadius.only(
-                        topLeft: Radius.circular(16.0),
-                        topRight: Radius.circular(16.0)),
-                child: CustomScrollView(
-                  slivers: <Widget>[
-                    SliverToBoxAdapter(
-                      child: GestureDetector(
-                        behavior: HitTestBehavior.opaque,
-                        // onVerticalDragUpdate: onVerticalDragUpdate,
-                        // onVerticalDragEnd: onVerticalDragEnd,
-                        onTap: () {
-                          widget.controller.fling(
-                              velocity:
-                                  _bloc.isBackdropPanelHidden ? -2.0 : 2.0);
-
-                          _bloc.setBackdropPanelHidden
-                              .add(!_bloc.isBackdropPanelHidden);
-                        },
-                        child: new Container(
-                            padding: EdgeInsets.only(top: 5.0),
-                            width: double.infinity,
-                            child: StreamBuilder<bool>(
-                              stream: _bloc.backdropPanelHidden,
-                              initialData: true,
-                              builder: (context, snapshot) => RotatedBox(
-                                    child: Icon(CupertinoIcons.left_chevron),
-                                    quarterTurns: snapshot.data ? 3 : 1,
-                                  ),
-                            )),
-                      ),
-                    ),
-                    SliverToBoxAdapter(
-                      child: Center(
-                        child: Padding(
-                          padding: const EdgeInsets.only(
-                            top: 22.0,
-                            bottom: 5.0, /* left: 24.0 */
-                          ),
-                          child: Text(
-                            'Deadline dates (under development)'.toUpperCase(),
-                            style: TextStyle(
-                              color: Platform.isAndroid
-                                  ? lightGreyTextColor
-                                  : lightGreyTextColor,
-                              fontSize: 11.0,
-                            ),
-                          ),
-                        ),
-                      ),
-                    ),
-                    SliverToBoxAdapter(
-                      child: Padding(
-                        padding: EdgeInsets.only(bottom: 15.0),
-                        child: SizedBox(
-                          height: 100.0,
-                          child: ListView.builder(
-                            scrollDirection: Axis.horizontal,
-                            itemCount: deadlinesList.length,
-                            itemBuilder: (context, index) => index == 0
-                                ? Padding(
-                                    padding: EdgeInsets.only(
-                                        left: 24.0, top: 7.0, right: 10.0),
-                                    child: Column(
-                                      children: <Widget>[
-                                        CircleAvatar(
-                                          radius: 30.0,
-                                          backgroundColor: redColor,
-                                          child: Column(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.center,
-                                            crossAxisAlignment:
-                                                CrossAxisAlignment.center,
-                                            mainAxisSize: MainAxisSize.min,
-                                            children: <Widget>[
-                                              Text(
-                                                deadlinesList[index].date,
-                                                style:
-                                                    deadlineTextStyle.copyWith(
-                                                        color: Colors.white,
-                                                        fontSize: 26.0),
-                                              ),
-                                              Text(
-                                                deadlinesList[index]
-                                                    .month
-                                                    .toUpperCase(),
-                                                style:
-                                                    deadlineTextStyle.copyWith(
-                                                        color: Colors.white,
-                                                        fontSize: 10.0),
-                                              )
-                                            ],
-                                          ),
-                                        ),
-                                        // ClipRRect(
-                                        //   borderRadius: BorderRadius.all(
-                                        //       Radius.circular(200.0)),
-                                        //   child: Container(
-                                        //     padding: EdgeInsets.symmetric(
-                                        //         horizontal: 16.0, vertical: 5.0),
-                                        //     color: redColor,
-                                        //     child: Column(
-                                        //       mainAxisAlignment:
-                                        //           MainAxisAlignment.center,
-                                        //       crossAxisAlignment:
-                                        //           CrossAxisAlignment.center,
-                                        //       mainAxisSize: MainAxisSize.min,
-                                        //       children: <Widget>[
-                                        //         Text(
-                                        //           deadlinesList[index].date,
-                                        //           style: deadlineTextStyle.copyWith(
-                                        //               fontSize: 26.0),
-                                        //         ),
-                                        //         Text(
-                                        //           deadlinesList[index]
-                                        //               .month
-                                        //               .toUpperCase(),
-                                        //           style: deadlineTextStyle.copyWith(
-                                        //               fontSize: 10.0),
-                                        //         ),
-                                        //       ],
-                                        //     ),
-                                        //   ),
-                                        // ),
-                                        SizedBox(height: 5.0),
-                                        Text(
-                                          deadlinesList[index]
-                                              .moduleName
-                                              .toUpperCase(),
-                                          style: deadlineTextStyle.copyWith(
-                                              fontWeight: FontWeight.w500,
-                                              color: redColor,
-                                              fontSize: 15.0),
-                                        )
-                                      ],
-                                    ),
-                                  )
-                                : Padding(
-                                    padding: EdgeInsets.only(
-                                        left: 10.0, right: 10.0, top: 7.0),
-                                    child: Column(
-                                      children: <Widget>[
-                                        CircleAvatar(
-                                          radius: 30.0,
-                                          backgroundColor: Colors.white,
-                                          child: Column(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.center,
-                                            crossAxisAlignment:
-                                                CrossAxisAlignment.center,
-                                            mainAxisSize: MainAxisSize.min,
-                                            children: <Widget>[
-                                              Text(
-                                                deadlinesList[index].date,
-                                                style:
-                                                    deadlineTextStyle.copyWith(
-                                                        color:
-                                                            lightGreyTextColor,
-                                                        fontSize: 26.0),
-                                              ),
-                                              Text(
-                                                deadlinesList[index]
-                                                    .month
-                                                    .toUpperCase(),
-                                                style:
-                                                    deadlineTextStyle.copyWith(
-                                                        color:
-                                                            lightGreyTextColor,
-                                                        fontSize: 10.0),
-                                              )
-                                            ],
-                                          ),
-                                        ),
-                                        // FloatingActionButton(
-                                        //     backgroundColor: Colors.white,
-                                        //     onPressed: () {},
-                                        //     child: Column(
-                                        //       mainAxisAlignment:
-                                        //           MainAxisAlignment.center,
-                                        //       crossAxisAlignment:
-                                        //           CrossAxisAlignment.center,
-                                        //       mainAxisSize: MainAxisSize.min,
-                                        //       children: <Widget>[
-                                        //         Text(
-                                        //           deadlinesList[index].date,
-                                        //           style: deadlineTextStyle.copyWith(
-                                        //               color: lightGreyTextColor,
-                                        //               fontSize: 26.0),
-                                        //         ),
-                                        //         Text(
-                                        //           deadlinesList[index]
-                                        //               .month
-                                        //               .toUpperCase(),
-                                        //           style: deadlineTextStyle.copyWith(
-                                        //               color: lightGreyTextColor,
-                                        //               fontSize: 10.0),
-                                        //         )
-                                        //       ],
-                                        //     ),
-                                        //     shape: CircleBorder(
-                                        //         side: BorderSide(color: redColor))),
-                                        // // ClipRRect(
-                                        //   borderRadius: BorderRadius.all(
-                                        //       Radius.circular(200.0)),
-                                        //   child: Container(
-                                        //     padding: EdgeInsets.symmetric(
-                                        //         horizontal: 16.0, vertical: 5.0),
-                                        //     color: redColor.withAlpha(150),
-                                        //     // radius: 30.0,
-                                        //     child: Column(
-                                        //       mainAxisAlignment:
-                                        //           MainAxisAlignment.center,
-                                        //       crossAxisAlignment:
-                                        //           CrossAxisAlignment.center,
-                                        //       mainAxisSize: MainAxisSize.min,
-                                        //       children: <Widget>[
-                                        //         Text(
-                                        //           deadlinesList[index].date,
-                                        //           style: deadlineTextStyle.copyWith(
-                                        //               color: lightGreyTextColor,
-                                        //               fontSize: 26.0),
-                                        //         ),
-                                        //         Text(
-                                        //           deadlinesList[index]
-                                        //               .month
-                                        //               .toUpperCase(),
-                                        //           style: deadlineTextStyle.copyWith(
-                                        //               color: lightGreyTextColor,
-                                        //               fontSize: 10.0),
-                                        //         )
-                                        //       ],
-                                        //     ),
-                                        //   ),
-                                        // ),
-                                        SizedBox(height: 5.0),
-                                        Text(
-                                          deadlinesList[index]
-                                              .moduleName
-                                              .toUpperCase(),
-                                          style: deadlineTextStyle.copyWith(
-                                              fontWeight: FontWeight.w500,
-                                              color: lightGreyTextColor,
-                                              fontSize: 15.0),
-                                        )
-                                      ],
-                                    ),
-                                  ),
-                          ),
-                        ),
-                      ),
-                    ),
-                    // SliverToBoxAdapter(
-                    //     child: SafeArea(
-                    //   bottom: false,
-                    //   child: FeedbackForm(questionNumbers: _questionNumbers),
-                    // )),
-                    CustomGridView(context).build(),
-                    SliverToBoxAdapter(
-                      child: Center(
-                        child: Padding(
-                          padding: const EdgeInsets.only(
-                            top: 22.0,
-                            bottom: 5.0, /*left: 22.0 */
-                          ),
-                          child: Text(
-                            'Under development'.toUpperCase(),
-                            style: TextStyle(
-                              color: Platform.isAndroid
-                                  ? lightGreyTextColor
-                                  : lightGreyTextColor,
-                              fontSize: 12.0,
-                            ),
-                          ),
-                        ),
-                      ),
-                    ),
-                    CustomGridView2(context).build(),
-                    SliverToBoxAdapter(
-                      child: ListTile(
-                        title: Text('Show features under development'),
-                        trailing: Platform.isAndroid
-                            ? Switch(
-                                value: true, onChanged: (val) => print(val))
-                            : CupertinoSwitch(
-                                value: true, onChanged: (val) => print(val)),
-                      ),
-                    )
-                  ],
-                ),
-              ),
-            )
-          ],
+          ),
         ),
-      ),
+        PositionedTransition(
+            rect: getPanelAnimation(constraints),
+            child: Material(
+              color: backgroundColor,
+              elevation: 12.0,
+              borderRadius: Platform.isIOS
+                  ? BorderRadius.all(Radius.circular(0.0))
+                  : BorderRadius.only(
+                      topLeft: Radius.circular(16.0),
+                      topRight: Radius.circular(16.0)),
+              child: CustomScrollView(
+                slivers: <Widget>[
+                  SliverToBoxAdapter(
+                    child: GestureDetector(
+                      behavior: HitTestBehavior.opaque,
+                      // onVerticalDragUpdate: onVerticalDragUpdate,
+                      // onVerticalDragEnd: onVerticalDragEnd,
+                      onTap: () {
+                        widget.controller.fling(
+                            velocity: _bloc.isBackdropPanelHidden ? -2.0 : 2.0);
+
+                        _bloc.setBackdropPanelHidden
+                            .add(!_bloc.isBackdropPanelHidden);
+                      },
+                      child: new Container(
+                          padding: EdgeInsets.only(top: 5.0),
+                          width: double.infinity,
+                          child: StreamBuilder<bool>(
+                            stream: _bloc.backdropPanelHidden,
+                            initialData: true,
+                            builder: (context, snapshot) => RotatedBox(
+                                  child: Icon(CupertinoIcons.left_chevron),
+                                  quarterTurns: snapshot.data ? 3 : 1,
+                                ),
+                          )),
+                    ),
+                  ),
+                  StreamBuilder(
+                    initialData: true,
+                    stream: homePageBloc.isUnderDevelopmentFeaturesOn,
+                    builder: (context, snapshot) => snapshot.data == false
+                        ? SliverToBoxAdapter(
+                            child: Center(
+                              child: Padding(
+                                padding: const EdgeInsets.only(
+                                  top: 22.0,
+                                  bottom: 5.0, /* left: 24.0 */
+                                ),
+                                child: Text(
+                                  'Deadline dates (under development)'
+                                      .toUpperCase(),
+                                  style: TextStyle(
+                                    color: Platform.isAndroid
+                                        ? lightGreyTextColor
+                                        : lightGreyTextColor,
+                                    fontSize: 11.0,
+                                  ),
+                                ),
+                              ),
+                            ),
+                          )
+                        : SliverToBoxAdapter(),
+                  ),
+                  StreamBuilder(
+                    initialData: true,
+                    stream: homePageBloc.isUnderDevelopmentFeaturesOn,
+                    builder: (context, snapshot) => snapshot.data == false
+                        ? SliverToBoxAdapter(
+                            child: Padding(
+                              padding: EdgeInsets.only(bottom: 15.0),
+                              child: SizedBox(
+                                height: 100.0,
+                                child: ListView.builder(
+                                  scrollDirection: Axis.horizontal,
+                                  itemCount: deadlinesList.length,
+                                  itemBuilder: (context, index) => index == 0
+                                      ? Padding(
+                                          padding: EdgeInsets.only(
+                                              left: 24.0,
+                                              top: 7.0,
+                                              right: 10.0),
+                                          child: Column(
+                                            children: <Widget>[
+                                              CircleAvatar(
+                                                radius: 30.0,
+                                                backgroundColor: redColor,
+                                                child: Column(
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment.center,
+                                                  crossAxisAlignment:
+                                                      CrossAxisAlignment.center,
+                                                  mainAxisSize:
+                                                      MainAxisSize.min,
+                                                  children: <Widget>[
+                                                    Text(
+                                                      deadlinesList[index].date,
+                                                      style: deadlineTextStyle
+                                                          .copyWith(
+                                                              color:
+                                                                  Colors.white,
+                                                              fontSize: 26.0),
+                                                    ),
+                                                    Text(
+                                                      deadlinesList[index]
+                                                          .month
+                                                          .toUpperCase(),
+                                                      style: deadlineTextStyle
+                                                          .copyWith(
+                                                              color:
+                                                                  Colors.white,
+                                                              fontSize: 10.0),
+                                                    )
+                                                  ],
+                                                ),
+                                              ),
+                                              // ClipRRect(
+                                              //   borderRadius: BorderRadius.all(
+                                              //       Radius.circular(200.0)),
+                                              //   child: Container(
+                                              //     padding: EdgeInsets.symmetric(
+                                              //         horizontal: 16.0, vertical: 5.0),
+                                              //     color: redColor,
+                                              //     child: Column(
+                                              //       mainAxisAlignment:
+                                              //           MainAxisAlignment.center,
+                                              //       crossAxisAlignment:
+                                              //           CrossAxisAlignment.center,
+                                              //       mainAxisSize: MainAxisSize.min,
+                                              //       children: <Widget>[
+                                              //         Text(
+                                              //           deadlinesList[index].date,
+                                              //           style: deadlineTextStyle.copyWith(
+                                              //               fontSize: 26.0),
+                                              //         ),
+                                              //         Text(
+                                              //           deadlinesList[index]
+                                              //               .month
+                                              //               .toUpperCase(),
+                                              //           style: deadlineTextStyle.copyWith(
+                                              //               fontSize: 10.0),
+                                              //         ),
+                                              //       ],
+                                              //     ),
+                                              //   ),
+                                              // ),
+                                              SizedBox(height: 5.0),
+                                              Text(
+                                                deadlinesList[index]
+                                                    .moduleName
+                                                    .toUpperCase(),
+                                                style:
+                                                    deadlineTextStyle.copyWith(
+                                                        fontWeight:
+                                                            FontWeight.w500,
+                                                        color: redColor,
+                                                        fontSize: 15.0),
+                                              )
+                                            ],
+                                          ),
+                                        )
+                                      : Padding(
+                                          padding: EdgeInsets.only(
+                                              left: 10.0,
+                                              right: 10.0,
+                                              top: 7.0),
+                                          child: Column(
+                                            children: <Widget>[
+                                              CircleAvatar(
+                                                radius: 30.0,
+                                                backgroundColor: Colors.white,
+                                                child: Column(
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment.center,
+                                                  crossAxisAlignment:
+                                                      CrossAxisAlignment.center,
+                                                  mainAxisSize:
+                                                      MainAxisSize.min,
+                                                  children: <Widget>[
+                                                    Text(
+                                                      deadlinesList[index].date,
+                                                      style: deadlineTextStyle
+                                                          .copyWith(
+                                                              color:
+                                                                  lightGreyTextColor,
+                                                              fontSize: 26.0),
+                                                    ),
+                                                    Text(
+                                                      deadlinesList[index]
+                                                          .month
+                                                          .toUpperCase(),
+                                                      style: deadlineTextStyle
+                                                          .copyWith(
+                                                              color:
+                                                                  lightGreyTextColor,
+                                                              fontSize: 10.0),
+                                                    )
+                                                  ],
+                                                ),
+                                              ),
+                                              // FloatingActionButton(
+                                              //     backgroundColor: Colors.white,
+                                              //     onPressed: () {},
+                                              //     child: Column(
+                                              //       mainAxisAlignment:
+                                              //           MainAxisAlignment.center,
+                                              //       crossAxisAlignment:
+                                              //           CrossAxisAlignment.center,
+                                              //       mainAxisSize: MainAxisSize.min,
+                                              //       children: <Widget>[
+                                              //         Text(
+                                              //           deadlinesList[index].date,
+                                              //           style: deadlineTextStyle.copyWith(
+                                              //               color: lightGreyTextColor,
+                                              //               fontSize: 26.0),
+                                              //         ),
+                                              //         Text(
+                                              //           deadlinesList[index]
+                                              //               .month
+                                              //               .toUpperCase(),
+                                              //           style: deadlineTextStyle.copyWith(
+                                              //               color: lightGreyTextColor,
+                                              //               fontSize: 10.0),
+                                              //         )
+                                              //       ],
+                                              //     ),
+                                              //     shape: CircleBorder(
+                                              //         side: BorderSide(color: redColor))),
+                                              // // ClipRRect(
+                                              //   borderRadius: BorderRadius.all(
+                                              //       Radius.circular(200.0)),
+                                              //   child: Container(
+                                              //     padding: EdgeInsets.symmetric(
+                                              //         horizontal: 16.0, vertical: 5.0),
+                                              //     color: redColor.withAlpha(150),
+                                              //     // radius: 30.0,
+                                              //     child: Column(
+                                              //       mainAxisAlignment:
+                                              //           MainAxisAlignment.center,
+                                              //       crossAxisAlignment:
+                                              //           CrossAxisAlignment.center,
+                                              //       mainAxisSize: MainAxisSize.min,
+                                              //       children: <Widget>[
+                                              //         Text(
+                                              //           deadlinesList[index].date,
+                                              //           style: deadlineTextStyle.copyWith(
+                                              //               color: lightGreyTextColor,
+                                              //               fontSize: 26.0),
+                                              //         ),
+                                              //         Text(
+                                              //           deadlinesList[index]
+                                              //               .month
+                                              //               .toUpperCase(),
+                                              //           style: deadlineTextStyle.copyWith(
+                                              //               color: lightGreyTextColor,
+                                              //               fontSize: 10.0),
+                                              //         )
+                                              //       ],
+                                              //     ),
+                                              //   ),
+                                              // ),
+                                              SizedBox(height: 5.0),
+                                              Text(
+                                                deadlinesList[index]
+                                                    .moduleName
+                                                    .toUpperCase(),
+                                                style:
+                                                    deadlineTextStyle.copyWith(
+                                                        fontWeight:
+                                                            FontWeight.w500,
+                                                        color:
+                                                            lightGreyTextColor,
+                                                        fontSize: 15.0),
+                                              )
+                                            ],
+                                          ),
+                                        ),
+                                ),
+                              ),
+                            ),
+                          )
+                        : SliverToBoxAdapter(),
+                  ),
+                  // SliverToBoxAdapter(
+                  //     child: SafeArea(
+                  //   bottom: false,
+                  //   child: FeedbackForm(questionNumbers: _questionNumbers),
+                  // )),
+                  CustomGridView(context).build(),
+                  StreamBuilder(
+                    stream: homePageBloc.isUnderDevelopmentFeaturesOn,
+                    initialData: true,
+                    builder: (context, snapshot) => snapshot.data == false
+                        ? SliverToBoxAdapter(
+                            child: Center(
+                              child: Padding(
+                                padding: const EdgeInsets.only(
+                                  top: 22.0,
+                                  bottom: 5.0, /*left: 22.0 */
+                                ),
+                                child: Text(
+                                  'Under development'.toUpperCase(),
+                                  style: TextStyle(
+                                    color: Platform.isAndroid
+                                        ? lightGreyTextColor
+                                        : lightGreyTextColor,
+                                    fontSize: 12.0,
+                                  ),
+                                ),
+                              ),
+                            ),
+                          )
+                        : SliverToBoxAdapter(),
+                  ),
+                  StreamBuilder(
+                      initialData: true,
+                      stream: homePageBloc.isUnderDevelopmentFeaturesOn,
+                      builder: (context, snapshot) => snapshot.data == false
+                          ? CustomGridView2(context).build()
+                          : SliverToBoxAdapter()),
+                  SliverToBoxAdapter(
+                    child: ListTile(
+                        title: Text('Hide under development features'),
+                        trailing:
+                            //  StreamBuilder(
+                            //     initialData: false,
+                            //     builder: (context, snapshot) =>
+                            StreamBuilder(
+                          initialData: true,
+                          stream: homePageBloc.isUnderDevelopmentFeaturesOn,
+                          builder: (context, snapshot) => Switch(
+                              // value:   snapshot.hasData ? snapshot.data : false,
+                              value: snapshot.hasData ? snapshot.data : true,
+                              onChanged: (val) => homePageBloc
+                                  .setUnderDevelopmentFeaturesVisibility
+                                  .add(val)),
+                        )
+                        // ),
+                        ),
+                    //           )
+                    // //         ],
+                    //       ),
+                  )
+                ],
+              ),
+            ))
+      ])),
     );
   }
 

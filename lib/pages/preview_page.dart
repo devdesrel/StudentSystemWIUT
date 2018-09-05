@@ -64,8 +64,8 @@ class PreviewPage extends StatelessWidget {
             //Social
             CustomPreviewContainer(
               logoPath: 'assets/social.png',
-              text1: 'Coursework submisson'.toUpperCase(),
-              text2: 'University social network',
+              text1: 'WIUT network'.toUpperCase(),
+              text2: 'Discuss your academic life with WIUT community ',
               hasButton: true,
             ),
           ],
