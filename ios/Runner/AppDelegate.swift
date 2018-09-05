@@ -17,12 +17,12 @@ import Flutter
     
     
     
-    let controller : FlutterViewController = window?.rootViewController as! FlutterViewController;
+    // let controller : FlutterViewController = window?.rootViewController as! FlutterViewController;
    
 
 
-    flutterChannelManager = FlutterChannelManager(flutterViewController: controller)
-    flutterChannelManager.setup()
+    // flutterChannelManager = FlutterChannelManager(flutterViewController: controller)
+    // flutterChannelManager.setup()
 
 
     

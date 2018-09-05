@@ -47,7 +47,9 @@ class _HomePageState extends State<HomePage>
     return IconButton(
       padding: EdgeInsets.only(top: 1.0),
       icon: Image.asset(
-        'assets/exit_run.png',
+        Platform.isAndroid
+            ? 'assets/exit_run.png'
+            : 'assets/exit_run_black.png',
         height: 22.0,
       ),
       onPressed: () {
@@ -174,7 +176,7 @@ class CustomGridView {
     var size = MediaQuery.of(context).size;
     bool isSmallScreen = false;
 
-    if (size.height < smallDeviceHeight) {
+    if (size.width < smallDeviceWidth) {
       isSmallScreen = true;
     }
 
@@ -210,7 +212,7 @@ class CustomGridView {
                   style: Theme.of(context).textTheme.body1.copyWith(
                       letterSpacing: 4.0,
                       color: textColor,
-                      fontSize: isSmallScreen ? 15.0 : 15.0),
+                      fontSize: isSmallScreen ? 12.0 : 15.0),
                 )),
               ],
             ),
@@ -264,7 +266,7 @@ class CustomGridView2 {
     var size = MediaQuery.of(context).size;
     bool isSmallScreen = false;
 
-    if (size.height < smallDeviceHeight) {
+    if (size.width <= smallDeviceWidth) {
       isSmallScreen = true;
     }
 
@@ -302,7 +304,7 @@ class CustomGridView2 {
                     style: Theme.of(context).textTheme.body1.copyWith(
                         letterSpacing: 4.0,
                         color: textColor,
-                        fontSize: isSmallScreen ? 15.0 : 15.0),
+                        fontSize: isSmallScreen ? 12.0 : 15.0),
                   )),
                 ],
               ),

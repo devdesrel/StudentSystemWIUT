@@ -55,52 +55,49 @@ class _TwoPanelsState extends State<TwoPanels> {
     var _bloc = BackdropProvider.of(context);
     var homePageBloc = HomePageBloc();
 
-    return Container(
-      child: Stack(
-        children: <Widget>[
-          SafeArea(
-            child: Container(
-              color: Platform.isIOS ? backgroundColor : accentColor,
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                children: <Widget>[
-                  CustomBackdropMenuItems(
-                    itemName: 'Home',
-                    icon: Platform.isAndroid ? 0xe88a : 0xF447,
-                    iconFont:
-                        Platform.isAndroid ? 'MaterialIcons' : 'CuperIcon',
-                    controller: widget.controller,
-                    selected: true,
-                  ),
-                  CustomBackdropMenuItems(
-                    itemName: 'Support',
-                    icon: Platform.isAndroid ? 0xe0c9 : 0xF3FB,
-                    iconFont:
-                        Platform.isAndroid ? 'MaterialIcons' : 'CuperIcon',
-                    controller: widget.controller,
-                    selected: false,
-                  ),
-                  CustomBackdropMenuItems(
-                    itemName: 'Contacts',
-                    icon: Platform.isAndroid ? 0xe0b0 : 0xF4B8,
-                    iconFont:
-                        Platform.isAndroid ? 'MaterialIcons' : 'CuperIcon',
-                    controller: widget.controller,
-                    selected: false,
-                  ),
-                  CustomBackdropMenuItems(
-                    itemName: 'Settings',
-                    icon: Platform.isAndroid ? 0xe8b8 : 0xF411,
-                    iconFont:
-                        Platform.isAndroid ? 'MaterialIcons' : 'CuperIcon',
-                    controller: widget.controller,
-                    selected: false,
-                  ),
-                ],
-              ),
+    return SafeArea(
+      bottom: true,
+      child: Container(
+          child: Stack(children: <Widget>[
+        SafeArea(
+          child: Container(
+            color: Platform.isIOS ? backgroundColor : accentColor,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: <Widget>[
+                CustomBackdropMenuItems(
+                  itemName: 'Home',
+                  icon: Platform.isAndroid ? 0xe88a : 0xF447,
+                  iconFont: Platform.isAndroid ? 'MaterialIcons' : 'CuperIcon',
+                  controller: widget.controller,
+                  selected: true,
+                ),
+                CustomBackdropMenuItems(
+                  itemName: 'Support',
+                  icon: Platform.isAndroid ? 0xe0c9 : 0xF3FB,
+                  iconFont: Platform.isAndroid ? 'MaterialIcons' : 'CuperIcon',
+                  controller: widget.controller,
+                  selected: false,
+                ),
+                CustomBackdropMenuItems(
+                  itemName: 'Contacts',
+                  icon: Platform.isAndroid ? 0xe0b0 : 0xF4B8,
+                  iconFont: Platform.isAndroid ? 'MaterialIcons' : 'CuperIcon',
+                  controller: widget.controller,
+                  selected: false,
+                ),
+                CustomBackdropMenuItems(
+                  itemName: 'Settings',
+                  icon: Platform.isAndroid ? 0xe8b8 : 0xF411,
+                  iconFont: Platform.isAndroid ? 'MaterialIcons' : 'CuperIcon',
+                  controller: widget.controller,
+                  selected: false,
+                ),
+              ],
             ),
           ),
-          PositionedTransition(
+        ),
+        PositionedTransition(
             rect: getPanelAnimation(constraints),
             child: Material(
               color: backgroundColor,
@@ -438,13 +435,14 @@ class _TwoPanelsState extends State<TwoPanels> {
                         )
                         // ),
                         ),
+                    //           )
+                    // //         ],
+                    //       ),
                   )
                 ],
               ),
-            ),
-          )
-        ],
-      ),
+            ))
+      ])),
     );
   }
 
