@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:io';
 
 import 'package:flutter/cupertino.dart';
@@ -91,24 +92,39 @@ class _HomePageState extends State<HomePage>
     );
   }
 
+  Future<bool> _onBackPressed() async {
+    if (!_bloc.isBackdropPanelHidden) {
+      controller.fling(velocity: _bloc.isBackdropPanelHidden ? -1.0 : 1.0);
+
+      _bloc.setBackdropPanelHidden.add(!_bloc.isBackdropPanelHidden);
+    }
+
+    var testBool = await _bloc.isBackdropPanelHidden;
+
+    return testBool;
+  }
+
   @override
   Widget build(BuildContext context) {
     return Platform.isAndroid
         ? RepaintBoundary(
             child: BackdropProvider(
               bloc: _bloc,
-              child: Scaffold(
-                  appBar: AppBar(
-                      elevation: 0.0,
-                      centerTitle: true,
-                      title: Text('WIUT'),
-                      actions: <Widget>[
-                        _buildSignOutAction(),
-                      ],
-                      leading: _buildMenuAction()),
-                  body: TwoPanels(
-                    controller: controller,
-                  )),
+              child: WillPopScope(
+                onWillPop: _onBackPressed,
+                child: Scaffold(
+                    appBar: AppBar(
+                        elevation: 0.0,
+                        centerTitle: true,
+                        title: Text('WIUT'),
+                        actions: <Widget>[
+                          _buildSignOutAction(),
+                        ],
+                        leading: _buildMenuAction()),
+                    body: TwoPanels(
+                      controller: controller,
+                    )),
+              ),
             ),
           )
         : RepaintBoundary(

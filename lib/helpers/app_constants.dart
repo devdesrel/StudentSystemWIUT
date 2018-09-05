@@ -65,10 +65,12 @@ final useFingerprint = 'useFingerprint';
 final minAppVersion = 'minAppVersion';
 final isPinFilled = 'isPinFilled';
 final isPreviewSeen = 'isPreviewSeen';
+final isUnderDevelopmentFeaturesInvisible =
+    'isUnderDevelopmentFeaturesInvisible';
 
 //API List
 final baseUrl = 'https://newintranetapi.wiut.uz';
-final currentYearID = '19';
+final currentYearID = '18';
 final apiAuthenticate = '$baseUrl/api/Account/Authenticate';
 final apiStudentMarks =
     '$baseUrl/api/StudentProfileAndMarks/StudentProfileAndMarksForStudent';

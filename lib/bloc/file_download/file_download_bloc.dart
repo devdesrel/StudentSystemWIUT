@@ -64,6 +64,7 @@ class FileDownloadBloc {
       await file.writeAsBytes(bytes);
       return file;
     });
+    await Future.delayed(const Duration(seconds: 1));
 
     _learningMaterialsBloc.removeItemFromDownloadingList
         .add(downloadingFile.url);
