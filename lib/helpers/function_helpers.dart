@@ -20,7 +20,8 @@ void getMinimumAppVersion(BuildContext context) async {
   int minVersion = pref.getInt(minAppVersion) ?? 0;
 
   try {
-    final response = await http.get("$apiGetMinAppVersion");
+    final response =
+        await http.get("$apiMinAppVersionByPlatform?isAndroid=true");
 
     if (response.statusCode == 200) {
       final version = json.decode(response.body);
@@ -70,7 +71,7 @@ void getStudentsProfileForSelectedYear() async {
   }
 }
 
-void getStudentsProfileForTheCurrentYear(BuildContext context) async {
+void getStudentsProfileForTheCurrentYear() async {
   SharedPreferences prefs = await SharedPreferences.getInstance();
   final _token = prefs.getString(token);
   final _studentID = prefs.getString(studentID);

@@ -164,8 +164,8 @@ class TimetableBloc {
     String _groupID = '';
 
     if (groupName == null || groupName == '') {
-      groupName = prefs.getString(groupNameSharedPref);
-      _groupID = prefs.getString(groupID);
+      groupName = prefs.getString(groupNameSharedPref) ?? '';
+      _groupID = prefs.getString(groupID) ?? '';
 
       _timetableTitleSubject.add(groupName);
       _groupNameSubject.add(groupName);
@@ -180,11 +180,11 @@ class TimetableBloc {
       }
     }
 
-    if (_groupID == '') {
+    if (groupName == '') {
       showFlushBar(error, youDontHaveGroup, MessageTypes.ERROR, context, 2);
 
       return [];
-    } else if (_groupID != null && _groupID != '') {
+    } else if (_groupID != '') {
       List<TimetableModel> _timetableList =
           await _getTimetableList(TimetableDropdownlinListType.Group, _groupID);
 

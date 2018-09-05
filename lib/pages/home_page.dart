@@ -30,7 +30,7 @@ class _HomePageState extends State<HomePage>
 
     getMinimumAppVersion(context);
 
-    getStudentsProfileForSelectedYear();
+    getStudentsProfileForTheCurrentYear();
 
     controller = AnimationController(
         vsync: this, duration: Duration(milliseconds: 100), value: 1.0);
@@ -101,9 +101,7 @@ class _HomePageState extends State<HomePage>
       _bloc.setBackdropPanelHidden.add(!_bloc.isBackdropPanelHidden);
     }
 
-    var testBool = await _bloc.isBackdropPanelHidden;
-
-    return testBool;
+    return _bloc.isBackdropPanelHidden;
   }
 
   @override

@@ -13,6 +13,9 @@ class AppUpdatesPage extends StatelessWidget {
         children: <Widget>[
           Column(
             children: <Widget>[
+              SizedBox(
+                height: 45.0,
+              ),
               Image.asset(
                 'assets/playmarket.png',
                 height: 60.0,
@@ -37,20 +40,22 @@ class AppUpdatesPage extends StatelessWidget {
             ],
           ),
           SizedBox(
-            height: 50.0,
+            height: 20.0,
           ),
-          Center(
-            child: Text(
-              'Bug fixes, performance enhancements, feature additions',
-              textAlign: TextAlign.center,
-              style: TextStyle(
-                  color: Colors.white,
-                  fontSize: 17.0,
-                  fontFamily: 'RalewayRegular'),
+          Expanded(
+            child: Center(
+              child: Text(
+                'Bug fixes, performance enhancements, feature additions',
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 17.0,
+                    fontFamily: 'RalewayRegular'),
+              ),
             ),
           ),
           SizedBox(
-            height: 50.0,
+            height: 20.0,
           ),
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 12.0),
@@ -69,6 +74,22 @@ class AppUpdatesPage extends StatelessWidget {
                 launchURL(playStoreUrl, false);
               },
             ),
+          ),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 12.0),
+            child: FlatButton(
+              padding: const EdgeInsets.symmetric(vertical: 15.0),
+              child: Text(
+                'Not now'.toUpperCase(),
+                style: TextStyle(color: Colors.white),
+              ),
+              onPressed: () {
+                Navigator.pop(context);
+              },
+            ),
+          ),
+          SizedBox(
+            height: 5.0,
           ),
         ],
       ),

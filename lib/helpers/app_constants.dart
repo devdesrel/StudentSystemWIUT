@@ -86,6 +86,8 @@ final apiGetAttachmentsByModuleMaterialIDWithFileSize =
 final apiComponentMark =
     '$baseUrl/api/StudentProfileAndMarks/StudentModuleComponentMark';
 final apiGetMinAppVersion = '$baseUrl/api/GetMinApp/GetMinApp';
+final apiMinAppVersionByPlatform =
+    '$baseUrl/api/GetMinApp/MinAppVersionByPlatform';
 final apiStudentProfile =
     '$baseUrl/api/StudentProfileAndMarks/GetStudentGroupByUserID';
 final apiStudentProfileForSelectedAcademicYear =

@@ -52,7 +52,7 @@ class MainApp extends StatelessWidget {
           primaryColorDark: primaryDarkColor,
           iconTheme: IconThemeData(color: accentColor),
           backgroundColor: backgroundColor,
-          scaffoldBackgroundColor: accentColor,
+          scaffoldBackgroundColor: backgroundColor,
           textSelectionColor: textColor,
           brightness: Brightness.light,
           textTheme: _textTheme),
