@@ -25,7 +25,7 @@ class LearningMaterialsAcademicYearExpansionTile extends StatelessWidget {
       _widgetsList.add(InkWell(
         onTap: () {
           bloc.setAcademicYear.add(yearID);
-
+          bloc.yearName = yearName;
           expansionTile.currentState.collapse();
         },
         child: ItemSelection(

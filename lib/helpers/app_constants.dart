@@ -70,7 +70,7 @@ final isUnderDevelopmentFeaturesInvisible =
 
 //API List
 final baseUrl = 'https://newintranetapi.wiut.uz';
-final currentYearID = '18';
+final currentYearID = '19';
 final apiAuthenticate = '$baseUrl/api/Account/Authenticate';
 final apiStudentMarks =
     '$baseUrl/api/StudentProfileAndMarks/StudentProfileAndMarksForStudent';

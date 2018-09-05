@@ -14,6 +14,7 @@ import 'package:student_system_flutter/models/download_file_model.dart';
 
 class LearningMaterialsBloc {
   String moduleName = '';
+  String yearName = '2018/2019';
   int _moduleID = 0;
   int materialTypeID = 1;
   List<DownloadFileModel> basicList = List();
@@ -35,6 +36,7 @@ class LearningMaterialsBloc {
 
     _setAcademicYearController.stream.listen((year) async {
       _materialsListSubject.add(null);
+      _academicYearStreamSubject.add(yearName);
 
       allMaterialsList = await _getLearningMaterials(context, year);
 
