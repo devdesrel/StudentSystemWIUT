@@ -159,6 +159,10 @@ class TimetableBloc {
 
   final _isLoadedSubject = BehaviorSubject<bool>();
 
+  Stream<String> get timetableDate => _timetableDateSubject.stream;
+
+  final _timetableDateSubject = BehaviorSubject<String>(seedValue: '');
+
   Future<List<TimetableModel>> _getTimetable(String groupName) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     String _groupID = '';
@@ -201,6 +205,8 @@ class TimetableBloc {
     List<TimetableModel> lists = parsed
         .map<TimetableModel>((item) => TimetableModel.fromJson(item))
         .toList();
+
+    _timetableDateSubject.add(lists[0].timetableDate);
 
     return lists;
   }

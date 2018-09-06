@@ -6,6 +6,7 @@ class TimetableModel {
   final String teachershort;
   final String classshort;
   final String classroomshort;
+  final String timetableDate;
   String period;
 
   TimetableModel(
@@ -14,6 +15,7 @@ class TimetableModel {
       this.teachershort,
       this.classshort,
       this.classroomshort,
+      this.timetableDate,
       this.period});
 
   factory TimetableModel.fromJson(Map<String, dynamic> json) {
@@ -23,6 +25,7 @@ class TimetableModel {
         teachershort: json['teachershort'] ?? nullFixer,
         classshort: json['classshort'] ?? nullFixer,
         classroomshort: json['classroomshort'] ?? nullFixer,
+        timetableDate: json['timetableDate'] ?? '12/04/2018',
         period: json['period'] ?? nullFixer);
   }
 }
