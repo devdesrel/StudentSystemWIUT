@@ -179,73 +179,78 @@ class _LoginPageState extends State<LoginPage> implements AuthStateListener {
     }
 
     return Scaffold(
-      body: Container(
-        padding: const EdgeInsets.only(top: 0.0),
-        child: Stack(
-          fit: StackFit.expand,
-          children: <Widget>[
-            Image.asset(
-              'assets/bg.png',
-              fit: BoxFit.fill,
-            ),
-            SafeArea(
-              child: Padding(
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 24.0, vertical: 0.0),
-                child: Form(
-                  key: formKey,
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.stretch,
-                    children: <Widget>[
-                      Image.asset(
-                        'assets/logo_white.png',
-                        height: 70.0,
-                      ),
-                      Expanded(
-                          flex: 6,
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: <Widget>[
-                              authTextFields('WIUT ID', false),
-                              Container(
-                                height: 15.0,
-                              ),
-                              authTextFields('Password', true),
-                            ],
-                          )),
-                      Padding(
-                        padding: EdgeInsets.only(
-                            bottom: Platform.isAndroid ? 12.0 : 7.0),
-                        child: RaisedButton(
-                          padding: const EdgeInsets.symmetric(vertical: 15.0),
-                          color: Theme.of(context).accentColor,
-                          elevation: 8.0,
-                          shape: RoundedRectangleBorder(
-                            borderRadius:
-                                BorderRadius.all(Radius.circular(100.0)),
-                          ),
-                          child: Text(
-                            'Login',
-                            style: TextStyle(color: Colors.white),
-                          ),
-                          onPressed: _login,
+      body: GestureDetector(
+        onTap: () {
+          FocusScope.of(context).requestFocus(FocusNode());
+        },
+        child: Container(
+          padding: const EdgeInsets.only(top: 0.0),
+          child: Stack(
+            fit: StackFit.expand,
+            children: <Widget>[
+              Image.asset(
+                'assets/bg.png',
+                fit: BoxFit.fill,
+              ),
+              SafeArea(
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(
+                      horizontal: 24.0, vertical: 0.0),
+                  child: Form(
+                    key: formKey,
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.stretch,
+                      children: <Widget>[
+                        Image.asset(
+                          'assets/logo_white.png',
+                          height: 70.0,
                         ),
-                      ),
-                    ],
+                        Expanded(
+                            flex: 6,
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: <Widget>[
+                                authTextFields('WIUT ID', false),
+                                Container(
+                                  height: 15.0,
+                                ),
+                                authTextFields('Password', true),
+                              ],
+                            )),
+                        Padding(
+                          padding: EdgeInsets.only(
+                              bottom: Platform.isAndroid ? 12.0 : 7.0),
+                          child: RaisedButton(
+                            padding: const EdgeInsets.symmetric(vertical: 15.0),
+                            color: Theme.of(context).accentColor,
+                            elevation: 8.0,
+                            shape: RoundedRectangleBorder(
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(100.0)),
+                            ),
+                            child: Text(
+                              'Login',
+                              style: TextStyle(color: Colors.white),
+                            ),
+                            onPressed: _login,
+                          ),
+                        ),
+                      ],
+                    ),
                   ),
                 ),
               ),
-            ),
-            progressDialogVisible
-                ? Container(
-                    color: lightOverlayColor,
-                    child: Center(
-                        child: Platform.isAndroid
-                            ? CircularProgressIndicator()
-                            : CupertinoActivityIndicator()))
-                : Container()
-          ],
+              progressDialogVisible
+                  ? Container(
+                      color: lightOverlayColor,
+                      child: Center(
+                          child: Platform.isAndroid
+                              ? CircularProgressIndicator()
+                              : CupertinoActivityIndicator()))
+                  : Container()
+            ],
+          ),
         ),
       ),
     );
@@ -314,31 +319,37 @@ class _LoginPageState extends State<LoginPage> implements AuthStateListener {
       context: context,
       barrierDismissible: false, // user must tap button!
       builder: (BuildContext context) {
-        return AlertDialog(
-          titlePadding: EdgeInsets.only(top: 20.0, left: 20.0),
-          contentPadding: EdgeInsets.symmetric(horizontal: 23.0, vertical: 0.0),
-          title: Text('Set PIN code'),
-          content: SingleChildScrollView(
-            child: Form(
-              key: pinFormKey,
-              child: ListBody(
-                children: <Widget>[
-                  customeFormField('New PIN',
-                      ChangePinCodeDialogArguments.NewPin, context, bloc),
-                  customeFormField('Confirm new PIN',
-                      ChangePinCodeDialogArguments.ConfirmPin, context, bloc),
-                ],
+        return GestureDetector(
+          onTap: () {
+            FocusScope.of(context).requestFocus(new FocusNode());
+          },
+          child: AlertDialog(
+            titlePadding: EdgeInsets.only(top: 20.0, left: 20.0),
+            contentPadding:
+                EdgeInsets.symmetric(horizontal: 23.0, vertical: 0.0),
+            title: Text('Set PIN code'),
+            content: SingleChildScrollView(
+              child: Form(
+                key: pinFormKey,
+                child: ListBody(
+                  children: <Widget>[
+                    customeFormField('New PIN',
+                        ChangePinCodeDialogArguments.NewPin, context, bloc),
+                    customeFormField('Confirm new PIN',
+                        ChangePinCodeDialogArguments.ConfirmPin, context, bloc),
+                  ],
+                ),
               ),
             ),
+            actions: <Widget>[
+              FlatButton(
+                child: Text('Save'.toUpperCase()),
+                onPressed: () async {
+                  savePin(context);
+                },
+              ),
+            ],
           ),
-          actions: <Widget>[
-            FlatButton(
-              child: Text('Save'.toUpperCase()),
-              onPressed: () async {
-                savePin(context);
-              },
-            ),
-          ],
         );
 
         // return CupertinoAlertDialog(

@@ -36,14 +36,22 @@ Widget _createCurrentPage(BuildContext context) {
                 centerTitle: true,
                 title: Text('Coursework Upload'),
               ),
-              body: CourseworkUploadItems(),
+              body: GestureDetector(
+                  onTap: () {
+                    FocusScope.of(context).requestFocus(FocusNode());
+                  },
+                  child: CourseworkUploadItems()),
             )
           : Material(
               child: CupertinoPageScaffold(
                 navigationBar: CupertinoNavigationBar(
                   middle: Text('Coursework Upload'),
                 ),
-                child: CourseworkUploadItems(),
+                child: GestureDetector(
+                    onTap: () {
+                      FocusScope.of(context).requestFocus(FocusNode());
+                    },
+                    child: CourseworkUploadItems()),
               ),
             ));
 }

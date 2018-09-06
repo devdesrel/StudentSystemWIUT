@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:student_system_flutter/helpers/app_constants.dart';
 import 'package:student_system_flutter/helpers/function_helpers.dart';
+import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 
 class ContactsPage extends StatelessWidget {
   final double cardPadding = 10.0;
@@ -119,8 +120,8 @@ class ContactsPage extends StatelessWidget {
                 CustomContactsListtile(
                   title: 'WIUT bot',
                   subtitle: 'Telegram bot',
-                  // icon: Icons.voice_chat,
-                  icon: Icons.message,
+                  // icon: Icons.message,
+                  icon: MdiIcons.telegram,
                   isWebView: false,
                   urlFrom: 'https://t.me/WestTimesBot',
                 ),

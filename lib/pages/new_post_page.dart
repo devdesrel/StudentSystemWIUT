@@ -48,7 +48,11 @@ Widget _createCurrentPage(BuildContext context) {
                 ),
               ),
               backgroundColor: whiteColor,
-              body: NewPostBody(),
+              body: GestureDetector(
+                  onTap: () {
+                    FocusScope.of(context).requestFocus(FocusNode());
+                  },
+                  child: NewPostBody()),
               bottomNavigationBar: BottomAppBar(
                 color: accentColor,
                 elevation: 5.0,
@@ -103,7 +107,11 @@ Widget _createCurrentPage(BuildContext context) {
                 ),
               ),
               backgroundColor: whiteColor,
-              body: NewPostBody(),
+              body: GestureDetector(
+                  onTap: () {
+                    FocusScope.of(context).requestFocus(FocusNode());
+                  },
+                  child: NewPostBody()),
               bottomNavigationBar: BottomAppBar(
                 color: backgroundColor,
                 elevation: 5.0,
