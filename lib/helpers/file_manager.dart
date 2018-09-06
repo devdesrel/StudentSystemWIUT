@@ -3,6 +3,7 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:open_file/open_file.dart';
 import 'package:path/path.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:simple_permissions/simple_permissions.dart';
@@ -160,7 +161,8 @@ class FileManagerState extends State<FileManager>
                   path,
                 );
               } else {
-                _openFile(path);
+                OpenFile.open(path);
+                // _openFile(path);
               }
               //Navigator.of(context).pop(path);
               //Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) => CourseworkUploadPage(path)));

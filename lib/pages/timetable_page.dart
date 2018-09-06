@@ -69,10 +69,16 @@ class TimetablePage extends StatelessWidget {
                           horizontal: 10.0, vertical: 10.0),
                       color: redColor,
                       child: Center(
-                        child: Text(
-                          'Published on 12/03/2018',
-                          overflow: TextOverflow.ellipsis,
-                          style: TextStyle(color: Colors.white),
+                        child: StreamBuilder<String>(
+                          stream: _bloc.timetableDate,
+                          initialData: '',
+                          builder: (context, snapshot) => Text(
+                                snapshot.hasData
+                                    ? 'Published on ' + snapshot.data
+                                    : 'Published on',
+                                overflow: TextOverflow.ellipsis,
+                                style: TextStyle(color: Colors.white),
+                              ),
                         ),
                       )),
                   Expanded(
