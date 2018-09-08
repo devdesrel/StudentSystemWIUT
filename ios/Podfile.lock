@@ -7,6 +7,8 @@ PODS:
     - Flutter
   - local_auth (0.0.1):
     - Flutter
+  - open_file (0.0.1):
+    - Flutter
   - package_info (0.0.1):
     - Flutter
   - path_provider (0.0.1):
@@ -24,6 +26,7 @@ DEPENDENCIES:
   - Flutter (from `.symlinks/flutter/ios`)
   - image_picker (from `.symlinks/plugins/image_picker/ios`)
   - local_auth (from `.symlinks/plugins/local_auth/ios`)
+  - open_file (from `.symlinks/plugins/open_file/ios`)
   - package_info (from `.symlinks/plugins/package_info/ios`)
   - path_provider (from `.symlinks/plugins/path_provider/ios`)
   - shared_preferences (from `.symlinks/plugins/shared_preferences/ios`)
@@ -43,6 +46,8 @@ EXTERNAL SOURCES:
     :path: ".symlinks/plugins/image_picker/ios"
   local_auth:
     :path: ".symlinks/plugins/local_auth/ios"
+  open_file:
+    :path: ".symlinks/plugins/open_file/ios"
   package_info:
     :path: ".symlinks/plugins/package_info/ios"
   path_provider:
@@ -59,6 +64,7 @@ SPEC CHECKSUMS:
   Flutter: 9d0fac939486c9aba2809b7982dfdbb47a7b0296
   image_picker: ee00aab0487cedc80a304085219503cc6d0f2e22
   local_auth: dca7d49d2228a53db258478ee98ee19402ff0c49
+  open_file: 40d524de730775bb4edb021fa137cc1d2fa13f1c
   package_info: d7c98b64f60add4c2908b9d94d82a45d3c8827ad
   path_provider: 09407919825bfe3c2deae39453b7a5b44f467873
   Reachability: 33e18b67625424e47b6cde6d202dce689ad7af96
