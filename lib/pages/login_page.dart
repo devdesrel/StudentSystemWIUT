@@ -162,13 +162,8 @@ class _LoginPageState extends State<LoginPage> implements AuthStateListener {
           autofocus: false,
           obscureText: isPassword,
           keyboardType:
-              // isPassword ?
-              TextInputType.emailAddress,
-          //  : TextInputType.number,
-
-          //        isPassword ?
-          //     TextInputType.emailAddress
-          //  : TextInputType.text,
+              // TextInputType.emailAddress,
+              isPassword ? TextInputType.emailAddress : TextInputType.text,
           validator: (val) =>
               val.length == 0 ? '$placeholderName can not be empty' : null,
           onSaved: (val) => isPassword ? _password = val : _username = val,
