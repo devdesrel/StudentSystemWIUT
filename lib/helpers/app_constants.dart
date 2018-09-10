@@ -67,6 +67,7 @@ final isPinFilled = 'isPinFilled';
 final isPreviewSeen = 'isPreviewSeen';
 final isUnderDevelopmentFeaturesInvisible =
     'isUnderDevelopmentFeaturesInvisible';
+final userRole = 'userRole';
 
 //API List
 final baseUrl = 'https://newintranetapi.wiut.uz';

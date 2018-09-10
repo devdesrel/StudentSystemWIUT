@@ -3,7 +3,7 @@ description: WIUT Intranet
 
 dependencies:
   flutter:
-    sdk: flutter
+    sdk: flutter 
   http: "^0.11.3+16"
   local_auth: "^0.2.0"
   cached_network_image: "^0.4.2"
@@ -26,12 +26,14 @@ dependencies:
   package_info: ^0.3.2
   connectivity: ^0.3.1
   open_file: ^1.0.7
+  screen: ^0.0.4
 
 
   material_design_icons_flutter: ^2.7.94
   # community_material_icon: ^0.1.2
 
   cupertino_icons: ^0.1.2
+  
 
 dev_dependencies:
   flutter_test:
@@ -48,7 +50,6 @@ flutter_icons:
   image_path_ios: "assets/icon.png"
   adaptive_icon_background: "#FF0091ea"
   # adaptive_icon_foreground: "assets/icon/icon-foreground.png"
-  material_design_icons_flutter: ^2.7.94
 
 flutter:
   uses-material-design: true
