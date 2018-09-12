@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:connectivity/connectivity.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:path_provider/path_provider.dart';
@@ -18,6 +19,7 @@ class TimetableBloc {
   File jsonFile;
   Directory dir;
   bool fileExists = false;
+  bool offlineMode = false;
   // Map<String, String> fileContent;
 
   List<TimetableDropdownListModel> groupsListDropdown =
@@ -206,7 +208,9 @@ class TimetableBloc {
         .map<TimetableModel>((item) => TimetableModel.fromJson(item))
         .toList();
 
-    _timetableDateSubject.add(lists[0].timetableDate);
+    _timetableDateSubject.add(offlineMode
+        ? '[OFFLINE MODE] Published on ${lists[0].timetableDate}'
+        : 'Published on ${lists[0].timetableDate}');
 
     return lists;
   }
@@ -232,62 +236,73 @@ class TimetableBloc {
         _url = '$apiGetLessons?classids=$_id';
     }
 
+    ConnectivityResult connectionStatus;
+    final Connectivity _connectivity = new Connectivity();
+
     try {
-      final response = await http.get(_url, headers: {
-        "Accept": "application/json",
-        "Authorization": "Bearer $_token"
-      });
+      connectionStatus = await _connectivity.checkConnectivity();
+      if (connectionStatus == ConnectivityResult.none) {
+        showFlushBar(connectionFailure, checkInternetConnection,
+            MessageTypes.ERROR, context, 1);
+        offlineMode = true;
+        return _getTimetableJsonFromPhoneStorage();
+      } else {
+        final response = await http.get(_url, headers: {
+          "Accept": "application/json",
+          "Authorization": "Bearer $_token"
+        });
 
-      if (response.statusCode == 200) {
-        _saveJsonToFileSystem('timetable.json', response.body);
-        List<TimetableModel> _timetableList = _parseTimetable(response.body);
-        List<TimetableModel> _sortedList = [];
+        if (response.statusCode == 200) {
+          _saveJsonToFileSystem('timetable.json', response.body);
+          List<TimetableModel> _timetableList = _parseTimetable(response.body);
+          List<TimetableModel> _sortedList = [];
 
-        for (var i = 0; i < _timetableList.length; i++) {
-          var item = _timetableList[i];
+          for (var i = 0; i < _timetableList.length; i++) {
+            var item = _timetableList[i];
 
-          if (_sortedList.any((t) =>
-              t.subjectshort == item.subjectshort &&
-              t.dayOfWeek == item.dayOfWeek &&
-              t.classshort == item.classshort &&
-              t.teachershort == item.teachershort)) {
-            int _position = _sortedList.indexOf(_sortedList.firstWhere((t) =>
+            if (_sortedList.any((t) =>
                 t.subjectshort == item.subjectshort &&
                 t.dayOfWeek == item.dayOfWeek &&
                 t.classshort == item.classshort &&
-                t.teachershort == item.teachershort));
+                t.teachershort == item.teachershort)) {
+              int _position = _sortedList.indexOf(_sortedList.firstWhere((t) =>
+                  t.subjectshort == item.subjectshort &&
+                  t.dayOfWeek == item.dayOfWeek &&
+                  t.classshort == item.classshort &&
+                  t.teachershort == item.teachershort));
 
-            String _period = _sortedList
-                    .firstWhere((t) =>
-                        t.subjectshort == item.subjectshort &&
-                        t.dayOfWeek == item.dayOfWeek &&
-                        t.classshort == item.classshort &&
-                        t.teachershort == item.teachershort)
-                    .period +
-                ' ' +
-                item.period;
+              String _period = _sortedList
+                      .firstWhere((t) =>
+                          t.subjectshort == item.subjectshort &&
+                          t.dayOfWeek == item.dayOfWeek &&
+                          t.classshort == item.classshort &&
+                          t.teachershort == item.teachershort)
+                      .period +
+                  ' ' +
+                  item.period;
 
-            String _fromTime = _period.substring(0, _period.indexOf('-'));
-            String _endTime = _period
-                .substring(_period.lastIndexOf('-'), _period.length)
-                .trim();
+              String _fromTime = _period.substring(0, _period.indexOf('-'));
+              String _endTime = _period
+                  .substring(_period.lastIndexOf('-'), _period.length)
+                  .trim();
 
-            _sortedList.elementAt(_position).period = _fromTime + _endTime;
-          } else {
-            _sortedList.add(item);
+              _sortedList.elementAt(_position).period = _fromTime + _endTime;
+            } else {
+              _sortedList.add(item);
+            }
           }
-        }
 
-        return _sortedList;
-      } else {
-        showFlushBar('Error', tryAgain, MessageTypes.ERROR, context, 2);
-        return [];
+          return _sortedList;
+        } else {
+          showFlushBar('Error', tryAgain, MessageTypes.ERROR, context, 2);
+        }
       }
     } catch (e) {
-      showFlushBar(connectionFailure, checkInternetConnection,
-          MessageTypes.ERROR, context, 2);
-      return null;
+      // showFlushBar(connectionFailure, checkInternetConnection,
+      //     MessageTypes.ERROR, context, 2);
+
     }
+    return [];
 
     // return compute(parseGroups, response.body);
   }
@@ -359,5 +374,60 @@ class TimetableBloc {
       jsonFile.writeAsStringSync(content);
       // if (fileExists) this.setState(() => fileContent = JSON.decode(jsonFile.readAsStringSync()));
     });
+  }
+
+  Future<List<TimetableModel>> _getTimetableJsonFromPhoneStorage() async {
+    String _timetableJson;
+
+    Directory directory = await getApplicationDocumentsDirectory();
+
+    dir = directory;
+    jsonFile = new File(dir.path + '/timetable.json');
+    fileExists = jsonFile.existsSync();
+
+    if (fileExists) {
+      _timetableJson = jsonFile.readAsStringSync();
+
+      List<TimetableModel> _timetableList = _parseTimetable(_timetableJson);
+      List<TimetableModel> _sortedList = [];
+
+      for (var i = 0; i < _timetableList.length; i++) {
+        var item = _timetableList[i];
+
+        if (_sortedList.any((t) =>
+            t.subjectshort == item.subjectshort &&
+            t.dayOfWeek == item.dayOfWeek &&
+            t.classshort == item.classshort &&
+            t.teachershort == item.teachershort)) {
+          int _position = _sortedList.indexOf(_sortedList.firstWhere((t) =>
+              t.subjectshort == item.subjectshort &&
+              t.dayOfWeek == item.dayOfWeek &&
+              t.classshort == item.classshort &&
+              t.teachershort == item.teachershort));
+
+          String _period = _sortedList
+                  .firstWhere((t) =>
+                      t.subjectshort == item.subjectshort &&
+                      t.dayOfWeek == item.dayOfWeek &&
+                      t.classshort == item.classshort &&
+                      t.teachershort == item.teachershort)
+                  .period +
+              ' ' +
+              item.period;
+
+          String _fromTime = _period.substring(0, _period.indexOf('-'));
+          String _endTime = _period
+              .substring(_period.lastIndexOf('-'), _period.length)
+              .trim();
+
+          _sortedList.elementAt(_position).period = _fromTime + _endTime;
+        } else {
+          _sortedList.add(item);
+        }
+      }
+
+      return _sortedList;
+    } else
+      return null;
   }
 }

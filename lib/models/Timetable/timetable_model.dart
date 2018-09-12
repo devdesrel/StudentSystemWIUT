@@ -25,7 +25,7 @@ class TimetableModel {
         teachershort: json['teachershort'] ?? nullFixer,
         classshort: json['classshort'] ?? nullFixer,
         classroomshort: json['classroomshort'] ?? nullFixer,
-        timetableDate: json['timetableDate'] ?? '12/04/2018',
+        timetableDate: json['timetableDate'] ?? '07/09/2018',
         period: json['period'] ?? nullFixer);
   }
 }
