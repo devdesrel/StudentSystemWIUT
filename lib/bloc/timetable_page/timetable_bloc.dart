@@ -28,7 +28,7 @@ class TimetableBloc {
       List<TimetableDropdownListModel>();
 
   TimetableBloc({this.context}) {
-    _getTimetable('').then((list) {
+    _getTimetable().then((list) {
       _timetableListSubject.add(list);
     });
 
@@ -163,39 +163,80 @@ class TimetableBloc {
 
   final _timetableDateSubject = BehaviorSubject<String>(seedValue: '');
 
-  Future<List<TimetableModel>> _getTimetable(String groupName) async {
+  Future<List<TimetableModel>> _getTimetable() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    String _groupID = '';
+    String _userRole;
+    _userRole = prefs.getString(userRole);
 
-    if (groupName == null || groupName == '') {
-      groupName = prefs.getString(groupNameSharedPref) ?? '';
-      _groupID = prefs.getString(groupID) ?? '';
+    if (_userRole == 'student') {
+      String groupName = '';
+      String _groupID = '';
 
-      _timetableTitleSubject.add(groupName);
-      _groupNameSubject.add(groupName);
-    }
+      if (groupName == null || groupName == '') {
+        groupName = prefs.getString(groupNameSharedPref) ?? '';
+        _groupID = prefs.getString(groupID) ?? '';
 
-    if (groupName != '' && _groupID == '') {
-      var list = await _populateDropdownList(apiGetGroups);
-
-      if (list != null) {
-        _groupID = list.firstWhere((group) => group.text == groupName).value;
-        prefs.setString(groupID, _groupID);
+        _timetableTitleSubject.add(groupName);
+        _groupNameSubject.add(groupName);
       }
-    }
 
-    if (groupName == '') {
-      showFlushBar(error, youDontHaveGroup, MessageTypes.ERROR, context, 2);
+      if (groupName != '' && _groupID == '') {
+        var list = await _populateDropdownList(apiGetGroups);
 
-      return [];
-    } else if (_groupID != '') {
-      List<TimetableModel> _timetableList =
-          await _getTimetableList(TimetableDropdownlinListType.Group, _groupID);
+        if (list != null) {
+          _groupID = list.firstWhere((group) => group.text == groupName).value;
+          prefs.setString(groupID, _groupID);
+        }
+      }
 
-      return _timetableList;
+      if (groupName == '') {
+        showFlushBar(error, youDontHaveGroup, MessageTypes.ERROR, context, 2);
+
+        return [];
+      } else if (_groupID != '') {
+        List<TimetableModel> _timetableList = await _getTimetableList(
+            TimetableDropdownlinListType.Group, _groupID);
+
+        return _timetableList;
+      } else {
+        showFlushBar(error, tryAgain, MessageTypes.ERROR, context, 2);
+        return [];
+      }
     } else {
-      showFlushBar(error, tryAgain, MessageTypes.ERROR, context, 2);
-      return [];
+      String _teacherID = '';
+      String teacherName = '';
+
+      if (teacherName == null || teacherName == '') {
+        teacherName = prefs.getString(teacherNameSharedPref) ?? '';
+        _teacherID = prefs.getString(teacherID) ?? '';
+
+        _timetableTitleSubject.add(teacherName);
+        _teacherNameSubject.add(teacherName);
+      }
+
+      if (teacherName != '' && _teacherID == '') {
+        var list = await _populateDropdownList(apiGetTeachers);
+
+        if (list != null) {
+          _teacherID =
+              list.firstWhere((teacher) => teacher.text == teacherName).value;
+          prefs.setString(teacherID, _teacherID);
+        }
+      }
+
+      if (teacherName == '') {
+        showFlushBar(error, youDontHaveGroup, MessageTypes.ERROR, context, 2);
+
+        return [];
+      } else if (_teacherID != '') {
+        List<TimetableModel> _timetableList = await _getTimetableList(
+            TimetableDropdownlinListType.Teacher, _teacherID);
+
+        return _timetableList;
+      } else {
+        showFlushBar(error, tryAgain, MessageTypes.ERROR, context, 2);
+        return [];
+      }
     }
   }
 
@@ -324,10 +365,9 @@ class TimetableBloc {
       });
 
       if (response.statusCode == 200) {
-        List<TimetableDropdownListModel> _groupsList =
-            _parseJson(response.body);
+        List<TimetableDropdownListModel> _list = _parseJson(response.body);
 
-        return _groupsList;
+        return _list;
       } else {
         TimetableDropdownListModel model =
             TimetableDropdownListModel(text: '', value: '');

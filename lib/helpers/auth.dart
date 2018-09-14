@@ -82,7 +82,7 @@ class AuthStateProvider {
         await prefs.setString(userPasssword, password);
         await prefs.setBool(isLoggedIn, true);
 
-        getStudentsProfileForTheCurrentYear();
+        getUserProfileForTheCurrentYear();
 
         notify(AuthState.LOGGED_IN);
       } else

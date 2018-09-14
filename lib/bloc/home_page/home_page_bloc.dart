@@ -18,8 +18,18 @@ class HomePageBloc {
 
   final _setUnderDevelopmentFeaturesVisibilityController =
       StreamController<bool>();
+
+  Stream<String> get userRoleStream => _userRoleStreamSubject.stream;
+
+  final _userRoleStreamSubject = BehaviorSubject<String>(seedValue: 'staff');
+
+  Sink<String> get setUserRole => _setUserRoleController.sink;
+
+  final _setUserRoleController = StreamController<String>();
+
   HomePageBloc() {
     getSwitchValue();
+    getUserRoleValue();
 
     _setUnderDevelopmentFeaturesVisibilityController.stream
         .listen((visibility) async {
@@ -39,6 +49,7 @@ class HomePageBloc {
     prefs = await SharedPreferences.getInstance();
     var _switchValue =
         prefs.getBool(isUnderDevelopmentFeaturesInvisible) ?? true;
+
     _setUnderDevelopmentFeaturesVisibilityController.add(_switchValue);
     // return _switchValue;
   }
@@ -46,11 +57,20 @@ class HomePageBloc {
   setSwitchValue(bool switchValue) async {
     prefs = await SharedPreferences.getInstance();
     prefs.setBool(isUnderDevelopmentFeaturesInvisible, switchValue);
+
     _isUnderDevelopmentFeaturesOnSubject.add(switchValue);
+  }
+
+  getUserRoleValue() async {
+    prefs = await SharedPreferences.getInstance();
+    var _userRole = prefs.getString(userRole) ?? "staff";
+    _userRoleStreamSubject.add(_userRole);
   }
 
   dispose() {
     _isUnderDevelopmentFeaturesOnSubject.close();
     _setUnderDevelopmentFeaturesVisibilityController.close();
+    _userRoleStreamSubject.close();
+    _setUserRoleController.close();
   }
 }

@@ -384,7 +384,14 @@ class _TwoPanelsState extends State<TwoPanels> {
                   //   bottom: false,
                   //   child: FeedbackForm(questionNumbers: _questionNumbers),
                   // )),
-                  CustomGridView(context).build(),
+                  StreamBuilder(
+                      stream: homePageBloc.userRoleStream,
+                      builder: (context, snapshot) => snapshot.hasData
+                          ? snapshot.data == "staff"
+                              ? CustomGridViewForTeachers(context).build()
+                              : CustomGridView(context).build()
+                          : SliverToBoxAdapter()),
+
                   StreamBuilder(
                     stream: homePageBloc.isUnderDevelopmentFeaturesOn,
                     initialData: true,

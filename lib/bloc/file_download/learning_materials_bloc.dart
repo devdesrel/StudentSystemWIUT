@@ -11,6 +11,7 @@ import 'package:student_system_flutter/helpers/function_helpers.dart';
 import 'package:student_system_flutter/models/LearningMaterials/learning_materials_model.dart';
 import 'package:student_system_flutter/models/LearningMaterials/single_learning_material_model.dart';
 import 'package:student_system_flutter/models/download_file_model.dart';
+import 'package:screen/screen.dart';
 
 class LearningMaterialsBloc {
   String moduleName = '';
@@ -55,6 +56,8 @@ class LearningMaterialsBloc {
 
       basicList.add(addition);
       _downloadingFilesListSubject.add(basicList);
+      //To keep the screen on until dowloading is done
+      Screen.keepOn(true);
     });
 
     _removeItemFromDownloadingListController.stream.listen((url) {
@@ -62,6 +65,8 @@ class LearningMaterialsBloc {
       if (basicList.length == 0) {
         _downloadingFilesListSubject.add([]);
         flushBar.dismiss();
+        //to let the screen turn of after downloading completion
+        Screen.keepOn(false);
       }
     });
 

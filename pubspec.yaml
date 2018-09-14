@@ -26,7 +26,8 @@ dependencies:
   package_info: ^0.3.2
   connectivity: ^0.3.1
   open_file: ^1.0.7
-  screen: ^0.0.4
+  screen: ^0.0.3
+
 
 
   material_design_icons_flutter: ^2.7.94

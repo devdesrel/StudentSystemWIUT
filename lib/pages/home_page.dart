@@ -30,7 +30,7 @@ class _HomePageState extends State<HomePage>
 
     getMinimumAppVersion(context);
 
-    getStudentsProfileForTheCurrentYear();
+    getUserProfileForTheCurrentYear();
 
     controller = AnimationController(
         vsync: this, duration: Duration(milliseconds: 100), value: 1.0);
@@ -329,6 +329,95 @@ class CustomGridView2 {
               MainPageGridItems.COURSEWORK_UPLOAD, 2),
           makeGridCell(
               "Social", 'assets/social.png', MainPageGridItems.SOCIAL, 3),
+        ]);
+  }
+}
+
+class CustomGridViewForTeachers {
+  BuildContext context;
+
+  CustomGridViewForTeachers(this.context);
+
+  Widget makeGridCell(
+      String name, String imageSource, MainPageGridItems page, int position) {
+    var size = MediaQuery.of(context).size;
+    bool isSmallScreen = false;
+
+    if (size.width <= smallDeviceWidth) {
+      isSmallScreen = true;
+    }
+
+    return Padding(
+      padding: position.isEven
+          ? EdgeInsets.only(left: 18.0, bottom: 10.0)
+          : EdgeInsets.only(right: 18.0, bottom: 10.0),
+      child: CustomCard(
+        InkWell(
+          onTap: () {
+            openSelectedPage(context, page);
+          },
+          child: Padding(
+            padding: EdgeInsets.symmetric(horizontal: 10.0),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              mainAxisAlignment: MainAxisAlignment.center,
+              mainAxisSize: MainAxisSize.min,
+              verticalDirection: VerticalDirection.down,
+              children: <Widget>[
+                Center(
+                    child: Image.asset(
+                  imageSource,
+                  height: 60.0,
+                )),
+                SizedBox(
+                  height: 20.0,
+                ),
+                Center(
+                    child: Text(
+                  name.toUpperCase(),
+                  textAlign: TextAlign.center,
+                  style: Theme.of(context).textTheme.body1.copyWith(
+                      letterSpacing: 4.0,
+                      color: textColor,
+                      fontSize: isSmallScreen ? 13.0 : 15.0),
+                )),
+              ],
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+
+  SliverGrid build() {
+    // var size = MediaQuery.of(context).size;
+
+    /*24 is for notification bar on Android*/
+    // final double itemHeight = (size.height - kToolbarHeight - 24) / 2.5;
+    // final double itemWidth = size.width / 1.55;
+
+    return SliverGrid.count(
+        // padding: EdgeInsets.all(16.0),
+        // shrinkWrap: true,
+        childAspectRatio: 0.9, //0.85
+        // scrollDirection: Axis.vertical,
+        // controller: ScrollController(keepScrollOffset: false),
+        crossAxisCount: 2,
+        mainAxisSpacing: 0.0,
+        crossAxisSpacing: 10.0,
+        children: <Widget>[
+          // SliverToBoxAdapter(
+          // SliverToBoxAdapter(
+          //   child: SliverGrid.count(
+          //     crossAxisCount: 2,
+          //     children: <Widget>[
+          makeGridCell("Timetable", 'assets/timetable.png',
+              MainPageGridItems.TIMETABLE, 0),
+          makeGridCell("Learning Materials", 'assets/lectures.png',
+              MainPageGridItems.LEARNING_MATERIALS, 1),
+          //     ],
+          //   ),
+          // ),
         ]);
   }
 }

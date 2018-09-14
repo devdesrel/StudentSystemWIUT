@@ -71,29 +71,50 @@ void getStudentsProfileForSelectedYear() async {
   }
 }
 
-void getStudentsProfileForTheCurrentYear() async {
+void getUserProfileForTheCurrentYear() async {
   SharedPreferences prefs = await SharedPreferences.getInstance();
   final _token = prefs.getString(token);
-  final _studentID = prefs.getString(studentID);
+  final _userName = prefs.getString(studentID);
+  final _role = prefs.getString(userRole);
 
   try {
-    final response = await http.post("$apiStudentProfile?StudentID=$_studentID",
-        headers: {
-          "Accept": "application/json",
-          "Authorization": "Bearer $_token"
-        });
+    if (_role == "student") {
+      final response = await http
+          .post("$apiStudentProfile?StudentID=$_userName", headers: {
+        "Accept": "application/json",
+        "Authorization": "Bearer $_token"
+      });
 
-    if (response.statusCode == 200) {
-      final _parsed = json.decode(response.body);
+      if (response.statusCode == 200) {
+        final _parsed = json.decode(response.body);
 
-      List<ProfileModel> profile = _parsed
-          .map<ProfileModel>((item) => ProfileModel.fromJson(item))
-          .toList();
+        List<ProfileModel> profile = _parsed
+            .map<ProfileModel>((item) => ProfileModel.fromJson(item))
+            .toList();
 
-      var currentProfile = profile[profile.length - 1];
+        var currentProfile = profile[profile.length - 1];
 
-      prefs.setString(groupNameSharedPref, currentProfile.groupName);
-      prefs.setInt(academicYearIDSharedPref, currentProfile.acadYearIDField);
+        prefs.setString(groupNameSharedPref, currentProfile.groupName);
+        prefs.setInt(academicYearIDSharedPref, currentProfile.acadYearIDField);
+      }
+    } else {
+      final response = await http.post(
+          "$apiProfileGetProfileByUserName?userName=$_userName",
+          headers: {
+            "Accept": "application/json",
+            "Authorization": "Bearer $_token"
+          });
+
+      if (response.statusCode == 200) {
+        Map data = json.decode(response.body);
+
+        await prefs.setString(firstName, data['FirstName']);
+        await prefs.setString(lastName, data['LastName']);
+        var teacherFullName =
+            prefs.getString(firstName) + " " + prefs.getString(lastName);
+        await prefs.setString(teacherNameSharedPref, teacherFullName);
+        print(teacherFullName);
+      }
     }
   } catch (e) {
     print('Error');

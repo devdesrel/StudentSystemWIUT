@@ -36,6 +36,7 @@ class _LoginPageState extends State<LoginPage> implements AuthStateListener {
 
   String _username;
   String _password;
+  String _userRole;
 
   _LoginPageState() {
     var authStateProvider = AuthStateProvider();
@@ -50,7 +51,7 @@ class _LoginPageState extends State<LoginPage> implements AuthStateListener {
     _setDefaultSettings();
   }
 
-  void _login() {
+  void _login() async {
     final form = formKey.currentState;
 
     FocusScope.of(context).requestFocus(FocusNode());
@@ -61,6 +62,8 @@ class _LoginPageState extends State<LoginPage> implements AuthStateListener {
         progressDialogVisible = true;
       });
       postAuthData();
+      //TODO: check user type
+
     } else {
       setState(() {
         dataNotValid = true;
@@ -103,6 +106,7 @@ class _LoginPageState extends State<LoginPage> implements AuthStateListener {
       if (res.statusCode == 200) {
         SharedPreferences prefs = await SharedPreferences.getInstance();
         await prefs.setString(token, data['token']);
+        await prefs.setString(userRole, data['role']);
         await prefs.setString(tokenExpireDay,
             DateTime.now().toUtc().add(Duration(days: 6)).toString());
         await prefs.setString(studentID, _username);
@@ -113,7 +117,7 @@ class _LoginPageState extends State<LoginPage> implements AuthStateListener {
         // Animation<double> animation =
         //     new Tween(begin: 0.1, end: 1.0).animate(controller);
 
-        getStudentsProfileForTheCurrentYear();
+        getUserProfileForTheCurrentYear();
 
         if (pin == null) {
           Platform.isAndroid
@@ -162,11 +166,31 @@ class _LoginPageState extends State<LoginPage> implements AuthStateListener {
           autofocus: false,
           obscureText: isPassword,
           keyboardType:
-              // TextInputType.emailAddress,
               isPassword ? TextInputType.emailAddress : TextInputType.text,
           validator: (val) =>
+//                 SharedPreferences prefs = await SharedPreferences.getInstance();
+// prefs.setString(userRole, userRole);
               val.length == 0 ? '$placeholderName can not be empty' : null,
           onSaved: (val) => isPassword ? _password = val : _username = val,
+          // (val) async {
+          //   if (!isPassword) {
+          //     // SharedPreferences prefs = await SharedPreferences.getInstance();
+
+          //     // _username = val;
+          //     // if (_username.startsWith('0')) {
+          //     //   _userRole = UserRole.Student.toString();
+          //     //   prefs.setString(userRole, _userRole);
+          //     // } else {
+          //     //   _userRole = UserRole.Teacher.toString();
+          //     //   prefs.setString(userRole, _userRole);
+          //     // }
+          //     return _username;
+          //     // isPassword ? _password = val : _username = val
+          //   } else {
+          //     _password = val;
+          //     return _password;
+          //   }
+          // },
           decoration: InputDecoration(
               labelText: placeholderName,
               border: OutlineInputBorder(

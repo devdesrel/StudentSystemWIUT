@@ -68,6 +68,8 @@ final isPreviewSeen = 'isPreviewSeen';
 final isUnderDevelopmentFeaturesInvisible =
     'isUnderDevelopmentFeaturesInvisible';
 final userRole = 'userRole';
+final teacherID = 'teacherID';
+final teacherNameSharedPref = 'teacherNameSharedPref';
 
 //API List
 final baseUrl = 'https://newintranetapi.wiut.uz';
@@ -93,6 +95,8 @@ final apiStudentProfile =
     '$baseUrl/api/StudentProfileAndMarks/GetStudentGroupByUserID';
 final apiStudentProfileForSelectedAcademicYear =
     '$baseUrl/api/StudentProfileAndMarks/GetStudentGroupByUserIDAndAcadYearID';
+final apiProfileGetProfileByUserName =
+    '$baseUrl/api/Profile/GetProfileByUserName';
 
 //Errors List
 final String authProblems = 'Authorization problems';
