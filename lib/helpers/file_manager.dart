@@ -193,6 +193,7 @@ class FileManagerState extends State<FileManager>
           });
         } else {
           externalStoragePermissionOkay = checkOkay;
+          setState(() {});
         }
       });
     }
