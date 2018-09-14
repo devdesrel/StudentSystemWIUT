@@ -7,7 +7,6 @@ import 'package:student_system_flutter/bloc/home_page/home_page_bloc.dart';
 import 'package:student_system_flutter/helpers/app_constants.dart';
 import 'package:student_system_flutter/helpers/feedback_form.dart';
 import 'package:student_system_flutter/models/deadlines_model.dart';
-import 'package:student_system_flutter/models/feedback_model.dart';
 // import 'package:student_system_flutter/helpers/feedback_form.dart';
 // import 'package:student_system_flutter/models/feedback_model.dart';
 import 'package:student_system_flutter/pages/home_page.dart';
@@ -38,11 +37,11 @@ class _TwoPanelsState extends State<TwoPanels> {
   }
 
   Widget bothPanels(BuildContext context, BoxConstraints constraints) {
-    final List<FeedbackModel> _questionNumbers = <FeedbackModel>[
-      FeedbackModel(questionTitle: 'Web Application Development'),
-      FeedbackModel(questionTitle: 'Internet Marketing'),
-      FeedbackModel(questionTitle: 'Software Quality, Performance and Testing'),
-    ];
+    // final List<FeedbackModel> _questionNumbers = <FeedbackModel>[
+    //   FeedbackModel(questionTitle: 'Web Application Development'),
+    //   FeedbackModel(questionTitle: 'Internet Marketing'),
+    //   FeedbackModel(questionTitle: 'Software Quality, Performance and Testing'),
+    // ];
 
     final List<DeadlinesModel> deadlinesList = <DeadlinesModel>[
       DeadlinesModel(date: '7', month: 'Nov', moduleName: 'QM'),
@@ -136,11 +135,11 @@ class _TwoPanelsState extends State<TwoPanels> {
                           )),
                     ),
                   ),
-                  SliverToBoxAdapter(
-                      child: SafeArea(
-                    bottom: false,
-                    child: FeedbackForm(questionNumbers: _questionNumbers),
-                  )),
+                  // SliverToBoxAdapter(
+                  //     child: SafeArea(
+                  //   bottom: false,
+                  //   child: FeedbackForm(questionNumbers: _questionNumbers),
+                  // )),
                   StreamBuilder(
                     initialData: true,
                     stream: homePageBloc.isUnderDevelopmentFeaturesOn,
