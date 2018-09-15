@@ -304,10 +304,15 @@ Future<Null> showSignOutDialog(BuildContext context) async {
 void _cleanUserData() async {
   SharedPreferences prefs = await SharedPreferences.getInstance();
   await prefs.setString(token, "");
+  await prefs.setString(tokenExpireDay, null);
   await prefs.setString(studentID, "");
+  await prefs.setString(userPasssword, "");
   await prefs.setString(firstName, "");
   await prefs.setString(lastName, "");
   await prefs.setString(groupID, "");
   await prefs.setString(groupNameSharedPref, "");
   await prefs.setBool(isLoggedIn, false);
+  await prefs.setString(userRole, "");
+  await prefs.setString(teacherID, "");
+  await prefs.setString(teacherNameSharedPref, "");
 }
