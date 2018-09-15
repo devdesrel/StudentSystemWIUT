@@ -56,6 +56,13 @@ class _TwoPanelsState extends State<TwoPanels> {
     var _bloc = BackdropProvider.of(context);
     var homePageBloc = HomePageBloc();
 
+    var size = MediaQuery.of(context).size;
+    bool isSmallScreen = false;
+
+    if (size.width <= smallDeviceWidth) {
+      isSmallScreen = true;
+    }
+
     return SafeArea(
       bottom: true,
       child: Container(
@@ -431,7 +438,11 @@ class _TwoPanelsState extends State<TwoPanels> {
                           : SliverToBoxAdapter()),
                   SliverToBoxAdapter(
                     child: ListTile(
-                        title: Text('Hide under development features'),
+                        title: Text(
+                          'Hide under development features',
+                          style:
+                              TextStyle(fontSize: isSmallScreen ? 13.0 : 15.0),
+                        ),
                         trailing:
                             //  StreamBuilder(
                             //     initialData: false,

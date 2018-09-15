@@ -310,51 +310,56 @@ class SettingsPage extends StatelessWidget {
             ),
           );
         } else if (Platform.isIOS) {
-          return CupertinoAlertDialog(
+          return GestureDetector(
+            onTap: () {
+              FocusScope.of(context).requestFocus(new FocusNode());
+            },
+            child: CupertinoAlertDialog(
 // titlePadding: EdgeInsets.only(top: 20.0, left: 20.0),
-            // contentPadding:
-            //     EdgeInsets.symmetric(horizontal: 23.0, vertical: 0.0),
-            title: Text('Change PIN code'),
-            content: SingleChildScrollView(
-              child: Form(
-                key: formKey,
-                child: Material(
-                  child: ListBody(
-                    children: <Widget>[
-                      customeFormField(
-                          'Current PIN',
-                          ChangePinCodeDialogArguments.CurrentPin,
-                          context,
-                          bloc),
-                      customeFormField('New PIN',
-                          ChangePinCodeDialogArguments.NewPin, context, bloc),
-                      customeFormField(
-                          'Confirm new PIN',
-                          ChangePinCodeDialogArguments.ConfirmPin,
-                          context,
-                          bloc),
-                    ],
+              // contentPadding:
+              //     EdgeInsets.symmetric(horizontal: 23.0, vertical: 0.0),
+              title: Text('Change PIN code'),
+              content: SingleChildScrollView(
+                child: Form(
+                  key: formKey,
+                  child: Material(
+                    child: ListBody(
+                      children: <Widget>[
+                        customeFormField(
+                            'Current PIN',
+                            ChangePinCodeDialogArguments.CurrentPin,
+                            context,
+                            bloc),
+                        customeFormField('New PIN',
+                            ChangePinCodeDialogArguments.NewPin, context, bloc),
+                        customeFormField(
+                            'Confirm new PIN',
+                            ChangePinCodeDialogArguments.ConfirmPin,
+                            context,
+                            bloc),
+                      ],
+                    ),
                   ),
                 ),
               ),
+              actions: <Widget>[
+                CupertinoDialogAction(
+                  isDestructiveAction: true,
+                  child: Text('Cancel'.toUpperCase()),
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                    bloc.setAutoValidation.add(false);
+                  },
+                ),
+                CupertinoDialogAction(
+                  isDefaultAction: false,
+                  child: Text('Save'.toUpperCase()),
+                  onPressed: () {
+                    savePin(context, bloc);
+                  },
+                ),
+              ],
             ),
-            actions: <Widget>[
-              CupertinoDialogAction(
-                isDestructiveAction: true,
-                child: Text('Cancel'.toUpperCase()),
-                onPressed: () {
-                  Navigator.of(context).pop();
-                  bloc.setAutoValidation.add(false);
-                },
-              ),
-              CupertinoDialogAction(
-                isDefaultAction: false,
-                child: Text('Save'.toUpperCase()),
-                onPressed: () {
-                  savePin(context, bloc);
-                },
-              ),
-            ],
           );
         }
       },
