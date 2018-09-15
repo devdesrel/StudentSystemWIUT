@@ -36,7 +36,6 @@ class _LoginPageState extends State<LoginPage> implements AuthStateListener {
 
   String _username;
   String _password;
-  String _userRole;
 
   _LoginPageState() {
     var authStateProvider = AuthStateProvider();
