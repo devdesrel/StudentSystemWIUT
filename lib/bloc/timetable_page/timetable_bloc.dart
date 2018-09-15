@@ -65,8 +65,7 @@ class TimetableBloc {
         TimetableDropdownListModel model =
             TimetableDropdownListModel(text: '', value: '');
 
-        teachersListDropdown.remove(0);
-        // teachersListDropdown.insert(0, model);
+        teachersListDropdown.insert(0, model);
 
         _isLoadedSubject.add(true);
       }
