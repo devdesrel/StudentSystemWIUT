@@ -167,29 +167,9 @@ class _LoginPageState extends State<LoginPage> implements AuthStateListener {
           keyboardType:
               isPassword ? TextInputType.emailAddress : TextInputType.text,
           validator: (val) =>
-//                 SharedPreferences prefs = await SharedPreferences.getInstance();
-// prefs.setString(userRole, userRole);
               val.length == 0 ? '$placeholderName can not be empty' : null,
           onSaved: (val) => isPassword ? _password = val : _username = val,
-          // (val) async {
-          //   if (!isPassword) {
-          //     // SharedPreferences prefs = await SharedPreferences.getInstance();
 
-          //     // _username = val;
-          //     // if (_username.startsWith('0')) {
-          //     //   _userRole = UserRole.Student.toString();
-          //     //   prefs.setString(userRole, _userRole);
-          //     // } else {
-          //     //   _userRole = UserRole.Teacher.toString();
-          //     //   prefs.setString(userRole, _userRole);
-          //     // }
-          //     return _username;
-          //     // isPassword ? _password = val : _username = val
-          //   } else {
-          //     _password = val;
-          //     return _password;
-          //   }
-          // },
           decoration: InputDecoration(
               labelText: placeholderName,
               border: OutlineInputBorder(

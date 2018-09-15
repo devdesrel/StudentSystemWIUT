@@ -379,7 +379,7 @@ class CustomGridViewForTeachers {
                   style: Theme.of(context).textTheme.body1.copyWith(
                       letterSpacing: 4.0,
                       color: textColor,
-                      fontSize: isSmallScreen ? 13.0 : 15.0),
+                      fontSize: isSmallScreen ? 11.0 : 15.0),
                 )),
               ],
             ),
