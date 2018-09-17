@@ -72,7 +72,6 @@ final isUnderDevelopmentFeaturesInvisible =
 final userRole = 'userRole';
 final teacherID = 'teacherID';
 final teacherNameSharedPref = 'teacherNameSharedPref';
-final lastAppVersion = 'lastAppVersion';
 
 //API List
 final baseUrl = 'https://newintranetapi.wiut.uz';
