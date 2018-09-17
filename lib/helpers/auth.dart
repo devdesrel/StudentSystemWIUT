@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:convert';
 
+import 'package:package_info/package_info.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:student_system_flutter/enums/ApplicationEnums.dart';
 import 'package:student_system_flutter/helpers/function_helpers.dart';
@@ -26,6 +27,29 @@ class AuthStateProvider {
 
   void initState() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
+
+    int _lastAppVersion = prefs.getInt(lastAppVersion) ?? 1;
+
+    PackageInfo packageInfo = await PackageInfo.fromPlatform();
+    int _buildNumber = int.parse(packageInfo.buildNumber);
+
+    if (_buildNumber > _lastAppVersion) {
+      await prefs.setString(token, "");
+      await prefs.setString(tokenExpireDay, null);
+      await prefs.setString(studentID, "");
+      await prefs.setString(userPasssword, "");
+      await prefs.setString(firstName, "");
+      await prefs.setString(lastName, "");
+      await prefs.setString(groupID, "");
+      await prefs.setString(groupNameSharedPref, "");
+      await prefs.setBool(isLoggedIn, false);
+      await prefs.setString(userRole, "");
+      await prefs.setString(teacherID, "");
+      await prefs.setString(teacherNameSharedPref, "");
+    }
+
+    await prefs.setInt(lastAppVersion, _buildNumber);
+
     bool _isLoggedIn = prefs.getBool(isLoggedIn) ?? false;
     bool _isPreviewSeen = prefs.getBool(isPreviewSeen) ?? false;
 
@@ -41,16 +65,24 @@ class AuthStateProvider {
 
   void _setMainPage() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    DateTime expirationDate = DateTime.parse(prefs.getString(tokenExpireDay));
+    var _tokenExpireDay = prefs.getString(tokenExpireDay);
     var username = prefs.getString(studentID);
     var password = prefs.getString(userPasssword);
     var userToken = prefs.getString(token);
 
     bool _isPinFilled = prefs.getBool(isPinFilled) ?? false;
 
+    DateTime _expirationDate;
+
+    if (_tokenExpireDay != null && _tokenExpireDay != '') {
+      _expirationDate = DateTime.tryParse(_tokenExpireDay);
+    }
+
     if (_isPinFilled) {
       if (userToken != null && userToken != '') {
-        if (expirationDate.difference(DateTime.now().toUtc()).inDays <= 0) {
+        if (_expirationDate != null &&
+            _expirationDate is DateTime &&
+            _expirationDate.difference(DateTime.now().toUtc()).inDays <= 0) {
           postAuthData(username, password);
         } else {
           notify(AuthState.LOGGED_IN);

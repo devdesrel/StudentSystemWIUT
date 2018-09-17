@@ -11,7 +11,6 @@ import 'package:student_system_flutter/pages/files_downloaded_page.dart';
 
 import 'package:student_system_flutter/pages/home_page.dart';
 import 'package:student_system_flutter/pages/iOS_pages/contacts_page_ios.dart';
-import 'package:student_system_flutter/pages/iOS_pages/ios_pin_set.dart';
 import 'package:student_system_flutter/pages/learning_materials_page.dart';
 import 'package:student_system_flutter/pages/login_page.dart';
 import 'package:student_system_flutter/pages/map_page.dart';

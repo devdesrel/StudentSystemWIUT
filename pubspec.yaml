@@ -7,11 +7,7 @@ dependencies:
   http: "^0.11.3+16"
   local_auth: "^0.2.0"
   cached_network_image: "^0.4.2"
-  # flutter_advanced_networkimage: ^0.3.8
   shared_preferences: "^0.4.2"
-  # flutter_circular_chart: "^0.1.0"
-  flutter_circular_chart: "^0.0.3"
-  # carousel: "^0.1.0"
   path_provider: "^0.4.1"
   simple_permissions: "^0.1.6"
   font_awesome_flutter: "^8.0.1"
@@ -20,15 +16,19 @@ dependencies:
   mime: ^0.9.6
   sentry: ^2.1.0
   url_launcher: ^3.0.3
-  # flutter_map: ^0.1.1
-  flutter_map: ^0.0.11+1
   flushbar: ^0.8.2
   package_info: ^0.3.2
   connectivity: ^0.3.1
   open_file: ^1.0.7
+  # screen: ^0.0.4
+  # flutter_circular_chart: "^0.1.0"
+  # flutter_map: ^0.1.1
   screen: ^0.0.3
-
-
+  flutter_map: ^0.0.11+1
+  flutter_circular_chart: "^0.0.3"
+  
+  # flutter_advanced_networkimage: ^0.3.8
+  # carousel: "^0.1.0"
 
   material_design_icons_flutter: ^2.7.94
   # community_material_icon: ^0.1.2

@@ -80,7 +80,6 @@ class FileManagerState extends State<FileManager>
         if (!isExists) {
           dir.createSync(recursive: true);
         }
-
         _allPathsList = dir.listSync(recursive: false, followLinks: true);
 
         for (int i = 0; i < _allPathsList.length; i++) {
@@ -176,12 +175,10 @@ class FileManagerState extends State<FileManager>
 
   _initPlatformState() async {
     if (Platform.isAndroid) {
-      SimplePermissions
-          .checkPermission(Permission.WriteExternalStorage)
+      SimplePermissions.checkPermission(Permission.WriteExternalStorage)
           .then((checkOkay) {
         if (!checkOkay) {
-          SimplePermissions
-              .requestPermission(Permission.WriteExternalStorage)
+          SimplePermissions.requestPermission(Permission.WriteExternalStorage)
               .then((okDone) {
             if (okDone) {
               externalStoragePermissionOkay = okDone;
