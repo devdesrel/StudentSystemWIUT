@@ -17,5 +17,6 @@ enum TimetableDropdownlinListType { Group, Room, Teacher }
 enum ChangePinCodeDialogArguments { CurrentPin, NewPin, ConfirmPin }
 
 enum RequestType { GetMarks, GetTeachingMaterials }
+enum IosPinRequestType { SetPin, ChangePin }
 
 enum AttachmentTypes { CAMERA, GALLERY, QUESTIONNAIRE, FILE, STICKER }

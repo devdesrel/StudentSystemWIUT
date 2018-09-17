@@ -6,9 +6,10 @@ import 'package:student_system_flutter/helpers/feature_preview_carousel.dart';
 class PreviewPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return new Scaffold(
-      body: new Center(
-        child: new FeaturePreviewCarousel(
+    return Scaffold(
+      body: Center(
+        child: FeaturePreviewCarousel(
+          isDotIndicatorBottom: true,
           dotSize: 5.0,
           autoplay: false,
           images: [

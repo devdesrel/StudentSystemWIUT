@@ -10,6 +10,7 @@ import 'package:student_system_flutter/enums/ApplicationEnums.dart';
 import 'package:student_system_flutter/helpers/app_constants.dart';
 import 'package:student_system_flutter/helpers/function_helpers.dart';
 import 'package:flutter/services.dart';
+import 'package:student_system_flutter/pages/iOS_pages/ios_pin_set.dart';
 
 class SettingsPage extends StatelessWidget {
   SharedPreferences prefs;
@@ -84,7 +85,13 @@ class SettingsPage extends StatelessWidget {
                           ),
                           ListTile(
                             onTap: () {
-                              showPinDialog(context, _bloc);
+                              Platform.isAndroid
+                                  ? showPinDialog(context, _bloc)
+                                  : Navigator.of(context).push(
+                                      MaterialPageRoute(
+                                          builder: (context) => IosPinSetPage(
+                                              pinRequestType: IosPinRequestType
+                                                  .ChangePin)));
                             },
                             leading: Image.asset(
                               'assets/key.png',
@@ -261,102 +268,94 @@ class SettingsPage extends StatelessWidget {
       context: context,
       barrierDismissible: false, // user must tap button!
       builder: (BuildContext context) {
-        if (Platform.isAndroid) {
-          return GestureDetector(
-            onTap: () {
-              FocusScope.of(context).requestFocus(new FocusNode());
-            },
-            child: AlertDialog(
-              titlePadding: EdgeInsets.only(top: 20.0, left: 20.0),
-              contentPadding:
-                  EdgeInsets.symmetric(horizontal: 23.0, vertical: 0.0),
-              title: Text('Change PIN code'),
-              content: SingleChildScrollView(
-                child: Form(
-                  key: formKey,
-                  child: ListBody(
-                    children: <Widget>[
-                      customeFormField(
-                          'Current PIN',
-                          ChangePinCodeDialogArguments.CurrentPin,
-                          context,
-                          bloc),
-                      customeFormField('New PIN',
-                          ChangePinCodeDialogArguments.NewPin, context, bloc),
-                      customeFormField(
-                          'Confirm new PIN',
-                          ChangePinCodeDialogArguments.ConfirmPin,
-                          context,
-                          bloc),
-                    ],
-                  ),
-                ),
-              ),
-              actions: <Widget>[
-                FlatButton(
-                  child: Text('Cancel'.toUpperCase()),
-                  onPressed: () {
-                    Navigator.of(context).pop();
-                    bloc.setAutoValidation.add(false);
-                  },
-                ),
-                FlatButton(
-                  child: Text('Save'.toUpperCase()),
-                  onPressed: () {
-                    savePin(context, bloc);
-                  },
-                ),
-              ],
-            ),
-          );
-        } else if (Platform.isIOS) {
-          return CupertinoAlertDialog(
-// titlePadding: EdgeInsets.only(top: 20.0, left: 20.0),
-            // contentPadding:
-            //     EdgeInsets.symmetric(horizontal: 23.0, vertical: 0.0),
+        return GestureDetector(
+          onTap: () {
+            FocusScope.of(context).requestFocus(new FocusNode());
+          },
+          child: AlertDialog(
+            titlePadding: EdgeInsets.only(top: 20.0, left: 20.0),
+            contentPadding:
+                EdgeInsets.symmetric(horizontal: 23.0, vertical: 0.0),
             title: Text('Change PIN code'),
             content: SingleChildScrollView(
               child: Form(
                 key: formKey,
-                child: Material(
-                  child: ListBody(
-                    children: <Widget>[
-                      customeFormField(
-                          'Current PIN',
-                          ChangePinCodeDialogArguments.CurrentPin,
-                          context,
-                          bloc),
-                      customeFormField('New PIN',
-                          ChangePinCodeDialogArguments.NewPin, context, bloc),
-                      customeFormField(
-                          'Confirm new PIN',
-                          ChangePinCodeDialogArguments.ConfirmPin,
-                          context,
-                          bloc),
-                    ],
-                  ),
+                child: ListBody(
+                  children: <Widget>[
+                    customeFormField('Current PIN',
+                        ChangePinCodeDialogArguments.CurrentPin, context, bloc),
+                    customeFormField('New PIN',
+                        ChangePinCodeDialogArguments.NewPin, context, bloc),
+                    customeFormField('Confirm new PIN',
+                        ChangePinCodeDialogArguments.ConfirmPin, context, bloc),
+                  ],
                 ),
               ),
             ),
             actions: <Widget>[
-              CupertinoDialogAction(
-                isDestructiveAction: true,
+              FlatButton(
                 child: Text('Cancel'.toUpperCase()),
                 onPressed: () {
                   Navigator.of(context).pop();
                   bloc.setAutoValidation.add(false);
                 },
               ),
-              CupertinoDialogAction(
-                isDefaultAction: false,
+              FlatButton(
                 child: Text('Save'.toUpperCase()),
                 onPressed: () {
                   savePin(context, bloc);
                 },
               ),
             ],
-          );
-        }
+          ),
+        );
+        // return CupertinoAlertDialog(
+// titlePadding: EdgeInsets.only(top: 20.0, left: 20.0),
+        // contentPadding:
+        //     EdgeInsets.symmetric(horizontal: 23.0, vertical: 0.0),
+        //   title: Text('Change PIN code'),
+        //   content: SingleChildScrollView(
+        //     child: Form(
+        //       key: formKey,
+        //       child: Material(
+        //         child: ListBody(
+        //           children: <Widget>[
+        //             customeFormField(
+        //                 'Current PIN',
+        //                 ChangePinCodeDialogArguments.CurrentPin,
+        //                 context,
+        //                 bloc),
+        //             customeFormField('New PIN',
+        //                 ChangePinCodeDialogArguments.NewPin, context, bloc),
+        //             customeFormField(
+        //                 'Confirm new PIN',
+        //                 ChangePinCodeDialogArguments.ConfirmPin,
+        //                 context,
+        //                 bloc),
+        //           ],
+        //         ),
+        //       ),
+        //     ),
+        //   ),
+        //   actions: <Widget>[
+        //     CupertinoDialogAction(
+        //       isDestructiveAction: true,
+        //       child: Text('Cancel'.toUpperCase()),
+        //       onPressed: () {
+        //         Navigator.of(context).pop();
+        //         bloc.setAutoValidation.add(false);
+        //       },
+        //     ),
+        //     CupertinoDialogAction(
+        //       isDefaultAction: false,
+        //       child: Text('Save'.toUpperCase()),
+        //       onPressed: () {
+        //         savePin(context, bloc);
+        //       },
+        //     ),
+        //   ],
+        // );
+        // }
       },
     );
   }

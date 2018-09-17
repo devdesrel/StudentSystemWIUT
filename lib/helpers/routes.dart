@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:student_system_flutter/pages/app_updates_page.dart';
 import 'package:student_system_flutter/pages/books_page.dart';
+import 'package:student_system_flutter/pages/ccm_feedback_page.dart';
 import 'package:student_system_flutter/pages/comments_page.dart';
 import 'package:student_system_flutter/pages/contacts_page.dart';
 import 'package:student_system_flutter/pages/coursework_upload_page.dart';
@@ -52,5 +53,5 @@ final routes = {
   supportPage: (BuildContext context) => SupportPage(),
   iosContactsPage: (BuildContext context) => IosContactsPage(),
   previewPage: (BuildContext context) => PreviewPage(),
-  iosPinSetPage: (BuildContext context) => IosPinSetPage(),
+  ccmFeedbackPage: (BuildContext context) => CCMFeedbackPage(),
 };
