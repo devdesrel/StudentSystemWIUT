@@ -164,49 +164,54 @@ class _IosPinSetPageState extends State<IosPinSetPage> {
       }
     }
 
-    return Material(
-      child: CupertinoPageScaffold(
-        navigationBar: CupertinoNavigationBar(
-          backgroundColor: backgroundColor,
-          middle: Text('Set PIN code'),
-          trailing: InkWell(
-            onTap: () async {
-              savePin(context);
-            },
-            child: Text(
-              'Done',
-              style: TextStyle(color: accentColor),
-            ),
-          ),
-        ),
-        child: Column(children: <Widget>[
-          Padding(
-            padding:
-                const EdgeInsets.symmetric(vertical: 20.0, horizontal: 20.0),
-            child: Form(
-              key: pinFormkey,
-              child: ListBody(
-                children: <Widget>[
-                  widget.pinRequestType == IosPinRequestType.ChangePin
-                      ? Padding(
-                          padding: const EdgeInsets.only(bottom: 20.0),
-                          child: customeFormField(
-                              'Current PIN',
-                              ChangePinCodeDialogArguments.CurrentPin,
-                              context,
-                              bloc),
-                        )
-                      : Container(),
-                  customeFormField('New PIN',
-                      ChangePinCodeDialogArguments.NewPin, context, bloc),
-                  SizedBox(height: 20.0),
-                  customeFormField('Confirm new PIN',
-                      ChangePinCodeDialogArguments.ConfirmPin, context, bloc),
-                ],
+    return GestureDetector(
+      onTap: () {
+        FocusScope.of(context).requestFocus(new FocusNode());
+      },
+      child: Material(
+        child: CupertinoPageScaffold(
+          navigationBar: CupertinoNavigationBar(
+            backgroundColor: backgroundColor,
+            middle: Text('Set PIN code'),
+            trailing: InkWell(
+              onTap: () async {
+                savePin(context);
+              },
+              child: Text(
+                'Done',
+                style: TextStyle(color: accentColor),
               ),
             ),
           ),
-        ]),
+          child: Column(children: <Widget>[
+            Padding(
+              padding:
+                  const EdgeInsets.symmetric(vertical: 20.0, horizontal: 20.0),
+              child: Form(
+                key: pinFormkey,
+                child: ListBody(
+                  children: <Widget>[
+                    widget.pinRequestType == IosPinRequestType.ChangePin
+                        ? Padding(
+                            padding: const EdgeInsets.only(bottom: 20.0),
+                            child: customeFormField(
+                                'Current PIN',
+                                ChangePinCodeDialogArguments.CurrentPin,
+                                context,
+                                bloc),
+                          )
+                        : Container(),
+                    customeFormField('New PIN',
+                        ChangePinCodeDialogArguments.NewPin, context, bloc),
+                    SizedBox(height: 20.0),
+                    customeFormField('Confirm new PIN',
+                        ChangePinCodeDialogArguments.ConfirmPin, context, bloc),
+                  ],
+                ),
+              ),
+            )
+          ]),
+        ),
       ),
     );
   }

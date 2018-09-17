@@ -291,6 +291,23 @@ class SettingsPage extends StatelessWidget {
                   ],
                 ),
               ),
+              // actions: <Widget>[
+              //   CupertinoDialogAction(
+              //     isDestructiveAction: true,
+              //     child: Text('Cancel'.toUpperCase()),
+              //     onPressed: () {
+              //       Navigator.of(context).pop();
+              //       bloc.setAutoValidation.add(false);
+              //     },
+              //   ),
+              //   CupertinoDialogAction(
+              //     isDefaultAction: false,
+              //     child: Text('Save'.toUpperCase()),
+              //     onPressed: () {
+              //       savePin(context, bloc);
+              //     },
+              //   ),
+              // ],
             ),
             actions: <Widget>[
               FlatButton(

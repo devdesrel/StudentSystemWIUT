@@ -51,6 +51,7 @@ final iosPinSetPage = '/iosPinSetPage';
 final ccmFeedbackPage = '/ccmFeedbackPage';
 
 //Shared preferance keys
+final lastAppVersion = 'lastAppVersion';
 final isLoggedIn = 'isLoggedIn';
 final token = 'token';
 final tokenExpireDay = 'tokenExpireDay';
