@@ -48,6 +48,7 @@ final supportPage = '/supportPage';
 final iosContactsPage = '/iosContactsPage';
 final previewPage = '/previewPage';
 final iosPinSetPage = '/iosPinSetPage';
+final ccmFeedbackPage = '/ccmFeedbackPage';
 
 //Shared preferance keys
 final lastAppVersion = 'lastAppVersion';

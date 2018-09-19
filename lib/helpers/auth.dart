@@ -27,7 +27,7 @@ class AuthStateProvider {
 
   void initState() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    
+
     int _lastAppVersion = prefs.getInt(lastAppVersion) ?? 1;
 
     PackageInfo packageInfo = await PackageInfo.fromPlatform();
@@ -49,7 +49,7 @@ class AuthStateProvider {
     }
 
     await prefs.setInt(lastAppVersion, _buildNumber);
-    
+
     bool _isLoggedIn = prefs.getBool(isLoggedIn) ?? false;
     bool _isPreviewSeen = prefs.getBool(isPreviewSeen) ?? false;
 

@@ -10,6 +10,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:student_system_flutter/bloc/settings_page/change_pin_bloc.dart';
 import 'package:student_system_flutter/enums/ApplicationEnums.dart';
 import 'package:student_system_flutter/helpers/function_helpers.dart';
+import 'package:student_system_flutter/pages/iOS_pages/ios_pin_set.dart';
 import '../helpers/app_constants.dart';
 import '../helpers/auth.dart';
 
@@ -121,7 +122,9 @@ class _LoginPageState extends State<LoginPage> implements AuthStateListener {
         if (pin == null) {
           Platform.isAndroid
               ? showPinDialog(context, bloc)
-              : Navigator.of(context).pushNamed(iosPinSetPage);
+              : Navigator.of(context).push(MaterialPageRoute(
+                  builder: (context) =>
+                      IosPinSetPage(pinRequestType: IosPinRequestType.SetPin)));
 
           //Navigator.of(context).pushReplacementNamed(iosPinSetPage);
           // return CupertinoFullscreenDialogTransition(

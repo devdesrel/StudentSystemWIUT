@@ -2,7 +2,7 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'dart:async';
 
-class FeaturePreviewCarousel extends StatefulWidget {
+class CCMCarousel extends StatefulWidget {
   //All the images on this Carousel.
   final List<Widget> images;
 
@@ -65,7 +65,7 @@ class FeaturePreviewCarousel extends StatefulWidget {
 
   final bool isDotIndicatorBottom;
 
-  FeaturePreviewCarousel(
+  CCMCarousel(
       {this.images,
       this.animationCurve = Curves.ease,
       this.animationDuration = const Duration(milliseconds: 300),
@@ -96,10 +96,10 @@ class FeaturePreviewCarousel extends StatefulWidget {
         assert(dotColor != null);
 
   @override
-  State createState() => new FeaturePreviewCarouselState();
+  State createState() => new CCMCarouselState();
 }
 
-class FeaturePreviewCarouselState extends State<FeaturePreviewCarousel> {
+class CCMCarouselState extends State<CCMCarousel> {
   final _controller = PageController();
 
   @override
@@ -175,6 +175,22 @@ class FeaturePreviewCarouselState extends State<FeaturePreviewCarousel> {
               children: listImages,
             ),
           ),
+          // Center(
+          //     child: DotsIndicator(
+          //   controller: _controller,
+          //   itemCount: listImages.length,
+          //   color: widget.dotColor,
+          //   dotSize: widget.dotSize,
+          //   dotSpacing: widget.dotSpacing,
+          //   dotIncreaseSize: widget.dotIncreaseSize,
+          //   onPageSelected: (int page) {
+          //     _controller.animateToPage(
+          //       page,
+          //       duration: widget.animationDuration,
+          //       curve: widget.animationCurve,
+          //     );
+          //   },
+          // )),
           widget.showIndicator
               ? Positioned(
                   bottom: widget.moveIndicatorFromBottom,
@@ -198,22 +214,6 @@ class FeaturePreviewCarouselState extends State<FeaturePreviewCarousel> {
                           : null,
                     ),
                     padding: EdgeInsets.all(widget.indicatorBgPadding),
-                    child: Center(
-                        child: DotsIndicator(
-                      controller: _controller,
-                      itemCount: listImages.length,
-                      color: widget.dotColor,
-                      dotSize: widget.dotSize,
-                      dotSpacing: widget.dotSpacing,
-                      dotIncreaseSize: widget.dotIncreaseSize,
-                      onPageSelected: (int page) {
-                        _controller.animateToPage(
-                          page,
-                          duration: widget.animationDuration,
-                          curve: widget.animationCurve,
-                        );
-                      },
-                    )),
                   ),
                 )
               : Container(),
