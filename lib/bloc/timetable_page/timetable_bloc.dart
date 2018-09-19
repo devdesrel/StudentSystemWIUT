@@ -66,6 +66,7 @@ class TimetableBloc {
             TimetableDropdownListModel(text: '', value: '');
 
         teachersListDropdown.insert(0, model);
+
         _isLoadedSubject.add(true);
       }
     });

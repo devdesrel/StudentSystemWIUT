@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:student_system_flutter/pages/app_updates_page.dart';
 import 'package:student_system_flutter/pages/books_page.dart';
+import 'package:student_system_flutter/pages/ccm_feedback_page.dart';
 import 'package:student_system_flutter/pages/comments_page.dart';
 import 'package:student_system_flutter/pages/contacts_page.dart';
 import 'package:student_system_flutter/pages/coursework_upload_page.dart';
@@ -10,7 +11,6 @@ import 'package:student_system_flutter/pages/files_downloaded_page.dart';
 
 import 'package:student_system_flutter/pages/home_page.dart';
 import 'package:student_system_flutter/pages/iOS_pages/contacts_page_ios.dart';
-import 'package:student_system_flutter/pages/iOS_pages/ios_pin_set.dart';
 import 'package:student_system_flutter/pages/learning_materials_page.dart';
 import 'package:student_system_flutter/pages/login_page.dart';
 import 'package:student_system_flutter/pages/map_page.dart';
@@ -53,5 +53,5 @@ final routes = {
   supportPage: (BuildContext context) => SupportPage(),
   iosContactsPage: (BuildContext context) => IosContactsPage(),
   previewPage: (BuildContext context) => PreviewPage(),
-  iosPinSetPage: (BuildContext context) => IosPinSetPage(),
+  ccmFeedbackPage: (BuildContext context) => CCMFeedbackPage(),
 };
