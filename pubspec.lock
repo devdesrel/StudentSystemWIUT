@@ -331,11 +331,9 @@ packages:
   open_file:
     dependency: "direct main"
     description:
-      path: "."
-      ref: HEAD
-      resolved-ref: c4451c86f6198cc48e1fa880d9c94d2b005d72b8
-      url: "git://github.com/daniel-mf/open_file.git"
-    source: git
+      path: open_file
+      relative: true
+    source: path
     version: "1.0.7"
   package_config:
     dependency: transitive
