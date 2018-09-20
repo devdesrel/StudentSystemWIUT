@@ -116,11 +116,9 @@ packages:
   dart_config:
     dependency: transitive
     description:
-      path: "."
-      ref: HEAD
-      resolved-ref: c5727795659e886a7db8b39a14e2c8987280fe1f
-      url: "https://github.com/MarkOSullivan94/dart_config.git"
-    source: git
+      name: dart_config
+      url: "https://pub.dartlang.org"
+    source: hosted
     version: "0.5.0"
   flushbar:
     dependency: "direct main"
@@ -154,7 +152,7 @@ packages:
       name: flutter_launcher_icons
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.6.1"
+    version: "0.5.2"
   flutter_map:
     dependency: "direct main"
     description:
@@ -566,6 +564,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.1.5"
+  unittest:
+    dependency: transitive
+    description:
+      name: unittest
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.11.7"
   url_launcher:
     dependency: "direct main"
     description:
