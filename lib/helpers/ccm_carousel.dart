@@ -175,22 +175,22 @@ class CCMCarouselState extends State<CCMCarousel> {
               children: listImages,
             ),
           ),
-          // Center(
-          //     child: DotsIndicator(
-          //   controller: _controller,
-          //   itemCount: listImages.length,
-          //   color: widget.dotColor,
-          //   dotSize: widget.dotSize,
-          //   dotSpacing: widget.dotSpacing,
-          //   dotIncreaseSize: widget.dotIncreaseSize,
-          //   onPageSelected: (int page) {
-          //     _controller.animateToPage(
-          //       page,
-          //       duration: widget.animationDuration,
-          //       curve: widget.animationCurve,
-          //     );
-          //   },
-          // )),
+          Center(
+              child: DotsIndicator(
+            controller: _controller,
+            itemCount: listImages.length,
+            color: widget.dotColor,
+            dotSize: widget.dotSize,
+            dotSpacing: widget.dotSpacing,
+            dotIncreaseSize: widget.dotIncreaseSize,
+            onPageSelected: (int page) {
+              _controller.animateToPage(
+                page,
+                duration: widget.animationDuration,
+                curve: widget.animationCurve,
+              );
+            },
+          )),
           widget.showIndicator
               ? Positioned(
                   bottom: widget.moveIndicatorFromBottom,

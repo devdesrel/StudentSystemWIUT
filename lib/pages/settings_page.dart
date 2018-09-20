@@ -85,13 +85,7 @@ class SettingsPage extends StatelessWidget {
                           ),
                           ListTile(
                             onTap: () {
-                              Platform.isAndroid
-                                  ? showPinDialog(context, _bloc)
-                                  : Navigator.of(context).push(
-                                      MaterialPageRoute(
-                                          builder: (context) => IosPinSetPage(
-                                              pinRequestType: IosPinRequestType
-                                                  .ChangePin)));
+                              showPinDialog(context, _bloc);
                             },
                             leading: Image.asset(
                               'assets/key.png',
@@ -174,7 +168,10 @@ class SettingsPage extends StatelessWidget {
                               ),
                               ListTile(
                                 onTap: () {
-                                  showPinDialog(context, _bloc);
+                                  Navigator.of(context).push(MaterialPageRoute(
+                                      builder: (context) => IosPinSetPage(
+                                          pinRequestType:
+                                              IosPinRequestType.ChangePin)));
                                 },
                                 leading: Image.asset(
                                   'assets/key.png',

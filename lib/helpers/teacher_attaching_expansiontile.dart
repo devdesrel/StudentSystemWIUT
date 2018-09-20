@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:student_system_flutter/bloc/coursework_upload/coursework_upload_bloc.dart';
-import 'package:student_system_flutter/bloc/file_download/learning_materials_bloc.dart';
+// import 'package:student_system_flutter/bloc/ccm_feedback/ccm_feedback_bloc.dart';
+// import 'package:student_system_flutter/bloc/coursework_upload/coursework_upload_bloc.dart';
+// import 'package:student_system_flutter/bloc/file_download/learning_materials_bloc.dart';
 import 'package:student_system_flutter/helpers/app_constants.dart';
 
-class ModuleSelectionExpansionTile extends StatelessWidget {
+class TeacherAttachingExpansionTile extends StatelessWidget {
   final GlobalKey<AppExpansionTileState> expansionTile;
   String value;
   final bloc;
@@ -11,13 +12,13 @@ class ModuleSelectionExpansionTile extends StatelessWidget {
 
   // final ModulesList modulesList;
 
-  ModuleSelectionExpansionTile(
-      {Key key,
-      @required this.expansionTile,
-      @required this.value,
-      @required this.bloc,
-      @required this.expansionChildrenList})
-      : super(key: key);
+  TeacherAttachingExpansionTile({
+    Key key,
+    @required this.expansionTile,
+    @required this.value,
+    @required this.bloc,
+    @required this.expansionChildrenList,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -26,23 +27,23 @@ class ModuleSelectionExpansionTile extends StatelessWidget {
       key: expansionTile,
       title: Text(value),
       backgroundColor: whiteColor,
-      onExpansionChanged: (b) => print(b),
       children: expansionChildrenList
           .map((name) => Column(
                 children: <Widget>[
                   InkWell(
                     onTap: () {
-                      if (bloc is CourseworkUploadBloc)
-                        bloc.setModuleName.add(name);
-                      else if (bloc is LearningMaterialsBloc)
-                        bloc.setLearningMaterialType.add(name);
+                      // if (bloc is
+                      // CCMFeedbackBloc)
+                      bloc.setTeacherName.add(name);
+                      // else if (bloc is LearningMaterialsBloc)
+                      //   bloc.setLearningMaterialType.add(name);
 
                       expansionTile.currentState.collapse();
                     },
                     child: Container(
-                      padding: const EdgeInsets.symmetric(
-                          vertical: 15.0, horizontal: 16.0),
                       width: double.infinity,
+                      padding: const EdgeInsets.symmetric(
+                          vertical: 13.0, horizontal: 16.0),
                       child: ItemSelection(
                         name: name,
                       ),

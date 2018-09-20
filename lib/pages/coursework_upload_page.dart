@@ -87,8 +87,6 @@ class CourseworkUploadItemsState extends State<CourseworkUploadItems> {
       if (form.validate()) {
         form.save();
         print(title);
-        //formKey.save();
-        // print('Validation done');
       }
     }
 
@@ -197,7 +195,6 @@ class CourseworkUploadItemsState extends State<CourseworkUploadItems> {
         Platform.isAndroid
             ? RaisedButton(
                 color: accentColor,
-                // onPressed: saveTitle,
                 onPressed: saveTitle,
                 child: Padding(
                   padding: const EdgeInsets.all(12.0),
@@ -209,7 +206,6 @@ class CourseworkUploadItemsState extends State<CourseworkUploadItems> {
               )
             : CupertinoButton(
                 color: accentColor,
-                // onPressed: saveTitle,
                 onPressed: saveTitle,
                 child: Text(
                   'Upload',
