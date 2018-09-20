@@ -24,6 +24,7 @@ import 'package:student_system_flutter/pages/security_page.dart';
 import 'package:student_system_flutter/pages/settings_page.dart';
 import 'package:student_system_flutter/pages/social_page.dart';
 import 'package:student_system_flutter/pages/support_page.dart';
+import 'package:student_system_flutter/pages/test.dart';
 import 'package:student_system_flutter/pages/timetable_page.dart';
 
 import 'app_constants.dart';
@@ -34,7 +35,7 @@ final routes = {
   securityPage: (BuildContext context) => SecurityPage(),
   homePage: (BuildContext context) => HomePage(),
   marksPage: (BuildContext context) => MarksPage(),
-  offencesPage: (BuildContext context) => OffencesPage(),
+  offencesPage: (BuildContext context) => TestPage(),
   socialPage: (BuildContext context) => SocialPage(),
   fileDownloaderPage: (BuildContext context) => FileDownloaderPage(),
   filesDownloadedPage: (BuildContext context) => FilesDownloadedPage(),
