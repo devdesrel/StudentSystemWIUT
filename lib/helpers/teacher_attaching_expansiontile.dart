@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:student_system_flutter/enums/ApplicationEnums.dart';
 // import 'package:student_system_flutter/bloc/ccm_feedback/ccm_feedback_bloc.dart';
 // import 'package:student_system_flutter/bloc/coursework_upload/coursework_upload_bloc.dart';
 // import 'package:student_system_flutter/bloc/file_download/learning_materials_bloc.dart';
@@ -9,16 +10,18 @@ class TeacherAttachingExpansionTile extends StatelessWidget {
   String value;
   final bloc;
   final List<String> expansionChildrenList;
+  final expansionTileType;
 
   // final ModulesList modulesList;
 
-  TeacherAttachingExpansionTile({
-    Key key,
-    @required this.expansionTile,
-    @required this.value,
-    @required this.bloc,
-    @required this.expansionChildrenList,
-  }) : super(key: key);
+  TeacherAttachingExpansionTile(
+      {Key key,
+      @required this.expansionTile,
+      @required this.value,
+      @required this.bloc,
+      @required this.expansionChildrenList,
+      @required this.expansionTileType})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -32,11 +35,11 @@ class TeacherAttachingExpansionTile extends StatelessWidget {
                 children: <Widget>[
                   InkWell(
                     onTap: () {
-                      // if (bloc is
-                      // CCMFeedbackBloc)
-                      bloc.setTeacherName.add(name);
-                      // else if (bloc is LearningMaterialsBloc)
-                      //   bloc.setLearningMaterialType.add(name);
+                      if (expansionTileType == ExpansionTileTypes.TeacherName)
+                        bloc.setTeacherName.add(name);
+                      else if (expansionTileType ==
+                          ExpansionTileTypes.FeedbackType)
+                        bloc.setFeedbackType.add(name);
 
                       expansionTile.currentState.collapse();
                     },

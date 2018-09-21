@@ -25,6 +25,7 @@ import 'package:student_system_flutter/pages/settings_page.dart';
 import 'package:student_system_flutter/pages/social_page.dart';
 import 'package:student_system_flutter/pages/support_page.dart';
 import 'package:student_system_flutter/pages/test.dart';
+import 'package:student_system_flutter/pages/test_page2.dart';
 import 'package:student_system_flutter/pages/timetable_page.dart';
 
 import 'app_constants.dart';
@@ -56,4 +57,5 @@ final routes = {
   previewPage: (BuildContext context) => PreviewPage(),
   ccmFeedbackPage: (BuildContext context) => CCMFeedbackPage(),
   ccmAddFeedbackPage: (BuildContext context) => CCMAddFeedBackPage(),
+  testPage2: (BuildContext context) => FormDemo(),
 };

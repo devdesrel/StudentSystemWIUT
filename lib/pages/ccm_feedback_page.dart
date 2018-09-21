@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:student_system_flutter/enums/ApplicationEnums.dart';
 import 'package:student_system_flutter/helpers/app_constants.dart';
 import 'package:student_system_flutter/helpers/ccm_carousel.dart';
+import 'package:student_system_flutter/pages/ccm_add_feedback_page.dart';
 
 class CCMFeedbackPage extends StatefulWidget {
   @override
@@ -213,7 +215,12 @@ class _CCMFeedbackPageState extends State<CCMFeedbackPage> {
                 color: accentColor,
                 padding: EdgeInsets.all(10.0),
                 onPressed: () {
-                  print('jsdbfkja');
+                  // print('jsdbfkja');
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (BuildContext context) => CCMAddFeedBackPage(
+                              viewType: FeedbackViewType.Add)));
                 },
                 // onPressed: () {
                 //   Navigator.of(context).pushNamed(ccmAddFeedbackPage);

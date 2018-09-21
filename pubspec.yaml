@@ -28,10 +28,9 @@ dependencies:
   flutter_map: ^0.0.11+1
   flutter_circular_chart: "^0.0.3"
   open_file:
-    path: open_file/
-
-    # git:
-      # url: git://github.com/daniel-mf/open_file.git
+    # path: open_file/
+    git:
+      url: git://github.com/daniel-mf/open_file.git
   
   # flutter_advanced_networkimage: ^0.3.8
   # carousel: "^0.1.0"
