@@ -1,4 +1,3 @@
-import 'dart:async';
 import 'dart:io';
 
 import 'package:flutter/material.dart';
@@ -198,18 +197,18 @@ class FileManagerState extends State<FileManager>
     }
   }
 
-  Future _openFile(String filePath) async {
-    var sendMap = <String, dynamic>{
-      'filePath': filePath,
-      'mimeType': lookupMimeType(basename(filePath))
-    };
+//   Future _openFile(String filePath) async {
+//     var sendMap = <String, dynamic>{
+//       'filePath': filePath,
+//       'mimeType': lookupMimeType(basename(filePath))
+//     };
 
-    try {
-      await platform.invokeMethod('openFile', sendMap);
-    } catch (e) {
-      print(e.toString());
-    }
-  }
+//     try {
+//       await platform.invokeMethod('openFile', sendMap);
+//     } catch (e) {
+//       print(e.toString());
+//     }
+//   }
 }
 
 Widget _getIcon(String path) {
