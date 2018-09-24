@@ -3,6 +3,14 @@ import 'dart:async';
 import 'package:rxdart/rxdart.dart';
 
 class CCMFeedbackBloc {
+  Sink<bool> get setIsPositive => _setIsPositiveController.sink;
+
+  final _setIsPositiveController = StreamController<bool>();
+
+  Stream<bool> get isPositive => _isPositiveSubject.stream;
+
+  final _isPositiveSubject = BehaviorSubject<bool>(seedValue: true);
+
   //sending
   Sink<String> get setTeacherName => _setTeacherNameController.sink;
 
@@ -61,6 +69,10 @@ class CCMFeedbackBloc {
   final _feedbackTypeSubject = BehaviorSubject<String>();
 
   CCMFeedbackBloc() {
+    _setIsPositiveController.stream.listen((_value) {
+      _isPositiveSubject.add(_value);
+    });
+
     _setTeacherNameController.stream.listen((_teacherName) {
       _teacherNameSubject.add(_teacherName);
     });
@@ -89,6 +101,9 @@ class CCMFeedbackBloc {
   }
 
   void dispose() {
+    _setIsPositiveController.close();
+    _isPositiveSubject.close();
+
     _setTeacherNameController.close();
 
     _setAutoValidationController.close();

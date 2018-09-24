@@ -2,6 +2,8 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'dart:async';
 
+import 'package:student_system_flutter/helpers/app_constants.dart';
+
 class CCMCarousel extends StatefulWidget {
   //All the images on this Carousel.
   final List<Widget> images;
@@ -72,7 +74,7 @@ class CCMCarousel extends StatefulWidget {
       this.dotSize = 8.0,
       this.dotSpacing = 25.0,
       this.dotIncreaseSize = 2.0,
-      this.dotColor = Colors.white,
+      this.dotColor,
       this.dotBgColor,
       this.showIndicator = true,
       this.indicatorBgPadding = 20.0,
@@ -165,58 +167,70 @@ class CCMCarouselState extends State<CCMCarousel> {
             ))
         .toList();
 
+    var size = MediaQuery.of(context).size;
+
     return Scaffold(
       body: Stack(
         children: <Widget>[
-          Container(
-            child: PageView(
-              physics: AlwaysScrollableScrollPhysics(),
-              controller: _controller,
-              children: listImages,
+          Padding(
+            padding: EdgeInsets.only(top: 10.0),
+            child: Container(
+              child: PageView(
+                physics: AlwaysScrollableScrollPhysics(),
+                controller: _controller,
+                children: listImages,
+              ),
             ),
           ),
-          Center(
-              child: DotsIndicator(
-            controller: _controller,
-            itemCount: listImages.length,
-            color: widget.dotColor,
-            dotSize: widget.dotSize,
-            dotSpacing: widget.dotSpacing,
-            dotIncreaseSize: widget.dotIncreaseSize,
-            onPageSelected: (int page) {
-              _controller.animateToPage(
-                page,
-                duration: widget.animationDuration,
-                curve: widget.animationCurve,
-              );
-            },
-          )),
-          widget.showIndicator
-              ? Positioned(
-                  bottom: widget.moveIndicatorFromBottom,
-                  left: 0.0,
-                  right: 0.0,
-                  child: Container(
-                    decoration: BoxDecoration(
-                      color: widget.dotBgColor == null
-                          ? Colors.grey[800].withOpacity(0.0)
-                          : widget.dotBgColor,
-                      borderRadius: widget.borderRadius
-                          ? (widget.noRadiusForIndicator
-                              ? null
-                              : BorderRadius.only(
-                                  bottomLeft: widget.radius != null
-                                      ? widget.radius
-                                      : Radius.circular(8.0),
-                                  bottomRight: widget.radius != null
-                                      ? widget.radius
-                                      : Radius.circular(8.0)))
-                          : null,
-                    ),
-                    padding: EdgeInsets.all(widget.indicatorBgPadding),
+          Positioned(
+              top: 0.0,
+              left: size.width / 2.35,
+              child: Container(
+                padding: EdgeInsets.symmetric(vertical: 10.0),
+                child: Center(
+                  child: DotsIndicator(
+                    controller: _controller,
+                    itemCount: listImages.length,
+                    color: widget.dotColor,
+                    dotSize: widget.dotSize,
+                    dotSpacing: widget.dotSpacing,
+                    dotIncreaseSize: widget.dotIncreaseSize,
+                    onPageSelected: (int page) {
+                      _controller.animateToPage(
+                        page,
+                        duration: widget.animationDuration,
+                        curve: widget.animationCurve,
+                      );
+                    },
                   ),
-                )
-              : Container(),
+                ),
+              )),
+          // widget.showIndicator
+          //     ? Positioned(
+          //         bottom: widget.moveIndicatorFromBottom,
+          //         left: 0.0,
+          //         right: 0.0,
+          //         child: Container(
+          //           decoration: BoxDecoration(
+          //             color: widget.dotBgColor == null
+          //                 ? Colors.grey[800].withOpacity(0.0)
+          //                 : widget.dotBgColor,
+          //             borderRadius: widget.borderRadius
+          //                 ? (widget.noRadiusForIndicator
+          //                     ? null
+          //                     : BorderRadius.only(
+          //                         bottomLeft: widget.radius != null
+          //                             ? widget.radius
+          //                             : Radius.circular(8.0),
+          //                         bottomRight: widget.radius != null
+          //                             ? widget.radius
+          //                             : Radius.circular(8.0)))
+          //                 : null,
+          //           ),
+          //           padding: EdgeInsets.all(widget.indicatorBgPadding),
+          //         ),
+          //       )
+          //     : Container(),
         ],
       ),
     );

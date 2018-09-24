@@ -19,7 +19,7 @@ dependencies:
   flushbar: ^0.8.2
   package_info: ^0.3.2
   connectivity: ^0.3.1
-  # open_file: ^1.0.7
+  open_file: ^1.1.0
   flutter_sound: ^1.1.1
   # screen: ^0.0.4
   # flutter_circular_chart: "^0.1.0"
@@ -27,10 +27,10 @@ dependencies:
   screen: ^0.0.3
   flutter_map: ^0.0.11+1
   flutter_circular_chart: "^0.0.3"
-  open_file:
+  # open_file:
     # path: open_file/
-    git:
-      url: git://github.com/daniel-mf/open_file.git
+    # git:
+    #   url: git://github.com/daniel-mf/open_file.git
   
   # flutter_advanced_networkimage: ^0.3.8
   # carousel: "^0.1.0"
