@@ -149,7 +149,8 @@ void openSelectedPage(BuildContext context, MainPageGridItems page) {
       break;
     case MainPageGridItems.OFFENCES:
       // Navigator.of(context).pushNamed(offencesPage);
-      Navigator.of(context).pushNamed(ccmAddFeedbackPage);
+      // Navigator.of(context).pushNamed(ccmAddFeedbackPage);
+      Navigator.of(context).pushNamed(replyPage);
       break;
     case MainPageGridItems.COURSEWORK_UPLOAD:
       Navigator.of(context).pushNamed(courseworkUploadPage);

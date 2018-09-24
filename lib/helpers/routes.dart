@@ -6,6 +6,7 @@ import 'package:student_system_flutter/pages/ccm_feedback_page.dart';
 import 'package:student_system_flutter/pages/comments_page.dart';
 import 'package:student_system_flutter/pages/contacts_page.dart';
 import 'package:student_system_flutter/pages/coursework_upload_page.dart';
+import 'package:student_system_flutter/pages/feedback_reply_page.dart';
 import 'package:student_system_flutter/pages/file_downloader_page.dart';
 import 'package:student_system_flutter/pages/file_picker_page.dart';
 import 'package:student_system_flutter/pages/files_downloaded_page.dart';
@@ -57,4 +58,5 @@ final routes = {
   ccmFeedbackPage: (BuildContext context) => CCMFeedbackPage(),
   ccmAddFeedbackPage: (BuildContext context) => CCMAddFeedBackPage(),
   testPage2: (BuildContext context) => FormDemo(),
+  replyPage: (BuildContext context) => FeedbackReplyPage(),
 };

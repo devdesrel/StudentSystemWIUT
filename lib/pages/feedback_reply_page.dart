@@ -22,6 +22,14 @@ class _FeedbackReplyPageState extends State<FeedbackReplyPage> {
             CustomCard(
               Text('Comment goes here'),
             ),
+            Padding(
+              padding: EdgeInsets.only(
+                left: 20.0,
+              ),
+              child: CustomCard(
+                Text('Replies go here'),
+              ),
+            ),
           ],
         ),
       ),
