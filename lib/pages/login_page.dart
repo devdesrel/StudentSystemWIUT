@@ -105,6 +105,7 @@ class _LoginPageState extends State<LoginPage> implements AuthStateListener {
 
       if (res.statusCode == 200) {
         SharedPreferences prefs = await SharedPreferences.getInstance();
+        print(data[token]);
         await prefs.setString(token, data['token']);
         await prefs.setString(userRole, data['role']);
         await prefs.setString(tokenExpireDay,
