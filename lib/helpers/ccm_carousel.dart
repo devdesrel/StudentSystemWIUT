@@ -2,8 +2,6 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'dart:async';
 
-import 'package:student_system_flutter/helpers/app_constants.dart';
-
 class CCMCarousel extends StatefulWidget {
   //All the images on this Carousel.
   final List<Widget> images;

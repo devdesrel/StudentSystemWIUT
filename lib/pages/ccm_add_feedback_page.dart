@@ -1,16 +1,54 @@
 import 'package:flutter/material.dart';
 import 'package:student_system_flutter/bloc/ccm_feedback/ccm_feedback_bloc.dart';
 import 'package:student_system_flutter/bloc/ccm_feedback/ccm_feedback_provider.dart';
+import 'package:student_system_flutter/enums/ApplicationEnums.dart';
 import 'package:student_system_flutter/helpers/app_constants.dart';
 import 'package:student_system_flutter/helpers/teacher_attaching_expansiontile.dart';
 
 class CCMAddFeedBackPage extends StatefulWidget {
+  final viewType;
+
+  CCMAddFeedBackPage({this.viewType});
   @override
   _CCMAddFeedBackPageState createState() => _CCMAddFeedBackPageState();
 }
 
 class _CCMAddFeedBackPageState extends State<CCMAddFeedBackPage> {
-  final GlobalKey<AppExpansionTileState> expansionTile = new GlobalKey();
+  // AnimationController _controller;
+  // Animation _animation;
+
+  // FocusNode _focusNode = FocusNode();
+
+  // @override
+  // void initState() {
+  //   super.initState();
+
+  //   _controller =
+  //       AnimationController(vsync: this, duration: Duration(milliseconds: 300));
+  //   _animation = Tween(begin: 300.0, end: 50.0).animate(_controller)
+  //     ..addListener(() {
+  //       setState(() {});
+  //     });
+
+  //   _focusNode.addListener(() {
+  //     if (_focusNode.hasFocus) {
+  //       _controller.forward();
+  //     } else {
+  //       _controller.reverse();
+  //     }
+  //   });
+  // }
+
+  // @override
+  // void dispose() {
+  //   _controller.dispose();
+  //   _focusNode.dispose();
+
+  //   super.dispose();
+  // }
+
+  final GlobalKey<AppExpansionTileState> teacherExpansionTile = new GlobalKey();
+  final GlobalKey<AppExpansionTileState> typeExpansionTile = new GlobalKey();
   var formKey = GlobalKey<FormState>();
 
   String commentMessage;
@@ -18,6 +56,17 @@ class _CCMAddFeedBackPageState extends State<CCMAddFeedBackPage> {
   double teacherErrorOpacity = 0.0;
   double _value = 0.0;
   var bloc = CCMFeedbackBloc();
+
+  // Future<bool> _onBackPressed(BuildContext context) async {
+  //   SharedPreferences prefs = await SharedPreferences.getInstance();
+  //   var value = prefs.getBool(isLoggedIn);
+  //   _focusNode.unfocus();
+  //   _focusNode.dispose();
+  //   // _focusNode
+  //   // FocusScope.of(context).requestFocus(FocusNode());
+
+  //   return value;
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -27,6 +76,10 @@ class _CCMAddFeedBackPageState extends State<CCMAddFeedBackPage> {
       'Mikhail Shpirko',
       'Abduvosid Malikov',
       'Aaaaand another guy',
+    ];
+    final List<String> _typeList = [
+      'Positive comments',
+      'Suggestions and improvements'
     ];
 
     bool checkErrors() {
@@ -82,7 +135,77 @@ class _CCMAddFeedBackPageState extends State<CCMAddFeedBackPage> {
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: <Widget>[
                   Padding(
-                    padding: EdgeInsets.symmetric(vertical: 8.0),
+                    padding: EdgeInsets.only(bottom: 8.0, top: 8.0),
+                    child: Text(
+                      'Feedback type',
+                      textAlign: TextAlign.left,
+                      style: TextStyle(fontSize: 16.0, color: accentColor),
+                    ),
+                  ),
+                  StreamBuilder(
+                    stream: bloc.feedbackType,
+                    initialData: _typeList.first,
+                    builder: (context, snapshot) => Card(
+                          child: TeacherAttachingExpansionTile(
+                              expansionTileType:
+                                  ExpansionTileTypes.FeedbackType,
+                              bloc: bloc,
+                              expansionTile: typeExpansionTile,
+                              value: snapshot.hasData
+                                  ? snapshot.data
+                                  : _typeList.first,
+                              expansionChildrenList: _typeList),
+                        ),
+                  ),
+                  Padding(
+                    padding: EdgeInsets.only(
+                      bottom: 8.0,
+                      top: 3.0,
+                    ),
+                    child: Text(
+                      'Feedback',
+                      textAlign: TextAlign.left,
+                      style: TextStyle(fontSize: 16.0, color: accentColor),
+                    ),
+                  ),
+                  Container(
+                    margin: EdgeInsets.symmetric(horizontal: 5.0),
+                    height: 138.0,
+                    color: Colors.white,
+                    child: Form(
+                      key: formKey,
+                      child: StreamBuilder(
+                        stream: bloc.autoValidation,
+                        initialData: false,
+                        builder: (context, snapshot) => TextFormField(
+                              style: Theme.of(context).textTheme.body2.copyWith(
+                                  decorationColor: Colors.white,
+                                  fontWeight: FontWeight.normal),
+                              autovalidate:
+                                  snapshot.hasData ? snapshot.data : false,
+                              autofocus: false,
+                              maxLines: 7,
+                              keyboardType: TextInputType.multiline,
+                              decoration: InputDecoration(
+                                  contentPadding: EdgeInsets.all(10.0),
+                                  border: InputBorder.none,
+                                  hintText: 'Write here'),
+                              validator: (val) {
+                                if (val.length == 0 || val == null) {
+                                  return 'Comment section cannot be empty';
+                                } else {
+                                  val = commentMessage;
+                                }
+                              },
+                              onSaved: (val) {
+                                commentMessage = val;
+                              },
+                            ),
+                      ),
+                    ),
+                  ),
+                  Padding(
+                    padding: EdgeInsets.only(bottom: 8.0, top: 14.0),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: <Widget>[
@@ -135,7 +258,7 @@ class _CCMAddFeedBackPageState extends State<CCMAddFeedBackPage> {
                                     ? snapshot.data > 0.0 ? 0.0 : 1.0
                                     : 0.0,
                                 child: Padding(
-                                  padding: EdgeInsets.only(left: 5.0),
+                                  padding: EdgeInsets.only(left: 16.0),
                                   child: Text(
                                     'Group coverage is not indicated',
                                     style: TextStyle(
@@ -160,8 +283,9 @@ class _CCMAddFeedBackPageState extends State<CCMAddFeedBackPage> {
                       stream: bloc.teacherName,
                       builder: (context, snapshot) =>
                           TeacherAttachingExpansionTile(
+                              expansionTileType: ExpansionTileTypes.TeacherName,
                               bloc: bloc,
-                              expansionTile: expansionTile,
+                              expansionTile: teacherExpansionTile,
                               value: snapshot.hasData
                                   ? snapshot.data
                                   : teacherName,
@@ -180,7 +304,7 @@ class _CCMAddFeedBackPageState extends State<CCMAddFeedBackPage> {
                                         : 1.0
                                     : 0.0,
                                 child: Padding(
-                                  padding: EdgeInsets.only(left: 5.0),
+                                  padding: EdgeInsets.only(left: 16.0),
                                   child: Text(
                                     'Teacher is not chosen',
                                     style: TextStyle(
@@ -191,52 +315,8 @@ class _CCMAddFeedBackPageState extends State<CCMAddFeedBackPage> {
                         ),
                   ),
                   Padding(
-                    padding: EdgeInsets.only(bottom: 8.0, top: 3.0),
-                    child: Text(
-                      'Feedback',
-                      textAlign: TextAlign.left,
-                      style: TextStyle(fontSize: 16.0, color: accentColor),
-                    ),
-                  ),
-                  Container(
-                    margin: EdgeInsets.symmetric(horizontal: 5.0),
-                    height: 195.0,
-                    color: Colors.white,
-                    child: Form(
-                      key: formKey,
-                      child: StreamBuilder(
-                        stream: bloc.autoValidation,
-                        initialData: false,
-                        builder: (context, snapshot) => TextFormField(
-                              style: Theme.of(context).textTheme.body2.copyWith(
-                                  decorationColor: Colors.white,
-                                  fontWeight: FontWeight.normal),
-                              autovalidate:
-                                  snapshot.hasData ? snapshot.data : false,
-                              autofocus: false,
-                              maxLines: 11,
-                              keyboardType: TextInputType.multiline,
-                              decoration: InputDecoration(
-                                  contentPadding: EdgeInsets.all(10.0),
-                                  border: InputBorder.none,
-                                  hintText: 'Write here'),
-                              validator: (val) {
-                                if (val.length == 0 || val == null) {
-                                  return 'Comment section cannot be empty';
-                                } else {
-                                  val = commentMessage;
-                                }
-                              },
-                              onSaved: (val) {
-                                commentMessage = val;
-                              },
-                            ),
-                      ),
-                    ),
-                  ),
-                  Padding(
                     padding: EdgeInsets.only(
-                        left: 5.0, right: 5.0, top: 33.0, bottom: 10.0),
+                        left: 5.0, right: 5.0, top: 8.0, bottom: 8.0),
                     child: RaisedButton(
                       padding: EdgeInsets.symmetric(vertical: 12.0),
                       color: accentColor,
@@ -247,6 +327,21 @@ class _CCMAddFeedBackPageState extends State<CCMAddFeedBackPage> {
                       ),
                     ),
                   ),
+                  widget.viewType == FeedbackViewType.Edit
+                      ? Padding(
+                          padding: EdgeInsets.only(
+                              left: 5.0, right: 5.0, top: 8.0, bottom: 8.0),
+                          child: RaisedButton(
+                            padding: EdgeInsets.symmetric(vertical: 12.0),
+                            color: accentColor,
+                            onPressed: () {},
+                            child: Text(
+                              'Delete',
+                              style: TextStyle(color: Colors.white),
+                            ),
+                          ),
+                        )
+                      : Container(),
                 ],
               ),
             ),

@@ -35,6 +35,10 @@ class CCMFeedbackBloc {
 
   final _setTeacherNameDataValidationController = StreamController<bool>();
 
+  Sink<String> get setFeedbackType => _setFeedbackTypeController.sink;
+
+  final _setFeedbackTypeController = StreamController<String>();
+
   //receiving
   Stream<String> get teacherName => _teacherNameSubject.stream;
 
@@ -59,6 +63,10 @@ class CCMFeedbackBloc {
 
   final _teacherNameDataValidationSubject =
       BehaviorSubject<bool>(seedValue: false);
+
+  Stream<String> get feedbackType => _feedbackTypeSubject.stream;
+
+  final _feedbackTypeSubject = BehaviorSubject<String>();
 
   CCMFeedbackBloc() {
     _setIsPositiveController.stream.listen((_value) {
@@ -86,6 +94,10 @@ class CCMFeedbackBloc {
     _setAutoValidationController.stream.listen((autoValidationValue) {
       _autoValidationSubject.add(autoValidationValue);
     });
+
+    _setFeedbackTypeController.stream.listen((_feedbackType) {
+      _feedbackTypeSubject.add(_feedbackType);
+    });
   }
 
   void dispose() {
@@ -99,12 +111,13 @@ class CCMFeedbackBloc {
     _setGroupCoverageDataValidationController;
     _setGroupCoverageDataValidationController.close();
     _setTeacherNameDataValidationController.close();
+    _setFeedbackTypeController.close();
 
     _teacherNameSubject.close();
     _autoValidationSubject.close();
-
     _groupCoverageValueSubject.close();
     _groupCoverageDataValidationSubject.cast();
     _teacherNameDataValidationSubject.close();
+    _feedbackTypeSubject.close();
   }
 }

@@ -2,10 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:student_system_flutter/pages/app_updates_page.dart';
 import 'package:student_system_flutter/pages/books_page.dart';
 import 'package:student_system_flutter/pages/ccm_add_feedback_page.dart';
-import 'package:student_system_flutter/pages/ccm_feedback_page.dart';
+import 'package:student_system_flutter/pages/ccm_feedback_category.dart';
 import 'package:student_system_flutter/pages/comments_page.dart';
 import 'package:student_system_flutter/pages/contacts_page.dart';
 import 'package:student_system_flutter/pages/coursework_upload_page.dart';
+import 'package:student_system_flutter/pages/feedback_reply_page.dart';
 import 'package:student_system_flutter/pages/file_downloader_page.dart';
 import 'package:student_system_flutter/pages/file_picker_page.dart';
 import 'package:student_system_flutter/pages/files_downloaded_page.dart';
@@ -24,6 +25,7 @@ import 'package:student_system_flutter/pages/settings_page.dart';
 import 'package:student_system_flutter/pages/social_page.dart';
 import 'package:student_system_flutter/pages/support_page.dart';
 import 'package:student_system_flutter/pages/test.dart';
+import 'package:student_system_flutter/pages/test_page2.dart';
 import 'package:student_system_flutter/pages/timetable_page.dart';
 
 import 'app_constants.dart';
@@ -53,6 +55,8 @@ final routes = {
   supportPage: (BuildContext context) => SupportPage(),
   iosContactsPage: (BuildContext context) => IosContactsPage(),
   previewPage: (BuildContext context) => PreviewPage(),
-  ccmFeedbackPage: (BuildContext context) => CCMFeedbackPage(),
   ccmAddFeedbackPage: (BuildContext context) => CCMAddFeedBackPage(),
+  testPage2: (BuildContext context) => FormDemo(),
+  replyPage: (BuildContext context) => FeedbackReplyPage(),
+  ccmCategoryPage: (BuildContext context) => CCMFeedbackCategoryPage(),
 };
