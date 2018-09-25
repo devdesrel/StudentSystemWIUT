@@ -52,6 +52,7 @@ final ccmFeedbackPage = '/ccmFeedbackPage';
 final ccmAddFeedbackPage = '/ccmAddFeedbackPage';
 final testPage2 = '/testPage2';
 final replyPage = '/replyPage';
+final ccmCategoryPage = '/ccmCategoryPage';
 
 //Shared preferance keys
 final lastAppVersion = 'lastAppVersion';
@@ -102,6 +103,8 @@ final apiStudentProfileForSelectedAcademicYear =
     '$baseUrl/api/StudentProfileAndMarks/GetStudentGroupByUserIDAndAcadYearID';
 final apiProfileGetProfileByUserName =
     '$baseUrl/api/Profile/GetProfileByUserName';
+final apiCCMFeedbackGetCategorySelectionList =
+    '$baseUrl/api/CCMFeedback/GetCategorySelectionList';
 
 //Errors List
 final String authProblems = 'Authorization problems';

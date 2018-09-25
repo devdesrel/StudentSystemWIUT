@@ -22,3 +22,4 @@ enum IosPinRequestType { SetPin, ChangePin }
 enum AttachmentTypes { CAMERA, GALLERY, QUESTIONNAIRE, FILE, STICKER }
 enum ExpansionTileTypes { TeacherName, FeedbackType }
 enum FeedbackViewType { Add, Edit }
+enum CCMFeedbackCategory { ModulesFeedback, DepartmentsFeedback }

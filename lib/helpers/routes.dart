@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:student_system_flutter/pages/app_updates_page.dart';
 import 'package:student_system_flutter/pages/books_page.dart';
 import 'package:student_system_flutter/pages/ccm_add_feedback_page.dart';
-import 'package:student_system_flutter/pages/ccm_feedback_page.dart';
+import 'package:student_system_flutter/pages/ccm_feedback_category.dart';
 import 'package:student_system_flutter/pages/comments_page.dart';
 import 'package:student_system_flutter/pages/contacts_page.dart';
 import 'package:student_system_flutter/pages/coursework_upload_page.dart';
@@ -55,8 +55,8 @@ final routes = {
   supportPage: (BuildContext context) => SupportPage(),
   iosContactsPage: (BuildContext context) => IosContactsPage(),
   previewPage: (BuildContext context) => PreviewPage(),
-  ccmFeedbackPage: (BuildContext context) => CCMFeedbackPage(),
   ccmAddFeedbackPage: (BuildContext context) => CCMAddFeedBackPage(),
   testPage2: (BuildContext context) => FormDemo(),
   replyPage: (BuildContext context) => FeedbackReplyPage(),
+  ccmCategoryPage: (BuildContext context) => CCMFeedbackCategoryPage(),
 };

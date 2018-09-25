@@ -30,6 +30,8 @@ class _FeedbackReplyPageState extends State<FeedbackReplyPage> {
                 Text('Replies go here'),
               ),
             ),
+            Text(
+                'when you have been fighting for all your liffeee, every day every hour, turn the pain into power'),
           ],
         ),
       ),
