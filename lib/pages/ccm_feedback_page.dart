@@ -1,10 +1,7 @@
-import 'dart:convert';
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:student_system_flutter/bloc/ccm_feedback/ccm_feedback_bloc.dart';
-import 'package:student_system_flutter/bloc/ccm_feedback/ccm_feedback_provider.dart';
 import 'package:student_system_flutter/enums/ApplicationEnums.dart';
 import 'package:student_system_flutter/helpers/app_constants.dart';
 import 'package:student_system_flutter/helpers/ccm_carousel.dart';
@@ -77,6 +74,7 @@ class _CCMFeedbackPageState extends State<CCMFeedbackPage> {
         return null;
       }
     }
+    return null;
   }
 //TODO:
 //  List<CCMFeedbackModuleModel> _parseModules(String responseBody) {
@@ -235,708 +233,693 @@ class _CCMFeedbackPageState extends State<CCMFeedbackPage> {
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;
 
-    return CCMFeedbackProvider(
-      ccmFeedbackBloc: _bloc,
-      child: Scaffold(
-        appBar: AppBar(
-          title: Text('CCM Feedback'),
-          centerTitle: true,
-        ),
-        backgroundColor: backgroundColor,
-        floatingActionButton: FloatingActionButton(
-          onPressed: () {
-            Navigator.of(context).pushNamed(ccmAddFeedbackPage);
-          },
-          child: Icon(Icons.add),
-        ),
-        body: Center(
-            child: CCMCarousel(
-          autoplay: false,
-          dotSize: 5.0,
-          dotColor: accentColor,
-          images: <Widget>[
-            Column(crossAxisAlignment: CrossAxisAlignment.stretch, children: <
-                Widget>[
-              Container(
-                  padding: EdgeInsets.only(left: 8.0, right: 8.0, top: 18.0),
-                  child: Text(
-                    'Fundamentals of Programming',
-                    textAlign: TextAlign.center,
-                    style: TextStyle(fontSize: 18.0, color: accentColor),
-                  )),
-              Padding(
-                padding: const EdgeInsets.symmetric(
-                    vertical: 12.0, horizontal: 16.0),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: _getStaffNames(),
-                ),
-              ),
-              Row(mainAxisAlignment: MainAxisAlignment.center, children: <
-                  Widget>[
-                InkWell(
-                  onTap: () {
-                    _bloc.setIsPositive.add(true);
-                  },
-                  child: StreamBuilder(
-                    stream: _bloc.isPositive,
-                    initialData: true,
-                    builder: (context, snapshot) => Container(
-                          width: size.width / 2 - 5,
-                          padding: EdgeInsets.symmetric(
-                              vertical: 12.0, horizontal: 15.0),
-                          child: Center(
-                            child: Text(
-                              'Positive comments',
-                              style: TextStyle(
-                                  fontSize: 13.0,
-                                  color: snapshot.data
-                                      ? Colors.white
-                                      : accentColor),
-                            ),
-                          ),
-                          decoration: BoxDecoration(
-                              color: snapshot.data ? accentColor : Colors.white,
-                              border: Border.all(
-                                  width: snapshot.data ? 0.0 : 1.0,
-                                  color: accentColor)),
-                        ),
-                  ),
-                ),
-                InkWell(
-                  onTap: () {
-                    _bloc.setIsPositive.add(false);
-                  },
-                  child: StreamBuilder(
-                    stream: _bloc.isPositive,
-                    initialData: false,
-                    builder: (context, snapshot) => Container(
-                          width: size.width / 2 - 5,
-                          padding: EdgeInsets.symmetric(
-                              vertical: 3.5, horizontal: 15.0),
-                          decoration: BoxDecoration(
-                              color: snapshot.data ? Colors.white : accentColor,
-                              border: Border.all(
-                                  width: snapshot.data ? 1.0 : 2.0,
-                                  color: accentColor)),
-                          child: Center(
-                            child: Text(
-                              'Suggestions for improvement',
-                              textAlign: TextAlign.center,
-                              style: TextStyle(
-                                  fontSize: 13.0,
-                                  color: snapshot.data
-                                      ? accentColor
-                                      : Colors.white),
-                            ),
-                          ),
-                        ),
-                  ),
-                )
-              ]),
-              Expanded(
-                child: Container(
-                    padding: EdgeInsets.only(left: 8.0, right: 8.0, top: 10.0),
-                    color: backgroundColor,
-                    child: ListView(children: <Widget>[
-                      CustomCard(Column(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          crossAxisAlignment: CrossAxisAlignment.stretch,
-                          children: <Widget>[
-                            Container(
-                              margin: EdgeInsets.all(0.0),
-                              padding: EdgeInsets.all(8.0),
-                              color: greyColor,
-                              child: Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                children: <Widget>[
-                                  Text(
-                                    'To Vasiliy Kuznetsov',
-                                    style: TextStyle(color: Colors.white),
-                                  ),
-                                  InkWell(
-                                    onTap: () {
-                                      Navigator.of(context)
-                                          .pushNamed(ccmAddFeedbackPage);
-                                    },
-                                    child: Text(
-                                      'Reply',
-                                      textAlign: TextAlign.right,
-                                      style: TextStyle(color: Colors.white),
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                            InkWell(
-                                onTap: () {
-                                  Navigator.of(context)
-                                      .pushNamed(ccmAddFeedbackPage);
-                                },
-                                child: DrawCardBody()),
-                            Container(
-                                margin: EdgeInsets.all(0.0),
-                                padding: EdgeInsets.all(8.0),
-                                color: CupertinoColors.lightBackgroundGray,
-                                child: Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
-                                  children: <Widget>[
-                                    Text('From 3BIS1',
-                                        style: TextStyle(
-                                            color: Colors.black,
-                                            fontSize: 12.0)),
-                                    Text('2 days ago',
-                                        style: TextStyle(
-                                            color: Colors.black,
-                                            fontSize: 12.0)),
-                                  ],
-                                )),
-                          ])),
-                      Padding(
-                        padding: EdgeInsets.only(top: 5.0, left: 40.0),
-                        child: Text('Replies',
-                            style: TextStyle(
-                                fontWeight: FontWeight.bold, fontSize: 15.0)),
-                      ),
-                      InkWell(
-                        onTap: () {
-                          Navigator.of(context).pushNamed(ccmAddFeedbackPage);
-                        },
-                        child: Padding(
-                          padding: EdgeInsets.only(left: 40.0),
-                          child: CustomCard(Column(
-                            children: <Widget>[
-                              Padding(
-                                padding: EdgeInsets.all(10.0),
-                                child: Text(
-                                    'Some good moments happened during seminars and lectures. All in all, FunPro is FUN. All in all, FunPro is FUN'),
-                              ),
-                              Container(
-                                  margin: EdgeInsets.all(0.0),
-                                  padding: EdgeInsets.all(8.0),
-                                  color: CupertinoColors.lightBackgroundGray,
-                                  child: Row(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceBetween,
-                                    children: <Widget>[
-                                      Text('From Vasiliy Kuznetsov',
-                                          style: TextStyle(
-                                              color: Colors.black,
-                                              fontSize: 12.0)),
-                                      Text('30 min ago',
-                                          style: TextStyle(
-                                              color: Colors.black,
-                                              fontSize: 12.0)),
-                                    ],
-                                  )),
-                            ],
-                          )),
-                        ),
-                      ),
-                      Divider(color: accentColor),
-                      Padding(
-                        padding: EdgeInsets.only(top: 3.0),
-                        child: InkWell(
-                          onTap: () {
-                            Navigator.of(context).pushNamed(ccmAddFeedbackPage);
-                          },
-                          child: CustomCard(Column(
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              crossAxisAlignment: CrossAxisAlignment.stretch,
-                              children: <Widget>[
-                                Container(
-                                  margin: EdgeInsets.all(0.0),
-                                  padding: EdgeInsets.all(8.0),
-                                  color: greyColor,
-                                  child: Row(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceBetween,
-                                    children: <Widget>[
-                                      Text(
-                                        'To Vasiliy Kuznetsov',
-                                        style: TextStyle(color: Colors.white),
-                                      ),
-                                      InkWell(
-                                        onTap: () {
-                                          Navigator.of(context)
-                                              .pushNamed(ccmAddFeedbackPage);
-                                        },
-                                        child: Text(
-                                          'Reply',
-                                          textAlign: TextAlign.right,
-                                          style: TextStyle(color: Colors.white),
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                                Padding(
-                                  padding: EdgeInsets.only(
-                                      left: 10.0, right: 10.0, top: 10.0),
-                                  child: Row(
-                                    children: <Widget>[
-                                      Text('Group coverage:',
-                                          style: TextStyle(
-                                              fontWeight: FontWeight.bold)),
-                                      SizedBox(width: 5.0),
-                                      Text('95%')
-                                    ],
-                                  ),
-                                ),
-                                Padding(
-                                  padding: EdgeInsets.all(10.0),
-                                  child: Text(
-                                      'Some good moments happened during seminars and lectures. All in all, FunPro is FUN. All in all, FunPro is FUN'),
-                                ),
-                                Container(
-                                    margin: EdgeInsets.all(0.0),
-                                    padding: EdgeInsets.all(8.0),
-                                    color: CupertinoColors.lightBackgroundGray,
-                                    child: Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceBetween,
-                                      children: <Widget>[
-                                        Text('From 3BIS1',
-                                            style: TextStyle(
-                                                color: Colors.black,
-                                                fontSize: 12.0)),
-                                        Text('2 days ago',
-                                            style: TextStyle(
-                                                color: Colors.black,
-                                                fontSize: 12.0)),
-                                      ],
-                                    )),
-                              ])),
-                        ),
-                      ),
-                      Padding(
-                        padding: EdgeInsets.only(top: 5.0, left: 20.0),
-                        child: Text('Replies',
-                            style: TextStyle(
-                                fontWeight: FontWeight.bold, fontSize: 15.0)),
-                      ),
-                      InkWell(
-                        onTap: () {
-                          Navigator.of(context).pushNamed(ccmAddFeedbackPage);
-                        },
-                        child: Padding(
-                          padding: EdgeInsets.only(left: 20.0),
-                          child: CustomCard(Column(
-                            children: <Widget>[
-                              Padding(
-                                padding: EdgeInsets.all(10.0),
-                                child: Text(
-                                    'Some good moments happened during seminars and lectures. All in all, FunPro is FUN. All in all, FunPro is FUN'),
-                              ),
-                              Container(
-                                  margin: EdgeInsets.all(0.0),
-                                  padding: EdgeInsets.all(8.0),
-                                  color: CupertinoColors.lightBackgroundGray,
-                                  child: Row(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceBetween,
-                                    children: <Widget>[
-                                      Text('From Vasiliy Kuznetsov',
-                                          style: TextStyle(
-                                              color: Colors.black,
-                                              fontSize: 12.0)),
-                                      Text('30 min ago',
-                                          style: TextStyle(
-                                              color: Colors.black,
-                                              fontSize: 12.0)),
-                                    ],
-                                  )),
-                            ],
-                          )),
-                        ),
-                      ),
-                      InkWell(
-                        onTap: () {
-                          Navigator.of(context).pushNamed(ccmAddFeedbackPage);
-                        },
-                        child: Padding(
-                          padding: EdgeInsets.only(left: 20.0),
-                          child: CustomCard(Column(
-                            children: <Widget>[
-                              Padding(
-                                padding: EdgeInsets.all(10.0),
-                                child: Text(
-                                    'Some good moments happened during seminars and lectures. All in all, FunPro is FUN. All in all, FunPro is FUN'),
-                              ),
-                              Container(
-                                  margin: EdgeInsets.all(0.0),
-                                  padding: EdgeInsets.all(8.0),
-                                  color: CupertinoColors.lightBackgroundGray,
-                                  child: Row(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceBetween,
-                                    children: <Widget>[
-                                      Text('From Vasiliy Kuznetsov',
-                                          style: TextStyle(
-                                              color: Colors.black,
-                                              fontSize: 12.0)),
-                                      Text('30 min ago',
-                                          style: TextStyle(
-                                              color: Colors.black,
-                                              fontSize: 12.0)),
-                                    ],
-                                  )),
-                            ],
-                          )),
-                        ),
-                      ),
-                      SizedBox(
-                        height: 10.0,
-                      )
-                    ])),
-              ),
-            ]),
-
-            //Second Tab Page
-
-            Column(crossAxisAlignment: CrossAxisAlignment.stretch, children: <
-                Widget>[
-              Container(
-                  padding: EdgeInsets.only(left: 8.0, right: 8.0, top: 18.0),
-                  child: Text(
-                    'Fundamentals of Programming',
-                    textAlign: TextAlign.center,
-                    style: TextStyle(fontSize: 18.0, color: accentColor),
-                  )),
-              Padding(
-                padding: const EdgeInsets.symmetric(
-                    vertical: 12.0, horizontal: 16.0),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: _getStaffNames(),
-                ),
-              ),
-              Row(mainAxisAlignment: MainAxisAlignment.center, children: <
-                  Widget>[
-                InkWell(
-                  onTap: () {
-                    _bloc.setIsPositive.add(true);
-                  },
-                  child: StreamBuilder(
-                    stream: _bloc.isPositive,
-                    initialData: true,
-                    builder: (context, snapshot) => Container(
-                          width: size.width / 2 - 5,
-                          padding: EdgeInsets.symmetric(
-                              vertical: 12.0, horizontal: 15.0),
-                          child: Center(
-                            child: Text(
-                              'Positive comments',
-                              style: TextStyle(
-                                  fontSize: 13.0,
-                                  color: snapshot.data
-                                      ? Colors.white
-                                      : accentColor),
-                            ),
-                          ),
-                          decoration: BoxDecoration(
-                              color: snapshot.data ? accentColor : Colors.white,
-                              border: Border.all(
-                                  width: snapshot.data ? 0.0 : 1.0,
-                                  color: accentColor)),
-                        ),
-                  ),
-                ),
-                InkWell(
-                  onTap: () {
-                    _bloc.setIsPositive.add(false);
-                  },
-                  child: StreamBuilder(
-                    stream: _bloc.isPositive,
-                    initialData: false,
-                    builder: (context, snapshot) => Container(
-                          width: size.width / 2 - 5,
-                          padding: EdgeInsets.symmetric(
-                              vertical: 3.5, horizontal: 15.0),
-                          decoration: BoxDecoration(
-                              color: snapshot.data ? Colors.white : accentColor,
-                              border: Border.all(
-                                  width: snapshot.data ? 1.0 : 2.0,
-                                  color: accentColor)),
-                          child: Center(
-                            child: Text(
-                              'Suggestions for improvement',
-                              textAlign: TextAlign.center,
-                              style: TextStyle(
-                                  fontSize: 13.0,
-                                  color: snapshot.data
-                                      ? accentColor
-                                      : Colors.white),
-                            ),
-                          ),
-                        ),
-                  ),
-                )
-              ]),
-              Expanded(
-                child: Container(
-                    padding: EdgeInsets.only(left: 8.0, right: 8.0, top: 10.0),
-                    color: backgroundColor,
-                    child: ListView(children: <Widget>[
-                      CustomCard(Column(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          crossAxisAlignment: CrossAxisAlignment.stretch,
-                          children: <Widget>[
-                            Container(
-                              margin: EdgeInsets.all(0.0),
-                              padding: EdgeInsets.all(8.0),
-                              color: greyColor,
-                              child: Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                children: <Widget>[
-                                  Text(
-                                    'To Vasiliy Kuznetsov',
-                                    style: TextStyle(color: Colors.white),
-                                  ),
-                                  InkWell(
-                                    onTap: () {
-                                      Navigator.of(context)
-                                          .pushNamed(ccmAddFeedbackPage);
-                                    },
-                                    child: Text(
-                                      'Reply',
-                                      textAlign: TextAlign.right,
-                                      style: TextStyle(color: Colors.white),
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                            InkWell(
-                                onTap: () {
-                                  Navigator.of(context)
-                                      .pushNamed(ccmAddFeedbackPage);
-                                },
-                                child: DrawCardBody()),
-                            Container(
-                                margin: EdgeInsets.all(0.0),
-                                padding: EdgeInsets.all(8.0),
-                                color: CupertinoColors.lightBackgroundGray,
-                                child: Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
-                                  children: <Widget>[
-                                    Text('From 3BIS1',
-                                        style: TextStyle(
-                                            color: Colors.black,
-                                            fontSize: 12.0)),
-                                    Text('2 days ago',
-                                        style: TextStyle(
-                                            color: Colors.black,
-                                            fontSize: 12.0)),
-                                  ],
-                                )),
-                          ])),
-                      Padding(
-                        padding: EdgeInsets.only(top: 5.0, left: 40.0),
-                        child: Text('Replies',
-                            style: TextStyle(
-                                fontWeight: FontWeight.bold, fontSize: 15.0)),
-                      ),
-                      InkWell(
-                        onTap: () {
-                          Navigator.of(context).pushNamed(ccmAddFeedbackPage);
-                        },
-                        child: Padding(
-                          padding: EdgeInsets.only(left: 40.0),
-                          child: CustomCard(Column(
-                            children: <Widget>[
-                              Padding(
-                                padding: EdgeInsets.all(10.0),
-                                child: Text(
-                                    'Some good moments happened during seminars and lectures. All in all, FunPro is FUN. All in all, FunPro is FUN'),
-                              ),
-                              Container(
-                                  margin: EdgeInsets.all(0.0),
-                                  padding: EdgeInsets.all(8.0),
-                                  color: CupertinoColors.lightBackgroundGray,
-                                  child: Row(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceBetween,
-                                    children: <Widget>[
-                                      Text('From Vasiliy Kuznetsov',
-                                          style: TextStyle(
-                                              color: Colors.black,
-                                              fontSize: 12.0)),
-                                      Text('30 min ago',
-                                          style: TextStyle(
-                                              color: Colors.black,
-                                              fontSize: 12.0)),
-                                    ],
-                                  )),
-                            ],
-                          )),
-                        ),
-                      ),
-                      Divider(color: accentColor),
-                      Padding(
-                        padding: EdgeInsets.only(top: 3.0),
-                        child: InkWell(
-                          onTap: () {
-                            Navigator.of(context).pushNamed(ccmAddFeedbackPage);
-                          },
-                          child: CustomCard(Column(
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              crossAxisAlignment: CrossAxisAlignment.stretch,
-                              children: <Widget>[
-                                Container(
-                                  margin: EdgeInsets.all(0.0),
-                                  padding: EdgeInsets.all(8.0),
-                                  color: greyColor,
-                                  child: Row(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceBetween,
-                                    children: <Widget>[
-                                      Text(
-                                        'To Vasiliy Kuznetsov',
-                                        style: TextStyle(color: Colors.white),
-                                      ),
-                                      InkWell(
-                                        onTap: () {
-                                          Navigator.of(context)
-                                              .pushNamed(ccmAddFeedbackPage);
-                                        },
-                                        child: Text(
-                                          'Reply',
-                                          textAlign: TextAlign.right,
-                                          style: TextStyle(color: Colors.white),
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                                Padding(
-                                  padding: EdgeInsets.only(
-                                      left: 10.0, right: 10.0, top: 10.0),
-                                  child: Row(
-                                    children: <Widget>[
-                                      Text('Group coverage:',
-                                          style: TextStyle(
-                                              fontWeight: FontWeight.bold)),
-                                      SizedBox(width: 5.0),
-                                      Text('95%')
-                                    ],
-                                  ),
-                                ),
-                                Padding(
-                                  padding: EdgeInsets.all(10.0),
-                                  child: Text(
-                                      'Some good moments happened during seminars and lectures. All in all, FunPro is FUN. All in all, FunPro is FUN'),
-                                ),
-                                Container(
-                                    margin: EdgeInsets.all(0.0),
-                                    padding: EdgeInsets.all(8.0),
-                                    color: CupertinoColors.lightBackgroundGray,
-                                    child: Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceBetween,
-                                      children: <Widget>[
-                                        Text('From 3BIS1',
-                                            style: TextStyle(
-                                                color: Colors.black,
-                                                fontSize: 12.0)),
-                                        Text('2 days ago',
-                                            style: TextStyle(
-                                                color: Colors.black,
-                                                fontSize: 12.0)),
-                                      ],
-                                    )),
-                              ])),
-                        ),
-                      ),
-                      Padding(
-                        padding: EdgeInsets.only(top: 5.0, left: 20.0),
-                        child: Text('Replies',
-                            style: TextStyle(
-                                fontWeight: FontWeight.bold, fontSize: 15.0)),
-                      ),
-                      InkWell(
-                        onTap: () {
-                          Navigator.of(context).pushNamed(ccmAddFeedbackPage);
-                        },
-                        child: Padding(
-                          padding: EdgeInsets.only(left: 20.0),
-                          child: CustomCard(Column(
-                            children: <Widget>[
-                              Padding(
-                                padding: EdgeInsets.all(10.0),
-                                child: Text(
-                                    'Some good moments happened during seminars and lectures. All in all, FunPro is FUN. All in all, FunPro is FUN'),
-                              ),
-                              Container(
-                                  margin: EdgeInsets.all(0.0),
-                                  padding: EdgeInsets.all(8.0),
-                                  color: CupertinoColors.lightBackgroundGray,
-                                  child: Row(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceBetween,
-                                    children: <Widget>[
-                                      Text('From Vasiliy Kuznetsov',
-                                          style: TextStyle(
-                                              color: Colors.black,
-                                              fontSize: 12.0)),
-                                      Text('30 min ago',
-                                          style: TextStyle(
-                                              color: Colors.black,
-                                              fontSize: 12.0)),
-                                    ],
-                                  )),
-                            ],
-                          )),
-                        ),
-                      ),
-                      InkWell(
-                        onTap: () {
-                          Navigator.of(context).pushNamed(ccmAddFeedbackPage);
-                        },
-                        child: Padding(
-                          padding: EdgeInsets.only(left: 20.0),
-                          child: CustomCard(Column(
-                            children: <Widget>[
-                              Padding(
-                                padding: EdgeInsets.all(10.0),
-                                child: Text(
-                                    'Some good moments happened during seminars and lectures. All in all, FunPro is FUN. All in all, FunPro is FUN'),
-                              ),
-                              Container(
-                                  margin: EdgeInsets.all(0.0),
-                                  padding: EdgeInsets.all(8.0),
-                                  color: CupertinoColors.lightBackgroundGray,
-                                  child: Row(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceBetween,
-                                    children: <Widget>[
-                                      Text('From Vasiliy Kuznetsov',
-                                          style: TextStyle(
-                                              color: Colors.black,
-                                              fontSize: 12.0)),
-                                      Text('30 min ago',
-                                          style: TextStyle(
-                                              color: Colors.black,
-                                              fontSize: 12.0)),
-                                    ],
-                                  )),
-                            ],
-                          )),
-                        ),
-                      ),
-                      SizedBox(
-                        height: 10.0,
-                      )
-                    ])),
-              ),
-            ]),
-          ],
-        )),
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('CCM Feedback'),
+        centerTitle: true,
       ),
+      backgroundColor: backgroundColor,
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          Navigator.of(context).pushNamed(ccmAddFeedbackPage);
+        },
+        child: Icon(Icons.add),
+      ),
+      body: Center(
+          child: CCMCarousel(
+        autoplay: false,
+        dotSize: 5.0,
+        dotColor: accentColor,
+        images: <Widget>[
+          Column(crossAxisAlignment: CrossAxisAlignment.stretch, children: <
+              Widget>[
+            Container(
+                padding: EdgeInsets.only(left: 8.0, right: 8.0, top: 18.0),
+                child: Text(
+                  'Fundamentals of Programming',
+                  textAlign: TextAlign.center,
+                  style: TextStyle(fontSize: 18.0, color: accentColor),
+                )),
+            Padding(
+              padding:
+                  const EdgeInsets.symmetric(vertical: 12.0, horizontal: 16.0),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: _getStaffNames(),
+              ),
+            ),
+            Row(mainAxisAlignment: MainAxisAlignment.center, children: <Widget>[
+              InkWell(
+                onTap: () {
+                  _bloc.setIsPositive.add(true);
+                },
+                child: StreamBuilder(
+                  stream: _bloc.isPositive,
+                  initialData: true,
+                  builder: (context, snapshot) => Container(
+                        width: size.width / 2 - 5,
+                        padding: EdgeInsets.symmetric(
+                            vertical: 12.0, horizontal: 15.0),
+                        child: Center(
+                          child: Text(
+                            'Positive comments',
+                            style: TextStyle(
+                                fontSize: 13.0,
+                                color:
+                                    snapshot.data ? Colors.white : accentColor),
+                          ),
+                        ),
+                        decoration: BoxDecoration(
+                            color: snapshot.data ? accentColor : Colors.white,
+                            border: Border.all(
+                                width: snapshot.data ? 0.0 : 1.0,
+                                color: accentColor)),
+                      ),
+                ),
+              ),
+              InkWell(
+                onTap: () {
+                  _bloc.setIsPositive.add(false);
+                },
+                child: StreamBuilder(
+                  stream: _bloc.isPositive,
+                  initialData: false,
+                  builder: (context, snapshot) => Container(
+                        width: size.width / 2 - 5,
+                        padding: EdgeInsets.symmetric(
+                            vertical: 3.5, horizontal: 15.0),
+                        decoration: BoxDecoration(
+                            color: snapshot.data ? Colors.white : accentColor,
+                            border: Border.all(
+                                width: snapshot.data ? 1.0 : 2.0,
+                                color: accentColor)),
+                        child: Center(
+                          child: Text(
+                            'Suggestions for improvement',
+                            textAlign: TextAlign.center,
+                            style: TextStyle(
+                                fontSize: 13.0,
+                                color:
+                                    snapshot.data ? accentColor : Colors.white),
+                          ),
+                        ),
+                      ),
+                ),
+              )
+            ]),
+            Expanded(
+              child: Container(
+                  padding: EdgeInsets.only(left: 8.0, right: 8.0, top: 10.0),
+                  color: backgroundColor,
+                  child: ListView(children: <Widget>[
+                    CustomCard(Column(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        crossAxisAlignment: CrossAxisAlignment.stretch,
+                        children: <Widget>[
+                          Container(
+                            margin: EdgeInsets.all(0.0),
+                            padding: EdgeInsets.all(8.0),
+                            color: greyColor,
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: <Widget>[
+                                Text(
+                                  'To Vasiliy Kuznetsov',
+                                  style: TextStyle(color: Colors.white),
+                                ),
+                                InkWell(
+                                  onTap: () {
+                                    Navigator.of(context)
+                                        .pushNamed(ccmAddFeedbackPage);
+                                  },
+                                  child: Text(
+                                    'Reply',
+                                    textAlign: TextAlign.right,
+                                    style: TextStyle(color: Colors.white),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                          InkWell(
+                              onTap: () {
+                                Navigator.of(context)
+                                    .pushNamed(ccmAddFeedbackPage);
+                              },
+                              child: DrawCardBody()),
+                          Container(
+                              margin: EdgeInsets.all(0.0),
+                              padding: EdgeInsets.all(8.0),
+                              color: CupertinoColors.lightBackgroundGray,
+                              child: Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: <Widget>[
+                                  Text('From 3BIS1',
+                                      style: TextStyle(
+                                          color: Colors.black, fontSize: 12.0)),
+                                  Text('2 days ago',
+                                      style: TextStyle(
+                                          color: Colors.black, fontSize: 12.0)),
+                                ],
+                              )),
+                        ])),
+                    Padding(
+                      padding: EdgeInsets.only(top: 5.0, left: 40.0),
+                      child: Text('Replies',
+                          style: TextStyle(
+                              fontWeight: FontWeight.bold, fontSize: 15.0)),
+                    ),
+                    InkWell(
+                      onTap: () {
+                        Navigator.of(context).pushNamed(ccmAddFeedbackPage);
+                      },
+                      child: Padding(
+                        padding: EdgeInsets.only(left: 40.0),
+                        child: CustomCard(Column(
+                          children: <Widget>[
+                            Padding(
+                              padding: EdgeInsets.all(10.0),
+                              child: Text(
+                                  'Some good moments happened during seminars and lectures. All in all, FunPro is FUN. All in all, FunPro is FUN'),
+                            ),
+                            Container(
+                                margin: EdgeInsets.all(0.0),
+                                padding: EdgeInsets.all(8.0),
+                                color: CupertinoColors.lightBackgroundGray,
+                                child: Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: <Widget>[
+                                    Text('From Vasiliy Kuznetsov',
+                                        style: TextStyle(
+                                            color: Colors.black,
+                                            fontSize: 12.0)),
+                                    Text('30 min ago',
+                                        style: TextStyle(
+                                            color: Colors.black,
+                                            fontSize: 12.0)),
+                                  ],
+                                )),
+                          ],
+                        )),
+                      ),
+                    ),
+                    Divider(color: accentColor),
+                    Padding(
+                      padding: EdgeInsets.only(top: 3.0),
+                      child: InkWell(
+                        onTap: () {
+                          Navigator.of(context).pushNamed(ccmAddFeedbackPage);
+                        },
+                        child: CustomCard(Column(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            crossAxisAlignment: CrossAxisAlignment.stretch,
+                            children: <Widget>[
+                              Container(
+                                margin: EdgeInsets.all(0.0),
+                                padding: EdgeInsets.all(8.0),
+                                color: greyColor,
+                                child: Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: <Widget>[
+                                    Text(
+                                      'To Vasiliy Kuznetsov',
+                                      style: TextStyle(color: Colors.white),
+                                    ),
+                                    InkWell(
+                                      onTap: () {
+                                        Navigator.of(context)
+                                            .pushNamed(ccmAddFeedbackPage);
+                                      },
+                                      child: Text(
+                                        'Reply',
+                                        textAlign: TextAlign.right,
+                                        style: TextStyle(color: Colors.white),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                              Padding(
+                                padding: EdgeInsets.only(
+                                    left: 10.0, right: 10.0, top: 10.0),
+                                child: Row(
+                                  children: <Widget>[
+                                    Text('Group coverage:',
+                                        style: TextStyle(
+                                            fontWeight: FontWeight.bold)),
+                                    SizedBox(width: 5.0),
+                                    Text('95%')
+                                  ],
+                                ),
+                              ),
+                              Padding(
+                                padding: EdgeInsets.all(10.0),
+                                child: Text(
+                                    'Some good moments happened during seminars and lectures. All in all, FunPro is FUN. All in all, FunPro is FUN'),
+                              ),
+                              Container(
+                                  margin: EdgeInsets.all(0.0),
+                                  padding: EdgeInsets.all(8.0),
+                                  color: CupertinoColors.lightBackgroundGray,
+                                  child: Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    children: <Widget>[
+                                      Text('From 3BIS1',
+                                          style: TextStyle(
+                                              color: Colors.black,
+                                              fontSize: 12.0)),
+                                      Text('2 days ago',
+                                          style: TextStyle(
+                                              color: Colors.black,
+                                              fontSize: 12.0)),
+                                    ],
+                                  )),
+                            ])),
+                      ),
+                    ),
+                    Padding(
+                      padding: EdgeInsets.only(top: 5.0, left: 20.0),
+                      child: Text('Replies',
+                          style: TextStyle(
+                              fontWeight: FontWeight.bold, fontSize: 15.0)),
+                    ),
+                    InkWell(
+                      onTap: () {
+                        Navigator.of(context).pushNamed(ccmAddFeedbackPage);
+                      },
+                      child: Padding(
+                        padding: EdgeInsets.only(left: 20.0),
+                        child: CustomCard(Column(
+                          children: <Widget>[
+                            Padding(
+                              padding: EdgeInsets.all(10.0),
+                              child: Text(
+                                  'Some good moments happened during seminars and lectures. All in all, FunPro is FUN. All in all, FunPro is FUN'),
+                            ),
+                            Container(
+                                margin: EdgeInsets.all(0.0),
+                                padding: EdgeInsets.all(8.0),
+                                color: CupertinoColors.lightBackgroundGray,
+                                child: Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: <Widget>[
+                                    Text('From Vasiliy Kuznetsov',
+                                        style: TextStyle(
+                                            color: Colors.black,
+                                            fontSize: 12.0)),
+                                    Text('30 min ago',
+                                        style: TextStyle(
+                                            color: Colors.black,
+                                            fontSize: 12.0)),
+                                  ],
+                                )),
+                          ],
+                        )),
+                      ),
+                    ),
+                    InkWell(
+                      onTap: () {
+                        Navigator.of(context).pushNamed(ccmAddFeedbackPage);
+                      },
+                      child: Padding(
+                        padding: EdgeInsets.only(left: 20.0),
+                        child: CustomCard(Column(
+                          children: <Widget>[
+                            Padding(
+                              padding: EdgeInsets.all(10.0),
+                              child: Text(
+                                  'Some good moments happened during seminars and lectures. All in all, FunPro is FUN. All in all, FunPro is FUN'),
+                            ),
+                            Container(
+                                margin: EdgeInsets.all(0.0),
+                                padding: EdgeInsets.all(8.0),
+                                color: CupertinoColors.lightBackgroundGray,
+                                child: Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: <Widget>[
+                                    Text('From Vasiliy Kuznetsov',
+                                        style: TextStyle(
+                                            color: Colors.black,
+                                            fontSize: 12.0)),
+                                    Text('30 min ago',
+                                        style: TextStyle(
+                                            color: Colors.black,
+                                            fontSize: 12.0)),
+                                  ],
+                                )),
+                          ],
+                        )),
+                      ),
+                    ),
+                    SizedBox(
+                      height: 10.0,
+                    )
+                  ])),
+            ),
+          ]),
+
+          //Second Tab Page
+
+          Column(crossAxisAlignment: CrossAxisAlignment.stretch, children: <
+              Widget>[
+            Container(
+                padding: EdgeInsets.only(left: 8.0, right: 8.0, top: 18.0),
+                child: Text(
+                  'Fundamentals of Programming',
+                  textAlign: TextAlign.center,
+                  style: TextStyle(fontSize: 18.0, color: accentColor),
+                )),
+            Padding(
+              padding:
+                  const EdgeInsets.symmetric(vertical: 12.0, horizontal: 16.0),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: _getStaffNames(),
+              ),
+            ),
+            Row(mainAxisAlignment: MainAxisAlignment.center, children: <Widget>[
+              InkWell(
+                onTap: () {
+                  _bloc.setIsPositive.add(true);
+                },
+                child: StreamBuilder(
+                  stream: _bloc.isPositive,
+                  initialData: true,
+                  builder: (context, snapshot) => Container(
+                        width: size.width / 2 - 5,
+                        padding: EdgeInsets.symmetric(
+                            vertical: 12.0, horizontal: 15.0),
+                        child: Center(
+                          child: Text(
+                            'Positive comments',
+                            style: TextStyle(
+                                fontSize: 13.0,
+                                color:
+                                    snapshot.data ? Colors.white : accentColor),
+                          ),
+                        ),
+                        decoration: BoxDecoration(
+                            color: snapshot.data ? accentColor : Colors.white,
+                            border: Border.all(
+                                width: snapshot.data ? 0.0 : 1.0,
+                                color: accentColor)),
+                      ),
+                ),
+              ),
+              InkWell(
+                onTap: () {
+                  _bloc.setIsPositive.add(false);
+                },
+                child: StreamBuilder(
+                  stream: _bloc.isPositive,
+                  initialData: false,
+                  builder: (context, snapshot) => Container(
+                        width: size.width / 2 - 5,
+                        padding: EdgeInsets.symmetric(
+                            vertical: 3.5, horizontal: 15.0),
+                        decoration: BoxDecoration(
+                            color: snapshot.data ? Colors.white : accentColor,
+                            border: Border.all(
+                                width: snapshot.data ? 1.0 : 2.0,
+                                color: accentColor)),
+                        child: Center(
+                          child: Text(
+                            'Suggestions for improvement',
+                            textAlign: TextAlign.center,
+                            style: TextStyle(
+                                fontSize: 13.0,
+                                color:
+                                    snapshot.data ? accentColor : Colors.white),
+                          ),
+                        ),
+                      ),
+                ),
+              )
+            ]),
+            Expanded(
+              child: Container(
+                  padding: EdgeInsets.only(left: 8.0, right: 8.0, top: 10.0),
+                  color: backgroundColor,
+                  child: ListView(children: <Widget>[
+                    CustomCard(Column(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        crossAxisAlignment: CrossAxisAlignment.stretch,
+                        children: <Widget>[
+                          Container(
+                            margin: EdgeInsets.all(0.0),
+                            padding: EdgeInsets.all(8.0),
+                            color: greyColor,
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: <Widget>[
+                                Text(
+                                  'To Vasiliy Kuznetsov',
+                                  style: TextStyle(color: Colors.white),
+                                ),
+                                InkWell(
+                                  onTap: () {
+                                    Navigator.of(context)
+                                        .pushNamed(ccmAddFeedbackPage);
+                                  },
+                                  child: Text(
+                                    'Reply',
+                                    textAlign: TextAlign.right,
+                                    style: TextStyle(color: Colors.white),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                          InkWell(
+                              onTap: () {
+                                Navigator.of(context)
+                                    .pushNamed(ccmAddFeedbackPage);
+                              },
+                              child: DrawCardBody()),
+                          Container(
+                              margin: EdgeInsets.all(0.0),
+                              padding: EdgeInsets.all(8.0),
+                              color: CupertinoColors.lightBackgroundGray,
+                              child: Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: <Widget>[
+                                  Text('From 3BIS1',
+                                      style: TextStyle(
+                                          color: Colors.black, fontSize: 12.0)),
+                                  Text('2 days ago',
+                                      style: TextStyle(
+                                          color: Colors.black, fontSize: 12.0)),
+                                ],
+                              )),
+                        ])),
+                    Padding(
+                      padding: EdgeInsets.only(top: 5.0, left: 40.0),
+                      child: Text('Replies',
+                          style: TextStyle(
+                              fontWeight: FontWeight.bold, fontSize: 15.0)),
+                    ),
+                    InkWell(
+                      onTap: () {
+                        Navigator.of(context).pushNamed(ccmAddFeedbackPage);
+                      },
+                      child: Padding(
+                        padding: EdgeInsets.only(left: 40.0),
+                        child: CustomCard(Column(
+                          children: <Widget>[
+                            Padding(
+                              padding: EdgeInsets.all(10.0),
+                              child: Text(
+                                  'Some good moments happened during seminars and lectures. All in all, FunPro is FUN. All in all, FunPro is FUN'),
+                            ),
+                            Container(
+                                margin: EdgeInsets.all(0.0),
+                                padding: EdgeInsets.all(8.0),
+                                color: CupertinoColors.lightBackgroundGray,
+                                child: Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: <Widget>[
+                                    Text('From Vasiliy Kuznetsov',
+                                        style: TextStyle(
+                                            color: Colors.black,
+                                            fontSize: 12.0)),
+                                    Text('30 min ago',
+                                        style: TextStyle(
+                                            color: Colors.black,
+                                            fontSize: 12.0)),
+                                  ],
+                                )),
+                          ],
+                        )),
+                      ),
+                    ),
+                    Divider(color: accentColor),
+                    Padding(
+                      padding: EdgeInsets.only(top: 3.0),
+                      child: InkWell(
+                        onTap: () {
+                          Navigator.of(context).pushNamed(ccmAddFeedbackPage);
+                        },
+                        child: CustomCard(Column(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            crossAxisAlignment: CrossAxisAlignment.stretch,
+                            children: <Widget>[
+                              Container(
+                                margin: EdgeInsets.all(0.0),
+                                padding: EdgeInsets.all(8.0),
+                                color: greyColor,
+                                child: Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: <Widget>[
+                                    Text(
+                                      'To Vasiliy Kuznetsov',
+                                      style: TextStyle(color: Colors.white),
+                                    ),
+                                    InkWell(
+                                      onTap: () {
+                                        Navigator.of(context)
+                                            .pushNamed(ccmAddFeedbackPage);
+                                      },
+                                      child: Text(
+                                        'Reply',
+                                        textAlign: TextAlign.right,
+                                        style: TextStyle(color: Colors.white),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                              Padding(
+                                padding: EdgeInsets.only(
+                                    left: 10.0, right: 10.0, top: 10.0),
+                                child: Row(
+                                  children: <Widget>[
+                                    Text('Group coverage:',
+                                        style: TextStyle(
+                                            fontWeight: FontWeight.bold)),
+                                    SizedBox(width: 5.0),
+                                    Text('95%')
+                                  ],
+                                ),
+                              ),
+                              Padding(
+                                padding: EdgeInsets.all(10.0),
+                                child: Text(
+                                    'Some good moments happened during seminars and lectures. All in all, FunPro is FUN. All in all, FunPro is FUN'),
+                              ),
+                              Container(
+                                  margin: EdgeInsets.all(0.0),
+                                  padding: EdgeInsets.all(8.0),
+                                  color: CupertinoColors.lightBackgroundGray,
+                                  child: Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    children: <Widget>[
+                                      Text('From 3BIS1',
+                                          style: TextStyle(
+                                              color: Colors.black,
+                                              fontSize: 12.0)),
+                                      Text('2 days ago',
+                                          style: TextStyle(
+                                              color: Colors.black,
+                                              fontSize: 12.0)),
+                                    ],
+                                  )),
+                            ])),
+                      ),
+                    ),
+                    Padding(
+                      padding: EdgeInsets.only(top: 5.0, left: 20.0),
+                      child: Text('Replies',
+                          style: TextStyle(
+                              fontWeight: FontWeight.bold, fontSize: 15.0)),
+                    ),
+                    InkWell(
+                      onTap: () {
+                        Navigator.of(context).pushNamed(ccmAddFeedbackPage);
+                      },
+                      child: Padding(
+                        padding: EdgeInsets.only(left: 20.0),
+                        child: CustomCard(Column(
+                          children: <Widget>[
+                            Padding(
+                              padding: EdgeInsets.all(10.0),
+                              child: Text(
+                                  'Some good moments happened during seminars and lectures. All in all, FunPro is FUN. All in all, FunPro is FUN'),
+                            ),
+                            Container(
+                                margin: EdgeInsets.all(0.0),
+                                padding: EdgeInsets.all(8.0),
+                                color: CupertinoColors.lightBackgroundGray,
+                                child: Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: <Widget>[
+                                    Text('From Vasiliy Kuznetsov',
+                                        style: TextStyle(
+                                            color: Colors.black,
+                                            fontSize: 12.0)),
+                                    Text('30 min ago',
+                                        style: TextStyle(
+                                            color: Colors.black,
+                                            fontSize: 12.0)),
+                                  ],
+                                )),
+                          ],
+                        )),
+                      ),
+                    ),
+                    InkWell(
+                      onTap: () {
+                        Navigator.of(context).pushNamed(ccmAddFeedbackPage);
+                      },
+                      child: Padding(
+                        padding: EdgeInsets.only(left: 20.0),
+                        child: CustomCard(Column(
+                          children: <Widget>[
+                            Padding(
+                              padding: EdgeInsets.all(10.0),
+                              child: Text(
+                                  'Some good moments happened during seminars and lectures. All in all, FunPro is FUN. All in all, FunPro is FUN'),
+                            ),
+                            Container(
+                                margin: EdgeInsets.all(0.0),
+                                padding: EdgeInsets.all(8.0),
+                                color: CupertinoColors.lightBackgroundGray,
+                                child: Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: <Widget>[
+                                    Text('From Vasiliy Kuznetsov',
+                                        style: TextStyle(
+                                            color: Colors.black,
+                                            fontSize: 12.0)),
+                                    Text('30 min ago',
+                                        style: TextStyle(
+                                            color: Colors.black,
+                                            fontSize: 12.0)),
+                                  ],
+                                )),
+                          ],
+                        )),
+                      ),
+                    ),
+                    SizedBox(
+                      height: 10.0,
+                    )
+                  ])),
+            ),
+          ]),
+        ],
+      )),
     );
   }
 }

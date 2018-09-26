@@ -11,7 +11,7 @@ class CCMFeedbackCategoryPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('CCM feedback category'),
+        title: Text('CCM Feedback'),
         centerTitle: true,
       ),
       backgroundColor: backgroundColor,
