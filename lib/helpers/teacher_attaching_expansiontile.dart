@@ -35,9 +35,10 @@ class TeacherAttachingExpansionTile extends StatelessWidget {
                 children: <Widget>[
                   InkWell(
                     onTap: () {
-                      if (expansionTileType == ExpansionTileTypes.TeacherName)
+                      if (expansionTileType == ExpansionTileTypes.TeacherName) {
                         bloc.setTeacherName.add(name);
-                      else if (expansionTileType ==
+                        bloc.teacherName = name;
+                      } else if (expansionTileType ==
                           ExpansionTileTypes.FeedbackType)
                         bloc.setFeedbackType.add(name);
 
@@ -208,8 +209,7 @@ class AppExpansionTileState extends State<AppExpansionTile>
               onTap: toggle,
               leading: widget.leading,
               title: new DefaultTextStyle(
-                style: Theme
-                    .of(context)
+                style: Theme.of(context)
                     .textTheme
                     .subhead
                     .copyWith(color: titleColor),

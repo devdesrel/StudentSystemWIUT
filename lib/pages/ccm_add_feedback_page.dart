@@ -1,12 +1,11 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
-import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
-
-import 'package:student_system_flutter/bloc/ccm_feedback/ccm_feedback_bloc.dart';
-import 'package:student_system_flutter/bloc/ccm_feedback/ccm_feedback_provider.dart';
+import 'package:student_system_flutter/bloc/ccm_feedback/ccm_add_feedback_bloc.dart';
+import 'package:student_system_flutter/bloc/ccm_feedback/ccm_add_feedback_provider.dart';
 import 'package:student_system_flutter/enums/ApplicationEnums.dart';
+import 'package:http/http.dart' as http;
 import 'package:student_system_flutter/helpers/app_constants.dart';
 import 'package:student_system_flutter/helpers/function_helpers.dart';
 import 'package:student_system_flutter/helpers/teacher_attaching_expansiontile.dart';
@@ -61,7 +60,7 @@ class _CCMAddFeedBackPageState extends State<CCMAddFeedBackPage> {
   double sliderErrorOpacity = 0.0;
   double teacherErrorOpacity = 0.0;
   double _value = 0.0;
-  var bloc = CCMFeedbackBloc();
+  var bloc = CCMAddFeedbackBloc();
 
   bool progressDialogVisible = false;
 
@@ -115,12 +114,8 @@ class _CCMAddFeedBackPageState extends State<CCMAddFeedBackPage> {
     ];
 
     bool checkErrors() {
-      StreamBuilder(
-          stream: bloc.groupCoverageValue,
-          builder: (context, snapshot) => _value = snapshot.data);
-      StreamBuilder(
-          stream: bloc.teacherName,
-          builder: (context, snapchot) => teacherName = snapchot.data);
+      _value = bloc.groupCoverage;
+      teacherName = bloc.teacherName;
 
       if (_value == 0.0) {
         return false;
@@ -147,8 +142,8 @@ class _CCMAddFeedBackPageState extends State<CCMAddFeedBackPage> {
       }
     }
 
-    return CCMFeedbackProvider(
-      ccmFeedbackBloc: bloc,
+    return CCMAddFeedbackProvider(
+      ccmAddFeedbackBloc: bloc,
       child: Scaffold(
         appBar: AppBar(
           title: Text('Add Feedback'),
@@ -272,6 +267,7 @@ class _CCMAddFeedBackPageState extends State<CCMAddFeedBackPage> {
                               max: 100.0,
                               onChanged: (double value) {
                                 bloc.setGroupCoverageValue.add(value);
+                                bloc.groupCoverage = value;
                                 // if (value == 0.0) {fl
                                 //   bloc.setGroupCoverageError.add(1.0);
                                 // } else {
@@ -312,7 +308,7 @@ class _CCMAddFeedBackPageState extends State<CCMAddFeedBackPage> {
                   Card(
                     child: StreamBuilder(
                       initialData: 'Select a teacher',
-                      stream: bloc.teacherName,
+                      stream: bloc.teacherNameValue,
                       builder: (context, snapshot) =>
                           TeacherAttachingExpansionTile(
                               expansionTileType: ExpansionTileTypes.TeacherName,
@@ -325,7 +321,7 @@ class _CCMAddFeedBackPageState extends State<CCMAddFeedBackPage> {
                     ),
                   ),
                   StreamBuilder(
-                    stream: bloc.teacherName,
+                    stream: bloc.teacherNameValue,
                     initialData: 'Select a teacher',
                     builder: (context, snapshot) => StreamBuilder(
                           stream: bloc.teacherNameDataValidation,

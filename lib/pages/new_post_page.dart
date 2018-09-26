@@ -55,6 +55,7 @@ Widget _createCurrentPage(BuildContext context) {
                   child: NewPostBody()),
               bottomNavigationBar: BottomAppBar(
                 color: accentColor,
+                // hasNotch: true,
                 elevation: 5.0,
                 child: Theme(
                   data: ThemeData(
