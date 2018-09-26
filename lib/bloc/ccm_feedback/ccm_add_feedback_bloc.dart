@@ -96,7 +96,6 @@ class CCMAddFeedbackBloc {
 
     _setAutoValidationController.close();
     _setGroupCoverageValueController.close();
-    _setGroupCoverageDataValidationController;
     _setGroupCoverageDataValidationController.close();
     _setTeacherNameDataValidationController.close();
     _setFeedbackTypeController.close();
