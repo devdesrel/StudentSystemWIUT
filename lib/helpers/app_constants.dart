@@ -106,6 +106,8 @@ final apiProfileGetProfileByUserName =
 final apiCCMFeedbackGetCategorySelectionList =
     '$baseUrl/api/CCMFeedback/GetCategorySelectionList';
 
+final apiCCMFeedbackAddFeedback = '$baseUrl/api/CCMFeedback/AddFeedback';
+
 //Errors List
 final String authProblems = 'Authorization problems';
 final String connectionFailure = 'Internet connection failure';

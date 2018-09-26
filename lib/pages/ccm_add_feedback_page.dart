@@ -1,8 +1,14 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
+import 'package:shared_preferences/shared_preferences.dart';
+
 import 'package:student_system_flutter/bloc/ccm_feedback/ccm_feedback_bloc.dart';
 import 'package:student_system_flutter/bloc/ccm_feedback/ccm_feedback_provider.dart';
 import 'package:student_system_flutter/enums/ApplicationEnums.dart';
 import 'package:student_system_flutter/helpers/app_constants.dart';
+import 'package:student_system_flutter/helpers/function_helpers.dart';
 import 'package:student_system_flutter/helpers/teacher_attaching_expansiontile.dart';
 
 class CCMAddFeedBackPage extends StatefulWidget {
@@ -57,6 +63,32 @@ class _CCMAddFeedBackPageState extends State<CCMAddFeedBackPage> {
   double _value = 0.0;
   var bloc = CCMFeedbackBloc();
 
+  bool progressDialogVisible = false;
+
+  Future postFeedback() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    final _token = prefs.getString(token);
+    try {
+      http.Response res = await http.post(apiCCMFeedbackAddFeedback, body: {
+        "modelVM": 'something'
+      }, headers: {
+        "Accept": "application/json",
+        "Authorization": "Bearer $_token"
+      }); // post api call
+
+      Map data = json.decode(res.body);
+      if (res.statusCode == 200) {
+        print(data[token]);
+      }
+    } catch (e) {
+      setState(() {
+        progressDialogVisible = false;
+      });
+
+      showFlushBar(connectionFailure, checkInternetConnection,
+          MessageTypes.ERROR, context, 2);
+    }
+  }
   // Future<bool> _onBackPressed(BuildContext context) async {
   //   SharedPreferences prefs = await SharedPreferences.getInstance();
   //   var value = prefs.getBool(isLoggedIn);

@@ -10,7 +10,7 @@ import 'package:student_system_flutter/helpers/app_constants.dart';
 import 'package:student_system_flutter/helpers/ccm_carousel.dart';
 import 'package:student_system_flutter/helpers/function_helpers.dart';
 import 'package:student_system_flutter/helpers/ui_helpers.dart';
-import 'package:student_system_flutter/models/ccm_feedback_modules_model.dart';
+import 'package:student_system_flutter/models/ccm_feedback_category_selection_model.dart';
 import 'package:http/http.dart' as http;
 
 class CCMFeedbackPage extends StatefulWidget {
@@ -25,8 +25,10 @@ class _CCMFeedbackPageState extends State<CCMFeedbackPage> {
   var _bloc = CCMFeedbackBloc();
   String modules = 'modules';
   String departments = 'departments';
+  // String moduleID = '325';
+  // String departmentID = '11';
 
-  Future<List<CCMFeedbackModuleModel>> _getCategorySelectionList(
+  Future<List<CCMFeedbackCategorySelectedModel>> _getCategorySelectionList(
       BuildContext context) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     final _token = prefs.getString(token);
@@ -38,16 +40,14 @@ class _CCMFeedbackPageState extends State<CCMFeedbackPage> {
               "Accept": "application/json",
               "Authorization": "Bearer $_token"
             });
+        // Map data = json.decode(response.body);
 
         if (response.statusCode == 200) {
-          return null;
-          // return _parseModules(response.body);
+          return _parseCategorySelectedList(response.body);
         } else {
           showFlushBar('Error', tryAgain, MessageTypes.ERROR, context, 2);
           return null;
         }
-
-        // return compute(_parseModules, response.body);
       } catch (e) {
         showFlushBar(connectionFailure, checkInternetConnection,
             MessageTypes.ERROR, context, 2);
@@ -77,6 +77,18 @@ class _CCMFeedbackPageState extends State<CCMFeedbackPage> {
         return null;
       }
     }
+  }
+
+  List<CCMFeedbackCategorySelectedModel> _parseCategorySelectedList(
+      String responseBody) {
+    final parsed = json.decode(responseBody);
+
+    List<CCMFeedbackCategorySelectedModel> lists = parsed
+        .map<CCMFeedbackCategorySelectedModel>(
+            (item) => CCMFeedbackCategorySelectedModel.fromJson(item))
+        .toList();
+
+    return lists;
   }
 //TODO:
 //  List<CCMFeedbackModuleModel> _parseModules(String responseBody) {
