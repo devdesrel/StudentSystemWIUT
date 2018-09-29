@@ -76,6 +76,7 @@ final isUnderDevelopmentFeaturesInvisible =
 final userRole = 'userRole';
 final teacherID = 'teacherID';
 final teacherNameSharedPref = 'teacherNameSharedPref';
+final isApplicableForCCMFeedback = 'isApplicableForCCMFeedback';
 
 //API List
 final baseUrl = 'https://newintranetapi.wiut.uz';
@@ -105,6 +106,9 @@ final apiProfileGetProfileByUserName =
     '$baseUrl/api/Profile/GetProfileByUserName';
 final apiCCMFeedbackGetCategorySelectionList =
     '$baseUrl/api/CCMFeedback/GetCategorySelectionList';
+
+final apiCCMFeedbackGetModuleRepresentatives =
+    '$baseUrl/api/CCMFeedback/GetModuleRepresentativesAsSelectList';
 
 final apiCCMFeedbackAddFeedback = '$baseUrl/api/CCMFeedback/AddFeedback';
 

@@ -248,6 +248,7 @@ class CustomGridView {
               MainPageGridItems.TIMETABLE, 1),
           makeGridCell("Learning Materials", 'assets/lectures.png',
               MainPageGridItems.LEARNING_MATERIALS, 2),
+
           //     ],
           //   ),
           // ),

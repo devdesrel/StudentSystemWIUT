@@ -7,13 +7,21 @@ import 'package:student_system_flutter/bloc/ccm_feedback/ccm_add_feedback_provid
 import 'package:student_system_flutter/enums/ApplicationEnums.dart';
 import 'package:http/http.dart' as http;
 import 'package:student_system_flutter/helpers/app_constants.dart';
+import 'package:student_system_flutter/helpers/ccm_feedback_type_expansiontile.dart';
 import 'package:student_system_flutter/helpers/function_helpers.dart';
 import 'package:student_system_flutter/helpers/teacher_attaching_expansiontile.dart';
+import 'package:student_system_flutter/models/CCMFeedback/ccm_add_feedback_model.dart';
+import 'package:student_system_flutter/models/CCMFeedback/ccm_add_feedback_page_model.dart';
+import 'package:student_system_flutter/models/CCMFeedback/ccm_feedback_as_selected_list.dart';
 
 class CCMAddFeedBackPage extends StatefulWidget {
-  final viewType;
+  final CCMAddFeedbackPageModel model = CCMAddFeedbackPageModel(
+      viewType: FeedbackViewType.Add,
+      depOrMod: CCMFeedbackCategory.ModulesFeedback,
+      depOrModID: 325,
+      feedbackType: 0);
 
-  CCMAddFeedBackPage({this.viewType});
+  // CCMAddFeedBackPage({/*this.model*/});
   @override
   _CCMAddFeedBackPageState createState() => _CCMAddFeedBackPageState();
 }
@@ -52,8 +60,8 @@ class _CCMAddFeedBackPageState extends State<CCMAddFeedBackPage> {
   //   super.dispose();
   // }
 
-  final GlobalKey<AppExpansionTileState> teacherExpansionTile = new GlobalKey();
-  final GlobalKey<AppExpansionTileState> typeExpansionTile = new GlobalKey();
+  final GlobalKey<AppExpansionTileState> teacherExpansionTile = GlobalKey();
+  final GlobalKey<AppExpansionTile2State> typeExpansionTile = GlobalKey();
   var formKey = GlobalKey<FormState>();
 
   String commentMessage;
@@ -63,17 +71,84 @@ class _CCMAddFeedBackPageState extends State<CCMAddFeedBackPage> {
   var bloc = CCMAddFeedbackBloc();
 
   bool progressDialogVisible = false;
+  Future<List<CCMFeedbackAsSelectedList>> getModuleRepresentatives(
+      BuildContext context) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    final _token = prefs.getString(token);
+    int modID = widget.model.depOrModID;
+
+    if (widget.model.depOrMod == CCMFeedbackCategory.ModulesFeedback) {
+      // if (widget.model.depOrMod == 'modules') {
+      try {
+        final response = await http.get(
+            "$apiCCMFeedbackGetModuleRepresentatives?moduleID=$modID",
+            headers: {
+              "Accept": "application/json",
+              "Authorization": "Bearer $_token"
+            });
+
+        if (response.statusCode == 200) {
+          return _parseModuleRepresentatives(response.body);
+        } else {
+          showFlushBar('Error', tryAgain, MessageTypes.ERROR, context, 2);
+          return null;
+        }
+      } catch (e) {
+        showFlushBar(connectionFailure, checkInternetConnection,
+            MessageTypes.ERROR, context, 2);
+        return null;
+      }
+    }
+  }
+
+  List<CCMFeedbackAsSelectedList> _parseModuleRepresentatives(
+      String responseBody) {
+    final parsed = json.decode(responseBody);
+
+    List<CCMFeedbackAsSelectedList> lists = parsed
+        .map<CCMFeedbackAsSelectedList>(
+            (item) => CCMFeedbackAsSelectedList.fromJson(item))
+        .toList();
+
+    return lists;
+  }
+  // List<CCMFeedbackAsSelectedList> _parseModuleRepresentatives(
+  //     String responseBody) {
+  //   final text = 'Text';
+
+  //   final parsedData = json.decode(responseBody)[text];
+
+  //   TeachersList teachersList = TeachersList(
+  //       text: parsedData
+  //           .map<CCMFeedbackAsSelectedList>(
+  //               (json) => CCMFeedbackAsSelectedList.fromJson(json))
+  //           .toList());
+
+  //   return teachersList.text;
+  // }
 
   Future postFeedback() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     final _token = prefs.getString(token);
+    CCMAddFeedbackModel _model = CCMAddFeedbackModel(
+      // type: widget.model.depOrMod == CCMFeedbackCategory.ModulesFeedback
+      //     ? 'modules'
+      //     : 'departments',
+      type: 'modules',
+      isPositive: bloc.type,
+      depOrModID: widget.model.depOrModID,
+      staffID: int.parse(bloc.staffID),
+      groupCoverage: bloc.groupCoverage.toInt(),
+      text: commentMessage,
+    );
+    var postData = _model.toJson();
     try {
-      http.Response res = await http.post(apiCCMFeedbackAddFeedback, body: {
-        "modelVM": 'something'
-      }, headers: {
-        "Accept": "application/json",
-        "Authorization": "Bearer $_token"
-      }); // post api call
+      http.Response res = await http.post(Uri.parse(apiCCMFeedbackAddFeedback),
+          body: postData,
+          headers: {
+            "Accept": "application/json",
+            "Authorization": "Bearer $_token"
+          }); // post api call
 
       Map data = json.decode(res.body);
       if (res.statusCode == 200) {
@@ -88,6 +163,7 @@ class _CCMAddFeedBackPageState extends State<CCMAddFeedBackPage> {
           MessageTypes.ERROR, context, 2);
     }
   }
+
   // Future<bool> _onBackPressed(BuildContext context) async {
   //   SharedPreferences prefs = await SharedPreferences.getInstance();
   //   var value = prefs.getBool(isLoggedIn);
@@ -102,17 +178,18 @@ class _CCMAddFeedBackPageState extends State<CCMAddFeedBackPage> {
   @override
   Widget build(BuildContext context) {
     String teacherName = 'Select a teacher';
-    final List<String> _teacherNamesList = [
-      'Vasiliy Kuznetsov',
-      'Mikhail Shpirko',
-      'Abduvosid Malikov',
-      'Aaaaand another guy',
-    ];
+
+    // final List<String> _teacherNamesList = [
+    //   'Vasiliy Kuznetsov',
+    //   'Mikhail Shpirko',
+    //   'Abduvosid Malikov',
+    //   'Aaaaand another guy',
+    // ];
     final List<String> _typeList = [
       'Positive comments',
-      'Suggestions and improvements'
+      'Suggestions for improvements'
     ];
-
+// _typeList[widget.model.feedbackType];
     bool checkErrors() {
       _value = bloc.groupCoverage;
       teacherName = bloc.teacherName;
@@ -137,7 +214,9 @@ class _CCMAddFeedBackPageState extends State<CCMAddFeedBackPage> {
       if (checkErrors()) {
         if (form.validate()) {
           form.save();
+
           print(commentMessage);
+          postFeedback();
         }
       }
     }
@@ -173,9 +252,7 @@ class _CCMAddFeedBackPageState extends State<CCMAddFeedBackPage> {
                     stream: bloc.feedbackType,
                     initialData: _typeList.first,
                     builder: (context, snapshot) => Card(
-                          child: TeacherAttachingExpansionTile(
-                              expansionTileType:
-                                  ExpansionTileTypes.FeedbackType,
+                          child: CCMFeedbackTypeExpansionTile(
                               bloc: bloc,
                               expansionTile: typeExpansionTile,
                               value: snapshot.hasData
@@ -310,14 +387,20 @@ class _CCMAddFeedBackPageState extends State<CCMAddFeedBackPage> {
                       initialData: 'Select a teacher',
                       stream: bloc.teacherNameValue,
                       builder: (context, snapshot) =>
-                          TeacherAttachingExpansionTile(
-                              expansionTileType: ExpansionTileTypes.TeacherName,
-                              bloc: bloc,
-                              expansionTile: teacherExpansionTile,
-                              value: snapshot.hasData
-                                  ? snapshot.data
-                                  : teacherName,
-                              expansionChildrenList: _teacherNamesList),
+                          FutureBuilder<List<CCMFeedbackAsSelectedList>>(
+                            future: getModuleRepresentatives(context),
+                            builder: (context, shot) =>
+                                TeacherAttachingExpansionTile(
+                                    bloc: bloc,
+                                    expansionTile: teacherExpansionTile,
+                                    value: snapshot.hasData
+                                        ? snapshot.data
+                                        : teacherName,
+                                    expansionChildrenList: shot.hasData
+                                        // ? shot.data.toString()
+                                        ? shot.data
+                                        : []),
+                          ),
                     ),
                   ),
                   StreamBuilder(
@@ -355,7 +438,7 @@ class _CCMAddFeedBackPageState extends State<CCMAddFeedBackPage> {
                       ),
                     ),
                   ),
-                  widget.viewType == FeedbackViewType.Edit
+                  widget.model.viewType == FeedbackViewType.Edit
                       ? Padding(
                           padding: EdgeInsets.only(
                               left: 5.0, right: 5.0, top: 8.0, bottom: 8.0),

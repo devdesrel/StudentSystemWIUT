@@ -1,15 +1,20 @@
 import 'dart:async';
 
 import 'package:rxdart/rxdart.dart';
+import 'package:student_system_flutter/models/CCMFeedback/ccm_feedback_as_selected_list.dart';
 
 class CCMAddFeedbackBloc {
   double groupCoverage = 0.0;
   String teacherName = '';
+  bool type = true;
+  String staffID = '';
 
   //sending
-  Sink<String> get setTeacherName => _setTeacherNameController.sink;
+  Sink<CCMFeedbackAsSelectedList> get setTeacherName =>
+      _setTeacherNameController.sink;
 
-  final _setTeacherNameController = StreamController<String>();
+  final _setTeacherNameController =
+      StreamController<CCMFeedbackAsSelectedList>();
 
   Sink<bool> get setAutoValidation => _setAutoValidationController.sink;
 
@@ -65,7 +70,8 @@ class CCMAddFeedbackBloc {
 
   CCMAddFeedbackBloc() {
     _setTeacherNameController.stream.listen((_teacherName) {
-      _teacherNameValueSubject.add(_teacherName);
+      _teacherNameValueSubject.add(_teacherName.text);
+      staffID = _teacherName.value;
     });
 
     _setGroupCoverageValueController.stream.listen((_groupCoverageValue) {
@@ -88,6 +94,11 @@ class CCMAddFeedbackBloc {
 
     _setFeedbackTypeController.stream.listen((_feedbackType) {
       _feedbackTypeSubject.add(_feedbackType);
+      if (_feedbackType == 'Positive comments') {
+        type = true;
+      } else {
+        type = false;
+      }
     });
   }
 

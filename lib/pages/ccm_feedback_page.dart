@@ -9,8 +9,9 @@ import 'package:student_system_flutter/helpers/app_constants.dart';
 import 'package:student_system_flutter/helpers/ccm_carousel.dart';
 import 'package:student_system_flutter/helpers/function_helpers.dart';
 import 'package:student_system_flutter/helpers/ui_helpers.dart';
-import 'package:student_system_flutter/models/ccm_feedback_category_selection_model.dart';
 import 'package:http/http.dart' as http;
+import 'package:student_system_flutter/models/CCMFeedback/ccm_feedback_category_selection_model.dart';
+import 'package:student_system_flutter/pages/ccm_add_feedback_page.dart';
 
 class CCMFeedbackPage extends StatefulWidget {
   final requestType;
@@ -255,7 +256,9 @@ class _CCMFeedbackPageState extends State<CCMFeedbackPage> {
       backgroundColor: backgroundColor,
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          Navigator.of(context).pushNamed(ccmAddFeedbackPage);
+          // Navigator.of(context).pushNamed(ccmAddFeedbackPage);
+          Navigator.of(context).push(
+              MaterialPageRoute(builder: (context) => CCMAddFeedBackPage()));
         },
         child: Icon(Icons.add),
       ),

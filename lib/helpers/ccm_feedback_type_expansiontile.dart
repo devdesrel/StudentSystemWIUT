@@ -1,19 +1,15 @@
 import 'package:flutter/material.dart';
-// import 'package:student_system_flutter/bloc/ccm_feedback/ccm_feedback_bloc.dart';
-// import 'package:student_system_flutter/bloc/coursework_upload/coursework_upload_bloc.dart';
-// import 'package:student_system_flutter/bloc/file_download/learning_materials_bloc.dart';
 import 'package:student_system_flutter/helpers/app_constants.dart';
-import 'package:student_system_flutter/models/CCMFeedback/ccm_feedback_as_selected_list.dart';
 
-class TeacherAttachingExpansionTile extends StatelessWidget {
-  final GlobalKey<AppExpansionTileState> expansionTile;
+class CCMFeedbackTypeExpansionTile extends StatelessWidget {
+  final GlobalKey<AppExpansionTile2State> expansionTile;
   String value;
   final bloc;
-  final List<CCMFeedbackAsSelectedList> expansionChildrenList;
+  final List<String> expansionChildrenList;
 
   // final ModulesList modulesList;
 
-  TeacherAttachingExpansionTile({
+  CCMFeedbackTypeExpansionTile({
     Key key,
     @required this.expansionTile,
     @required this.value,
@@ -24,17 +20,16 @@ class TeacherAttachingExpansionTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     // var bloc = CourseworkUploadProvider.of(context);
-    return AppExpansionTile(
+    return AppExpansionTile2(
       key: expansionTile,
       title: Text(value),
       backgroundColor: whiteColor,
       children: expansionChildrenList
-          .map((model) => Column(
+          .map((name) => Column(
                 children: <Widget>[
                   InkWell(
                     onTap: () {
-                      bloc.setTeacherName.add(model);
-                      bloc.teacherName = model.text;
+                      bloc.setFeedbackType.add(name);
 
                       expansionTile.currentState.collapse();
                     },
@@ -43,7 +38,7 @@ class TeacherAttachingExpansionTile extends StatelessWidget {
                       padding: const EdgeInsets.symmetric(
                           vertical: 13.0, horizontal: 16.0),
                       child: ItemSelection(
-                        name: model.text,
+                        name: name,
                       ),
                     ),
                   ),
@@ -84,8 +79,8 @@ class ItemSelection extends StatelessWidget {
 
 const Duration _kExpand = const Duration(milliseconds: 200);
 
-class AppExpansionTile extends StatefulWidget {
-  const AppExpansionTile({
+class AppExpansionTile2 extends StatefulWidget {
+  const AppExpansionTile2({
     Key key,
     this.leading,
     @required this.title,
@@ -106,10 +101,10 @@ class AppExpansionTile extends StatefulWidget {
   final bool initiallyExpanded;
 
   @override
-  AppExpansionTileState createState() => new AppExpansionTileState();
+  AppExpansionTile2State createState() => new AppExpansionTile2State();
 }
 
-class AppExpansionTileState extends State<AppExpansionTile>
+class AppExpansionTile2State extends State<AppExpansionTile2>
     with SingleTickerProviderStateMixin {
   AnimationController _controller;
   CurvedAnimation _easeOutAnimation;
