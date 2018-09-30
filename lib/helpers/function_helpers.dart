@@ -97,24 +97,24 @@ void getUserProfileForTheCurrentYear() async {
         prefs.setString(groupNameSharedPref, currentProfile.groupName);
         prefs.setInt(academicYearIDSharedPref, currentProfile.acadYearIDField);
       }
-    } else {
-      final response = await http.post(
-          "$apiProfileGetProfileByUserName?userName=$_userName",
-          headers: {
-            "Accept": "application/json",
-            "Authorization": "Bearer $_token"
-          });
+    }
 
-      if (response.statusCode == 200) {
-        Map data = json.decode(response.body);
+    final response = await http
+        .post("$apiProfileGetProfileByUserName?userName=$_userName", headers: {
+      "Accept": "application/json",
+      "Authorization": "Bearer $_token"
+    });
 
-        await prefs.setString(firstName, data['FirstName']);
-        await prefs.setString(lastName, data['LastName']);
-        var teacherFullName =
-            prefs.getString(firstName) + " " + prefs.getString(lastName);
-        await prefs.setString(teacherNameSharedPref, teacherFullName);
-        print(teacherFullName);
-      }
+    if (response.statusCode == 200) {
+      Map data = json.decode(response.body);
+
+      await prefs.setString(firstName, data['FirstName']);
+      await prefs.setString(lastName, data['LastName']);
+      var teacherFullName =
+          prefs.getString(firstName) + " " + prefs.getString(lastName);
+      await prefs.setString(teacherNameSharedPref, teacherFullName);
+      await prefs.setBool(
+          isApplicableForCCMFeedback, data['IsApplicableForCCMFeedback']);
     }
   } catch (e) {
     print('Error');
