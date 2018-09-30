@@ -4,11 +4,12 @@ import 'package:student_system_flutter/bloc/ccm_feedback/ccm_add_feedback_provid
 import 'package:student_system_flutter/enums/ApplicationEnums.dart';
 import 'package:student_system_flutter/helpers/app_constants.dart';
 import 'package:student_system_flutter/helpers/teacher_attaching_expansiontile.dart';
+import 'package:student_system_flutter/models/CCMFeedback/ccm_add_feedback_page_model.dart';
 
 class CCMAddFeedBackPage extends StatefulWidget {
-  final viewType;
+  final CCMAddFeedbackPageModel model;
 
-  CCMAddFeedBackPage({this.viewType});
+  CCMAddFeedBackPage({this.model});
   @override
   _CCMAddFeedBackPageState createState() => _CCMAddFeedBackPageState();
 }
@@ -115,7 +116,9 @@ class _CCMAddFeedBackPageState extends State<CCMAddFeedBackPage> {
       ccmAddFeedbackBloc: bloc,
       child: Scaffold(
         appBar: AppBar(
-          title: Text('Add Feedback'),
+          title: Text(widget.model.viewType == FeedbackViewType.Add
+              ? 'Add Feedback'
+              : 'Edit Feedback'),
           centerTitle: true,
         ),
         backgroundColor: backgroundColor,
@@ -313,28 +316,34 @@ class _CCMAddFeedBackPageState extends State<CCMAddFeedBackPage> {
                   ),
                   Padding(
                     padding: EdgeInsets.only(
-                        left: 5.0, right: 5.0, top: 8.0, bottom: 8.0),
+                        left: 5.0, right: 5.0, top: 5.0, bottom: 8.0),
                     child: RaisedButton(
-                      padding: EdgeInsets.symmetric(vertical: 12.0),
+                      padding: EdgeInsets.symmetric(vertical: 16.0),
                       color: accentColor,
                       onPressed: saveComment,
                       child: Text(
-                        'Save',
+                        widget.model.viewType == FeedbackViewType.Add
+                            ? 'Submit'.toUpperCase()
+                            : 'Save'.toUpperCase(),
                         style: TextStyle(color: Colors.white),
                       ),
                     ),
                   ),
-                  widget.viewType == FeedbackViewType.Edit
+                  widget.model.viewType == FeedbackViewType.Edit
                       ? Padding(
                           padding: EdgeInsets.only(
-                              left: 5.0, right: 5.0, top: 8.0, bottom: 8.0),
-                          child: RaisedButton(
-                            padding: EdgeInsets.symmetric(vertical: 12.0),
-                            color: accentColor,
-                            onPressed: () {},
+                              left: 5.0, right: 5.0, bottom: 8.0),
+                          child: Container(
+                            padding: EdgeInsets.symmetric(vertical: 16.0),
+                            decoration: BoxDecoration(
+                                color: Colors.transparent,
+                                border:
+                                    Border.all(width: 2.0, color: redColor)),
+                            // onPressed: () {},
                             child: Text(
-                              'Delete',
-                              style: TextStyle(color: Colors.white),
+                              'Delete'.toUpperCase(),
+                              textAlign: TextAlign.center,
+                              style: TextStyle(color: redColor),
                             ),
                           ),
                         )
