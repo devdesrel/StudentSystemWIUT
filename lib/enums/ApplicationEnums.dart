@@ -8,7 +8,8 @@ enum MainPageGridItems {
   COURSEWORK_UPLOAD,
   PAYMENT,
   BOOK_ORDERING,
-  SOCIAL
+  SOCIAL,
+  CCMFEEDBACK
 }
 
 enum MessageTypes { ERROR, INFO, SUCCESS, INFINITE_INFO }

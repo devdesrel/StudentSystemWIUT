@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:student_system_flutter/bloc/backdrop/backdrop_provider.dart';
 import 'package:student_system_flutter/bloc/home_page/home_page_bloc.dart';
 import 'package:student_system_flutter/helpers/app_constants.dart';
@@ -20,6 +21,20 @@ class TwoPanels extends StatefulWidget {
 }
 
 class _TwoPanelsState extends State<TwoPanels> {
+  @override
+  initState() {
+    super.initState();
+    isCCMFeedbackApplicable();
+  }
+
+  bool isCCMFeedbackable;
+
+  void isCCMFeedbackApplicable() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    isCCMFeedbackable = prefs.getBool(isApplicableForCCMFeedback) ?? false;
+    print(isCCMFeedbackable);
+  }
+
   static const header_height = 32.0;
 
   Animation<RelativeRect> getPanelAnimation(BoxConstraints constraints) {
@@ -400,8 +415,11 @@ class _TwoPanelsState extends State<TwoPanels> {
                       stream: homePageBloc.userRoleStream,
                       builder: (context, snapshot) => snapshot.hasData
                           ? snapshot.data == "staff"
-                              ? CustomGridViewForTeachers(context).build()
-                              : CustomGridView(context).build()
+                              ? CustomGridViewForTeachers(
+                                      context, isCCMFeedbackable)
+                                  .build()
+                              : CustomGridView(context, isCCMFeedbackable)
+                                  .build()
                           : SliverToBoxAdapter()),
 
                   StreamBuilder(

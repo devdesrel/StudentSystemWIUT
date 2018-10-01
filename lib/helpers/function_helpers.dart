@@ -99,14 +99,14 @@ void getUserProfileForTheCurrentYear() async {
       }
     }
 
-    final response = await http
+    final res = await http
         .post("$apiProfileGetProfileByUserName?userName=$_userName", headers: {
       "Accept": "application/json",
       "Authorization": "Bearer $_token"
     });
 
-    if (response.statusCode == 200) {
-      Map data = json.decode(response.body);
+    if (res.statusCode == 200) {
+      Map data = json.decode(res.body);
 
       await prefs.setString(firstName, data['FirstName']);
       await prefs.setString(lastName, data['LastName']);
