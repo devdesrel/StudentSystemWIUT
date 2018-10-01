@@ -1,13 +1,26 @@
 import 'dart:async';
+import 'dart:convert';
 
+import 'package:flutter/material.dart';
 import 'package:rxdart/rxdart.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:student_system_flutter/enums/ApplicationEnums.dart';
+import 'package:student_system_flutter/helpers/app_constants.dart';
+import 'package:student_system_flutter/helpers/function_helpers.dart';
+import 'package:student_system_flutter/models/CCMFeedback/ccm_add_feedback_page_model.dart';
 import 'package:student_system_flutter/models/CCMFeedback/ccm_feedback_as_selected_list.dart';
+import 'package:http/http.dart' as http;
+import 'package:student_system_flutter/models/CCMFeedback/ccm_feedback_model.dart';
 
 class CCMAddFeedbackBloc {
   double groupCoverage = 0.0;
   String teacherName = '';
-  bool type = true;
-  String staffID = '';
+  bool isPositive = true;
+  String feedbackCategory;
+  String staffID;
+  CCMAddFeedbackPageModel model;
+  BuildContext context;
+  String commentMessage;
 
   //sending
   Sink<CCMFeedbackAsSelectedList> get setTeacherName =>
@@ -68,7 +81,15 @@ class CCMAddFeedbackBloc {
 
   final _feedbackTypeSubject = BehaviorSubject<String>();
 
-  CCMAddFeedbackBloc() {
+  CCMAddFeedbackBloc(BuildContext context, CCMAddFeedbackPageModel model) {
+    this.context = context;
+    this.model = model;
+
+    feedbackCategory = model.depOrMod == CCMFeedbackCategory.ModulesFeedback
+        ? 'modules'
+        : 'departments';
+    isPositive = model.feedbackType == 0 ? true : false;
+
     _setTeacherNameController.stream.listen((_teacherName) {
       _teacherNameValueSubject.add(_teacherName.text);
       staffID = _teacherName.value;
@@ -95,11 +116,122 @@ class CCMAddFeedbackBloc {
     _setFeedbackTypeController.stream.listen((_feedbackType) {
       _feedbackTypeSubject.add(_feedbackType);
       if (_feedbackType == 'Positive comments') {
-        type = true;
+        isPositive = true;
       } else {
-        type = false;
+        isPositive = false;
       }
     });
+  }
+
+  Future<List<CCMFeedbackAsSelectedList>> getModuleRepresentatives() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    final _token = prefs.getString(token);
+    int modID = model.depOrModID;
+
+    if (model.depOrMod == CCMFeedbackCategory.ModulesFeedback) {
+      try {
+        final response = await http.get(
+            "$apiCCMFeedbackGetModuleRepresentativesAsSelectList?moduleID=$modID",
+            headers: {
+              "Accept": "application/json",
+              "Authorization": "Bearer $_token"
+            });
+
+        if (response.statusCode == 200) {
+          return _parseModuleRepresentatives(response.body);
+        } else {
+          showFlushBar('Error', tryAgain, MessageTypes.ERROR, context, 2);
+          return null;
+        }
+      } catch (e) {
+        showFlushBar(connectionFailure, checkInternetConnection,
+            MessageTypes.ERROR, context, 2);
+        return null;
+      }
+    }
+    return null;
+  }
+
+  List<CCMFeedbackAsSelectedList> _parseModuleRepresentatives(
+      String responseBody) {
+    final parsed = json.decode(responseBody);
+
+    List<CCMFeedbackAsSelectedList> lists = parsed
+        .map<CCMFeedbackAsSelectedList>(
+            (item) => CCMFeedbackAsSelectedList.fromJson(item))
+        .toList();
+
+    return lists;
+  }
+
+  void postFeedback() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    final _token = prefs.getString(token);
+
+    String postJson =
+        '{"Type": "$feedbackCategory", "IsPositive": $isPositive, "DepOrModID": ${model.depOrModID}, "StaffID": ${int.parse(staffID)}, "GroupCoverage": ${groupCoverage.toInt()}, "Text": "$commentMessage"}';
+    // print(postData.toString());
+    try {
+      http.Response res = await http.post(apiCCMFeedbackAddFeedback,
+          body: postJson,
+          headers: {
+            "Content-Type": "application/json",
+            "Authorization": "Bearer $_token"
+          }); // post api call
+
+      if (res.statusCode == 200) {
+        Navigator.of(context).pop();
+      }
+    } catch (e) {
+      showFlushBar(connectionFailure, checkInternetConnection,
+          MessageTypes.ERROR, context, 2);
+    }
+  }
+
+  void editFeedback(int feedbackID) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    final _token = prefs.getString(token);
+
+    String postJson =
+        '{"ID": $feedbackID, "Type": "$feedbackCategory", "IsPositive": $isPositive, "DepOrModID": ${model.depOrModID}, "StaffID": 122, "GroupCoverage": ${groupCoverage.toInt()}, "Text": "$commentMessage"}';
+    // print(postData.toString());
+    try {
+      http.Response res = await http.post(apiCCMFeedbackEditFeedback,
+          body: postJson,
+          headers: {
+            "Content-Type": "application/json",
+            "Authorization": "Bearer $_token"
+          }); // post api call
+
+      if (res.statusCode == 200) {
+        Navigator.of(context).pop();
+      }
+    } catch (e) {
+      showFlushBar(connectionFailure, checkInternetConnection,
+          MessageTypes.ERROR, context, 2);
+    }
+  }
+
+  void deleteFeedback(CCMFeedbackModel model) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    final _token = prefs.getString(token);
+
+    try {
+      http.Response res = await http.delete(
+          '$apiCCMFeedbackDeleteFeedback?type=${model.type}&id=${model.id}',
+          headers: {
+            "Content-Type": "application/json",
+            "Accept": "application/json",
+            "Authorization": "Bearer $_token"
+          }); // post api call
+
+      if (res.statusCode == 200) {
+        Navigator.of(context).pop();
+      }
+    } catch (e) {
+      showFlushBar(connectionFailure, checkInternetConnection,
+          MessageTypes.ERROR, context, 2);
+    }
   }
 
   void dispose() {

@@ -28,11 +28,11 @@ class CCMAddFeedbackModel {
   }
 
   Map<String, dynamic> toJson() => {
-        'Type': type,
-        'IsPositive': isPositive,
-        'DepOrModID': depOrModID,
-        'StaffID': staffID,
-        'GroupCoverage': groupCoverage,
-        'Text': text,
+        "Type": type,
+        "IsPositive": isPositive,
+        "DepOrModID": depOrModID,
+        "StaffID": staffID,
+        "GroupCoverage": groupCoverage,
+        "Text": text,
       };
 }

@@ -114,6 +114,8 @@ final apiCCMFeedbackGetModuleRepresentativesAsSelectList =
     '$baseUrl/api/CCMFeedback/GetModuleRepresentativesAsSelectList';
 
 final apiCCMFeedbackAddFeedback = '$baseUrl/api/CCMFeedback/AddFeedback';
+final apiCCMFeedbackEditFeedback = '$baseUrl/api/CCMFeedback/EditFeedback';
+final apiCCMFeedbackDeleteFeedback = '$baseUrl/api/CCMFeedback/DeleteFeedback';
 
 //Errors List
 final String authProblems = 'Authorization problems';

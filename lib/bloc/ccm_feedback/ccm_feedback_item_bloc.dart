@@ -26,8 +26,9 @@ class CCMFeedbackItemBloc {
   List<CCMFeedbackAsSelectedList> categoriesList = [];
 
   void sortFeedbackList(bool isPositive) {
-    _feedbackListSubject
-        .add(_lists.where((item) => item.isPositive == isPositive).toList());
+    _feedbackListSubject.add(_lists.reversed
+        .where((item) => item.isPositive == isPositive)
+        .toList());
   }
 
   void getModuleRepresentatives(String moduleID) async {
@@ -91,12 +92,17 @@ class CCMFeedbackItemBloc {
             .toList();
 
         _feedbackListSubject
-            .add(_lists.where((item) => item.isPositive).toList());
+            .add(_lists.reversed.where((item) => item.isPositive).toList());
       } else {
         _feedbackListSubject.add(null);
       }
     } catch (e) {
       _feedbackListSubject.add(null);
     }
+  }
+
+  void dispose() {
+    _memberNamesSubject.close();
+    _feedbackListSubject.close();
   }
 }

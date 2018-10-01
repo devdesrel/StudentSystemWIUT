@@ -46,16 +46,24 @@ class MainApp extends StatelessWidget {
       title: appName,
       routes: routes,
       theme: ThemeData(
-          primarySwatch: Colors.blue,
-          primaryColor: primaryColor,
-          accentColor: accentColor,
-          primaryColorDark: primaryDarkColor,
-          iconTheme: IconThemeData(color: accentColor),
-          backgroundColor: backgroundColor,
-          scaffoldBackgroundColor: backgroundColor,
-          textSelectionColor: textColor,
-          brightness: Brightness.light,
-          textTheme: _textTheme),
+        primarySwatch: Colors.blue,
+        primaryColor: primaryColor,
+        accentColor: accentColor,
+        primaryColorDark: primaryDarkColor,
+        iconTheme: IconThemeData(color: accentColor),
+        backgroundColor: backgroundColor,
+        scaffoldBackgroundColor: backgroundColor,
+        textSelectionColor: textColor,
+        brightness: Brightness.light,
+        textTheme: _textTheme,
+        pageTransitionsTheme: const PageTransitionsTheme(
+          builders: <TargetPlatform, PageTransitionsBuilder>{
+            TargetPlatform.iOS: CupertinoPageTransitionsBuilder(),
+            TargetPlatform.android: OpenUpwardsPageTransitionsBuilder(),
+            // TargetPlatform.android: FadeUpwardsTransitionsBuilder(),
+          },
+        ),
+      ),
     );
   }
 }

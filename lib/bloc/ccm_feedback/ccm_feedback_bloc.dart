@@ -38,7 +38,6 @@ class CCMFeedbackBloc {
   int feedbackType = 0;
   String _type = 'modules';
   int depOrModID = 0;
-  // List<CCMFeedbackModel> _lists = [];
   List<CCMFeedbackAsSelectedList> categoriesList = [];
 
   CCMFeedbackBloc(BuildContext context, String requestType) {
@@ -71,12 +70,12 @@ class CCMFeedbackBloc {
       if (response.statusCode == 200) {
         final parsed = json.decode(response.body);
 
-        List<CCMFeedbackAsSelectedList> _lists = parsed
+        categoriesList = parsed
             .map<CCMFeedbackAsSelectedList>(
                 (item) => CCMFeedbackAsSelectedList.fromJson(item))
             .toList();
 
-        _feedbackCategoriesListSubject.add(_lists);
+        _feedbackCategoriesListSubject.add(categoriesList);
       } else {
         showFlushBar('Error', tryAgain, MessageTypes.ERROR, context, 2);
         _feedbackCategoriesListSubject.add(null);

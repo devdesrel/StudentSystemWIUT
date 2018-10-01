@@ -89,6 +89,7 @@ class CCMFeedbackPage extends StatelessWidget {
               onTap: () {
                 _bloc.setIsPositive.add(true);
                 _pageBloc.sortFeedbackList(true);
+                _bloc.feedbackType = 0;
               },
               child: StreamBuilder(
                 stream: _bloc.isPositive,
@@ -118,6 +119,7 @@ class CCMFeedbackPage extends StatelessWidget {
               onTap: () {
                 _bloc.setIsPositive.add(false);
                 _pageBloc.sortFeedbackList(false);
+                _bloc.feedbackType = 1;
               },
               child: StreamBuilder(
                 stream: _bloc.isPositive,
@@ -204,6 +206,8 @@ class CCMFeedbackPage extends StatelessWidget {
                                                   Navigator.of(context).push(MaterialPageRoute(
                                                       builder: (context) => CCMAddFeedBackPage(
                                                           model: CCMAddFeedbackPageModel(
+                                                              feedback: snapshot
+                                                                  .data[i],
                                                               viewType:
                                                                   FeedbackViewType
                                                                       .Edit,
@@ -264,7 +268,7 @@ class CCMFeedbackPage extends StatelessWidget {
               ? snapshot.data.length > 0
                   ? Center(
                       child: CCMCarousel(
-                          // bloc: _bloc,
+                          bloc: _bloc,
                           autoplay: false,
                           dotSize: 5.0,
                           dotColor: accentColor,
