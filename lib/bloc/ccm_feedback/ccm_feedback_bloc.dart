@@ -11,13 +11,13 @@ import 'package:student_system_flutter/helpers/function_helpers.dart';
 import 'package:http/http.dart' as http;
 
 class CCMFeedbackBloc {
-  Sink<bool> get setIsPositive => _setIsPositiveController.sink;
+  // Sink<bool> get setIsPositive => _setIsPositiveController.sink;
 
-  final _setIsPositiveController = StreamController<bool>();
+  // final _setIsPositiveController = StreamController<bool>();
 
-  Stream<bool> get isPositive => _isPositiveSubject.stream;
+  // Stream<bool> get isPositive => _isPositiveSubject.stream;
 
-  final _isPositiveSubject = BehaviorSubject<bool>(seedValue: true);
+  // final _isPositiveSubject = BehaviorSubject<bool>(seedValue: true);
 
   Stream<List<CCMFeedbackAsSelectedList>> get feedbackCategoriesList =>
       _feedbackCategoriesListSubject.stream;
@@ -35,24 +35,25 @@ class CCMFeedbackBloc {
 
   // final _memberNamesSubject = BehaviorSubject<String>();
 
-  int feedbackType = 0;
+  // int feedbackType = 0;
   String _type = 'modules';
-  int depOrModID = 0;
-  List<CCMFeedbackAsSelectedList> categoriesList = [];
+  // int depOrModID = 0;
+  int currentPageIndex = 0;
+  List<CCMFeedbackAsSelectedList> _categoriesList = [];
 
   CCMFeedbackBloc(BuildContext context, String requestType) {
     _type = requestType;
     _getCategorySelectionList(context);
 
-    _setIsPositiveController.stream.listen((_value) {
-      _isPositiveSubject.add(_value);
-      feedbackType = _value ? 0 : 1;
-    });
+    // _setIsPositiveController.stream.listen((_value) {
+    //   _isPositiveSubject.add(_value);
+    //   feedbackType = _value ? 0 : 1;
+    // });
   }
 
   void dispose() {
-    _setIsPositiveController.close();
-    _isPositiveSubject.close();
+    // _setIsPositiveController.close();
+    // _isPositiveSubject.close();
     _feedbackCategoriesListSubject.close();
   }
 
@@ -70,12 +71,12 @@ class CCMFeedbackBloc {
       if (response.statusCode == 200) {
         final parsed = json.decode(response.body);
 
-        categoriesList = parsed
+        _categoriesList = parsed
             .map<CCMFeedbackAsSelectedList>(
                 (item) => CCMFeedbackAsSelectedList.fromJson(item))
             .toList();
 
-        _feedbackCategoriesListSubject.add(categoriesList);
+        _feedbackCategoriesListSubject.add(_categoriesList);
       } else {
         showFlushBar('Error', tryAgain, MessageTypes.ERROR, context, 2);
         _feedbackCategoriesListSubject.add(null);

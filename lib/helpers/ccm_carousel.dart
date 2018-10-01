@@ -179,8 +179,9 @@ class CCMCarouselState extends State<CCMCarousel> {
             padding: EdgeInsets.only(top: 10.0),
             child: Container(
               child: PageView(
-                onPageChanged: (pageIndex) => widget.bloc.depOrModID =
-                    int.parse(widget.bloc.categoriesList[pageIndex].value),
+                onPageChanged: (pageIndex) {
+                  widget.bloc.currentPageIndex = pageIndex;
+                },
                 physics: AlwaysScrollableScrollPhysics(),
                 controller: _controller,
                 children: listImages,

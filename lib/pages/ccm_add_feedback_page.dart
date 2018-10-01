@@ -43,8 +43,6 @@ class _CCMAddFeedBackPageState extends State<CCMAddFeedBackPage> {
 
   @override
   Widget build(BuildContext context) {
-    bloc = CCMAddFeedbackBloc(context, widget.model);
-
     String teacherName = 'Select a teacher';
 
     final List<String> _typeList = [
@@ -53,7 +51,8 @@ class _CCMAddFeedBackPageState extends State<CCMAddFeedBackPage> {
     ];
 
     bool checkErrors() {
-      _value = widget.model.feedback == null
+      _value = widget.model.feedback == null ||
+              widget.model.feedback.groupCoverage == 0
           ? bloc.groupCoverage
           : widget.model.feedback.groupCoverage.toDouble();
       teacherName = bloc.teacherName;
@@ -212,6 +211,7 @@ class _CCMAddFeedBackPageState extends State<CCMAddFeedBackPage> {
                   stream: bloc.groupCoverageValue,
                   builder: (context, snapshot) => Card(
                         child: Slider(
+                            divisions: 20,
                             value: snapshot.hasData
                                 // ? [_value = snapshot.data, snapshot.data]
                                 ? _value = snapshot.data

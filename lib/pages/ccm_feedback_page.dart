@@ -16,13 +16,23 @@ import 'package:student_system_flutter/pages/ccm_add_feedback_page.dart';
 
 class CCMFeedbackPage extends StatelessWidget {
   final CCMFeedbackCategory requestType;
+  Widget _currentPage;
 
   CCMFeedbackPage({@required this.requestType});
 
   @override
   Widget build(BuildContext context) {
+    if (_currentPage == null) {
+      _currentPage = _createCurrentPage(context);
+    }
+
+    return _currentPage;
+  }
+
+  Widget _createCurrentPage(BuildContext context) {
     final String _modules = 'modules';
     final String _departments = 'departments';
+    List<CCMFeedbackItemBloc> _listOfPageBlocs = [];
 
     String _type = requestType == CCMFeedbackCategory.ModulesFeedback
         ? _modules
@@ -56,12 +66,13 @@ class CCMFeedbackPage extends StatelessWidget {
 
     List<Widget> _getListOfWidget(List<CCMFeedbackAsSelectedList> list) {
       var _carouselPagesList = List<Widget>();
-
-      _bloc.categoriesList = list;
-      _bloc.depOrModID = int.parse(list[0].value);
+      _listOfPageBlocs = [];
 
       for (var i = 0; i < list.length; i++) {
-        var _pageBloc = CCMFeedbackItemBloc(list);
+        var _pageBloc = CCMFeedbackItemBloc(list[i].value);
+        _listOfPageBlocs.add(_pageBloc);
+        _listOfPageBlocs[i].depOrModID = int.parse(list[i].value);
+
         _pageBloc.getFeedback(i, _type);
         _pageBloc.getModuleRepresentatives(list[i].value);
 
@@ -87,12 +98,12 @@ class CCMFeedbackPage extends StatelessWidget {
           Row(mainAxisAlignment: MainAxisAlignment.center, children: <Widget>[
             InkWell(
               onTap: () {
-                _bloc.setIsPositive.add(true);
+                _pageBloc.setIsPositive.add(true);
                 _pageBloc.sortFeedbackList(true);
-                _bloc.feedbackType = 0;
+                _pageBloc.feedbackType = 0;
               },
               child: StreamBuilder(
-                stream: _bloc.isPositive,
+                stream: _pageBloc.isPositive,
                 initialData: true,
                 builder: (context, snapshot) => Container(
                       width: size.width / 2 - 5,
@@ -117,12 +128,12 @@ class CCMFeedbackPage extends StatelessWidget {
             ),
             InkWell(
               onTap: () {
-                _bloc.setIsPositive.add(false);
+                _pageBloc.setIsPositive.add(false);
                 _pageBloc.sortFeedbackList(false);
-                _bloc.feedbackType = 1;
+                _pageBloc.feedbackType = 1;
               },
               child: StreamBuilder(
-                stream: _bloc.isPositive,
+                stream: _pageBloc.isPositive,
                 initialData: false,
                 builder: (context, snapshot) => Container(
                       width: size.width / 2 - 5,
@@ -213,10 +224,14 @@ class CCMFeedbackPage extends StatelessWidget {
                                                                       .Edit,
                                                               depOrMod:
                                                                   requestType,
-                                                              depOrModID: _bloc
-                                                                  .depOrModID,
-                                                              feedbackType: _bloc
-                                                                  .feedbackType))));
+                                                              depOrModID:
+                                                                  _listOfPageBlocs[
+                                                                          _bloc
+                                                                              .currentPageIndex]
+                                                                      .depOrModID,
+                                                              feedbackType:
+                                                                  _pageBloc
+                                                                      .feedbackType))));
                                                 },
                                                 child: DrawCardBody(
                                                   groupCoverage: snapshot
@@ -292,8 +307,10 @@ class CCMFeedbackPage extends StatelessWidget {
                   model: CCMAddFeedbackPageModel(
                       viewType: FeedbackViewType.Add,
                       depOrMod: requestType,
-                      depOrModID: _bloc.depOrModID,
-                      feedbackType: _bloc.feedbackType))));
+                      depOrModID:
+                          _listOfPageBlocs[_bloc.currentPageIndex].depOrModID,
+                      feedbackType: _listOfPageBlocs[_bloc.currentPageIndex]
+                          .feedbackType))));
         },
         child: Icon(Icons.add),
       ),

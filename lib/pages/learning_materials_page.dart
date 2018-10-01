@@ -809,8 +809,7 @@ class LearningMaterialsCard extends StatelessWidget {
             child: Text(
               learningMaterialsModel.title,
               textAlign: TextAlign.center,
-              style: Theme
-                  .of(context)
+              style: Theme.of(context)
                   .textTheme
                   .headline
                   .copyWith(color: lightGreyTextColor, fontSize: 18.0),

@@ -193,7 +193,7 @@ class CCMAddFeedbackBloc {
     final _token = prefs.getString(token);
 
     String postJson =
-        '{"ID": $feedbackID, "Type": "$feedbackCategory", "IsPositive": $isPositive, "DepOrModID": ${model.depOrModID}, "StaffID": 122, "GroupCoverage": ${groupCoverage.toInt()}, "Text": "$commentMessage"}';
+        '{"ID": $feedbackID, "Type": "$feedbackCategory", "IsPositive": $isPositive, "DepOrModID": ${model.depOrModID}, "StaffID": ${int.parse(staffID)}, "GroupCoverage": ${groupCoverage.toInt()}, "Text": "$commentMessage"}';
     // print(postData.toString());
     try {
       http.Response res = await http.post(apiCCMFeedbackEditFeedback,
