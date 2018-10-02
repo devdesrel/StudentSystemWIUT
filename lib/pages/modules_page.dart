@@ -257,6 +257,7 @@ class ModulesPage extends StatelessWidget {
                 builder: (context, snapshot) => snapshot.data),
           )
         : Material(
+            color: Colors.transparent,
             child: CupertinoPageScaffold(
               navigationBar: CupertinoNavigationBar(
                   middle: Text('Modules'),

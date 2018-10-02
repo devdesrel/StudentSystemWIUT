@@ -55,6 +55,7 @@ class CCMFeedbackCategoryPage extends StatelessWidget {
             ),
           )
         : Material(
+            color: Colors.transparent,
             child: CupertinoPageScaffold(
               backgroundColor: backgroundColor,
               navigationBar: CupertinoNavigationBar(

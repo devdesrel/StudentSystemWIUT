@@ -81,6 +81,7 @@ class _HomePageState extends State<HomePage>
 
   Widget _getIOSWidgets() {
     return Material(
+      color: Colors.transparent,
       child: CupertinoPageScaffold(
         backgroundColor: Theme.of(context).backgroundColor,
         navigationBar: CupertinoNavigationBar(

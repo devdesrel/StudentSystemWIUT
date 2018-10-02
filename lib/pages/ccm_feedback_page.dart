@@ -319,6 +319,7 @@ class CCMFeedbackPage extends StatelessWidget {
             body: _getCarousel(),
           )
         : Material(
+            color: Colors.transparent,
             child: CupertinoPageScaffold(
                 backgroundColor: backgroundColor,
                 navigationBar: CupertinoNavigationBar(
