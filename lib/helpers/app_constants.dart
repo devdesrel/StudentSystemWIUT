@@ -106,11 +106,16 @@ final apiProfileGetProfileByUserName =
     '$baseUrl/api/Profile/GetProfileByUserName';
 final apiCCMFeedbackGetCategorySelectionList =
     '$baseUrl/api/CCMFeedback/GetCategorySelectionList';
-
 final apiCCMFeedbackGetModuleRepresentatives =
+    '$baseUrl/api/CCMFeedback/GetModuleRepresentatives';
+final apiCCMFeedbackGetFeedback = '$baseUrl/api/CCMFeedback/GetFeedback';
+
+final apiCCMFeedbackGetModuleRepresentativesAsSelectList =
     '$baseUrl/api/CCMFeedback/GetModuleRepresentativesAsSelectList';
 
 final apiCCMFeedbackAddFeedback = '$baseUrl/api/CCMFeedback/AddFeedback';
+final apiCCMFeedbackEditFeedback = '$baseUrl/api/CCMFeedback/EditFeedback';
+final apiCCMFeedbackDeleteFeedback = '$baseUrl/api/CCMFeedback/DeleteFeedback';
 
 //Errors List
 final String authProblems = 'Authorization problems';
@@ -132,6 +137,7 @@ final String downloadingMessageBody =
 final String noDownloadedFiles = 'You haven\'t downloaded any files yet';
 final String noFilesToDownload = 'There is no files to download';
 final String noAvailableTimetable = 'Nothing to show for the current week';
+final String noFeedback = 'There is no feedback';
 
 //Screen Size constants
 final smallDeviceWidth = 360;

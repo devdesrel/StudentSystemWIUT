@@ -12,7 +12,7 @@ class TestPage extends StatefulWidget {
 
 class _TestPageState extends State<TestPage> {
   bool _isRecording = false;
-  bool _isPlaying = false;
+  // bool _isPlaying = false;
   StreamSubscription _recorderSubscription;
   StreamSubscription _playerSubscription;
   FlutterSound flutterSound;
@@ -80,7 +80,7 @@ class _TestPageState extends State<TestPage> {
               e.currentPosition.toInt());
           String txt = DateFormat('mm:ss:SS', 'en_US').format(date);
           this.setState(() {
-            this._isPlaying = true;
+            // this._isPlaying = true;
             this._playerTxt = txt.substring(0, 8);
           });
         }
@@ -100,7 +100,7 @@ class _TestPageState extends State<TestPage> {
       }
 
       this.setState(() {
-        this._isPlaying = false;
+        // this._isPlaying = false;
       });
     } catch (err) {
       print('error: $err');

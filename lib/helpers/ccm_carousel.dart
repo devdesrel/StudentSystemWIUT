@@ -2,7 +2,11 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'dart:async';
 
+import 'package:student_system_flutter/bloc/ccm_feedback/ccm_feedback_bloc.dart';
+
 class CCMCarousel extends StatefulWidget {
+  final CCMFeedbackBloc bloc;
+
   //All the images on this Carousel.
   final List<Widget> images;
 
@@ -66,7 +70,8 @@ class CCMCarousel extends StatefulWidget {
   final bool isDotIndicatorBottom;
 
   CCMCarousel(
-      {this.images,
+      {this.bloc,
+      this.images,
       this.animationCurve = Curves.ease,
       this.animationDuration = const Duration(milliseconds: 300),
       this.dotSize = 8.0,
@@ -174,6 +179,9 @@ class CCMCarouselState extends State<CCMCarousel> {
             padding: EdgeInsets.only(top: 10.0),
             child: Container(
               child: PageView(
+                onPageChanged: (pageIndex) {
+                  widget.bloc.currentPageIndex = pageIndex;
+                },
                 physics: AlwaysScrollableScrollPhysics(),
                 controller: _controller,
                 children: listImages,
@@ -182,7 +190,7 @@ class CCMCarouselState extends State<CCMCarousel> {
           ),
           Positioned(
               top: 0.0,
-              left: size.width / 2.35,
+              left: size.width / 2.5,
               child: Container(
                 padding: EdgeInsets.symmetric(vertical: 10.0),
                 child: Center(

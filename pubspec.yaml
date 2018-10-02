@@ -11,12 +11,12 @@ dependencies:
   path_provider: "^0.4.1"
   simple_permissions: "^0.1.6"
   font_awesome_flutter: "^8.0.1"
-  image_picker: "^0.4.5"
+  image_picker: "^0.4.10"
   rxdart: "^0.18.0"
   mime: ^0.9.6
   sentry: ^2.1.0
   url_launcher: ^3.0.3
-  flushbar: ^0.9.1
+  flushbar: ^0.9.2
   package_info: ^0.3.2
   connectivity: ^0.3.1
   open_file: ^1.1.0

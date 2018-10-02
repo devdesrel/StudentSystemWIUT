@@ -121,7 +121,7 @@ packages:
       name: flushbar
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.9.1"
+    version: "0.9.2"
   flutter:
     dependency: "direct main"
     description: flutter
@@ -229,7 +229,7 @@ packages:
       name: image_picker
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.4.7"
+    version: "0.4.10"
   intl:
     dependency: transitive
     description:
@@ -635,5 +635,5 @@ packages:
     source: hosted
     version: "2.1.15"
 sdks:
-  dart: ">=2.0.0 <=2.1.0-dev.5.0.flutter-654c4babc8"
+  dart: ">=2.0.0 <=2.1.0-dev.5.0.flutter-a2eb050044"
   flutter: ">=0.4.0 <2.0.0"

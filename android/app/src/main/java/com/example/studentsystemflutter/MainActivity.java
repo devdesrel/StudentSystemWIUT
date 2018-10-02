@@ -3,7 +3,6 @@ package com.example.studentsystemflutter;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-import android.support.v4.content.FileProvider;
 import android.webkit.MimeTypeMap;
 
 import java.io.File;
@@ -27,29 +26,29 @@ public class MainActivity extends FlutterActivity {
             public void onMethodCall(MethodCall methodCall, MethodChannel.Result result) {
                 final Map<String, Object> arguments = methodCall.arguments();
                 if (methodCall.method.equals("openFile")) {
-                   openFile((String) arguments.get("filePath"), (String) arguments.get("mimeType"));
+//                   openFile((String) arguments.get("filePath"), (String) arguments.get("mimeType"));
                 }
             }
       });
   }
 
-  private void openFile(String filePath, String mimeType){
-      File file = new File(filePath);
-//      MimeTypeMap map = MimeTypeMap.getSingleton();
-//      String ext = MimeTypeMap.getFileExtensionFromUrl(file.getName());
-//      String mimeType = map.getMimeTypeFromExtension(ext);
-
-      if (mimeType == null)
-          mimeType = "*/*";
-
-      Intent intent = new Intent(Intent.ACTION_VIEW);
-       Uri data = FileProvider.getUriForFile(
-        MainActivity.this, 
-        BuildConfig.APPLICATION_ID + ".com.example.studentsystemflutter.provider", file);
-
-        intent.setDataAndType(data, mimeType);
-        intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
-
-      startActivity(intent);
-  }
+//  private void openFile(String filePath, String mimeType){
+//      File file = new File(filePath);
+////      MimeTypeMap map = MimeTypeMap.getSingleton();
+////      String ext = MimeTypeMap.getFileExtensionFromUrl(file.getName());
+////      String mimeType = map.getMimeTypeFromExtension(ext);
+//
+//      if (mimeType == null)
+//          mimeType = "*/*";
+//
+//      Intent intent = new Intent(Intent.ACTION_VIEW);
+//       Uri data = FileProvider.getUriForFile(
+//        MainActivity.this,
+//        BuildConfig.APPLICATION_ID + ".com.example.studentsystemflutter.provider", file);
+//
+//        intent.setDataAndType(data, mimeType);
+//        intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+//
+//      startActivity(intent);
+//  }
 }

@@ -1,6 +1,7 @@
 import 'package:student_system_flutter/helpers/app_constants.dart';
 
 class CCMFeedbackModel {
+  int id;
   String type;
   bool isPositive;
   int depOrModID;
@@ -11,9 +12,11 @@ class CCMFeedbackModel {
   String groupName;
   String dateCreated;
   String dateCreatedStr;
+  bool isRepliable;
 
   CCMFeedbackModel(
-      {this.type,
+      {this.id,
+      this.type,
       this.isPositive,
       this.depOrModID,
       this.staffID,
@@ -22,10 +25,12 @@ class CCMFeedbackModel {
       this.text,
       this.groupName,
       this.dateCreated,
-      this.dateCreatedStr});
+      this.dateCreatedStr,
+      this.isRepliable});
 
   factory CCMFeedbackModel.fromJson(Map<String, dynamic> json) {
     return CCMFeedbackModel(
+      id: json['ID'] ?? 0,
       type: json['Type'] ?? nullFixer,
       isPositive: json['IsPositive'] ?? true,
       depOrModID: json['DepOrModID'] ?? 0,
@@ -36,6 +41,7 @@ class CCMFeedbackModel {
       groupName: json['GroupName'] ?? nullFixer,
       dateCreated: json['DateCreated'] ?? nullFixer,
       dateCreatedStr: json['DateCreatedStr'] ?? nullFixer,
+      isRepliable: json['IsRepliable'] ?? false,
     );
   }
 }
