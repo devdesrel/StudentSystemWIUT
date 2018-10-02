@@ -78,7 +78,7 @@ class _TwoPanelsState extends State<TwoPanels> {
     }
 
     return SafeArea(
-      bottom: true,
+      bottom: false,
       child: Container(
           child: Stack(children: <Widget>[
         SafeArea(

@@ -1,6 +1,6 @@
 import 'dart:async';
 
-import 'package:rxdart/rxdart.dart';
+import 'package:rxdart/subjects.dart';
 
 class SecurityBloc {
   Sink<bool> get setUseFingerprint => _setUseFingerprintController.sink;

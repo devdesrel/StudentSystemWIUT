@@ -79,7 +79,7 @@ SPEC CHECKSUMS:
   package_info: d7c98b64f60add4c2908b9d94d82a45d3c8827ad
   path_provider: 09407919825bfe3c2deae39453b7a5b44f467873
   Reachability: 33e18b67625424e47b6cde6d202dce689ad7af96
-  screen: 9ab0df4ff4bb6d382da4328428535b618c705c46
+  screen: 22ab9c4a784112d4b21ad7d80e81729e0afdaa65
   shared_preferences: 5a1d487c427ee18fcd3ea1f2a131569481834b53
   simple_permissions: 7b655133eecb5dd18d5f0326e847c46f8d440576
   url_launcher: 92b89c1029a0373879933c21642958c874539095
