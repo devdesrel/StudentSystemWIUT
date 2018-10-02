@@ -29,7 +29,7 @@ class _TwoPanelsState extends State<TwoPanels> {
 
   bool isCCMFeedbackable;
 
-  void isCCMFeedbackApplicable() async {
+  Future<void> isCCMFeedbackApplicable() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     isCCMFeedbackable = prefs.getBool(isApplicableForCCMFeedback) ?? false;
     print(isCCMFeedbackable);
