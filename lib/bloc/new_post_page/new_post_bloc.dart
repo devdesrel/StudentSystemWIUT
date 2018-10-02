@@ -1,7 +1,7 @@
 import 'dart:async';
 import 'dart:io';
 
-import 'package:rxdart/rxdart.dart';
+import 'package:rxdart/subjects.dart';
 
 class NewPostBloc {
   List<File> filesList = List();

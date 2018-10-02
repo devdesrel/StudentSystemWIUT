@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -56,13 +57,13 @@ class MainApp extends StatelessWidget {
         textSelectionColor: textColor,
         brightness: Brightness.light,
         textTheme: _textTheme,
-        pageTransitionsTheme: const PageTransitionsTheme(
-          builders: <TargetPlatform, PageTransitionsBuilder>{
-            TargetPlatform.iOS: CupertinoPageTransitionsBuilder(),
-            // TargetPlatform.android: OpenUpwardsPageTransitionsBuilder(),
-            // TargetPlatform.android: FadeUpwardsTransitionsBuilder(),
-          },
-        ),
+        // pageTransitionsTheme: const PageTransitionsTheme(
+        //   builders: <TargetPlatform, PageTransitionsBuilder>{
+        //     TargetPlatform.iOS: CupertinoPageTransitionsBuilder(),
+        // TargetPlatform.android: OpenUpwardsPageTransitionsBuilder(),
+        // TargetPlatform.android: FadeUpwardsTransitionsBuilder(),
+        // },
+        // ),
       ),
     );
   }

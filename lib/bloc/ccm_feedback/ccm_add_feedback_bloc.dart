@@ -18,6 +18,7 @@ class CCMAddFeedbackBloc {
   bool isPositive = true;
   String feedbackCategory;
   String staffID;
+  int depOrModID;
   CCMAddFeedbackPageModel model;
   BuildContext context;
   String commentMessage;
@@ -193,7 +194,7 @@ class CCMAddFeedbackBloc {
     final _token = prefs.getString(token);
 
     String postJson =
-        '{"ID": $feedbackID, "Type": "$feedbackCategory", "IsPositive": $isPositive, "DepOrModID": ${model.depOrModID}, "StaffID": ${int.parse(staffID)}, "GroupCoverage": ${groupCoverage.toInt()}, "Text": "$commentMessage"}';
+        '{"ID": $feedbackID, "Type": "$feedbackCategory", "IsPositive": $isPositive, "DepOrModID": $depOrModID, "StaffID": ${int.parse(staffID)}, "GroupCoverage": ${groupCoverage.toInt()}, "Text": "$commentMessage"}';
     // print(postData.toString());
     try {
       http.Response res = await http.post(apiCCMFeedbackEditFeedback,
