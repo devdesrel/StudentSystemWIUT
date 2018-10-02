@@ -225,9 +225,7 @@ class CCMFeedbackPage extends StatelessWidget {
                                                               depOrMod:
                                                                   requestType,
                                                               depOrModID:
-                                                                  _listOfPageBlocs[
-                                                                          _bloc
-                                                                              .currentPageIndex]
+                                                                  _pageBloc
                                                                       .depOrModID,
                                                               feedbackType:
                                                                   _pageBloc

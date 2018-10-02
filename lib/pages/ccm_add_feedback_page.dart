@@ -30,6 +30,7 @@ class _CCMAddFeedBackPageState extends State<CCMAddFeedBackPage> {
       bloc.groupCoverage = widget.model.feedback.groupCoverage.toDouble();
       bloc.commentMessage = widget.model.feedback.text;
       bloc.staffID = widget.model.feedback.staffID.toString();
+      bloc.depOrModID = widget.model.feedback.depOrModID;
       bloc.isPositive = widget.model.feedback.isPositive;
       bloc.feedbackCategory = widget.model.feedback.type;
     }
