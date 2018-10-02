@@ -18,13 +18,13 @@ import 'package:student_system_flutter/pages/login_page.dart';
 import 'package:student_system_flutter/pages/map_page.dart';
 import 'package:student_system_flutter/pages/marks_page.dart';
 import 'package:student_system_flutter/pages/new_post_page.dart';
+import 'package:student_system_flutter/pages/offences_page.dart';
 import 'package:student_system_flutter/pages/offline_page.dart';
 import 'package:student_system_flutter/pages/preview_page.dart';
 import 'package:student_system_flutter/pages/security_page.dart';
 import 'package:student_system_flutter/pages/settings_page.dart';
 import 'package:student_system_flutter/pages/social_page.dart';
 import 'package:student_system_flutter/pages/support_page.dart';
-import 'package:student_system_flutter/pages/test.dart';
 import 'package:student_system_flutter/pages/test_page2.dart';
 import 'package:student_system_flutter/pages/timetable_page.dart';
 
@@ -36,7 +36,7 @@ final routes = {
   securityPage: (BuildContext context) => SecurityPage(),
   homePage: (BuildContext context) => HomePage(),
   marksPage: (BuildContext context) => MarksPage(),
-  offencesPage: (BuildContext context) => TestPage(),
+  offencesPage: (BuildContext context) => OffencesPage(),
   socialPage: (BuildContext context) => SocialPage(),
   fileDownloaderPage: (BuildContext context) => FileDownloaderPage(),
   filesDownloadedPage: (BuildContext context) => FilesDownloadedPage(),
