@@ -885,11 +885,13 @@ class _CCMAddFeedBackPageState extends State<CCMAddFeedBackPage> {
                                                 Colors.red[400].withAlpha(20),
                                             splashColor:
                                                 Colors.red[400].withAlpha(20),
-                                            onTap: () {
-                                              if (widget.model.feedback != null)
-                                                bloc.deleteFeedback(
-                                                    widget.model.feedback);
-                                            },
+                                            onTap: () =>
+                                                showDeleteDialog(context),
+                                            // () {
+                                            // if (widget.model.feedback != null)
+                                            //   bloc.deleteFeedback(
+                                            //       widget.model.feedback);
+                                            // },
                                             child: Container(
                                               padding: EdgeInsets.symmetric(
                                                   vertical: 16.0),
