@@ -187,6 +187,7 @@ class IosContactsPage extends StatelessWidget {
     }
 
     return Material(
+      color: Colors.transparent,
       child: CupertinoPageScaffold(
           backgroundColor: backgroundColor,
           child: CustomScrollView(

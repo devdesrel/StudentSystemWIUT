@@ -59,6 +59,7 @@ class SupportPage extends StatelessWidget {
               middle: Text('Support'),
             ),
             child: Material(
+              color: Colors.transparent,
               child: SafeArea(
                 child: Padding(
                   padding:

@@ -94,6 +94,7 @@ class _LearningMaterialsPageState extends State<LearningMaterialsPage>
             //End of Android version
 
             : Material(
+                color: Colors.transparent,
                 child: StreamBuilder(
                   stream: bloc.currentIndex,
                   initialData: 0,
@@ -742,6 +743,7 @@ class LearningMaterialsCard extends StatelessWidget {
                               child: Text('Download')),
                           snapshot.data.length > 1
                               ? Material(
+                                  color: Colors.transparent,
                                   child: InkWell(
                                       child: Padding(
                                         padding: const EdgeInsets.all(8.0),
@@ -771,6 +773,7 @@ class LearningMaterialsCard extends StatelessWidget {
                         ],
                       ),
                       content: Material(
+                        color: Colors.transparent,
                         child: Column(
                           mainAxisAlignment: MainAxisAlignment.start,
                           mainAxisSize: MainAxisSize.min,

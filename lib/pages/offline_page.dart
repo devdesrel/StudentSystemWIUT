@@ -23,6 +23,7 @@ class OfflinePage extends StatelessWidget {
                 mainDirectory: '/WIUT Mobile/$moduleName', isFilePicker: false),
           )
         : Material(
+            color: Colors.transparent,
             child: CupertinoPageScaffold(
               backgroundColor: backgroundColor,
               navigationBar: CupertinoNavigationBar(

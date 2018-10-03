@@ -114,6 +114,7 @@ class _CommentsPageState extends State<CommentsPage> {
             ),
           )
         : Material(
+            color: Colors.transparent,
             child: CupertinoPageScaffold(
               backgroundColor: backgroundColor,
               navigationBar: CupertinoNavigationBar(

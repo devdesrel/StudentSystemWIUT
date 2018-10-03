@@ -131,6 +131,7 @@ class TimetablePage extends StatelessWidget {
                 ]),
               )
             : Material(
+                color: Colors.transparent,
                 child: CupertinoPageScaffold(
                   backgroundColor: Theme.of(context).backgroundColor,
                   navigationBar: CupertinoNavigationBar(

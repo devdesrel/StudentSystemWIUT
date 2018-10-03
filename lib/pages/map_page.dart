@@ -44,6 +44,7 @@ class MapPage extends StatelessWidget {
             ),
           )
         : Material(
+            color: Colors.transparent,
             child: CupertinoPageScaffold(
               navigationBar: CupertinoNavigationBar(
                 middle: Text('Map'),

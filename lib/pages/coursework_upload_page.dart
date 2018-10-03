@@ -43,6 +43,7 @@ Widget _createCurrentPage(BuildContext context) {
                   child: CourseworkUploadItems()),
             )
           : Material(
+              color: Colors.transparent,
               child: CupertinoPageScaffold(
                 navigationBar: CupertinoNavigationBar(
                   middle: Text('Coursework Upload'),

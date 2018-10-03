@@ -190,8 +190,7 @@ class _SecurityPageState extends State<SecurityPage> {
               Text(
                 _pinCodeMask,
                 maxLines: 1,
-                style: Theme
-                    .of(context)
+                style: Theme.of(context)
                     .textTheme
                     .display3
                     .copyWith(color: Colors.white70, letterSpacing: 40.0),

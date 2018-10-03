@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -292,28 +294,59 @@ class CCMFeedbackPage extends StatelessWidget {
               : Center(child: CircularProgressIndicator()));
     }
 
-    return Scaffold(
-      appBar: AppBar(
-        title: Text('CCM Feedback'),
-        centerTitle: true,
-      ),
-      backgroundColor: backgroundColor,
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          Navigator.of(context).push(MaterialPageRoute(
-              builder: (context) => CCMAddFeedBackPage(
-                  model: CCMAddFeedbackPageModel(
-                      viewType: FeedbackViewType.Add,
-                      depOrMod: requestType,
-                      depOrModID:
-                          _listOfPageBlocs[_bloc.currentPageIndex].depOrModID,
-                      feedbackType: _listOfPageBlocs[_bloc.currentPageIndex]
-                          .feedbackType))));
-        },
-        child: Icon(Icons.add),
-      ),
-      body: _getCarousel(),
-    );
+    return Platform.isAndroid
+        ? Scaffold(
+            appBar: AppBar(
+              title: Text('CCM Feedback'),
+              centerTitle: true,
+            ),
+            backgroundColor: backgroundColor,
+            floatingActionButton: FloatingActionButton(
+              onPressed: () {
+                Navigator.of(context).push(MaterialPageRoute(
+                    builder: (context) => CCMAddFeedBackPage(
+                        model: CCMAddFeedbackPageModel(
+                            viewType: FeedbackViewType.Add,
+                            depOrMod: requestType,
+                            depOrModID: _listOfPageBlocs[_bloc.currentPageIndex]
+                                .depOrModID,
+                            feedbackType:
+                                _listOfPageBlocs[_bloc.currentPageIndex]
+                                    .feedbackType))));
+              },
+              child: Icon(Icons.add),
+            ),
+            body: _getCarousel(),
+          )
+        : Material(
+            color: Colors.transparent,
+            child: CupertinoPageScaffold(
+                backgroundColor: backgroundColor,
+                navigationBar: CupertinoNavigationBar(
+                  automaticallyImplyLeading: true,
+                  trailing: Material(
+                    color: Colors.transparent,
+                    child: IconButton(
+                      icon: Icon(CupertinoIcons.add),
+                      onPressed: () {
+                        Navigator.of(context).push(MaterialPageRoute(
+                            builder: (context) => CCMAddFeedBackPage(
+                                model: CCMAddFeedbackPageModel(
+                                    viewType: FeedbackViewType.Add,
+                                    depOrMod: requestType,
+                                    depOrModID:
+                                        _listOfPageBlocs[_bloc.currentPageIndex]
+                                            .depOrModID,
+                                    feedbackType:
+                                        _listOfPageBlocs[_bloc.currentPageIndex]
+                                            .feedbackType))));
+                      },
+                    ),
+                  ),
+                  middle: Text("CCM Feedback"),
+                ),
+                child: SafeArea(child: _getCarousel())),
+          );
   }
 }
 

@@ -81,6 +81,7 @@ class _HomePageState extends State<HomePage>
 
   Widget _getIOSWidgets() {
     return Material(
+      color: Colors.transparent,
       child: CupertinoPageScaffold(
         backgroundColor: Theme.of(context).backgroundColor,
         navigationBar: CupertinoNavigationBar(
@@ -149,7 +150,7 @@ void openSelectedPage(BuildContext context, MainPageGridItems page) {
       break;
     case MainPageGridItems.OFFENCES:
       // Navigator.of(context).pushNamed(offencesPage);
-      Navigator.of(context).pushNamed(ccmCategoryPage);
+      Navigator.of(context).pushNamed(offencesPage);
       break;
     case MainPageGridItems.COURSEWORK_UPLOAD:
       Navigator.of(context).pushNamed(courseworkUploadPage);
@@ -160,6 +161,9 @@ void openSelectedPage(BuildContext context, MainPageGridItems page) {
     case MainPageGridItems.SOCIAL:
       Navigator.of(context).pushNamed(socialPage);
       break;
+    case MainPageGridItems.CCMFEEDBACK:
+      Navigator.of(context).pushNamed(ccmCategoryPage);
+      break;
     default:
       print('Nothing');
   }
@@ -167,8 +171,9 @@ void openSelectedPage(BuildContext context, MainPageGridItems page) {
 
 class CustomGridView {
   BuildContext context;
+  bool isCCMFeedbackApllicable;
 
-  CustomGridView(this.context);
+  CustomGridView(this.context, this.isCCMFeedbackApllicable);
 
   Widget makeGridCell(
       String name, String imageSource, MainPageGridItems page, int position) {
@@ -237,22 +242,34 @@ class CustomGridView {
         crossAxisCount: 2,
         mainAxisSpacing: 0.0,
         crossAxisSpacing: 10.0,
-        children: <Widget>[
-          // SliverToBoxAdapter(
-          // SliverToBoxAdapter(
-          //   child: SliverGrid.count(
-          //     crossAxisCount: 2,
-          //     children: <Widget>[
-          makeGridCell("Marks", 'assets/marks.png', MainPageGridItems.MARKS, 0),
-          makeGridCell("Timetable", 'assets/timetable.png',
-              MainPageGridItems.TIMETABLE, 1),
-          makeGridCell("Learning Materials", 'assets/lectures.png',
-              MainPageGridItems.LEARNING_MATERIALS, 2),
+        children: isCCMFeedbackApllicable
+            ? <Widget>[
+                // SliverToBoxAdapter(
+                // SliverToBoxAdapter(
+                //   child: SliverGrid.count(
+                //     crossAxisCount: 2,
+                //     children: <Widget>[
+                makeGridCell(
+                    "Marks", 'assets/marks.png', MainPageGridItems.MARKS, 0),
+                makeGridCell("Timetable", 'assets/timetable.png',
+                    MainPageGridItems.TIMETABLE, 1),
+                makeGridCell("Learning Materials", 'assets/lectures.png',
+                    MainPageGridItems.LEARNING_MATERIALS, 2),
 
-          //     ],
-          //   ),
-          // ),
-        ]);
+                makeGridCell("CCM Feedback", 'assets/ccmfeedback.png',
+                    MainPageGridItems.CCMFEEDBACK, 3)
+                //     ],
+                //   ),
+                // ),
+              ]
+            : <Widget>[
+                makeGridCell(
+                    "Marks", 'assets/marks.png', MainPageGridItems.MARKS, 0),
+                makeGridCell("Timetable", 'assets/timetable.png',
+                    MainPageGridItems.TIMETABLE, 1),
+                makeGridCell("Learning Materials", 'assets/lectures.png',
+                    MainPageGridItems.LEARNING_MATERIALS, 2),
+              ]);
   }
 }
 
@@ -337,8 +354,9 @@ class CustomGridView2 {
 
 class CustomGridViewForTeachers {
   BuildContext context;
+  bool isCCMFeedbackApllicable;
 
-  CustomGridViewForTeachers(this.context);
+  CustomGridViewForTeachers(this.context, this.isCCMFeedbackApllicable);
 
   Widget makeGridCell(
       String name, String imageSource, MainPageGridItems page, int position) {
@@ -407,19 +425,29 @@ class CustomGridViewForTeachers {
         crossAxisCount: 2,
         mainAxisSpacing: 0.0,
         crossAxisSpacing: 10.0,
-        children: <Widget>[
-          // SliverToBoxAdapter(
-          // SliverToBoxAdapter(
-          //   child: SliverGrid.count(
-          //     crossAxisCount: 2,
-          //     children: <Widget>[
-          makeGridCell("Timetable", 'assets/timetable.png',
-              MainPageGridItems.TIMETABLE, 0),
-          makeGridCell("Learning Materials", 'assets/lectures.png',
-              MainPageGridItems.LEARNING_MATERIALS, 1),
-          //     ],
-          //   ),
-          // ),
-        ]);
+        children: isCCMFeedbackApllicable
+            ? <Widget>[
+                // SliverToBoxAdapter(
+                // SliverToBoxAdapter(
+                //   child: SliverGrid.count(
+                //     crossAxisCount: 2,
+                //     children: <Widget>[
+                makeGridCell("Timetable", 'assets/timetable.png',
+                    MainPageGridItems.TIMETABLE, 0),
+                makeGridCell("Learning Materials", 'assets/lectures.png',
+                    MainPageGridItems.LEARNING_MATERIALS, 1),
+                makeGridCell("CCM Feedback", 'assets/ccmfeedback.png',
+                    MainPageGridItems.CCMFEEDBACK, 2)
+
+                //     ],
+                //   ),
+                // ),
+              ]
+            : <Widget>[
+                makeGridCell("Timetable", 'assets/timetable.png',
+                    MainPageGridItems.TIMETABLE, 0),
+                makeGridCell("Learning Materials", 'assets/lectures.png',
+                    MainPageGridItems.LEARNING_MATERIALS, 1),
+              ]);
   }
 }
