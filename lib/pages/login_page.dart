@@ -104,10 +104,20 @@ class _LoginPageState extends State<LoginPage> implements AuthStateListener {
       Map data = json.decode(res.body);
 
       if (res.statusCode == 200) {
+        String _role = data['role'];
         SharedPreferences prefs = await SharedPreferences.getInstance();
         print(data[token]);
         await prefs.setString(token, data['token']);
-        await prefs.setString(userRole, data['role']);
+
+        if (_role != null && _role.contains('student')) {
+          await prefs.setString(userRole, 'student');
+        } else if (_role != null && _role.contains('staff')) {
+          await prefs.setString(userRole, 'staff');
+        } else if (_role != null && _role.contains('SU')) {
+          await prefs.setString(userRole, 'student');
+          await prefs.setBool(isSU, true);
+        }
+
         await prefs.setString(tokenExpireDay,
             DateTime.now().toUtc().add(Duration(days: 6)).toString());
         await prefs.setString(studentID, _username);

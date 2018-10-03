@@ -77,6 +77,7 @@ final userRole = 'userRole';
 final teacherID = 'teacherID';
 final teacherNameSharedPref = 'teacherNameSharedPref';
 final isApplicableForCCMFeedback = 'isApplicableForCCMFeedback';
+final isSU = 'isSU';
 
 //API List
 final baseUrl = 'https://newintranetapi.wiut.uz';

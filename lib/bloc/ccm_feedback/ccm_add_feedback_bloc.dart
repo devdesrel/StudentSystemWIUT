@@ -168,9 +168,16 @@ class CCMAddFeedbackBloc {
   void postFeedback() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     final _token = prefs.getString(token);
+    String postJson;
 
-    String postJson =
-        '{"Type": "$feedbackCategory", "IsPositive": $isPositive, "DepOrModID": ${model.depOrModID}, "StaffID": ${int.parse(staffID)}, "GroupCoverage": ${groupCoverage.toInt()}, "Text": "$commentMessage"}';
+    if (feedbackCategory == 'modules') {
+      postJson =
+          '{"Type": "$feedbackCategory", "IsPositive": $isPositive, "DepOrModID": ${model.depOrModID}, "StaffID": ${int.tryParse(staffID)}, "GroupCoverage": ${groupCoverage.toInt()}, "Text": "$commentMessage"}';
+    } else {
+      postJson =
+          '{"Type": "$feedbackCategory", "IsPositive": $isPositive, "DepOrModID": ${model.depOrModID}, "GroupCoverage": ${groupCoverage.toInt()}, "Text": "$commentMessage"}';
+    }
+
     // print(postData.toString());
     try {
       http.Response res = await http.post(apiCCMFeedbackAddFeedback,
@@ -193,8 +200,15 @@ class CCMAddFeedbackBloc {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     final _token = prefs.getString(token);
 
-    String postJson =
-        '{"ID": $feedbackID, "Type": "$feedbackCategory", "IsPositive": $isPositive, "DepOrModID": $depOrModID, "StaffID": ${int.parse(staffID)}, "GroupCoverage": ${groupCoverage.toInt()}, "Text": "$commentMessage"}';
+    String postJson;
+
+    if (feedbackCategory == 'modules') {
+      postJson =
+          '{"ID": $feedbackID, "Type": "$feedbackCategory", "IsPositive": $isPositive, "DepOrModID": $depOrModID, "StaffID": ${int.parse(staffID)}, "GroupCoverage": ${groupCoverage.toInt()}, "Text": "$commentMessage"}';
+    } else {
+      postJson =
+          '{"ID": $feedbackID, "Type": "$feedbackCategory", "IsPositive": $isPositive, "DepOrModID": $depOrModID, "GroupCoverage": ${groupCoverage.toInt()}, "Text": "$commentMessage"}';
+    }
     // print(postData.toString());
     try {
       http.Response res = await http.post(apiCCMFeedbackEditFeedback,

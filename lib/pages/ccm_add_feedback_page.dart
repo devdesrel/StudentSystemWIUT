@@ -77,7 +77,7 @@ class _CCMAddFeedBackPageState extends State<CCMAddFeedBackPage> {
       bloc.setTeacherNameDatavalidation.add(true);
 
       FocusScope.of(context).requestFocus(FocusNode());
-      checkErrors();
+
       if (checkErrors()) {
         if (form.validate()) {
           form.save();
@@ -266,62 +266,79 @@ class _CCMAddFeedBackPageState extends State<CCMAddFeedBackPage> {
                             ),
                         // ),
                       ),
-                      Padding(
-                        padding: EdgeInsets.only(bottom: 8.0, top: 3.0),
-                        child: Text(
-                          'Teacher',
-                          textAlign: TextAlign.left,
-                          style: TextStyle(fontSize: 16.0, color: accentColor),
-                        ),
-                      ),
-                      Card(
-                        child: StreamBuilder(
-                          initialData: widget.model.feedback == null
-                              ? 'Select a teacher'
-                              : widget.model.feedback.staffFullName,
-                          stream: bloc.teacherNameValue,
-                          builder: (context, snapshot) =>
-                              FutureBuilder<List<CCMFeedbackAsSelectedList>>(
-                                future: bloc.getModuleRepresentatives(),
-                                builder: (context, shot) =>
-                                    TeacherAttachingExpansionTile(
-                                        bloc: bloc,
-                                        expansionTile: teacherExpansionTile,
-                                        value: snapshot.hasData
-                                            ? snapshot.data
-                                            : widget.model.feedback == null
-                                                ? teacherName
-                                                : widget.model.feedback
-                                                    .staffFullName,
-                                        expansionChildrenList:
-                                            shot.hasData ? shot.data : []),
+                      widget.model.depOrMod ==
+                              CCMFeedbackCategory.ModulesFeedback
+                          ? Padding(
+                              padding: EdgeInsets.only(bottom: 8.0, top: 3.0),
+                              child: Text(
+                                'Teacher',
+                                textAlign: TextAlign.left,
+                                style: TextStyle(
+                                    fontSize: 16.0, color: accentColor),
                               ),
-                        ),
-                      ),
-                      StreamBuilder(
-                        stream: bloc.teacherNameValue,
-                        initialData: widget.model.feedback == null
-                            ? 'Select a teacher'
-                            : widget.model.feedback.staffFullName,
-                        builder: (context, snapshot) => StreamBuilder(
-                              stream: bloc.teacherNameDataValidation,
-                              builder: (context, shot) => Opacity(
-                                    opacity: shot.data == true
-                                        ? snapshot.data != 'Select a teacher'
-                                            ? 0.0
-                                            : 1.0
-                                        : 0.0,
-                                    child: Padding(
-                                      padding: EdgeInsets.only(left: 16.0),
-                                      child: Text(
-                                        'Teacher is not chosen',
-                                        style: TextStyle(
-                                            color: redColor, fontSize: 12.0),
-                                      ),
+                            )
+                          : Container(),
+                      widget.model.depOrMod ==
+                              CCMFeedbackCategory.ModulesFeedback
+                          ? Card(
+                              child: StreamBuilder(
+                                initialData: widget.model.feedback == null
+                                    ? 'Select a teacher'
+                                    : widget.model.feedback.staffFullName,
+                                stream: bloc.teacherNameValue,
+                                builder: (context, snapshot) => FutureBuilder<
+                                        List<CCMFeedbackAsSelectedList>>(
+                                      future: bloc.getModuleRepresentatives(),
+                                      builder: (context, shot) =>
+                                          TeacherAttachingExpansionTile(
+                                              bloc: bloc,
+                                              expansionTile:
+                                                  teacherExpansionTile,
+                                              value: snapshot.hasData
+                                                  ? snapshot.data
+                                                  : widget.model.feedback ==
+                                                          null
+                                                      ? teacherName
+                                                      : widget.model.feedback
+                                                          .staffFullName,
+                                              expansionChildrenList:
+                                                  shot.hasData
+                                                      ? shot.data
+                                                      : []),
                                     ),
+                              ),
+                            )
+                          : Container(),
+                      widget.model.depOrMod ==
+                              CCMFeedbackCategory.ModulesFeedback
+                          ? StreamBuilder(
+                              stream: bloc.teacherNameValue,
+                              initialData: widget.model.feedback == null
+                                  ? 'Select a teacher'
+                                  : widget.model.feedback.staffFullName,
+                              builder: (context, snapshot) => StreamBuilder(
+                                    stream: bloc.teacherNameDataValidation,
+                                    builder: (context, shot) => Opacity(
+                                          opacity: shot.data == true
+                                              ? snapshot.data !=
+                                                      'Select a teacher'
+                                                  ? 0.0
+                                                  : 1.0
+                                              : 0.0,
+                                          child: Padding(
+                                            padding:
+                                                EdgeInsets.only(left: 16.0),
+                                            child: Text(
+                                              'Teacher is not chosen',
+                                              style: TextStyle(
+                                                  color: redColor,
+                                                  fontSize: 12.0),
+                                            ),
+                                          ),
+                                        ),
                                   ),
-                            ),
-                      ),
+                            )
+                          : Container(),
                       Padding(
                         padding: EdgeInsets.only(
                             left: 5.0, right: 5.0, top: 5.0, bottom: 8.0),
@@ -554,70 +571,87 @@ class _CCMAddFeedBackPageState extends State<CCMAddFeedBackPage> {
                                   ),
                               // ),
                             ),
-                            Padding(
-                              padding: EdgeInsets.only(bottom: 8.0, top: 3.0),
-                              child: Text(
-                                'Teacher',
-                                textAlign: TextAlign.left,
-                                style: TextStyle(
-                                    fontSize: 16.0, color: accentColor),
-                              ),
-                            ),
-                            Card(
-                              child: StreamBuilder(
-                                initialData: widget.model.feedback == null
-                                    ? 'Select a teacher'
-                                    : widget.model.feedback.staffFullName,
-                                stream: bloc.teacherNameValue,
-                                builder: (context, snapshot) => FutureBuilder<
-                                        List<CCMFeedbackAsSelectedList>>(
-                                      future: bloc.getModuleRepresentatives(),
-                                      builder: (context, shot) =>
-                                          TeacherAttachingExpansionTile(
-                                              bloc: bloc,
-                                              expansionTile:
-                                                  teacherExpansionTile,
-                                              value: snapshot.hasData
-                                                  ? snapshot.data
-                                                  : widget.model.feedback ==
-                                                          null
-                                                      ? teacherName
-                                                      : widget.model.feedback
-                                                          .staffFullName,
-                                              expansionChildrenList:
-                                                  shot.hasData
-                                                      ? shot.data
-                                                      : []),
+                            widget.model.depOrMod ==
+                                    CCMFeedbackCategory.ModulesFeedback
+                                ? Padding(
+                                    padding:
+                                        EdgeInsets.only(bottom: 8.0, top: 3.0),
+                                    child: Text(
+                                      'Teacher',
+                                      textAlign: TextAlign.left,
+                                      style: TextStyle(
+                                          fontSize: 16.0, color: accentColor),
                                     ),
-                              ),
-                            ),
-                            StreamBuilder(
-                              stream: bloc.teacherNameValue,
-                              initialData: widget.model.feedback == null
-                                  ? 'Select a teacher'
-                                  : widget.model.feedback.staffFullName,
-                              builder: (context, snapshot) => StreamBuilder(
-                                    stream: bloc.teacherNameDataValidation,
-                                    builder: (context, shot) => Opacity(
-                                          opacity: shot.data == true
-                                              ? snapshot.data !=
-                                                      'Select a teacher'
-                                                  ? 0.0
-                                                  : 1.0
-                                              : 0.0,
-                                          child: Padding(
-                                            padding:
-                                                EdgeInsets.only(left: 16.0),
-                                            child: Text(
-                                              'Teacher is not chosen',
-                                              style: TextStyle(
-                                                  color: redColor,
-                                                  fontSize: 12.0),
-                                            ),
+                                  )
+                                : Container(),
+                            widget.model.depOrMod ==
+                                    CCMFeedbackCategory.ModulesFeedback
+                                ? Card(
+                                    child: StreamBuilder(
+                                      initialData: widget.model.feedback == null
+                                          ? 'Select a teacher'
+                                          : widget.model.feedback.staffFullName,
+                                      stream: bloc.teacherNameValue,
+                                      builder: (context, snapshot) =>
+                                          FutureBuilder<
+                                              List<CCMFeedbackAsSelectedList>>(
+                                            future:
+                                                bloc.getModuleRepresentatives(),
+                                            builder: (context, shot) =>
+                                                TeacherAttachingExpansionTile(
+                                                    bloc: bloc,
+                                                    expansionTile:
+                                                        teacherExpansionTile,
+                                                    value: snapshot.hasData
+                                                        ? snapshot.data
+                                                        : widget.model
+                                                                    .feedback ==
+                                                                null
+                                                            ? teacherName
+                                                            : widget
+                                                                .model
+                                                                .feedback
+                                                                .staffFullName,
+                                                    expansionChildrenList:
+                                                        shot.hasData
+                                                            ? shot.data
+                                                            : []),
                                           ),
+                                    ),
+                                  )
+                                : Container(),
+                            widget.model.depOrMod ==
+                                    CCMFeedbackCategory.ModulesFeedback
+                                ? StreamBuilder(
+                                    stream: bloc.teacherNameValue,
+                                    initialData: widget.model.feedback == null
+                                        ? 'Select a teacher'
+                                        : widget.model.feedback.staffFullName,
+                                    builder: (context, snapshot) =>
+                                        StreamBuilder(
+                                          stream:
+                                              bloc.teacherNameDataValidation,
+                                          builder: (context, shot) => Opacity(
+                                                opacity: shot.data == true
+                                                    ? snapshot.data !=
+                                                            'Select a teacher'
+                                                        ? 0.0
+                                                        : 1.0
+                                                    : 0.0,
+                                                child: Padding(
+                                                  padding: EdgeInsets.only(
+                                                      left: 16.0),
+                                                  child: Text(
+                                                    'Teacher is not chosen',
+                                                    style: TextStyle(
+                                                        color: redColor,
+                                                        fontSize: 12.0),
+                                                  ),
+                                                ),
+                                              ),
                                         ),
-                                  ),
-                            ),
+                                  )
+                                : Container(),
                             Padding(
                                 padding: EdgeInsets.only(
                                     left: 5.0,
