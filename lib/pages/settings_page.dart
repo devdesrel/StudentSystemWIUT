@@ -21,27 +21,147 @@ class SettingsPage extends StatelessWidget {
   String currentPin;
   String notMatched;
 
-  void savePin(BuildContext context, SettingsBloc bloc) async {
-    final form = formKey.currentState;
-
-    FocusScope.of(context).requestFocus(FocusNode());
-    if (form.validate()) {
-      form.save();
-
-      prefs.setString(pinCode, confirmPin);
-
-      bloc.setAutoValidation.add(false);
-      Navigator.pop(context);
-
-      showFlushBar('Success', 'PIN was successfully changed',
-          MessageTypes.SUCCESS, context, 2);
-    } else {
-      bloc.setAutoValidation.add(true);
-    }
-  }
-
   Widget build(BuildContext context) {
     var _bloc = SettingsBloc();
+
+    void savePin(BuildContext context, SettingsBloc bloc) async {
+      final form = formKey.currentState;
+
+      FocusScope.of(context).requestFocus(FocusNode());
+      if (form.validate()) {
+        form.save();
+
+        prefs.setString(pinCode, confirmPin);
+
+        bloc.setAutoValidation.add(false);
+        Navigator.pop(context);
+
+        showFlushBar('Success', 'PIN was successfully changed',
+            MessageTypes.SUCCESS, context, 2);
+      } else {
+        bloc.setAutoValidation.add(true);
+      }
+    }
+
+    Future<Null> showPinDialog(BuildContext context, SettingsBloc bloc) async {
+      return showDialog<Null>(
+        context: context,
+        barrierDismissible: false, // user must tap button!
+        builder: (BuildContext context) {
+          return GestureDetector(
+            onTap: () {
+              FocusScope.of(context).requestFocus(new FocusNode());
+            },
+            child: AlertDialog(
+              titlePadding: EdgeInsets.only(top: 20.0, left: 20.0),
+              contentPadding:
+                  EdgeInsets.symmetric(horizontal: 23.0, vertical: 0.0),
+              title: Text('Change PIN code'),
+              content: SingleChildScrollView(
+                child: Form(
+                  key: formKey,
+                  child: ListBody(
+                    children: <Widget>[
+                      customeFormField(
+                          'Current PIN',
+                          ChangePinCodeDialogArguments.CurrentPin,
+                          context,
+                          bloc),
+                      customeFormField('New PIN',
+                          ChangePinCodeDialogArguments.NewPin, context, bloc),
+                      customeFormField(
+                          'Confirm new PIN',
+                          ChangePinCodeDialogArguments.ConfirmPin,
+                          context,
+                          bloc),
+                    ],
+                  ),
+                ),
+                // actions: <Widget>[
+                //   CupertinoDialogAction(
+                //     isDestructiveAction: true,
+                //     child: Text('Cancel'.toUpperCase()),
+                //     onPressed: () {
+                //       Navigator.of(context).pop();
+                //       bloc.setAutoValidation.add(false);
+                //     },
+                //   ),
+                //   CupertinoDialogAction(
+                //     isDefaultAction: false,
+                //     child: Text('Save'.toUpperCase()),
+                //     onPressed: () {
+                //       savePin(context, bloc);
+                //     },
+                //   ),
+                // ],
+              ),
+              actions: <Widget>[
+                FlatButton(
+                  child: Text('Cancel'.toUpperCase()),
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                    bloc.setAutoValidation.add(false);
+                  },
+                ),
+                FlatButton(
+                  child: Text('Save'.toUpperCase()),
+                  onPressed: () {
+                    savePin(context, bloc);
+                  },
+                ),
+              ],
+            ),
+          );
+          // return CupertinoAlertDialog(
+// titlePadding: EdgeInsets.only(top: 20.0, left: 20.0),
+          // contentPadding:
+          //     EdgeInsets.symmetric(horizontal: 23.0, vertical: 0.0),
+          //   title: Text('Change PIN code'),
+          //   content: SingleChildScrollView(
+          //     child: Form(
+          //       key: formKey,
+          //       child: Material(
+          //         child: ListBody(
+          //           children: <Widget>[
+          //             customeFormField(
+          //                 'Current PIN',
+          //                 ChangePinCodeDialogArguments.CurrentPin,
+          //                 context,
+          //                 bloc),
+          //             customeFormField('New PIN',
+          //                 ChangePinCodeDialogArguments.NewPin, context, bloc),
+          //             customeFormField(
+          //                 'Confirm new PIN',
+          //                 ChangePinCodeDialogArguments.ConfirmPin,
+          //                 context,
+          //                 bloc),
+          //           ],
+          //         ),
+          //       ),
+          //     ),
+          //   ),
+          //   actions: <Widget>[
+          //     CupertinoDialogAction(
+          //       isDestructiveAction: true,
+          //       child: Text('Cancel'.toUpperCase()),
+          //       onPressed: () {
+          //         Navigator.of(context).pop();
+          //         bloc.setAutoValidation.add(false);
+          //       },
+          //     ),
+          //     CupertinoDialogAction(
+          //       isDefaultAction: false,
+          //       child: Text('Save'.toUpperCase()),
+          //       onPressed: () {
+          //         savePin(context, bloc);
+          //       },
+          //     ),
+          //   ],
+          // );
+          // }
+        },
+      );
+    }
 
     _getCurrentUserPin();
 
@@ -259,120 +379,6 @@ class SettingsPage extends StatelessWidget {
       return false;
     }
     return int.tryParse(s) != null;
-  }
-
-  Future<Null> showPinDialog(BuildContext context, SettingsBloc bloc) async {
-    return showDialog<Null>(
-      context: context,
-      barrierDismissible: false, // user must tap button!
-      builder: (BuildContext context) {
-        return GestureDetector(
-          onTap: () {
-            FocusScope.of(context).requestFocus(new FocusNode());
-          },
-          child: AlertDialog(
-            titlePadding: EdgeInsets.only(top: 20.0, left: 20.0),
-            contentPadding:
-                EdgeInsets.symmetric(horizontal: 23.0, vertical: 0.0),
-            title: Text('Change PIN code'),
-            content: SingleChildScrollView(
-              child: Form(
-                key: formKey,
-                child: ListBody(
-                  children: <Widget>[
-                    customeFormField('Current PIN',
-                        ChangePinCodeDialogArguments.CurrentPin, context, bloc),
-                    customeFormField('New PIN',
-                        ChangePinCodeDialogArguments.NewPin, context, bloc),
-                    customeFormField('Confirm new PIN',
-                        ChangePinCodeDialogArguments.ConfirmPin, context, bloc),
-                  ],
-                ),
-              ),
-              // actions: <Widget>[
-              //   CupertinoDialogAction(
-              //     isDestructiveAction: true,
-              //     child: Text('Cancel'.toUpperCase()),
-              //     onPressed: () {
-              //       Navigator.of(context).pop();
-              //       bloc.setAutoValidation.add(false);
-              //     },
-              //   ),
-              //   CupertinoDialogAction(
-              //     isDefaultAction: false,
-              //     child: Text('Save'.toUpperCase()),
-              //     onPressed: () {
-              //       savePin(context, bloc);
-              //     },
-              //   ),
-              // ],
-            ),
-            actions: <Widget>[
-              FlatButton(
-                child: Text('Cancel'.toUpperCase()),
-                onPressed: () {
-                  Navigator.of(context).pop();
-                  bloc.setAutoValidation.add(false);
-                },
-              ),
-              FlatButton(
-                child: Text('Save'.toUpperCase()),
-                onPressed: () {
-                  savePin(context, bloc);
-                },
-              ),
-            ],
-          ),
-        );
-        // return CupertinoAlertDialog(
-// titlePadding: EdgeInsets.only(top: 20.0, left: 20.0),
-        // contentPadding:
-        //     EdgeInsets.symmetric(horizontal: 23.0, vertical: 0.0),
-        //   title: Text('Change PIN code'),
-        //   content: SingleChildScrollView(
-        //     child: Form(
-        //       key: formKey,
-        //       child: Material(
-        //         child: ListBody(
-        //           children: <Widget>[
-        //             customeFormField(
-        //                 'Current PIN',
-        //                 ChangePinCodeDialogArguments.CurrentPin,
-        //                 context,
-        //                 bloc),
-        //             customeFormField('New PIN',
-        //                 ChangePinCodeDialogArguments.NewPin, context, bloc),
-        //             customeFormField(
-        //                 'Confirm new PIN',
-        //                 ChangePinCodeDialogArguments.ConfirmPin,
-        //                 context,
-        //                 bloc),
-        //           ],
-        //         ),
-        //       ),
-        //     ),
-        //   ),
-        //   actions: <Widget>[
-        //     CupertinoDialogAction(
-        //       isDestructiveAction: true,
-        //       child: Text('Cancel'.toUpperCase()),
-        //       onPressed: () {
-        //         Navigator.of(context).pop();
-        //         bloc.setAutoValidation.add(false);
-        //       },
-        //     ),
-        //     CupertinoDialogAction(
-        //       isDefaultAction: false,
-        //       child: Text('Save'.toUpperCase()),
-        //       onPressed: () {
-        //         savePin(context, bloc);
-        //       },
-        //     ),
-        //   ],
-        // );
-        // }
-      },
-    );
   }
 }
 

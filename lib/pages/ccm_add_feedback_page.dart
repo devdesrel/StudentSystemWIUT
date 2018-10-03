@@ -23,7 +23,7 @@ class _CCMAddFeedBackPageState extends State<CCMAddFeedBackPage> {
   final GlobalKey<AppExpansionTileState> teacherExpansionTile = GlobalKey();
   final GlobalKey<AppExpansionTile2State> typeExpansionTile = GlobalKey();
   var formKey = GlobalKey<FormState>();
-  var bloc;
+  CCMAddFeedbackBloc bloc;
   bool isTextChanged = false;
   // String oldText;
   // TextEditingController _controller = new TextEditingController();

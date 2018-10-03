@@ -378,9 +378,6 @@ class _MaterialsListTabState extends State<MaterialsListTab>
                           child: LearningMaterialsAcademicYearExpansionTile(
                               bloc: widget.bloc,
                               expansionTile: acadYearExpansionTile,
-                              value: snapshot.hasData
-                                  ? snapshot.data
-                                  : _academicYearsList[19],
                               expansionChildrenList: _academicYearsList),
                         ),
                   ),
@@ -399,9 +396,6 @@ class _MaterialsListTabState extends State<MaterialsListTab>
                           child: LearningMaterialsExpansionTile(
                               bloc: widget.bloc,
                               expansionTile: materialTypeExpansionTile,
-                              value: snapshot.hasData
-                                  ? snapshot.data
-                                  : _learningMaterialTypes[0],
                               expansionChildrenList: _learningMaterialTypes),
                         ),
                   ),

@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import 'package:student_system_flutter/bloc/ccm_feedback/ccm_feedback_bloc.dart';
 import 'package:student_system_flutter/bloc/ccm_feedback/ccm_feedback_item_bloc.dart';
@@ -21,6 +22,13 @@ class CCMFeedbackPage extends StatelessWidget {
   Widget _currentPage;
 
   CCMFeedbackPage({@required this.requestType});
+
+  Future<bool> _getSharedPrefData() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    bool val = prefs.getBool(isSU);
+
+    return val;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -301,21 +309,27 @@ class CCMFeedbackPage extends StatelessWidget {
               centerTitle: true,
             ),
             backgroundColor: backgroundColor,
-            floatingActionButton: FloatingActionButton(
-              onPressed: () {
-                Navigator.of(context).push(MaterialPageRoute(
-                    builder: (context) => CCMAddFeedBackPage(
-                        model: CCMAddFeedbackPageModel(
-                            viewType: FeedbackViewType.Add,
-                            depOrMod: requestType,
-                            depOrModID: _listOfPageBlocs[_bloc.currentPageIndex]
-                                .depOrModID,
-                            feedbackType:
-                                _listOfPageBlocs[_bloc.currentPageIndex]
-                                    .feedbackType))));
-              },
-              child: Icon(Icons.add),
-            ),
+            floatingActionButton: FutureBuilder<bool>(
+                future: _getSharedPrefData(),
+                builder: (context, snapshot) =>
+                    snapshot.hasData && !snapshot.data
+                        ? FloatingActionButton(
+                            onPressed: () {
+                              Navigator.of(context).push(MaterialPageRoute(
+                                  builder: (context) => CCMAddFeedBackPage(
+                                      model: CCMAddFeedbackPageModel(
+                                          viewType: FeedbackViewType.Add,
+                                          depOrMod: requestType,
+                                          depOrModID: _listOfPageBlocs[
+                                                  _bloc.currentPageIndex]
+                                              .depOrModID,
+                                          feedbackType: _listOfPageBlocs[
+                                                  _bloc.currentPageIndex]
+                                              .feedbackType))));
+                            },
+                            child: Icon(Icons.add),
+                          )
+                        : Container()),
             body: _getCarousel(),
           )
         : Material(

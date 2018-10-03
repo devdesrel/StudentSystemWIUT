@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:student_system_flutter/bloc/ccm_feedback/ccm_add_feedback_bloc.dart';
 import 'package:student_system_flutter/helpers/app_constants.dart';
 
 class CCMFeedbackTypeExpansionTile extends StatelessWidget {
   final GlobalKey<AppExpansionTile2State> expansionTile;
   String value;
-  final bloc;
+  final CCMAddFeedbackBloc bloc;
   final List<String> expansionChildrenList;
 
   // final ModulesList modulesList;

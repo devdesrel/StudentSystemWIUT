@@ -14,12 +14,6 @@ import 'package:student_system_flutter/models/download_file_model.dart';
 import 'package:screen/screen.dart';
 
 class LearningMaterialsBloc {
-  String moduleName = '';
-  String yearName = '2018/2019';
-  int _moduleID = 0;
-  int materialTypeID = 1;
-  List<DownloadFileModel> basicList = List();
-  List<SingleLearningMaterialsModel> allMaterialsList = [];
   final flushBar = Flushbar<bool>()
     ..icon = Icon(
       Icons.info,
@@ -28,6 +22,14 @@ class LearningMaterialsBloc {
     ..title = downloadingMessageTitle
     ..message = downloadingMessageBody
     ..backgroundColor = greyColor;
+
+  String moduleName = '';
+  String yearName = '2018/2019';
+  String materialType = 'Lectures';
+  int _moduleID = 0;
+  int materialTypeID = 1;
+  List<DownloadFileModel> basicList = List();
+  List<SingleLearningMaterialsModel> allMaterialsList = [];
 
   LearningMaterialsBloc(BuildContext context, int moduleID,
       List<SingleLearningMaterialsModel> materialsList) {
@@ -73,8 +75,10 @@ class LearningMaterialsBloc {
     _setLearningMaterialTypeController.stream.listen((typeID) {
       if (typeID == 1) {
         _learningMaterialTypeSubject.add('Lectures');
+        materialType = 'Lectures';
       } else if (typeID == 2) {
         _learningMaterialTypeSubject.add('Tutorials');
+        materialType = 'Tutorials';
       }
 
       materialTypeID = typeID;
