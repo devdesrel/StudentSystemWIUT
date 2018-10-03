@@ -204,8 +204,7 @@ class AppExpansionTileState extends State<AppExpansionTile>
               onTap: toggle,
               leading: widget.leading,
               title: new DefaultTextStyle(
-                style: Theme
-                    .of(context)
+                style: Theme.of(context)
                     .textTheme
                     .subhead
                     .copyWith(color: titleColor),

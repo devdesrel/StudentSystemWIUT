@@ -5,16 +5,12 @@ import 'package:student_system_flutter/helpers/app_constants.dart';
 class LearningMaterialsExpansionTile extends StatelessWidget {
   final GlobalKey<AppExpansionTileState> expansionTile;
   final LearningMaterialsBloc bloc;
-  String value;
   final List<String> expansionChildrenList;
-
-  // final ModulesList modulesList;
 
   LearningMaterialsExpansionTile(
       {Key key,
       @required this.expansionTile,
       @required this.bloc,
-      @required this.value,
       @required this.expansionChildrenList})
       : super(key: key);
 
@@ -23,7 +19,7 @@ class LearningMaterialsExpansionTile extends StatelessWidget {
     // var bloc = CourseworkUploadProvider.of(context);
     return AppExpansionTile(
       key: expansionTile,
-      title: Text(value),
+      title: Text(bloc.materialType),
       backgroundColor: whiteColor,
       // onExpansionChanged: (b) => print(b),
       children: expansionChildrenList

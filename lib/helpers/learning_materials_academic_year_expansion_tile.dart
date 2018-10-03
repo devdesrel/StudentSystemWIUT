@@ -5,16 +5,12 @@ import 'package:student_system_flutter/helpers/app_constants.dart';
 class LearningMaterialsAcademicYearExpansionTile extends StatelessWidget {
   final GlobalKey<AppExpansionTileState2> expansionTile;
   final LearningMaterialsBloc bloc;
-  String value;
   final Map<int, String> expansionChildrenList;
-
-  // final ModulesList modulesList;
 
   LearningMaterialsAcademicYearExpansionTile(
       {Key key,
       @required this.expansionTile,
       @required this.bloc,
-      @required this.value,
       @required this.expansionChildrenList})
       : super(key: key);
 
@@ -39,12 +35,10 @@ class LearningMaterialsAcademicYearExpansionTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // var bloc = CourseworkUploadProvider.of(context);
     return AppExpansionTile2(
         key: expansionTile,
-        title: Text(value),
+        title: Text(bloc.yearName),
         backgroundColor: whiteColor,
-        // onExpansionChanged: (b) => print(b),
         children: _getWidgets());
   }
 }
@@ -77,14 +71,6 @@ class ItemSelection extends StatelessWidget {
     );
   }
 }
-
-// class ModulesList {
-//   ModulesList(this.children);
-
-//   //final String title;
-
-//   final List<String> children;
-// }
 
 const Duration _kExpand = const Duration(milliseconds: 200);
 

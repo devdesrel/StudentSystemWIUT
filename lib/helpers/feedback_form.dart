@@ -6,7 +6,7 @@ import 'package:student_system_flutter/models/feedback_model.dart';
 import '../helpers/ui_helpers.dart';
 
 class FeedbackForm extends StatefulWidget {
-  List<FeedbackModel> questionNumbers;
+  final List<FeedbackModel> questionNumbers;
 
   FeedbackForm({
     Key key,
