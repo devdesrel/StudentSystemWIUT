@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:student_system_flutter/helpers/app_constants.dart';
 import 'package:student_system_flutter/helpers/function_helpers.dart';
@@ -71,7 +73,8 @@ class AppUpdatesPage extends StatelessWidget {
                 style: TextStyle(color: accentColor),
               ),
               onPressed: () {
-                launchURL(playStoreUrl, false);
+                launchURL(
+                    Platform.isAndroid ? playStoreUrl : appStoreUrl, false);
               },
             ),
           ),

@@ -55,44 +55,47 @@ class CCMFeedbackCategoryPage extends StatelessWidget {
             ),
           )
         : Material(
+            color: Colors.transparent,
             child: CupertinoPageScaffold(
               backgroundColor: backgroundColor,
               navigationBar: CupertinoNavigationBar(
                 middle: Text('CCM Feedback'),
               ),
-              child: SingleChildScrollView(
-                child: Padding(
-                  padding:
-                      EdgeInsets.symmetric(horizontal: 14.0, vertical: 8.0),
-                  child: Column(
-                    children: <Widget>[
-                      CustomCard(
-                        ListTile(
-                          title: Text('Modules'),
-                          leading: Icon(FontAwesomeIcons.book),
-                          trailing: Icon(CupertinoIcons.right_chevron),
-                          onTap: () {
-                            Navigator.of(context).push(MaterialPageRoute(
-                                builder: (context) => CCMFeedbackPage(
-                                    requestType:
-                                        CCMFeedbackCategory.ModulesFeedback)));
-                          },
+              child: SafeArea(
+                child: SingleChildScrollView(
+                  child: Padding(
+                    padding:
+                        EdgeInsets.symmetric(horizontal: 14.0, vertical: 8.0),
+                    child: Column(
+                      children: <Widget>[
+                        CustomCard(
+                          ListTile(
+                            title: Text('Modules'),
+                            leading: Icon(FontAwesomeIcons.book),
+                            trailing: Icon(CupertinoIcons.right_chevron),
+                            onTap: () {
+                              Navigator.of(context).push(MaterialPageRoute(
+                                  builder: (context) => CCMFeedbackPage(
+                                      requestType: CCMFeedbackCategory
+                                          .ModulesFeedback)));
+                            },
+                          ),
                         ),
-                      ),
-                      CustomCard(
-                        ListTile(
-                          title: Text('Departments'),
-                          trailing: Icon(CupertinoIcons.right_chevron),
-                          leading: Icon(FontAwesomeIcons.solidBuilding),
-                          onTap: () {
-                            Navigator.of(context).push(MaterialPageRoute(
-                                builder: (context) => CCMFeedbackPage(
-                                    requestType: CCMFeedbackCategory
-                                        .DepartmentsFeedback)));
-                          },
+                        CustomCard(
+                          ListTile(
+                            title: Text('Departments'),
+                            trailing: Icon(CupertinoIcons.right_chevron),
+                            leading: Icon(FontAwesomeIcons.solidBuilding),
+                            onTap: () {
+                              Navigator.of(context).push(MaterialPageRoute(
+                                  builder: (context) => CCMFeedbackPage(
+                                      requestType: CCMFeedbackCategory
+                                          .DepartmentsFeedback)));
+                            },
+                          ),
                         ),
-                      ),
-                    ],
+                      ],
+                    ),
                   ),
                 ),
               ),

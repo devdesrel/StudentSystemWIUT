@@ -319,29 +319,33 @@ class CCMFeedbackPage extends StatelessWidget {
             body: _getCarousel(),
           )
         : Material(
+            color: Colors.transparent,
             child: CupertinoPageScaffold(
                 backgroundColor: backgroundColor,
                 navigationBar: CupertinoNavigationBar(
                   automaticallyImplyLeading: true,
-                  trailing: IconButton(
-                    icon: Icon(CupertinoIcons.add),
-                    onPressed: () {
-                      Navigator.of(context).push(MaterialPageRoute(
-                          builder: (context) => CCMAddFeedBackPage(
-                              model: CCMAddFeedbackPageModel(
-                                  viewType: FeedbackViewType.Add,
-                                  depOrMod: requestType,
-                                  depOrModID:
-                                      _listOfPageBlocs[_bloc.currentPageIndex]
-                                          .depOrModID,
-                                  feedbackType:
-                                      _listOfPageBlocs[_bloc.currentPageIndex]
-                                          .feedbackType))));
-                    },
+                  trailing: Material(
+                    color: Colors.transparent,
+                    child: IconButton(
+                      icon: Icon(CupertinoIcons.add),
+                      onPressed: () {
+                        Navigator.of(context).push(MaterialPageRoute(
+                            builder: (context) => CCMAddFeedBackPage(
+                                model: CCMAddFeedbackPageModel(
+                                    viewType: FeedbackViewType.Add,
+                                    depOrMod: requestType,
+                                    depOrModID:
+                                        _listOfPageBlocs[_bloc.currentPageIndex]
+                                            .depOrModID,
+                                    feedbackType:
+                                        _listOfPageBlocs[_bloc.currentPageIndex]
+                                            .feedbackType))));
+                      },
+                    ),
                   ),
                   middle: Text("CCM Feedback"),
                 ),
-                child: _getCarousel()),
+                child: SafeArea(child: _getCarousel())),
           );
   }
 }

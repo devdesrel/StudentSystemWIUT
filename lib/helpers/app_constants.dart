@@ -4,6 +4,8 @@ import 'package:flutter/material.dart';
 final appName = 'Student System';
 final playStoreUrl =
     'https://play.google.com/store/apps/details?id=com.wiut.studentsystemflutter';
+final appStoreUrl =
+    'https://itunes.apple.com/us/app/wiut-intranet/id1437888555';
 
 //Application colors
 final primaryColor = Color(0xFF0091ea);
@@ -77,6 +79,7 @@ final userRole = 'userRole';
 final teacherID = 'teacherID';
 final teacherNameSharedPref = 'teacherNameSharedPref';
 final isApplicableForCCMFeedback = 'isApplicableForCCMFeedback';
+final isSU = 'isSU';
 
 //API List
 final baseUrl = 'https://newintranetapi.wiut.uz';

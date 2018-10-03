@@ -169,6 +169,7 @@ class _IosPinSetPageState extends State<IosPinSetPage> {
         FocusScope.of(context).requestFocus(new FocusNode());
       },
       child: Material(
+        color: Colors.transparent,
         child: CupertinoPageScaffold(
           navigationBar: CupertinoNavigationBar(
             backgroundColor: backgroundColor,
