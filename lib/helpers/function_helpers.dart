@@ -315,4 +315,5 @@ void _cleanUserData() async {
   await prefs.setString(userRole, "");
   await prefs.setString(teacherID, "");
   await prefs.setString(teacherNameSharedPref, "");
+  await prefs.setBool(isSU, false);
 }
