@@ -20,8 +20,9 @@ void getMinimumAppVersion(BuildContext context) async {
   int minVersion = pref.getInt(minAppVersion) ?? 0;
 
   try {
-    final response =
-        await http.get("$apiMinAppVersionByPlatform?isAndroid=true");
+    final response = await http.get(Platform.isAndroid
+        ? "$apiMinAppVersionByPlatform?isAndroid=true"
+        : "$apiMinAppVersionByPlatform?isAndroid=false");
 
     if (response.statusCode == 200) {
       final version = json.decode(response.body);
