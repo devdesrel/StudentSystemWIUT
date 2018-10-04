@@ -19,7 +19,9 @@ class AppUpdatesPage extends StatelessWidget {
                 height: 45.0,
               ),
               Image.asset(
-                'assets/playmarket.png',
+                Platform.isAndroid
+                    ? 'assets/playmarket.png'
+                    : 'assets/appstore.png',
                 height: 60.0,
               ),
               SizedBox(
@@ -69,7 +71,7 @@ class AppUpdatesPage extends StatelessWidget {
                 borderRadius: BorderRadius.all(Radius.circular(100.0)),
               ),
               child: Text(
-                'Ugrade now'.toUpperCase(),
+                'Upgrade now'.toUpperCase(),
                 style: TextStyle(color: accentColor),
               ),
               onPressed: () {
