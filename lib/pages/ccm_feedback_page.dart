@@ -311,9 +311,10 @@ class CCMFeedbackPage extends StatelessWidget {
             backgroundColor: backgroundColor,
             floatingActionButton: FutureBuilder<bool>(
                 future: _getSharedPrefData(),
-                builder: (context, snapshot) =>
-                    snapshot.hasData && !snapshot.data
-                        ? FloatingActionButton(
+                builder: (context, snapshot) => snapshot.hasData
+                    ? snapshot.data
+                        ? Container()
+                        : FloatingActionButton(
                             onPressed: () {
                               Navigator.of(context).push(MaterialPageRoute(
                                   builder: (context) => CCMAddFeedBackPage(
@@ -329,7 +330,7 @@ class CCMFeedbackPage extends StatelessWidget {
                             },
                             child: Icon(Icons.add),
                           )
-                        : Container()),
+                    : Container()),
             body: _getCarousel(),
           )
         : Material(
@@ -341,7 +342,7 @@ class CCMFeedbackPage extends StatelessWidget {
                   trailing: Material(
                     color: Colors.transparent,
                     child: IconButton(
-                      icon: Icon(CupertinoIcons.add),
+                      icon: Icon(Icons.add),
                       onPressed: () {
                         Navigator.of(context).push(MaterialPageRoute(
                             builder: (context) => CCMAddFeedBackPage(
