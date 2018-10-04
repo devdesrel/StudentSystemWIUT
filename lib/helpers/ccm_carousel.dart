@@ -190,9 +190,8 @@ class CCMCarouselState extends State<CCMCarousel> {
           ),
           Positioned(
               top: 0.0,
-              left: size.width / 2.5,
               child: Container(
-                padding: EdgeInsets.symmetric(vertical: 10.0),
+                width: size.width,
                 child: Center(
                   child: DotsIndicator(
                     controller: _controller,
@@ -303,7 +302,7 @@ class DotsIndicator extends AnimatedWidget {
   }
 
   Widget build(BuildContext context) {
-    return new Row(
+    return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: new List<Widget>.generate(itemCount, _buildDot),
     );

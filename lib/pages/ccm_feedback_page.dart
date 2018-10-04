@@ -342,7 +342,7 @@ class CCMFeedbackPage extends StatelessWidget {
                   trailing: Material(
                     color: Colors.transparent,
                     child: IconButton(
-                      icon: Icon(CupertinoIcons.add),
+                      icon: Icon(Icons.add),
                       onPressed: () {
                         Navigator.of(context).push(MaterialPageRoute(
                             builder: (context) => CCMAddFeedBackPage(
