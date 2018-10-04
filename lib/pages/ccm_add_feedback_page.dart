@@ -25,8 +25,14 @@ class _CCMAddFeedBackPageState extends State<CCMAddFeedBackPage> {
   var formKey = GlobalKey<FormState>();
   CCMAddFeedbackBloc bloc;
   bool isTextChanged = false;
-  // String oldText;
-  // TextEditingController _controller = new TextEditingController();
+  String oldText;
+  TextEditingController _testController;
+
+  void onChange() {
+    // String text = _controller.text;
+    //do your text transforming
+    // _controller.text = newText;
+  }
 
   // void onChange() {
   //   // _controller.text=_contr
@@ -49,20 +55,25 @@ class _CCMAddFeedBackPageState extends State<CCMAddFeedBackPage> {
     bloc = CCMAddFeedbackBloc(context, widget.model);
 
     if (widget.model.viewType == FeedbackViewType.Edit) {
+      _testController = TextEditingController(text: widget.model.feedback.text);
+
       bloc.groupCoverage = widget.model.feedback.groupCoverage.toDouble();
       bloc.commentMessage = widget.model.feedback.text;
       //
-      // oldText = bloc.commentMessage = widget.model.feedback.text;
+      oldText = bloc.commentMessage = widget.model.feedback.text;
       //
       bloc.staffID = widget.model.feedback.staffID.toString();
       bloc.depOrModID = widget.model.feedback.depOrModID;
       bloc.isPositive = widget.model.feedback.isPositive;
       bloc.feedbackCategory = widget.model.feedback.type;
+    } else if (widget.model.viewType == FeedbackViewType.Add) {
+      _testController = TextEditingController(text: '');
+      oldText = '';
     }
     // if(_controller.text==null || _controller.text==''){
     //   _controller.text = oldText;
     // }
-    // _controller.addListener(onChange);
+    _testController.addListener(onChange);
     super.initState();
   }
 
@@ -187,7 +198,7 @@ class _CCMAddFeedBackPageState extends State<CCMAddFeedBackPage> {
     }
 
     Future<bool> _onBackPressed(BuildContext context) async {
-      if (widget.model.viewType == FeedbackViewType.Edit) {
+      if (oldText != _testController.text) {
         return showDialog<Null>(
           context: context,
           barrierDismissible: false,
@@ -328,9 +339,9 @@ class _CCMAddFeedBackPageState extends State<CCMAddFeedBackPage> {
                             stream: bloc.autoValidation,
                             initialData: false,
                             builder: (context, snapshot) => TextFormField(
-                                  initialValue: widget.model.feedback != null
-                                      ? widget.model.feedback.text
-                                      : '',
+                                  // initialValue: widget.model.feedback != null
+                                  //     ? widget.model.feedback.text
+                                  //     : '',
                                   style: Theme.of(context)
                                       .textTheme
                                       .body2
@@ -339,6 +350,11 @@ class _CCMAddFeedBackPageState extends State<CCMAddFeedBackPage> {
                                           fontWeight: FontWeight.normal),
                                   autovalidate:
                                       snapshot.hasData ? snapshot.data : false,
+                                  controller: _testController,
+                                  // widget.model.viewType ==
+                                  //         FeedbackViewType.Add
+                                  //     ? _controller
+                                  //     : _testController,
                                   autofocus: false,
                                   maxLines: 7,
                                   keyboardType: TextInputType.multiline,
@@ -533,10 +549,11 @@ class _CCMAddFeedBackPageState extends State<CCMAddFeedBackPage> {
                               child: InkWell(
                                 highlightColor: Colors.red[400].withAlpha(20),
                                 splashColor: Colors.red[400].withAlpha(20),
-                                onTap: () {
-                                  if (widget.model.feedback != null)
-                                    bloc.deleteFeedback(widget.model.feedback);
-                                },
+                                onTap: () => showDeleteDialog(context),
+
+                                // if (widget.model.feedback != null)
+                                //   bloc.deleteFeedback(widget.model.feedback);
+
                                 child: Container(
                                   padding: EdgeInsets.symmetric(vertical: 16.0),
                                   decoration: BoxDecoration(
@@ -673,10 +690,10 @@ class _CCMAddFeedBackPageState extends State<CCMAddFeedBackPage> {
                                   stream: bloc.autoValidation,
                                   initialData: false,
                                   builder: (context, snapshot) => TextFormField(
-                                        initialValue:
-                                            widget.model.feedback != null
-                                                ? widget.model.feedback.text
-                                                : '',
+                                        controller: _testController,
+                                        // widget.model.feedback != null
+                                        //     ? widget.model.feedback.text
+                                        //     : '',
                                         style: Theme.of(context)
                                             .textTheme
                                             .body2
