@@ -93,10 +93,13 @@ void getUserProfileForTheCurrentYear() async {
             .map<ProfileModel>((item) => ProfileModel.fromJson(item))
             .toList();
 
-        var currentProfile = profile[profile.length - 1];
+        if (profile != null && profile.length > 0) {
+          var currentProfile = profile[profile.length - 1];
 
-        prefs.setString(groupNameSharedPref, currentProfile.groupName);
-        prefs.setInt(academicYearIDSharedPref, currentProfile.acadYearIDField);
+          prefs.setString(groupNameSharedPref, currentProfile.groupName);
+          prefs.setInt(
+              academicYearIDSharedPref, currentProfile.acadYearIDField);
+        }
       }
     }
 

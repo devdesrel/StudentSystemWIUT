@@ -95,6 +95,7 @@ class CCMFeedbackItemBloc {
     final _token = prefs.getString(token);
 
     try {
+      print(depOrModID);
       final response = await http.get(
           "$apiCCMFeedbackGetFeedback?type=$type&depOrModID=$depOrModID",
           headers: {
