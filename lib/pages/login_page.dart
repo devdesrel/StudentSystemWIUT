@@ -109,13 +109,13 @@ class _LoginPageState extends State<LoginPage> implements AuthStateListener {
         print(data[token]);
         await prefs.setString(token, data['token']);
 
-        if (_role != null && _role.contains('student')) {
+        if (_role != null && _role.contains('SU')) {
+          await prefs.setString(userRole, 'student');
+          await prefs.setBool(isSU, true);
+        } else if (_role != null && _role.contains('student')) {
           await prefs.setString(userRole, 'student');
         } else if (_role != null && _role.contains('staff')) {
           await prefs.setString(userRole, 'staff');
-        } else if (_role != null && _role.contains('SU')) {
-          await prefs.setString(userRole, 'student');
-          await prefs.setBool(isSU, true);
         }
 
         await prefs.setString(tokenExpireDay,

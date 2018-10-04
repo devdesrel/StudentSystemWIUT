@@ -192,6 +192,7 @@ class CCMCarouselState extends State<CCMCarousel> {
               top: 0.0,
               child: Container(
                 width: size.width,
+                padding: EdgeInsets.only(top: 10.0),
                 child: Center(
                   child: DotsIndicator(
                     controller: _controller,
