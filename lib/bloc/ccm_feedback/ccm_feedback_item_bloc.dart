@@ -29,11 +29,14 @@ class CCMFeedbackItemBloc {
 
   int feedbackType = 0;
   int depOrModID = 0;
+  int groupID = 0;
 
-  CCMFeedbackItemBloc(String depOrModID) {
+  CCMFeedbackItemBloc(String depOrModID, String groupID) {
     if (depOrModID == null || depOrModID == '') depOrModID = '0';
+    if (groupID == null || groupID == '') groupID = '0';
 
     this.depOrModID = int.parse(depOrModID);
+    this.groupID = int.parse(groupID);
 
     _setIsPositiveController.stream.listen((_value) {
       _isPositiveSubject.add(_value);
@@ -97,7 +100,9 @@ class CCMFeedbackItemBloc {
     try {
       print(depOrModID);
       final response = await http.get(
-          "$apiCCMFeedbackGetFeedback?type=$type&depOrModID=$depOrModID",
+          groupID == 0
+              ? "$apiCCMFeedbackGetFeedback?type=$type&depOrModID=$depOrModID"
+              : "$apiCCMFeedbackGetFeedback?type=$type&depOrModID=$depOrModID&groupID=$groupID",
           headers: {
             "Accept": "application/json",
             "Authorization": "Bearer $_token"

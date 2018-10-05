@@ -81,7 +81,7 @@ class CCMFeedbackPage extends StatelessWidget {
       _listOfPageBlocs = [];
 
       for (var i = 0; i < list.length; i++) {
-        var _pageBloc = CCMFeedbackItemBloc(list[i].value);
+        var _pageBloc = CCMFeedbackItemBloc(list[i].value, groupID);
         _listOfPageBlocs.add(_pageBloc);
         _listOfPageBlocs[i].depOrModID = int.parse(list[i].value);
 
