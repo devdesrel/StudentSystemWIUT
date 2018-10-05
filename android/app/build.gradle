@@ -30,8 +30,8 @@ android {
         applicationId "com.wiut.studentsystemflutter"
         minSdkVersion 16
         targetSdkVersion 27
-        versionCode 7
-        versionName "0.5.0"
+        versionCode 9
+        versionName "0.6.1"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
 

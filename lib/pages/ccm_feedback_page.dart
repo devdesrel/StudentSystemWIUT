@@ -309,12 +309,7 @@ class CCMFeedbackPage extends StatelessWidget {
               centerTitle: true,
             ),
             backgroundColor: backgroundColor,
-            floatingActionButton: FutureBuilder<bool>(
-                future: _getSharedPrefData(),
-                builder: (context, snapshot) => snapshot.hasData
-                    ? snapshot.data
-                        ? Container()
-                        : FloatingActionButton(
+            floatingActionButton: FloatingActionButton(
                             onPressed: () {
                               Navigator.of(context).push(MaterialPageRoute(
                                   builder: (context) => CCMAddFeedBackPage(
@@ -329,8 +324,29 @@ class CCMFeedbackPage extends StatelessWidget {
                                               .feedbackType))));
                             },
                             child: Icon(Icons.add),
-                          )
-                    : Container()),
+                          ),
+            // floatingActionButton: FutureBuilder<bool>(
+            //     future: _getSharedPrefData(),
+            //     builder: (context, snapshot) => snapshot.hasData
+            //         ? snapshot.data
+            //             ? Container()
+            //             : FloatingActionButton(
+            //                 onPressed: () {
+            //                   Navigator.of(context).push(MaterialPageRoute(
+            //                       builder: (context) => CCMAddFeedBackPage(
+            //                           model: CCMAddFeedbackPageModel(
+            //                               viewType: FeedbackViewType.Add,
+            //                               depOrMod: requestType,
+            //                               depOrModID: _listOfPageBlocs[
+            //                                       _bloc.currentPageIndex]
+            //                                   .depOrModID,
+            //                               feedbackType: _listOfPageBlocs[
+            //                                       _bloc.currentPageIndex]
+            //                                   .feedbackType))));
+            //                 },
+            //                 child: Icon(Icons.add),
+            //               )
+            //         : Container()),
             body: _getCarousel(),
           )
         : Material(
