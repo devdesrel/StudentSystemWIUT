@@ -37,12 +37,14 @@ class CCMFeedbackBloc {
 
   // int feedbackType = 0;
   String _type = 'modules';
+  String groupID;
   // int depOrModID = 0;
   int currentPageIndex = 0;
   List<CCMFeedbackAsSelectedList> _categoriesList = [];
 
-  CCMFeedbackBloc(BuildContext context, String requestType) {
+  CCMFeedbackBloc(BuildContext context, String requestType, String groupID) {
     _type = requestType;
+    this.groupID = groupID;
     _getCategorySelectionList(context);
 
     // _setIsPositiveController.stream.listen((_value) {
@@ -62,11 +64,14 @@ class CCMFeedbackBloc {
     final _token = prefs.getString(token);
 
     try {
-      final response = await http
-          .get("$apiCCMFeedbackGetCategorySelectionList?type=$_type", headers: {
-        "Accept": "application/json",
-        "Authorization": "Bearer $_token"
-      });
+      final response = await http.get(
+          groupID == null
+              ? "$apiCCMFeedbackGetCategorySelectionList?type=$_type"
+              : "$apiCCMFeedbackGetCategorySelectionList?type=$_type&groupID=$groupID",
+          headers: {
+            "Accept": "application/json",
+            "Authorization": "Bearer $_token"
+          });
 
       if (response.statusCode == 200) {
         final parsed = json.decode(response.body);

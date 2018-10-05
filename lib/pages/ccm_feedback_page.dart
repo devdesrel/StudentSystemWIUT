@@ -9,6 +9,7 @@ import 'package:student_system_flutter/bloc/ccm_feedback/ccm_feedback_item_bloc.
 import 'package:student_system_flutter/enums/ApplicationEnums.dart';
 import 'package:student_system_flutter/helpers/app_constants.dart';
 import 'package:student_system_flutter/helpers/ccm_carousel.dart';
+import 'package:student_system_flutter/helpers/function_helpers.dart';
 
 import 'package:student_system_flutter/helpers/ui_helpers.dart';
 import 'package:student_system_flutter/models/CCMFeedback/ccm_add_feedback_page_model.dart';
@@ -20,8 +21,9 @@ import 'package:student_system_flutter/pages/ccm_add_feedback_page.dart';
 class CCMFeedbackPage extends StatelessWidget {
   final CCMFeedbackCategory requestType;
   Widget _currentPage;
+  String groupID;
 
-  CCMFeedbackPage({@required this.requestType});
+  CCMFeedbackPage({@required this.requestType, this.groupID});
 
   Future<bool> _getSharedPrefData() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -48,7 +50,7 @@ class CCMFeedbackPage extends StatelessWidget {
         ? _modules
         : _departments;
 
-    final _bloc = CCMFeedbackBloc(context, _type);
+    final _bloc = CCMFeedbackBloc(context, _type, groupID);
 
     var size = MediaQuery.of(context).size;
 
@@ -224,22 +226,24 @@ class CCMFeedbackPage extends StatelessWidget {
                                             ),
                                             InkWell(
                                                 onTap: () {
-                                                  Navigator.of(context).push(MaterialPageRoute(
-                                                      builder: (context) => CCMAddFeedBackPage(
-                                                          model: CCMAddFeedbackPageModel(
-                                                              feedback: snapshot
-                                                                  .data[i],
-                                                              viewType:
-                                                                  FeedbackViewType
-                                                                      .Edit,
-                                                              depOrMod:
-                                                                  requestType,
-                                                              depOrModID:
-                                                                  _pageBloc
-                                                                      .depOrModID,
-                                                              feedbackType:
-                                                                  _pageBloc
-                                                                      .feedbackType))));
+                                                  getSharedPrefData().then((val) => !val
+                                                      ? Navigator.of(context).push(MaterialPageRoute(
+                                                          builder: (context) => CCMAddFeedBackPage(
+                                                              model: CCMAddFeedbackPageModel(
+                                                                  feedback: snapshot
+                                                                      .data[i],
+                                                                  viewType:
+                                                                      FeedbackViewType
+                                                                          .Edit,
+                                                                  depOrMod:
+                                                                      requestType,
+                                                                  depOrModID:
+                                                                      _pageBloc
+                                                                          .depOrModID,
+                                                                  feedbackType:
+                                                                      _pageBloc
+                                                                          .feedbackType))))
+                                                      : null);
                                                 },
                                                 child: DrawCardBody(
                                                   groupCoverage: snapshot
@@ -309,7 +313,31 @@ class CCMFeedbackPage extends StatelessWidget {
               centerTitle: true,
             ),
             backgroundColor: backgroundColor,
-            floatingActionButton: FloatingActionButton(
+            // floatingActionButton:
+            //                                       getSharedPrefData().then((val) => !val ?
+
+            //  FloatingActionButton(
+            //   onPressed: () {
+            //     Navigator.of(context).push(MaterialPageRoute(
+            //         builder: (context) => CCMAddFeedBackPage(
+            //             model: CCMAddFeedbackPageModel(
+            //                 viewType: FeedbackViewType.Add,
+            //                 depOrMod: requestType,
+            //                 depOrModID: _listOfPageBlocs[_bloc.currentPageIndex]
+            //                     .depOrModID,
+            //                 feedbackType:
+            //                     _listOfPageBlocs[_bloc.currentPageIndex]
+            //                         .feedbackType))));
+            //   },
+            //   child: Icon(Icons.add),
+            // ): Container(),
+            floatingActionButton: FutureBuilder<bool>(
+                future: _getSharedPrefData(),
+                initialData: false,
+                builder: (context, snapshot) => snapshot.hasData
+                    ? snapshot.data
+                        ? Container()
+                        : FloatingActionButton(
                             onPressed: () {
                               Navigator.of(context).push(MaterialPageRoute(
                                   builder: (context) => CCMAddFeedBackPage(
@@ -324,29 +352,8 @@ class CCMFeedbackPage extends StatelessWidget {
                                               .feedbackType))));
                             },
                             child: Icon(Icons.add),
-                          ),
-            // floatingActionButton: FutureBuilder<bool>(
-            //     future: _getSharedPrefData(),
-            //     builder: (context, snapshot) => snapshot.hasData
-            //         ? snapshot.data
-            //             ? Container()
-            //             : FloatingActionButton(
-            //                 onPressed: () {
-            //                   Navigator.of(context).push(MaterialPageRoute(
-            //                       builder: (context) => CCMAddFeedBackPage(
-            //                           model: CCMAddFeedbackPageModel(
-            //                               viewType: FeedbackViewType.Add,
-            //                               depOrMod: requestType,
-            //                               depOrModID: _listOfPageBlocs[
-            //                                       _bloc.currentPageIndex]
-            //                                   .depOrModID,
-            //                               feedbackType: _listOfPageBlocs[
-            //                                       _bloc.currentPageIndex]
-            //                                   .feedbackType))));
-            //                 },
-            //                 child: Icon(Icons.add),
-            //               )
-            //         : Container()),
+                          )
+                    : Container()),
             body: _getCarousel(),
           )
         : Material(
@@ -355,26 +362,60 @@ class CCMFeedbackPage extends StatelessWidget {
                 backgroundColor: backgroundColor,
                 navigationBar: CupertinoNavigationBar(
                   automaticallyImplyLeading: true,
-                  trailing: Material(
-                    color: Colors.transparent,
-                    child: IconButton(
-                      icon: Icon(Icons.add),
-                      onPressed: () {
-                        Navigator.of(context).push(MaterialPageRoute(
-                            builder: (context) => CCMAddFeedBackPage(
-                                model: CCMAddFeedbackPageModel(
-                                    viewType: FeedbackViewType.Add,
-                                    depOrMod: requestType,
-                                    depOrModID:
-                                        _listOfPageBlocs[_bloc.currentPageIndex]
-                                            .depOrModID,
-                                    feedbackType:
-                                        _listOfPageBlocs[_bloc.currentPageIndex]
-                                            .feedbackType))));
-                      },
-                    ),
-                  ),
                   middle: Text("CCM Feedback"),
+
+                  trailing: FutureBuilder<bool>(
+                      future: _getSharedPrefData(),
+                      initialData: false,
+                      builder: (context, snapshot) => snapshot.hasData
+                          ? snapshot.data
+                              ? Container(
+                                  width: 1.0,
+                                )
+                              : Material(
+                                  color: Colors.transparent,
+                                  child: IconButton(
+                                    icon: Icon(Icons.add),
+                                    onPressed: () {
+                                      Navigator.of(context).push(MaterialPageRoute(
+                                          builder: (context) => CCMAddFeedBackPage(
+                                              model: CCMAddFeedbackPageModel(
+                                                  viewType:
+                                                      FeedbackViewType.Add,
+                                                  depOrMod: requestType,
+                                                  depOrModID: _listOfPageBlocs[
+                                                          _bloc
+                                                              .currentPageIndex]
+                                                      .depOrModID,
+                                                  feedbackType:
+                                                      _listOfPageBlocs[_bloc
+                                                              .currentPageIndex]
+                                                          .feedbackType))));
+                                    },
+                                    // child: Icon(Icons.add),
+                                  ))
+                          : Container(
+                              width: 1.0,
+                            )),
+                  // Material(
+                  //   color: Colors.transparent,
+                  //   child: IconButton(
+                  //     icon: Icon(Icons.add),
+                  //     onPressed: () {
+                  //       Navigator.of(context).push(MaterialPageRoute(
+                  //           builder: (context) => CCMAddFeedBackPage(
+                  //               model: CCMAddFeedbackPageModel(
+                  //                   viewType: FeedbackViewType.Add,
+                  //                   depOrMod: requestType,
+                  //                   depOrModID:
+                  //                       _listOfPageBlocs[_bloc.currentPageIndex]
+                  //                           .depOrModID,
+                  //                   feedbackType:
+                  //                       _listOfPageBlocs[_bloc.currentPageIndex]
+                  //                           .feedbackType))));
+                  //     },
+                  //   ),
+                  // ),
                 ),
                 child: SafeArea(child: _getCarousel())),
           );

@@ -34,8 +34,10 @@ class CCMFeedbackCategoryPage extends StatelessWidget {
                         onTap: () {
                           Navigator.of(context).push(MaterialPageRoute(
                               builder: (context) => CCMFeedbackPage(
-                                  requestType:
-                                      CCMFeedbackCategory.ModulesFeedback)));
+                                    requestType:
+                                        CCMFeedbackCategory.ModulesFeedback,
+                                    groupID: groupID,
+                                  )));
                         },
                       ),
                     ),
@@ -47,8 +49,10 @@ class CCMFeedbackCategoryPage extends StatelessWidget {
                         onTap: () {
                           Navigator.of(context).push(MaterialPageRoute(
                               builder: (context) => CCMFeedbackPage(
-                                  requestType: CCMFeedbackCategory
-                                      .DepartmentsFeedback)));
+                                    requestType:
+                                        CCMFeedbackCategory.DepartmentsFeedback,
+                                    groupID: groupID,
+                                  )));
                         },
                       ),
                     ),
@@ -79,8 +83,10 @@ class CCMFeedbackCategoryPage extends StatelessWidget {
                             onTap: () {
                               Navigator.of(context).push(MaterialPageRoute(
                                   builder: (context) => CCMFeedbackPage(
-                                      requestType: CCMFeedbackCategory
-                                          .ModulesFeedback)));
+                                        requestType:
+                                            CCMFeedbackCategory.ModulesFeedback,
+                                        groupID: groupID,
+                                      )));
                             },
                           ),
                         ),
@@ -92,8 +98,10 @@ class CCMFeedbackCategoryPage extends StatelessWidget {
                             onTap: () {
                               Navigator.of(context).push(MaterialPageRoute(
                                   builder: (context) => CCMFeedbackPage(
-                                      requestType: CCMFeedbackCategory
-                                          .DepartmentsFeedback)));
+                                        requestType: CCMFeedbackCategory
+                                            .DepartmentsFeedback,
+                                        groupID: groupID,
+                                      )));
                             },
                           ),
                         ),

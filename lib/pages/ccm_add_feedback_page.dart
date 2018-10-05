@@ -285,6 +285,7 @@ class _CCMAddFeedBackPageState extends State<CCMAddFeedBackPage> {
             // },
             child: Scaffold(
               appBar: AppBar(
+                centerTitle: true,
                 title: Text(widget.model.viewType == FeedbackViewType.Add
                     ? 'Add feedback'
                     : 'Edit Feedback'),
