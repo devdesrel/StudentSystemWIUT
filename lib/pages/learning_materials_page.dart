@@ -353,7 +353,8 @@ class _MaterialsListTabState extends State<MaterialsListTab>
 
     List<String> _learningMaterialTypes = <String>[
       'Lectures',
-      'Tutorials',
+      'Seminars',
+      'Other',
       // 'Courseworks'
     ];
 
@@ -564,7 +565,9 @@ class LearningMaterialsCard extends StatelessWidget {
     if (typeID == 1) {
       return 'Lectures';
     } else if (typeID == 2) {
-      return 'Tutorials';
+      return 'Seminars';
+    } else if (typeID == 3) {
+      return 'Other';
     }
     return '';
   }

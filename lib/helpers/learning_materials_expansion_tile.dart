@@ -27,8 +27,10 @@ class LearningMaterialsExpansionTile extends StatelessWidget {
                 onTap: () {
                   if (name == 'Lectures') {
                     bloc.setLearningMaterialType.add(1);
-                  } else if (name == 'Tutorials') {
+                  } else if (name == 'Seminars') {
                     bloc.setLearningMaterialType.add(2);
+                  } else if (name == 'Other') {
+                    bloc.setLearningMaterialType.add(3);
                   }
                   expansionTile.currentState.collapse();
                 },

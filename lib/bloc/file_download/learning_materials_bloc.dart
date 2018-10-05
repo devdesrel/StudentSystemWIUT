@@ -77,8 +77,11 @@ class LearningMaterialsBloc {
         _learningMaterialTypeSubject.add('Lectures');
         materialType = 'Lectures';
       } else if (typeID == 2) {
-        _learningMaterialTypeSubject.add('Tutorials');
-        materialType = 'Tutorials';
+        _learningMaterialTypeSubject.add('Seminars');
+        materialType = 'Seminars';
+      } else if (typeID == 3) {
+        _learningMaterialTypeSubject.add('Other');
+        materialType = 'Other';
       }
 
       materialTypeID = typeID;

@@ -102,7 +102,10 @@ class _CCMAddFeedBackPageState extends State<CCMAddFeedBackPage> {
 
       if (_value == 0.0) {
         return false;
-      } else if (teacherName == '' || teacherName == 'Select a teacher') {
+      } else if (widget.model.viewType == FeedbackViewType.Edit &&
+              teacherName == '' ||
+          widget.model.viewType == FeedbackViewType.Edit &&
+              teacherName == 'Select a teacher') {
         return false;
       } else {
         return true;
