@@ -55,6 +55,7 @@ final ccmAddFeedbackPage = '/ccmAddFeedbackPage';
 final testPage2 = '/testPage2';
 final replyPage = '/replyPage';
 final ccmCategoryPage = '/ccmCategoryPage';
+final ccmFeedbackForSUPage = '/ccmFeedbackForSUPage';
 
 //Shared preferance keys
 final lastAppVersion = 'lastAppVersion';
@@ -115,6 +116,8 @@ final apiCCMFeedbackGetFeedback = '$baseUrl/api/CCMFeedback/GetFeedback';
 
 final apiCCMFeedbackGetModuleRepresentativesAsSelectList =
     '$baseUrl/api/CCMFeedback/GetModuleRepresentativesAsSelectList';
+final getAllCurrentGroupsAsSelectList =
+    '$baseUrl/api/CCMFeedback/GetAllCurrentGroupsAsSelectList';
 
 final apiCCMFeedbackAddFeedback = '$baseUrl/api/CCMFeedback/AddFeedback';
 final apiCCMFeedbackEditFeedback = '$baseUrl/api/CCMFeedback/EditFeedback';

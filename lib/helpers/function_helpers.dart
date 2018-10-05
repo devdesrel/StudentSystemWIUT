@@ -152,6 +152,13 @@ bool isNumeric(String s) {
   return double.parse(s, (e) => null) != null;
 }
 
+Future<bool> getSharedPrefData() async {
+  SharedPreferences prefs = await SharedPreferences.getInstance();
+  bool val = prefs.getBool(isSU);
+
+  return val;
+}
+
 void showSnackBar(String text, GlobalKey<ScaffoldState> scaffoldKey,
     [int duration = 2, bool isSuccessful = false]) {
   scaffoldKey.currentState.showSnackBar(SnackBar(

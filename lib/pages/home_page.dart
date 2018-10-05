@@ -149,7 +149,6 @@ void openSelectedPage(BuildContext context, MainPageGridItems page) {
               ModulesPage(requestType: RequestType.GetTeachingMaterials)));
       break;
     case MainPageGridItems.OFFENCES:
-      // Navigator.of(context).pushNamed(offencesPage);
       Navigator.of(context).pushNamed(offencesPage);
       break;
     case MainPageGridItems.COURSEWORK_UPLOAD:
@@ -162,7 +161,8 @@ void openSelectedPage(BuildContext context, MainPageGridItems page) {
       Navigator.of(context).pushNamed(socialPage);
       break;
     case MainPageGridItems.CCMFEEDBACK:
-      Navigator.of(context).pushNamed(ccmCategoryPage);
+      getSharedPrefData().then((val) => Navigator.of(context)
+          .pushNamed(val ? ccmFeedbackForSUPage : ccmCategoryPage));
       break;
     default:
       print('Nothing');

@@ -9,6 +9,9 @@ import 'package:student_system_flutter/helpers/ui_helpers.dart';
 import 'package:student_system_flutter/pages/ccm_feedback_page.dart';
 
 class CCMFeedbackCategoryPage extends StatelessWidget {
+  final String groupID;
+  CCMFeedbackCategoryPage({this.groupID});
+
   @override
   Widget build(BuildContext context) {
     return Platform.isAndroid
