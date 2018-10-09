@@ -48,10 +48,13 @@ class _CCMFeedbackForSUPageState extends State<CCMFeedbackForSUPage> {
         // _feedbackCategoriesListSubject.add(_categoriesList);
       } else {
         showFlushBar('Error', tryAgain, MessageTypes.ERROR, context, 2);
+        return null;
       }
     } catch (e) {
       showFlushBar(connectionFailure, checkInternetConnection,
           MessageTypes.ERROR, context, 2);
+      return null;
+
       // _feedbackCategoriesListSubject.add(null);
     }
   }

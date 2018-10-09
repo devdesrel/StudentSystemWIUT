@@ -169,13 +169,15 @@ class CCMAddFeedbackBloc {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     final _token = prefs.getString(token);
     String postJson;
+    String quotesFixedFeedbackText =
+        commentMessage.replaceAll('\'', '\\\'').replaceAll('\"', '\\\"');
 
     if (feedbackCategory == 'modules') {
       postJson =
-          '{"Type": "$feedbackCategory", "IsPositive": $isPositive, "DepOrModID": ${model.depOrModID}, "StaffID": ${int.tryParse(staffID)}, "GroupCoverage": ${groupCoverage.toInt()}, "Text": "$commentMessage"}';
+          '{"Type": "$feedbackCategory", "IsPositive": $isPositive, "DepOrModID": ${model.depOrModID}, "StaffID": ${int.tryParse(staffID)}, "GroupCoverage": ${groupCoverage.toInt()}, "Text": "$quotesFixedFeedbackText"}';
     } else {
       postJson =
-          '{"Type": "$feedbackCategory", "IsPositive": $isPositive, "DepOrModID": ${model.depOrModID}, "GroupCoverage": ${groupCoverage.toInt()}, "Text": "$commentMessage"}';
+          '{"Type": "$feedbackCategory", "IsPositive": $isPositive, "DepOrModID": ${model.depOrModID}, "GroupCoverage": ${groupCoverage.toInt()}, "Text": "$quotesFixedFeedbackText"}';
     }
 
     // print(postData.toString());
@@ -200,14 +202,16 @@ class CCMAddFeedbackBloc {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     final _token = prefs.getString(token);
 
+    String quotesFixedFeedbackText =
+        commentMessage.replaceAll('\'', '\\\'').replaceAll('\"', '\\\"');
     String postJson;
 
     if (feedbackCategory == 'modules') {
       postJson =
-          '{"ID": $feedbackID, "Type": "$feedbackCategory", "IsPositive": $isPositive, "DepOrModID": $depOrModID, "StaffID": ${int.parse(staffID)}, "GroupCoverage": ${groupCoverage.toInt()}, "Text": "$commentMessage"}';
+          '{"ID": $feedbackID, "Type": "$feedbackCategory", "IsPositive": $isPositive, "DepOrModID": $depOrModID, "StaffID": ${int.parse(staffID)}, "GroupCoverage": ${groupCoverage.toInt()}, "Text": "$quotesFixedFeedbackText"}';
     } else {
       postJson =
-          '{"ID": $feedbackID, "Type": "$feedbackCategory", "IsPositive": $isPositive, "DepOrModID": $depOrModID, "GroupCoverage": ${groupCoverage.toInt()}, "Text": "$commentMessage"}';
+          '{"ID": $feedbackID, "Type": "$feedbackCategory", "IsPositive": $isPositive, "DepOrModID": $depOrModID, "GroupCoverage": ${groupCoverage.toInt()}, "Text": "$quotesFixedFeedbackText"}';
     }
     // print(postData.toString());
     try {
