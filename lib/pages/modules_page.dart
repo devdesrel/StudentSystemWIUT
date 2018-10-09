@@ -9,6 +9,7 @@ import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:student_system_flutter/enums/ApplicationEnums.dart';
 import 'package:student_system_flutter/helpers/function_helpers.dart';
+import 'package:student_system_flutter/helpers/ui_helpers.dart';
 import 'package:student_system_flutter/models/LearningMaterials/learning_materials_model.dart';
 import 'package:student_system_flutter/pages/offline_page.dart';
 import 'package:connectivity/connectivity.dart';
@@ -200,11 +201,7 @@ class ModulesPage extends StatelessWidget {
                 }
 
                 // By default, show a loading spinner
-                return Platform.isAndroid
-                    ? Center(child: CircularProgressIndicator())
-                    : Center(
-                        child: CupertinoActivityIndicator(),
-                      );
+                return DrawPlatformCircularIndicator();
               }),
         );
       }
@@ -253,7 +250,7 @@ class ModulesPage extends StatelessWidget {
             ),
             body: FutureBuilder<Widget>(
                 future: _checkInternetConnection(context),
-                initialData: CircularProgressIndicator(),
+                initialData: DrawPlatformCircularIndicator(),
                 builder: (context, snapshot) => snapshot.data),
           )
         : Material(

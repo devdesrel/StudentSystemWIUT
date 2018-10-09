@@ -6,8 +6,10 @@ import 'package:flutter/material.dart';
 import 'package:student_system_flutter/bloc/timetable_page/timetable_bloc.dart';
 import 'package:student_system_flutter/bloc/timetable_page/timetable_provider.dart';
 import 'package:student_system_flutter/helpers/app_constants.dart';
+import 'package:student_system_flutter/helpers/ui_helpers.dart';
 import 'package:student_system_flutter/list_items/item_week_timetable.dart';
 import 'package:student_system_flutter/models/Timetable/timetable_model.dart';
+import 'package:student_system_flutter/pages/timetable_picker_ios.dart';
 
 class TimetablePage extends StatelessWidget {
   final listItemLength = 6;
@@ -20,7 +22,7 @@ class TimetablePage extends StatelessWidget {
 
     return TimetableProvider(
         timetableBloc: _bloc,
-        child: Platform.isAndroid
+        child: Platform.isIOS
             ? Scaffold(
                 // bottomNavigationBar: Container(
                 //     padding:
@@ -119,7 +121,7 @@ class TimetablePage extends StatelessWidget {
                                           .toList());
                                 });
                           } else if (snapshot.data == null) {
-                            return Center(child: CircularProgressIndicator());
+                            return DrawPlatformCircularIndicator();
                           }
 
                           return Container(
@@ -151,12 +153,21 @@ class TimetablePage extends StatelessWidget {
                                 icon: Icon(FontAwesomeIcons.filter),
                                 iconSize: 17.0,
                                 onPressed: () {
-                                  showModalBottomSheet<void>(
-                                      context: context,
-                                      builder: (BuildContext context) {
-                                        return DrawBottomSheetWidget(
-                                            bloc: _bloc);
-                                      });
+                                  // Navigator.of(context)
+                                  //     .pushNamed(timetablePickerIosPage);
+
+                                  Navigator.of(context).push(MaterialPageRoute(
+                                      builder: (context) =>
+                                          TimetablePickerIosPage(
+                                            bloc: _bloc,
+                                          )));
+                                  // showModalBottomSheet<void>(
+                                  //     context: context,
+                                  //     builder: (BuildContext context) {
+                                  //       return DrawBottomSheetWidget(
+                                  //           bloc: _bloc);
+                                  //     }
+                                  //     );
                                 });
                           } else {
                             return Container(

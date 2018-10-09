@@ -20,6 +20,8 @@ class _SecurityPageState extends State<SecurityPage> {
   bool authenticated = false;
   bool isFingerPrintOn;
   bool fingerprintDenied;
+  bool isSecurityOn;
+  bool isPinCheckOn;
   String _pinCode = '';
   String userPinCode;
   String _pinCodeMask = '';
@@ -36,13 +38,19 @@ class _SecurityPageState extends State<SecurityPage> {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     userPinCode = prefs.getString(pinCode);
     isFingerPrintOn = prefs.getBool(useFingerprint) ?? true;
+    isSecurityOn = prefs.getBool(isSecurityValueOn) ?? true;
 
     _bloc.setUseFingerprint.add(isFingerPrintOn);
-
-    if (isFingerPrintOn) {
-      fingerprintDenied = false;
+    if (isSecurityOn) {
+      isPinCheckOn = true;
+      if (isFingerPrintOn) {
+        fingerprintDenied = false;
+      } else {
+        fingerprintDenied = true;
+      }
     } else {
       fingerprintDenied = true;
+      isPinCheckOn = false;
     }
 
     _authenticate();

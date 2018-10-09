@@ -8,6 +8,7 @@ import 'package:student_system_flutter/bloc/file_download/learning_materials_blo
 import 'package:student_system_flutter/bloc/file_download/learning_materials_provider.dart';
 import 'package:student_system_flutter/helpers/learning_materials_academic_year_expansion_tile.dart';
 import 'package:student_system_flutter/helpers/learning_materials_expansion_tile.dart';
+import 'package:student_system_flutter/helpers/ui_helpers.dart';
 import 'package:student_system_flutter/list_items/item_file_downloading.dart';
 import 'package:student_system_flutter/models/LearningMaterials/learning_materials_model.dart';
 import 'package:student_system_flutter/models/LearningMaterials/single_learning_material_model.dart';
@@ -451,10 +452,7 @@ class _MaterialsListTabState extends State<MaterialsListTab>
                 : SliverToBoxAdapter(
                     child: Padding(
                         padding: EdgeInsets.only(top: 20.0),
-                        child: Center(
-                            child: Platform.isAndroid
-                                ? CircularProgressIndicator()
-                                : CupertinoActivityIndicator()))))
+                        child: DrawPlatformCircularIndicator())))
         // itemCount: widget.materialsList.length,
         // itemBuilder:
         // (context, index) => index == 0
@@ -578,7 +576,7 @@ class LearningMaterialsCard extends StatelessWidget {
   _showDialogToDownload(BuildContext context) async {
     var bloc = LearningMaterialsProvider.of(context);
 
-    if (!Platform.isAndroid) {
+    if (Platform.isAndroid) {
       try {
         Permission permission = Permission.WriteExternalStorage;
         bool result = await SimplePermissions.checkPermission(permission);
@@ -627,10 +625,7 @@ class LearningMaterialsCard extends StatelessWidget {
                             ],
                           ),
                           children: _getDialogItems(context, snapshot.data))
-                      : Center(
-                          child: Platform.isAndroid
-                              ? CircularProgressIndicator()
-                              : CupertinoActivityIndicator()),
+                      : DrawPlatformCircularIndicator(),
                 );
               });
         } else {
@@ -684,10 +679,7 @@ class LearningMaterialsCard extends StatelessWidget {
                               ],
                             ),
                             children: _getDialogItems(context, snapshot.data))
-                        : Center(
-                            child: Platform.isAndroid
-                                ? CircularProgressIndicator()
-                                : CupertinoActivityIndicator()),
+                        : DrawPlatformCircularIndicator(),
                   );
                 });
           }

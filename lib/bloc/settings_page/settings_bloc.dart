@@ -6,6 +6,8 @@ import 'package:student_system_flutter/helpers/app_constants.dart';
 
 class SettingsBloc {
   SharedPreferences prefs;
+  bool switchValue;
+  bool securityValue;
 
   ///[Streams] receiving
   Stream<bool> get switchtileValue => _switchtileValueSubject.stream;
@@ -20,6 +22,10 @@ class SettingsBloc {
 
   final _isAutoValidationOnSubject = BehaviorSubject<bool>();
 
+  Stream<bool> get isSecurityOn => _isSecurityOnSubject.stream;
+
+  final _isSecurityOnSubject = BehaviorSubject<bool>(seedValue: true);
+
   /// [Sinks] sending
   Sink<bool> get setSwitchtileValue => _setSwitchtileValueController.sink;
 
@@ -32,9 +38,14 @@ class SettingsBloc {
 
   final _setAutoValidationController = StreamController<bool>();
 
+  Sink<bool> get setSecurityValue => _setSecurityValueController.sink;
+
+  final _setSecurityValueController = StreamController<bool>();
+
   SettingsBloc() {
     // getting Switchtile value from Sharedpreferences
     getSwitchtileValue();
+    getSecurity();
 
     _setSwitchtileValueController.stream.listen((switchtileValue) {
       // setting new Switchtile value to Sharedpreferences
@@ -48,17 +59,34 @@ class SettingsBloc {
     _setAutoValidationController.stream.listen((autoValidation) {
       _isAutoValidationOnSubject.add(autoValidation);
     });
+
+    _setSecurityValueController.stream.listen((value) {
+      setSecurity(value);
+      _isSecurityOnSubject.add(value);
+    });
   }
   setSwitchValue(bool switchValue) async {
     prefs = await SharedPreferences.getInstance();
     prefs.setBool(useFingerprint, switchValue);
   }
 
+  setSecurity(bool value) async {
+    prefs = await SharedPreferences.getInstance();
+    prefs.setBool(isSecurityValueOn, value);
+  }
+
   getSwitchtileValue() async {
     prefs = await SharedPreferences.getInstance();
-    var _switchValue = prefs.getBool(useFingerprint) ?? true;
-    _switchtileValueSubject.add(_switchValue);
-    return _switchValue;
+    switchValue = prefs.getBool(useFingerprint) ?? true;
+    _switchtileValueSubject.add(switchValue);
+    return switchValue;
+  }
+
+  getSecurity() async {
+    prefs = await SharedPreferences.getInstance();
+    securityValue = prefs.getBool(isSecurityValueOn) ?? true;
+    _isSecurityOnSubject.add(securityValue);
+    return securityValue;
   }
 
   void dispose() {
@@ -68,5 +96,7 @@ class SettingsBloc {
     _setPinDataValidityController.close();
     _isAutoValidationOnSubject.close();
     _setAutoValidationController.close();
+    _isSecurityOnSubject.close();
+    _setSecurityValueController.close();
   }
 }
