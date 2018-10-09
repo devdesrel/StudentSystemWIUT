@@ -28,6 +28,7 @@ import 'package:student_system_flutter/pages/social_page.dart';
 import 'package:student_system_flutter/pages/support_page.dart';
 import 'package:student_system_flutter/pages/test_page2.dart';
 import 'package:student_system_flutter/pages/timetable_page.dart';
+import 'package:student_system_flutter/pages/timetable_picker_ios.dart';
 
 import 'app_constants.dart';
 
@@ -61,4 +62,5 @@ final routes = {
   replyPage: (BuildContext context) => FeedbackReplyPage(),
   ccmCategoryPage: (BuildContext context) => CCMFeedbackCategoryPage(),
   ccmFeedbackForSUPage: (BuildContext context) => CCMFeedbackForSUPage(),
+  timetablePickerIosPage: (BuildContext context) => TimetablePickerIosPage(),
 };

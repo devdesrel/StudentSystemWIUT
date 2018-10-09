@@ -10,6 +10,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:student_system_flutter/bloc/settings_page/change_pin_bloc.dart';
 import 'package:student_system_flutter/enums/ApplicationEnums.dart';
 import 'package:student_system_flutter/helpers/function_helpers.dart';
+import 'package:student_system_flutter/helpers/ui_helpers.dart';
 import 'package:student_system_flutter/pages/iOS_pages/ios_pin_set.dart';
 import '../helpers/app_constants.dart';
 import '../helpers/auth.dart';
@@ -124,6 +125,7 @@ class _LoginPageState extends State<LoginPage> implements AuthStateListener {
         await prefs.setString(userPasssword, _password);
         await prefs.setBool(isLoggedIn, true);
         var pin = prefs.getString(pinCode);
+        var securityValue = prefs.getBool(isSecurityValueOn);
         // AnimationController controller;
         // Animation<double> animation =
         //     new Tween(begin: 0.1, end: 1.0).animate(controller);
@@ -141,7 +143,11 @@ class _LoginPageState extends State<LoginPage> implements AuthStateListener {
           // return CupertinoFullscreenDialogTransition(
           //     child: Container(color: Colors.redAccent), animation: animation);
         } else {
-          Navigator.of(context).pushReplacementNamed(securityPage);
+          if (securityValue) {
+            Navigator.of(context).pushReplacementNamed(securityPage);
+          } else {
+            Navigator.of(context).pushReplacementNamed(homePage);
+          }
         }
       } else
         showFlushBar(authProblems, usernamePasswordIncorrect,
@@ -262,10 +268,7 @@ class _LoginPageState extends State<LoginPage> implements AuthStateListener {
               progressDialogVisible
                   ? Container(
                       color: lightOverlayColor,
-                      child: Center(
-                          child: Platform.isAndroid
-                              ? CircularProgressIndicator()
-                              : CupertinoActivityIndicator()))
+                      child: DrawPlatformCircularIndicator())
                   : Container()
             ],
           ),
@@ -404,11 +407,18 @@ class _LoginPageState extends State<LoginPage> implements AuthStateListener {
   }
 
   @override
-  void onAuthStateChanged(AuthState state) {
+  void onAuthStateChanged(AuthState state) async {
+    var prefs = await SharedPreferences.getInstance();
+    var securityValue = prefs.getBool(isSecurityValueOn);
     if (state == AuthState.SHOW_PREVIEW_PAGE)
       Navigator.of(context).pushReplacementNamed(previewPage);
-    else if (state == AuthState.LOGGED_IN)
-      Navigator.of(context).pushReplacementNamed(securityPage);
+    else if (state == AuthState.LOGGED_IN) {
+      if (securityValue) {
+        Navigator.of(context).pushReplacementNamed(securityPage);
+      } else {
+        Navigator.of(context).pushReplacementNamed(homePage);
+      }
+    }
   }
 }
 

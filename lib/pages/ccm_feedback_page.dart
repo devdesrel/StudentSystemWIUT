@@ -278,7 +278,7 @@ class CCMFeedbackPage extends StatelessWidget {
                                     ),
                               )
                             : Container(child: Center(child: Text(noFeedback)))
-                        : Center(child: CircularProgressIndicator()))),
+                        : DrawPlatformCircularIndicator())),
           ),
         ]);
 
@@ -303,7 +303,7 @@ class CCMFeedbackPage extends StatelessWidget {
                   : Container(
                       child: Text(''),
                     )
-              : Center(child: CircularProgressIndicator()));
+              : DrawPlatformCircularIndicator());
     }
 
     return Platform.isAndroid

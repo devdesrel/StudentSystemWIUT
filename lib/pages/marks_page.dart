@@ -423,10 +423,7 @@ class CustomGridView {
                 // ]
               ),
             )
-          : Center(
-              child: Platform.isAndroid
-                  ? CircularProgressIndicator()
-                  : CupertinoActivityIndicator()),
+          : DrawPlatformCircularIndicator(),
     );
   }
 }

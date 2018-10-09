@@ -40,6 +40,9 @@ class _CCMFeedbackForSUPageState extends State<CCMFeedbackForSUPage> {
             .toList();
 
         // var list = groupList.sort();
+        groupList.sort((a, b) {
+          return a.text.toLowerCase().compareTo(b.text.toLowerCase());
+        });
 
         return groupList;
         // _feedbackCategoriesListSubject.add(_categoriesList);
@@ -86,7 +89,7 @@ class _CCMFeedbackForSUPageState extends State<CCMFeedbackForSUPage> {
                           ))),
                         ),
                       ))
-              : Center(child: CircularProgressIndicator()),
+              : DrawPlatformCircularIndicator(),
         ));
   }
 }

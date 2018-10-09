@@ -1,4 +1,7 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
+import 'package:flutter/cupertino.dart';
 
 //Material Drawer
 class CustomAndroidDrawer extends StatelessWidget {
@@ -121,5 +124,18 @@ class StarRating extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.center,
         children:
             new List.generate(starCount, (index) => buildStar(context, index)));
+  }
+}
+
+class DrawPlatformCircularIndicator extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    if (Platform.isAndroid) {
+      return Center(child: CircularProgressIndicator());
+    } else if (Platform.isIOS) {
+      return Center(child: CupertinoActivityIndicator());
+    } else {
+      return Center(child: CircularProgressIndicator());
+    }
   }
 }

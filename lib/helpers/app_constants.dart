@@ -56,6 +56,7 @@ final testPage2 = '/testPage2';
 final replyPage = '/replyPage';
 final ccmCategoryPage = '/ccmCategoryPage';
 final ccmFeedbackForSUPage = '/ccmFeedbackForSUPage';
+final timetablePickerIosPage = 'timetablePickerIosPage';
 
 //Shared preferance keys
 final lastAppVersion = 'lastAppVersion';
@@ -81,6 +82,7 @@ final teacherID = 'teacherID';
 final teacherNameSharedPref = 'teacherNameSharedPref';
 final isApplicableForCCMFeedback = 'isApplicableForCCMFeedback';
 final isSU = 'isSU';
+final isSecurityValueOn = 'isSecurityValueOn';
 
 //API List
 final baseUrl = 'https://newintranetapi.wiut.uz';

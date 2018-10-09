@@ -276,13 +276,7 @@ class _CCMAddFeedBackPageState extends State<CCMAddFeedBackPage> {
 
     return Platform.isAndroid
         ? WillPopScope(
-            onWillPop: () =>
-                // {
-                //   if (oldText != _controller.text) {
-                _onBackPressed(context),
-            // ;
-            // }
-            // },
+            onWillPop: () => _onBackPressed(context),
             child: Scaffold(
               appBar: AppBar(
                 centerTitle: true,
@@ -775,7 +769,8 @@ class _CCMAddFeedBackPageState extends State<CCMAddFeedBackPage> {
                             StreamBuilder(
                               stream: bloc.groupCoverageValue,
                               builder: (context, snapshot) => Card(
-                                    child: Slider(
+                                    child: CupertinoSlider(
+                                        activeColor: accentColor,
                                         divisions: 20,
                                         value: snapshot.hasData
                                             // ? [_value = snapshot.data, snapshot.data]
