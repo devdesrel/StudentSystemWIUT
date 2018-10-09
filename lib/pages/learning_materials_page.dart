@@ -537,10 +537,13 @@ class LearningMaterialsCard extends StatelessWidget {
         ));
       }
     } else {
-      _listOfWidgets.add(Center(
-        child: Padding(
-          padding: const EdgeInsets.symmetric(vertical: 15.0),
-          child: Text(noFilesToDownload),
+      _listOfWidgets.add(Material(
+        color: Colors.transparent,
+        child: Center(
+          child: Padding(
+            padding: const EdgeInsets.symmetric(vertical: 15.0),
+            child: Text(noFilesToDownload),
+          ),
         ),
       ));
     }
@@ -572,72 +575,20 @@ class LearningMaterialsCard extends StatelessWidget {
     return '';
   }
 
-  _getPermissionToDownloadAndShowDialog(BuildContext _context) async {
-    var bloc = LearningMaterialsProvider.of(_context);
+  _showDialogToDownload(BuildContext context) async {
+    var bloc = LearningMaterialsProvider.of(context);
 
-    try {
-      Permission permission = Permission.WriteExternalStorage;
-      bool result = await SimplePermissions.checkPermission(permission);
-      if (result) {
-        await showDialog(
-            context: _context,
-            builder: (context) {
-              return FutureBuilder<List<DownloadFileModel>>(
-                future: bloc.getFileUrlsToDownload(
-                    _context, learningMaterialsModel.id),
-                builder: (context, snapshot) => snapshot.hasData
-                    ? SimpleDialog(
-                        titlePadding: EdgeInsets.only(
-                            top: 15.0, left: 24.0, right: 24.0, bottom: 5.0),
-                        contentPadding: EdgeInsets.only(bottom: 0.0),
-                        title: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: <Widget>[
-                            Text('Download'),
-                            snapshot.data.length > 1
-                                ? InkWell(
-                                    child: Padding(
-                                      padding: const EdgeInsets.all(8.0),
-                                      child: Icon(Icons.cloud_download),
-                                    ),
-                                    onTap: () {
-                                      for (var downloadFile in snapshot.data) {
-                                        downloadFile.folderName =
-                                            _getMaterialType(
-                                                    learningMaterialsModel
-                                                        .materialTypeID) +
-                                                '/' +
-                                                learningMaterialsModel.title;
-
-                                        bloc.addFileToDownload
-                                            .add(downloadFile);
-                                      }
-                                      Navigator.pop(context);
-
-                                      bloc.setCurrentIndex.add(1);
-                                      controller.animateTo(1);
-                                      bloc.flushBar.show(context);
-                                    })
-                                : Container()
-                          ],
-                        ),
-                        children: _getDialogItems(context, snapshot.data))
-                    : Center(
-                        child: Platform.isAndroid
-                            ? CircularProgressIndicator()
-                            : CupertinoActivityIndicator()),
-              );
-            });
-      } else {
-        bool result2 = await SimplePermissions.requestPermission(permission);
-
-        if (result2) {
+    if (!Platform.isAndroid) {
+      try {
+        Permission permission = Permission.WriteExternalStorage;
+        bool result = await SimplePermissions.checkPermission(permission);
+        if (result) {
           await showDialog(
-              context: _context,
+              context: context,
               builder: (context) {
                 return FutureBuilder<List<DownloadFileModel>>(
                   future: bloc.getFileUrlsToDownload(
-                      _context, learningMaterialsModel.id),
+                      context, learningMaterialsModel.id),
                   builder: (context, snapshot) => snapshot.hasData
                       ? SimpleDialog(
                           titlePadding: EdgeInsets.only(
@@ -682,117 +633,186 @@ class LearningMaterialsCard extends StatelessWidget {
                               : CupertinoActivityIndicator()),
                 );
               });
+        } else {
+          bool result2 = await SimplePermissions.requestPermission(permission);
+
+          if (result2) {
+            await showDialog(
+                context: context,
+                builder: (context) {
+                  return FutureBuilder<List<DownloadFileModel>>(
+                    future: bloc.getFileUrlsToDownload(
+                        context, learningMaterialsModel.id),
+                    builder: (context, snapshot) => snapshot.hasData
+                        ? SimpleDialog(
+                            titlePadding: EdgeInsets.only(
+                                top: 15.0,
+                                left: 24.0,
+                                right: 24.0,
+                                bottom: 5.0),
+                            contentPadding: EdgeInsets.only(bottom: 0.0),
+                            title: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: <Widget>[
+                                Text('Download'),
+                                snapshot.data.length > 1
+                                    ? InkWell(
+                                        child: Padding(
+                                          padding: const EdgeInsets.all(8.0),
+                                          child: Icon(Icons.cloud_download),
+                                        ),
+                                        onTap: () {
+                                          for (var downloadFile
+                                              in snapshot.data) {
+                                            downloadFile
+                                                .folderName = _getMaterialType(
+                                                    learningMaterialsModel
+                                                        .materialTypeID) +
+                                                '/' +
+                                                learningMaterialsModel.title;
+
+                                            bloc.addFileToDownload
+                                                .add(downloadFile);
+                                          }
+                                          Navigator.pop(context);
+
+                                          bloc.setCurrentIndex.add(1);
+                                          controller.animateTo(1);
+                                          bloc.flushBar.show(context);
+                                        })
+                                    : Container()
+                              ],
+                            ),
+                            children: _getDialogItems(context, snapshot.data))
+                        : Center(
+                            child: Platform.isAndroid
+                                ? CircularProgressIndicator()
+                                : CupertinoActivityIndicator()),
+                  );
+                });
+          }
         }
-      }
-    } catch (e) {
-      await showDialog(
-          context: _context,
-          builder: (context) {
-            return FutureBuilder<List<DownloadFileModel>>(
-              future: bloc.getFileUrlsToDownload(
-                  _context, learningMaterialsModel.id),
-              builder: (context, snapshot) => snapshot.hasData
-                  // ? Platform.isAndroid
-                  ?
-                  // SimpleDialog(
-                  //     titlePadding: EdgeInsets.only(
-                  //         top: 15.0, left: 24.0, right: 24.0, bottom: 5.0),
-                  //     contentPadding: EdgeInsets.only(bottom: 0.0),
-                  //     title: Row(
-                  //       mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  //       children: <Widget>[
-                  //         Text('Download'),
-                  //         snapshot.data.length > 1
-                  //             ? InkWell(
-                  //                 child: Padding(
-                  //                   padding: const EdgeInsets.all(8.0),
-                  //                   child: Icon(Icons.cloud_download),
-                  //                 ),
-                  //                 onTap: () {
-                  //                   for (var downloadFile in snapshot.data) {
-                  //                     downloadFile.folderName =
-                  //                         _getMaterialType(
-                  //                                 learningMaterialsModel
-                  //                                     .materialTypeID) +
-                  //                             '/' +
-                  //                             learningMaterialsModel.title;
+      } catch (e) {}
+    } else {
+      // await showDialog(
+      //     context: context,
+      //     builder: (context) {
+      //       return FutureBuilder<List<DownloadFileModel>>(
+      //         future: bloc.getFileUrlsToDownload(
+      //             context, learningMaterialsModel.id),
+      //         builder: (context, snapshot) => snapshot.hasData
+      //             ? CupertinoAlertDialog(
+      //                 title: Row(
+      //                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      //                   children: <Widget>[
+      //                     Theme(
+      //                         data: ThemeData(platform: TargetPlatform.iOS),
+      //                         child: Text('Download')),
+      //                     snapshot.data.length > 1
+      //                         ? Material(
+      //                             color: Colors.transparent,
+      //                             child: InkWell(
+      //                                 child: Padding(
+      //                                   padding: const EdgeInsets.all(8.0),
+      //                                   child: Icon(Icons.cloud_download),
+      //                                 ),
+      //                                 onTap: () {
+      //                                   for (var downloadFile
+      //                                       in snapshot.data) {
+      //                                     downloadFile.folderName =
+      //                                         _getMaterialType(
+      //                                                 learningMaterialsModel
+      //                                                     .materialTypeID) +
+      //                                             '/' +
+      //                                             learningMaterialsModel.title;
 
-                  //                     bloc.addFileToDownload.add(downloadFile);
-                  //                   }
-                  //                   Navigator.pop(context);
+      //                                     bloc.addFileToDownload
+      //                                         .add(downloadFile);
+      //                                   }
+      //                                   Navigator.pop(context);
 
-                  //                   bloc.setCurrentIndex.add(1);
-                  //                   controller.animateTo(1);
-                  //                   bloc.flushBar.show(context);
-                  //                 })
-                  //             : Container()
-                  //       ],
-                  //     ),
-                  //     children: _getDialogItems(context, snapshot.data))
+      //                                   bloc.setCurrentIndex.add(1);
+      //                                   controller.animateTo(1);
+      //                                   bloc.flushBar.show(context);
+      //                                 }),
+      //                           )
+      //                         : Container()
+      //                   ],
+      //                 ),
+      //                 content: Material(
+      //                   color: Colors.transparent,
+      //                   child: Column(
+      //                     mainAxisAlignment: MainAxisAlignment.start,
+      //                     mainAxisSize: MainAxisSize.min,
+      //                     children: _getDialogItems(context, snapshot.data),
+      //                   ),
+      //                 ),
+      //                 actions: <Widget>[
+      //                   CupertinoDialogAction(
+      //                     isDestructiveAction: true,
+      //                     child: Text('Cancel'.toUpperCase()),
+      //                     onPressed: () {
+      //                       Navigator.of(context).pop();
+      //                     },
+      //                   ),
+      //                 ],
+      //               )
+      //             : Center(
+      //                 child: Platform.isAndroid
+      //                     ? CircularProgressIndicator()
+      //                     : CupertinoActivityIndicator()),
+      //       );
+      //     });
 
-                  // :
-                  CupertinoAlertDialog(
-                      title: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: <Widget>[
-                          Theme(
-                              data: ThemeData(platform: TargetPlatform.iOS),
-                              child: Text('Download')),
-                          snapshot.data.length > 1
-                              ? Material(
-                                  color: Colors.transparent,
-                                  child: InkWell(
-                                      child: Padding(
-                                        padding: const EdgeInsets.all(8.0),
-                                        child: Icon(Icons.cloud_download),
-                                      ),
-                                      onTap: () {
-                                        for (var downloadFile
-                                            in snapshot.data) {
-                                          downloadFile.folderName =
-                                              _getMaterialType(
-                                                      learningMaterialsModel
-                                                          .materialTypeID) +
-                                                  '/' +
-                                                  learningMaterialsModel.title;
+      await showCupertinoModalPopup<void>(
+          context: context,
+          builder: (BuildContext context) =>
+              FutureBuilder<List<DownloadFileModel>>(
+                  future: bloc.getFileUrlsToDownload(
+                      context, learningMaterialsModel.id),
+                  builder: (context, snapshot) => snapshot.hasData
+                      ? CupertinoActionSheet(
+                          title:
+                              Text('Download ' + learningMaterialsModel.title),
 
-                                          bloc.addFileToDownload
-                                              .add(downloadFile);
-                                        }
-                                        Navigator.pop(context);
+                          actions: _getDialogItems(context, snapshot.data),
+                          // <Widget>[
+                          //   CupertinoActionSheetAction(
+                          //     onPressed: () {},
+                          //     child: Text('Lecture 1.pptx'),
+                          //   ),
+                          //   CupertinoActionSheetAction(
+                          //     onPressed: () {},
+                          //     child: Text('Lecture 1.docx'),
+                          //   ),
+                          //   CupertinoActionSheetAction(
+                          //     onPressed: () {},
+                          //     child: Text('Lecture 1.txt'),
+                          //   )
+                          // ],
+                          cancelButton: CupertinoActionSheetAction(
+                            onPressed: () {
+                              for (var downloadFile in snapshot.data) {
+                                downloadFile.folderName = _getMaterialType(
+                                        learningMaterialsModel.materialTypeID) +
+                                    '/' +
+                                    learningMaterialsModel.title;
 
-                                        bloc.setCurrentIndex.add(1);
-                                        controller.animateTo(1);
-                                        bloc.flushBar.show(context);
-                                      }),
-                                )
-                              : Container()
-                        ],
-                      ),
-                      content: Material(
-                        color: Colors.transparent,
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          mainAxisSize: MainAxisSize.min,
-                          children: _getDialogItems(context, snapshot.data),
-                        ),
-                      ),
-                      actions: <Widget>[
-                        CupertinoDialogAction(
-                          isDestructiveAction: true,
-                          child: Text('Cancel'.toUpperCase()),
-                          onPressed: () {
-                            Navigator.of(context).pop();
-                          },
-                        ),
-                      ],
-                    )
-                  : Center(
-                      child: Platform.isAndroid
-                          ? CircularProgressIndicator()
-                          : CupertinoActivityIndicator()),
-            );
-          });
+                                bloc.addFileToDownload.add(downloadFile);
+                              }
+                              Navigator.pop(context);
+
+                              bloc.setCurrentIndex.add(1);
+                              controller.animateTo(1);
+                              bloc.flushBar.show(context);
+                            },
+                            child: Text('Download All'),
+                          ),
+                        )
+                      : Center(
+                          child: Platform.isAndroid
+                              ? CircularProgressIndicator()
+                              : CupertinoActivityIndicator())));
     }
   }
 
@@ -802,8 +822,7 @@ class LearningMaterialsCard extends StatelessWidget {
       padding: EdgeInsets.symmetric(horizontal: 12.0, vertical: 2.0),
       child: Card(
         child: InkWell(
-          // onTap: () {},
-          onTap: () => _getPermissionToDownloadAndShowDialog(context),
+          onTap: () => _showDialogToDownload(context),
           child: Padding(
             padding: const EdgeInsets.symmetric(vertical: 14.0),
             child: Text(
@@ -837,31 +856,45 @@ class CustomSimpleDialogOption extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ListTile(
-      contentPadding:
-          EdgeInsets.symmetric(horizontal: Platform.isAndroid ? 20.0 : 0.0),
-      onTap: () {
-        bloc.addFileToDownload.add(downloadFile);
-        Navigator.pop(context);
+    if (Platform.isAndroid) {
+      return ListTile(
+        contentPadding:
+            EdgeInsets.symmetric(horizontal: Platform.isAndroid ? 20.0 : 0.0),
+        onTap: () {
+          bloc.addFileToDownload.add(downloadFile);
+          Navigator.pop(context);
 
-        bloc.setCurrentIndex.add(1);
-        controller.animateTo(1);
-        flushBar.show(context);
-      },
-      leading: Platform.isAndroid
-          ? Icon(
-              Icons.file_download,
-              color: lightGreyTextColor,
-            )
-          : Icon(
-              IconData(0xF41F, fontFamily: 'CuperIcon'),
-              size: 26.0,
-              color: lightGreyTextColor,
-            ),
-      title: Text(
-        downloadFile.fileName,
-        style: TextStyle(color: lightGreyTextColor),
-      ),
-    );
+          bloc.setCurrentIndex.add(1);
+          controller.animateTo(1);
+          flushBar.show(context);
+        },
+        leading: Platform.isAndroid
+            ? Icon(
+                Icons.file_download,
+                color: lightGreyTextColor,
+              )
+            : Icon(
+                IconData(0xF41F, fontFamily: 'CuperIcon'),
+                size: 26.0,
+                color: lightGreyTextColor,
+              ),
+        title: Text(
+          downloadFile.fileName,
+          style: TextStyle(color: lightGreyTextColor),
+        ),
+      );
+    } else {
+      return CupertinoActionSheetAction(
+        onPressed: () {
+          bloc.addFileToDownload.add(downloadFile);
+          Navigator.pop(context);
+
+          bloc.setCurrentIndex.add(1);
+          controller.animateTo(1);
+          flushBar.show(context);
+        },
+        child: Text(downloadFile.fileName),
+      );
+    }
   }
 }
