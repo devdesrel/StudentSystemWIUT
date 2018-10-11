@@ -127,6 +127,15 @@ class TimetableBloc {
       roomScrollController = FixedExtentScrollController(initialItem: 0);
       cupertinoRoomIndex = 0;
       cupertinoTeacherIndex = 0;
+
+      _groupNameSubject.add(groupsListDropdown[groupIndex].text);
+      if (Platform.isAndroid) {
+        _roomNameSubject.add('');
+        _teacherNameSubject.add('');
+      } else {
+        _roomNameSubject.add('Select room');
+        _teacherNameSubject.add('Select teacher');
+      }
     });
     _setCupertinoPickerTeacherIndexController.stream.listen((teacherIndex) {
       _cupertinoPickerTeacherIndexSubject.add(teacherIndex);
@@ -137,6 +146,15 @@ class TimetableBloc {
       roomScrollController = FixedExtentScrollController(initialItem: 0);
       cupertinoRoomIndex = 0;
       cupertinoGroupIndex = 0;
+
+      _teacherNameSubject.add(teachersListDropdown[teacherIndex].text);
+      if (Platform.isAndroid) {
+        _roomNameSubject.add('');
+        _groupNameSubject.add('');
+      } else {
+        _roomNameSubject.add('Select room');
+        _groupNameSubject.add('Select group');
+      }
     });
     _setCupertinoPickerRoomIndexController.stream.listen((roomIndex) {
       _cupertinoPickerRoomIndexSubject.add(roomIndex);
@@ -147,6 +165,15 @@ class TimetableBloc {
       teacherScrollController = FixedExtentScrollController(initialItem: 0);
       cupertinoGroupIndex = 0;
       cupertinoTeacherIndex = 0;
+
+      _roomNameSubject.add(roomsListDropdown[roomIndex].text);
+      if (Platform.isAndroid) {
+        _teacherNameSubject.add('');
+        _groupNameSubject.add('');
+      } else {
+        _teacherNameSubject.add('Select teacher');
+        _groupNameSubject.add('Select group');
+      }
     });
   }
 
@@ -256,6 +283,9 @@ class TimetableBloc {
   int cupertinoGroupIndex;
   int cupertinoTeacherIndex;
   int cupertinoRoomIndex;
+
+  CupertinoTimetablePickerType timetableFilterType =
+      CupertinoTimetablePickerType.Group;
 
   FixedExtentScrollController groupScrollController =
       FixedExtentScrollController(initialItem: 0);

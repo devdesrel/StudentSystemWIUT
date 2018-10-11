@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:student_system_flutter/bloc/timetable_page/timetable_bloc.dart';
+import 'package:student_system_flutter/enums/ApplicationEnums.dart';
 import 'package:student_system_flutter/helpers/app_constants.dart';
 
 class TimetablePickerIosPage extends StatefulWidget {
@@ -37,23 +38,40 @@ class _TimetablePickerIosPageState extends State<TimetablePickerIosPage> {
   }
 
   Future<bool> _onBackPressed() async {
-    if (widget.bloc.cupertinoGroupIndex != 0) {
+    if (widget.bloc.timetableFilterType == CupertinoTimetablePickerType.Group) {
       widget.bloc.setGroup.add(
           widget.bloc.groupsListDropdown[widget.bloc.cupertinoGroupIndex].text);
       return true;
-    } else if (widget.bloc.cupertinoRoomIndex != 0) {
+    } else if (widget.bloc.timetableFilterType ==
+        CupertinoTimetablePickerType.Teacher) {
+      widget.bloc.setTeacher.add(widget
+          .bloc.teachersListDropdown[widget.bloc.cupertinoTeacherIndex].text);
+      return true;
+    } else if (widget.bloc.timetableFilterType ==
+        CupertinoTimetablePickerType.Room) {
       widget.bloc.setRoom.add(
           widget.bloc.roomsListDropdown[widget.bloc.cupertinoRoomIndex].text);
       return true;
-    } else if (widget.bloc.cupertinoTeacherIndex != 0) {
-      widget.bloc.setTeacher.add(widget
-          .bloc.teachersListDropdown[widget.bloc.cupertinoTeacherIndex].text);
-      print(widget
-          .bloc.teachersListDropdown[widget.bloc.cupertinoTeacherIndex].text);
-      return true;
-    } else {
-      return false;
     }
+
+    return true;
+    // if (widget.bloc.cupertinoGroupIndex != 0) {
+    //   widget.bloc.setGroup.add(
+    //       widget.bloc.groupsListDropdown[widget.bloc.cupertinoGroupIndex].text);
+    //   return true;
+    // } else if (widget.bloc.cupertinoRoomIndex != 0) {
+    //   widget.bloc.setRoom.add(
+    //       widget.bloc.roomsListDropdown[widget.bloc.cupertinoRoomIndex].text);
+    //   return true;
+    // } else if (widget.bloc.cupertinoTeacherIndex != 0) {
+    //   widget.bloc.setTeacher.add(widget
+    //       .bloc.teachersListDropdown[widget.bloc.cupertinoTeacherIndex].text);
+    //   print(widget
+    //       .bloc.teachersListDropdown[widget.bloc.cupertinoTeacherIndex].text);
+    //   return true;
+    // } else {
+    //   return false;
+    // }
   }
 
   @override
@@ -82,10 +100,12 @@ class _TimetablePickerIosPageState extends State<TimetablePickerIosPage> {
                             itemExtent: _kPickerItemHeight,
                             backgroundColor: CupertinoColors.white,
                             onSelectedItemChanged: (int index) {
-                              widget.bloc.setGroup.add(
-                                  widget.bloc.groupsListDropdown[index].text);
+                              // widget.bloc.setGroup.add(
+                              //     widget.bloc.groupsListDropdown[index].text);
                               widget.bloc.setCupertinoPickerGroupIndex
                                   .add(index);
+                              widget.bloc.timetableFilterType =
+                                  CupertinoTimetablePickerType.Group;
                             },
                             children: List<Widget>.generate(
                                 widget.bloc.groupsListDropdown.length,
@@ -145,11 +165,12 @@ class _TimetablePickerIosPageState extends State<TimetablePickerIosPage> {
                             itemExtent: _kPickerItemHeight,
                             backgroundColor: CupertinoColors.white,
                             onSelectedItemChanged: (int index) {
-                              widget.bloc.setTeacher.add(
-                                  widget.bloc.teachersListDropdown[index].text);
+                              // widget.bloc.setTeacher.add(
+                              //     widget.bloc.teachersListDropdown[index].text);
                               widget.bloc.setCupertinoPickerTeacherIndex
                                   .add(index);
-                              // setState(() => _selectedTeacherIndex = index);
+                              widget.bloc.timetableFilterType =
+                                  CupertinoTimetablePickerType.Teacher;
                             },
                             children: List<Widget>.generate(
                                 widget.bloc.teachersListDropdown.length,
@@ -205,11 +226,12 @@ class _TimetablePickerIosPageState extends State<TimetablePickerIosPage> {
                             itemExtent: _kPickerItemHeight,
                             backgroundColor: CupertinoColors.white,
                             onSelectedItemChanged: (int index) {
-                              widget.bloc.setRoom.add(
-                                  widget.bloc.roomsListDropdown[index].text);
+                              // widget.bloc.setRoom.add(
+                              //     widget.bloc.roomsListDropdown[index].text);
                               widget.bloc.setCupertinoPickerRoomIndex
                                   .add(index);
-                              // setState(() => _selectedRoomIndex = index);
+                              widget.bloc.timetableFilterType =
+                                  CupertinoTimetablePickerType.Room;
                             },
                             children: List<Widget>.generate(
                                 widget.bloc.roomsListDropdown.length,

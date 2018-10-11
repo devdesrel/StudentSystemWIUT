@@ -158,19 +158,18 @@ class TimetablePage extends StatelessWidget {
                                     // Navigator.of(context)
                                     //     .pushNamed(timetablePickerIosPage);
 
-                                    Navigator.of(context).push(
-                                        MaterialPageRoute(
-                                            builder: (context) =>
-                                                TimetablePickerIosPage(
-                                                  bloc: _bloc,
-                                                )));
-                                    // showModalBottomSheet<void>(
-                                    //     context: context,
-                                    //     builder: (BuildContext context) {
-                                    //       return DrawBottomSheetWidget(
-                                    //           bloc: _bloc);
-                                    //     }
-                                    //     );
+                                    // Navigator.of(context).push(
+                                    //     MaterialPageRoute(
+                                    //         builder: (context) =>
+                                    //             TimetablePickerIosPage(
+                                    //               bloc: _bloc,
+                                    //             )));
+                                    showModalBottomSheet<void>(
+                                        context: context,
+                                        builder: (BuildContext context) {
+                                          return DrawBottomSheetWidget(
+                                              bloc: _bloc);
+                                        });
                                   }),
                             );
                           } else {
