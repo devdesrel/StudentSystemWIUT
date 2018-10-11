@@ -128,7 +128,7 @@ class _LoginPageState extends State<LoginPage> implements AuthStateListener {
         await prefs.setString(userPasssword, _password);
         await prefs.setBool(isLoggedIn, true);
         var pin = prefs.getString(pinCode);
-        var securityValue = prefs.getBool(isSecurityValueOn);
+        var securityValue = prefs.getBool(isSecurityValueOn) ?? true;
         // AnimationController controller;
         // Animation<double> animation =
         //     new Tween(begin: 0.1, end: 1.0).animate(controller);
@@ -160,6 +160,7 @@ class _LoginPageState extends State<LoginPage> implements AuthStateListener {
         progressDialogVisible = false;
       });
     } catch (e) {
+      print(e.toString());
       setState(() {
         progressDialogVisible = false;
       });
@@ -412,7 +413,7 @@ class _LoginPageState extends State<LoginPage> implements AuthStateListener {
   @override
   void onAuthStateChanged(AuthState state) async {
     var prefs = await SharedPreferences.getInstance();
-    var securityValue = prefs.getBool(isSecurityValueOn);
+    var securityValue = prefs.getBool(isSecurityValueOn) ?? true;
     if (state == AuthState.SHOW_PREVIEW_PAGE)
       Navigator.of(context).pushReplacementNamed(previewPage);
     else if (state == AuthState.LOGGED_IN) {

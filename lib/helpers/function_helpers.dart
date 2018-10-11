@@ -72,6 +72,14 @@ void getStudentsProfileForSelectedYear() async {
   }
 }
 
+Future<bool> isCCMFeedbackApplicable() async {
+  bool isCCMFeedbackable;
+
+  SharedPreferences prefs = await SharedPreferences.getInstance();
+  isCCMFeedbackable = prefs.getBool(isApplicableForCCMFeedback) ?? false;
+  return isCCMFeedbackable;
+}
+
 void getUserProfileForTheCurrentYear() async {
   SharedPreferences prefs = await SharedPreferences.getInstance();
   final _token = prefs.getString(token);
