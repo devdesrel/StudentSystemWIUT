@@ -149,26 +149,30 @@ class TimetablePage extends StatelessWidget {
                         stream: _bloc.isLoaded,
                         builder: (context, snapshot) {
                           if (snapshot.hasData && snapshot.data) {
-                            return IconButton(
-                                icon: Icon(FontAwesomeIcons.filter),
-                                iconSize: 17.0,
-                                onPressed: () {
-                                  // Navigator.of(context)
-                                  //     .pushNamed(timetablePickerIosPage);
+                            return Material(
+                              color: Colors.transparent,
+                              child: IconButton(
+                                  icon: Icon(FontAwesomeIcons.filter),
+                                  iconSize: 17.0,
+                                  onPressed: () {
+                                    // Navigator.of(context)
+                                    //     .pushNamed(timetablePickerIosPage);
 
-                                  Navigator.of(context).push(MaterialPageRoute(
-                                      builder: (context) =>
-                                          TimetablePickerIosPage(
-                                            bloc: _bloc,
-                                          )));
-                                  // showModalBottomSheet<void>(
-                                  //     context: context,
-                                  //     builder: (BuildContext context) {
-                                  //       return DrawBottomSheetWidget(
-                                  //           bloc: _bloc);
-                                  //     }
-                                  //     );
-                                });
+                                    Navigator.of(context).push(
+                                        MaterialPageRoute(
+                                            builder: (context) =>
+                                                TimetablePickerIosPage(
+                                                  bloc: _bloc,
+                                                )));
+                                    // showModalBottomSheet<void>(
+                                    //     context: context,
+                                    //     builder: (BuildContext context) {
+                                    //       return DrawBottomSheetWidget(
+                                    //           bloc: _bloc);
+                                    //     }
+                                    //     );
+                                  }),
+                            );
                           } else {
                             return Container(
                               width: 2.0,

@@ -15,21 +15,9 @@ import 'package:student_system_flutter/models/Timetable/timetable_dropdown_list_
 import 'package:student_system_flutter/models/Timetable/timetable_model.dart';
 
 class TimetableBloc {
-  BuildContext context;
-  File jsonFile;
-  Directory dir;
-  bool fileExists = false;
-  bool offlineMode = false;
-  // Map<String, String> fileContent;
-
-  List<TimetableDropdownListModel> groupsListDropdown =
-      List<TimetableDropdownListModel>();
-  List<TimetableDropdownListModel> roomsListDropdown =
-      List<TimetableDropdownListModel>();
-  List<TimetableDropdownListModel> teachersListDropdown =
-      List<TimetableDropdownListModel>();
-
-  TimetableBloc({this.context}) {
+  TimetableBloc({
+    this.context,
+  }) {
     _getTimetable().then((list) {
       _timetableListSubject.add(list);
     });
@@ -42,8 +30,6 @@ class TimetableBloc {
             TimetableDropdownListModel(text: '', value: '');
 
         groupsListDropdown.insert(0, model);
-
-        _groupNameSubject.add('');
       }
     });
 
@@ -82,8 +68,8 @@ class TimetableBloc {
 
       _timetableTitleSubject.add(group);
       _groupNameSubject.add(group);
-      _roomNameSubject.add('');
-      _teacherNameSubject.add('');
+      _roomNameSubject.add('Select room');
+      _teacherNameSubject.add('Select teacher');
     });
 
     _setRoomController.stream.listen((room) {
@@ -97,8 +83,8 @@ class TimetableBloc {
 
       _timetableTitleSubject.add(room);
       _roomNameSubject.add(room);
-      _groupNameSubject.add('');
-      _teacherNameSubject.add('');
+      _groupNameSubject.add('Select group');
+      _teacherNameSubject.add('Select teacher');
     });
 
     _setTeacherController.stream.listen((teacher) {
@@ -113,8 +99,39 @@ class TimetableBloc {
 
       _timetableTitleSubject.add(teacher);
       _teacherNameSubject.add(teacher);
-      _groupNameSubject.add('');
-      _roomNameSubject.add('');
+      _groupNameSubject.add('Select group');
+      _roomNameSubject.add('Select room');
+    });
+
+    _setCupertinoPickerGroupIndexController.stream.listen((groupIndex) {
+      _cupertinoPickerGroupIndexSubject.add(groupIndex);
+      cupertinoGroupIndex = groupIndex;
+      groupScrollController =
+          FixedExtentScrollController(initialItem: groupIndex);
+      teacherScrollController = FixedExtentScrollController(initialItem: 0);
+      roomScrollController = FixedExtentScrollController(initialItem: 0);
+      cupertinoRoomIndex = 0;
+      cupertinoTeacherIndex = 0;
+    });
+    _setCupertinoPickerTeacherIndexController.stream.listen((teacherIndex) {
+      _cupertinoPickerTeacherIndexSubject.add(teacherIndex);
+      cupertinoTeacherIndex = teacherIndex;
+      teacherScrollController =
+          FixedExtentScrollController(initialItem: teacherIndex);
+      groupScrollController = FixedExtentScrollController(initialItem: 0);
+      roomScrollController = FixedExtentScrollController(initialItem: 0);
+      cupertinoRoomIndex = 0;
+      cupertinoGroupIndex = 0;
+    });
+    _setCupertinoPickerRoomIndexController.stream.listen((roomIndex) {
+      _cupertinoPickerRoomIndexSubject.add(roomIndex);
+      cupertinoRoomIndex = roomIndex;
+      roomScrollController =
+          FixedExtentScrollController(initialItem: roomIndex);
+      groupScrollController = FixedExtentScrollController(initialItem: 0);
+      teacherScrollController = FixedExtentScrollController(initialItem: 0);
+      cupertinoGroupIndex = 0;
+      cupertinoTeacherIndex = 0;
     });
   }
 
@@ -123,6 +140,12 @@ class TimetableBloc {
     _setRoomController.close();
     _setTeacherController.close();
     _timetableTitleSubject.close();
+    _cupertinoPickerGroupIndexSubject.close();
+    _cupertinoPickerTeacherIndexSubject.close();
+    _cupertinoPickerRoomIndexSubject.close();
+    _setCupertinoPickerGroupIndexController.close();
+    _setCupertinoPickerTeacherIndexController.close();
+    _setCupertinoPickerRoomIndexController.close();
   }
 
   Sink<String> get setGroup => _setGroupController.sink;
@@ -135,6 +158,22 @@ class TimetableBloc {
   Sink<String> get setTeacher => _setTeacherController.sink;
 
   final _setTeacherController = StreamController<String>();
+  //IOS picker
+  Sink<int> get setCupertinoPickerGroupIndex =>
+      _setCupertinoPickerGroupIndexController.sink;
+
+  final _setCupertinoPickerGroupIndexController = StreamController<int>();
+  Sink<int> get setCupertinoPickerTeacherIndex =>
+      _setCupertinoPickerTeacherIndexController.sink;
+
+  final _setCupertinoPickerTeacherIndexController = StreamController<int>();
+
+  Sink<int> get setCupertinoPickerRoomIndex =>
+      _setCupertinoPickerRoomIndexController.sink;
+
+  final _setCupertinoPickerRoomIndexController = StreamController<int>();
+
+  //
 
   Stream<List<TimetableModel>> get timetableList =>
       _timetableListSubject.stream;
@@ -165,6 +204,50 @@ class TimetableBloc {
   Stream<String> get timetableDate => _timetableDateSubject.stream;
 
   final _timetableDateSubject = BehaviorSubject<String>(seedValue: '');
+
+  //IOS Picker
+
+  Stream<int> get cupertinoPickerGroupIndex =>
+      _cupertinoPickerGroupIndexSubject.stream;
+
+  final _cupertinoPickerGroupIndexSubject = BehaviorSubject<int>();
+
+  Stream<int> get cupertinoPickerTeacherIndex =>
+      _cupertinoPickerTeacherIndexSubject.stream;
+
+  final _cupertinoPickerTeacherIndexSubject = BehaviorSubject<int>();
+
+  Stream<int> get cupertinoPickerRoomIndex =>
+      _cupertinoPickerRoomIndexSubject.stream;
+
+  final _cupertinoPickerRoomIndexSubject = BehaviorSubject<int>();
+
+//
+
+  BuildContext context;
+  File jsonFile;
+  Directory dir;
+  bool fileExists = false;
+  bool offlineMode = false;
+  // Map<String, String> fileContent;
+
+  List<TimetableDropdownListModel> groupsListDropdown =
+      List<TimetableDropdownListModel>();
+  List<TimetableDropdownListModel> roomsListDropdown =
+      List<TimetableDropdownListModel>();
+  List<TimetableDropdownListModel> teachersListDropdown =
+      List<TimetableDropdownListModel>();
+
+  int cupertinoGroupIndex;
+  int cupertinoTeacherIndex;
+  int cupertinoRoomIndex;
+
+  FixedExtentScrollController groupScrollController =
+      FixedExtentScrollController(initialItem: 0);
+  FixedExtentScrollController teacherScrollController =
+      FixedExtentScrollController(initialItem: 0);
+  FixedExtentScrollController roomScrollController =
+      FixedExtentScrollController(initialItem: 0);
 
   Future<List<TimetableModel>> _getTimetable() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();

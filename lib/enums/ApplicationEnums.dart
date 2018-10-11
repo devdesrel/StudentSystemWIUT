@@ -24,4 +24,3 @@ enum AttachmentTypes { CAMERA, GALLERY, QUESTIONNAIRE, FILE, STICKER }
 
 enum FeedbackViewType { Add, Edit }
 enum CCMFeedbackCategory { ModulesFeedback, DepartmentsFeedback }
-enum PickerType { Teacher, Group, Room }
