@@ -22,7 +22,7 @@ class TimetablePage extends StatelessWidget {
 
     return TimetableProvider(
         timetableBloc: _bloc,
-        child: Platform.isAndroid
+        child: Platform.isIOS
             ? Scaffold(
                 // bottomNavigationBar: Container(
                 //     padding:

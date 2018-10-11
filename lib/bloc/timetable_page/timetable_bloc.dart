@@ -68,8 +68,13 @@ class TimetableBloc {
 
       _timetableTitleSubject.add(group);
       _groupNameSubject.add(group);
-      _roomNameSubject.add('Select room');
-      _teacherNameSubject.add('Select teacher');
+      if (Platform.isAndroid) {
+        _roomNameSubject.add('');
+        _teacherNameSubject.add('');
+      } else {
+        _roomNameSubject.add('Select room');
+        _teacherNameSubject.add('Select teacher');
+      }
     });
 
     _setRoomController.stream.listen((room) {
@@ -83,8 +88,13 @@ class TimetableBloc {
 
       _timetableTitleSubject.add(room);
       _roomNameSubject.add(room);
-      _groupNameSubject.add('Select group');
-      _teacherNameSubject.add('Select teacher');
+      if (Platform.isAndroid) {
+        _groupNameSubject.add('');
+        _teacherNameSubject.add('');
+      } else {
+        _groupNameSubject.add('Select group');
+        _teacherNameSubject.add('Select teacher');
+      }
     });
 
     _setTeacherController.stream.listen((teacher) {
@@ -99,8 +109,13 @@ class TimetableBloc {
 
       _timetableTitleSubject.add(teacher);
       _teacherNameSubject.add(teacher);
-      _groupNameSubject.add('Select group');
-      _roomNameSubject.add('Select room');
+      if (Platform.isAndroid) {
+        _groupNameSubject.add('');
+        _roomNameSubject.add('');
+      } else {
+        _groupNameSubject.add('Select group');
+        _roomNameSubject.add('Select room');
+      }
     });
 
     _setCupertinoPickerGroupIndexController.stream.listen((groupIndex) {
