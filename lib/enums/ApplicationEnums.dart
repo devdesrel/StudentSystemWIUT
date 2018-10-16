@@ -22,6 +22,7 @@ enum IosPinRequestType { SetPin, ChangePin }
 
 enum AttachmentTypes { CAMERA, GALLERY, QUESTIONNAIRE, FILE, STICKER }
 
+enum CupertinoTimetablePickerType { Teacher, Room, Group }
+
 enum FeedbackViewType { Add, Edit }
 enum CCMFeedbackCategory { ModulesFeedback, DepartmentsFeedback }
-enum PickerType { Teacher, Group, Room }
