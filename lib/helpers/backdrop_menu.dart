@@ -163,8 +163,7 @@ class _TwoPanelsState extends State<TwoPanels> {
                                   bottom: 5.0, /* left: 24.0 */
                                 ),
                                 child: Text(
-                                  'Deadline dates (under development)'
-                                      .toUpperCase(),
+                                  'Deadline dates'.toUpperCase(),
                                   style: TextStyle(
                                     color: Platform.isAndroid
                                         ? lightGreyTextColor
