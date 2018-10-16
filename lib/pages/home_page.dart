@@ -30,8 +30,6 @@ class _HomePageState extends State<HomePage>
 
     getMinimumAppVersion(context);
 
-    getUserProfileForTheCurrentYear();
-
     controller = AnimationController(
         vsync: this, duration: Duration(milliseconds: 100), value: 1.0);
   }

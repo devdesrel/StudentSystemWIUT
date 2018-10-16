@@ -1,5 +1,7 @@
 import 'dart:convert';
+import 'dart:io';
 
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:student_system_flutter/bloc/ccm_feedback/ccm_add_feedback_bloc.dart';
@@ -61,38 +63,82 @@ class _CCMFeedbackForSUPageState extends State<CCMFeedbackForSUPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-        appBar: AppBar(
-          title: Text('CCM Feedback'),
-          centerTitle: true,
-        ),
-        backgroundColor: backgroundColor,
-        body: FutureBuilder(
-          future: getGroupList(),
-          builder: (context, snapshot) => snapshot.hasData
-              ? ListView.builder(
-                  itemCount: groupList.length,
-                  itemBuilder: (context, i) => Padding(
-                        padding: EdgeInsets.only(
-                          top: i == 0 || i == groupList.length - 1 ? 5.0 : 2.0,
-                          bottom: 2.0,
-                          left: 16.0,
-                          right: 16.0,
-                        ),
-                        child: InkWell(
-                          onTap: () {
-                            Navigator.of(context).push(MaterialPageRoute(
-                                builder: (context) => CCMFeedbackCategoryPage(
-                                    groupID: groupList[i].value)));
-                          },
-                          child: CustomCard(Center(
-                              child: Padding(
-                            padding: EdgeInsets.symmetric(vertical: 12.0),
-                            child: Text(groupList[i].text),
-                          ))),
-                        ),
-                      ))
-              : DrawPlatformCircularIndicator(),
-        ));
+    return Platform.isAndroid
+        ? Scaffold(
+            appBar: AppBar(
+              title: Text('CCM Feedback'),
+              centerTitle: true,
+            ),
+            backgroundColor: backgroundColor,
+            body: FutureBuilder(
+              future: getGroupList(),
+              builder: (context, snapshot) => snapshot.hasData
+                  ? ListView.builder(
+                      itemCount: groupList.length,
+                      itemBuilder: (context, i) => Padding(
+                            padding: EdgeInsets.only(
+                              top: i == 0 || i == groupList.length - 1
+                                  ? 5.0
+                                  : 2.0,
+                              bottom: 2.0,
+                              left: 16.0,
+                              right: 16.0,
+                            ),
+                            child: InkWell(
+                              onTap: () {
+                                Navigator.of(context).push(MaterialPageRoute(
+                                    builder: (context) =>
+                                        CCMFeedbackCategoryPage(
+                                            groupID: groupList[i].value)));
+                              },
+                              child: CustomCard(Center(
+                                  child: Padding(
+                                padding: EdgeInsets.symmetric(vertical: 12.0),
+                                child: Text(groupList[i].text),
+                              ))),
+                            ),
+                          ))
+                  : DrawPlatformCircularIndicator(),
+            ))
+        : Material(
+            child: CupertinoPageScaffold(
+                navigationBar: CupertinoNavigationBar(
+                  middle: Text('CCM Feedback'),
+                ),
+                backgroundColor: backgroundColor,
+                child: FutureBuilder(
+                  future: getGroupList(),
+                  builder: (context, snapshot) => snapshot.hasData
+                      ? ListView.builder(
+                          itemCount: groupList.length,
+                          itemBuilder: (context, i) => Padding(
+                                padding: EdgeInsets.only(
+                                  top: i == 0 || i == groupList.length - 1
+                                      ? 5.0
+                                      : 2.0,
+                                  bottom: 2.0,
+                                  left: 16.0,
+                                  right: 16.0,
+                                ),
+                                child: InkWell(
+                                  onTap: () {
+                                    Navigator.of(context).push(
+                                        MaterialPageRoute(
+                                            builder: (context) =>
+                                                CCMFeedbackCategoryPage(
+                                                    groupID:
+                                                        groupList[i].value)));
+                                  },
+                                  child: CustomCard(Center(
+                                      child: Padding(
+                                    padding:
+                                        EdgeInsets.symmetric(vertical: 12.0),
+                                    child: Text(groupList[i].text),
+                                  ))),
+                                ),
+                              ))
+                      : DrawPlatformCircularIndicator(),
+                )),
+          );
   }
 }

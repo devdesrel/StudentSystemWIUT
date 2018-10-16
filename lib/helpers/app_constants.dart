@@ -85,7 +85,7 @@ final isSU = 'isSU';
 final isSecurityValueOn = 'isSecurityValueOn';
 
 //API List
-final baseUrl = 'https://newintranetapi.wiut.uz';
+final baseUrl = 'http://newintranetapi.wiut.uz';
 final currentYearID = '19';
 final apiAuthenticate = '$baseUrl/api/Account/Authenticate';
 final apiStudentMarks =
@@ -124,6 +124,8 @@ final getAllCurrentGroupsAsSelectList =
 final apiCCMFeedbackAddFeedback = '$baseUrl/api/CCMFeedback/AddFeedback';
 final apiCCMFeedbackEditFeedback = '$baseUrl/api/CCMFeedback/EditFeedback';
 final apiCCMFeedbackDeleteFeedback = '$baseUrl/api/CCMFeedback/DeleteFeedback';
+final apiGetCourseworkDeadlinesByModules =
+    '$baseUrl/api/CourseworkUpload/GetCourseworkDeadlinesByModules';
 
 //Errors List
 final String authProblems = 'Authorization problems';
