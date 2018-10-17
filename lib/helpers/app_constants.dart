@@ -85,7 +85,7 @@ final isSU = 'isSU';
 final isSecurityValueOn = 'isSecurityValueOn';
 
 //API List
-final baseUrl = 'http://newintranetapi.wiut.uz';
+final baseUrl = 'https://newintranetapi.wiut.uz';
 final currentYearID = '19';
 final apiAuthenticate = '$baseUrl/api/Account/Authenticate';
 final apiStudentMarks =

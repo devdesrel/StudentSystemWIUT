@@ -197,323 +197,197 @@ class _TwoPanelsState extends State<TwoPanels> {
                   //   bottom: false,
                   //   child: FeedbackForm(questionNumbers: _questionNumbers),
                   // )),
-                  StreamBuilder(
-                    initialData: true,
-                    stream: homePageBloc.isUnderDevelopmentFeaturesOn,
-                    builder: (context, snapshot) => snapshot.data == false
-                        ? SliverToBoxAdapter(
-                            child: Center(
-                              child: Padding(
-                                padding: const EdgeInsets.only(
-                                  top: 22.0,
-                                  bottom: 5.0, /* left: 24.0 */
-                                ),
-                                child: Text(
-                                  'Deadline dates'.toUpperCase(),
-                                  style: TextStyle(
-                                    color: Platform.isAndroid
-                                        ? lightGreyTextColor
-                                        : lightGreyTextColor,
-                                    fontSize: 11.0,
-                                  ),
-                                ),
-                              ),
-                            ),
-                          )
-                        : SliverToBoxAdapter(),
+                  SliverToBoxAdapter(
+                    child: Center(
+                      child: Padding(
+                        padding: const EdgeInsets.only(
+                          top: 22.0,
+                          bottom: 5.0, /* left: 24.0 */
+                        ),
+                        child: Text(
+                          'Deadline dates'.toUpperCase(),
+                          style: TextStyle(
+                            color: Platform.isAndroid
+                                ? lightGreyTextColor
+                                : lightGreyTextColor,
+                            fontSize: 11.0,
+                          ),
+                        ),
+                      ),
+                    ),
                   ),
-                  StreamBuilder(
-                    initialData: true,
-                    stream: homePageBloc.isUnderDevelopmentFeaturesOn,
-                    builder: (context, snapshot) => snapshot.data == false
-                        ? SliverToBoxAdapter(
-                            child: Padding(
-                              padding: EdgeInsets.only(bottom: 15.0),
-                              child: SizedBox(
-                                height: 100.0,
-                                child: FutureBuilder<List<DeadlinesModel>>(
-                                  future: getDeadlines(),
-                                  builder: (context, snapshot) => snapshot
-                                          .hasData
-                                      ? ListView.builder(
-                                          scrollDirection: Axis.horizontal,
-                                          itemCount: snapshot.data.length,
-                                          itemBuilder: (context, index) =>
-                                              index == 0
-                                                  ? Padding(
-                                                      padding: EdgeInsets.only(
-                                                          left: 24.0,
-                                                          top: 7.0,
-                                                          right: 10.0),
-                                                      child: GestureDetector(
-                                                        onTap: () {
-                                                          _bloc
-                                                              .chooseDeadlineModule
-                                                              .add(snapshot
-                                                                  .data[index]);
-                                                          showModalBottomSheet(
-                                                            context: context,
-                                                            builder:
-                                                                (BuildContext
-                                                                    context) {
-                                                              return DeadlineBottomSheet(
-                                                                  bloc: _bloc,
-                                                                  isDeadlineUrgent:
-                                                                      true);
-                                                            },
-                                                          );
-                                                        },
-                                                        child: Column(
-                                                          children: <Widget>[
-                                                            CircleAvatar(
-                                                              radius: 30.0,
-                                                              backgroundColor:
-                                                                  redColor,
-                                                              child: Column(
-                                                                mainAxisAlignment:
-                                                                    MainAxisAlignment
-                                                                        .center,
-                                                                crossAxisAlignment:
-                                                                    CrossAxisAlignment
-                                                                        .center,
-                                                                mainAxisSize:
-                                                                    MainAxisSize
-                                                                        .min,
-                                                                children: <
-                                                                    Widget>[
-                                                                  Text(
-                                                                    snapshot
-                                                                        .data[
-                                                                            index]
-                                                                        .day
-                                                                        .toString(),
-                                                                    style: deadlineTextStyle.copyWith(
-                                                                        color: Colors
-                                                                            .white,
-                                                                        fontSize:
-                                                                            26.0),
-                                                                  ),
-                                                                  Text(
-                                                                    months[snapshot
-                                                                            .data[index]
-                                                                            .month -
-                                                                        1],
-                                                                    style: deadlineTextStyle.copyWith(
-                                                                        color: Colors
-                                                                            .white,
-                                                                        fontSize:
-                                                                            10.0),
-                                                                  )
-                                                                ],
-                                                              ),
-                                                            ),
-                                                            // ClipRRect(
-                                                            //   borderRadius: BorderRadius.all(
-                                                            //       Radius.circular(200.0)),
-                                                            //   child: Container(
-                                                            //     padding: EdgeInsets.symmetric(
-                                                            //         horizontal: 16.0, vertical: 5.0),
-                                                            //     color: redColor,
-                                                            //     child: Column(
-                                                            //       mainAxisAlignment:
-                                                            //           MainAxisAlignment.center,
-                                                            //       crossAxisAlignment:
-                                                            //           CrossAxisAlignment.center,
-                                                            //       mainAxisSize: MainAxisSize.min,
-                                                            //       children: <Widget>[
-                                                            //         Text(
-                                                            //           deadlinesList[index].date,
-                                                            //           style: deadlineTextStyle.copyWith(
-                                                            //               fontSize: 26.0),
-                                                            //         ),
-                                                            //         Text(
-                                                            //           deadlinesList[index]
-                                                            //               .month
-                                                            //               .toUpperCase(),
-                                                            //           style: deadlineTextStyle.copyWith(
-                                                            //               fontSize: 10.0),
-                                                            //         ),
-                                                            //       ],
-                                                            //     ),
-                                                            //   ),
-                                                            // ),
-                                                            SizedBox(
-                                                                height: 5.0),
-                                                            Text(
-                                                              snapshot
-                                                                  .data[index]
-                                                                  .moduleShortName
-                                                                  .toUpperCase(),
-                                                              style: deadlineTextStyle.copyWith(
-                                                                  fontWeight:
-                                                                      FontWeight
-                                                                          .w500,
-                                                                  color:
-                                                                      redColor,
+                  SliverToBoxAdapter(
+                    child: SizedBox(
+                      height: 100.0,
+                      child: FutureBuilder<List<DeadlinesModel>>(
+                        future: getDeadlines(),
+                        builder: (context, snapshot) => snapshot.hasData
+                            ? snapshot.data.length > 0
+                                ? ListView.builder(
+                                    scrollDirection: Axis.horizontal,
+                                    itemCount: snapshot.data.length,
+                                    itemBuilder: (context, index) => index == 0
+                                        ? Padding(
+                                            padding: EdgeInsets.only(
+                                                left: 22.0,
+                                                top: 7.0,
+                                                right: 10.0),
+                                            child: GestureDetector(
+                                              onTap: () {
+                                                _bloc.chooseDeadlineModule
+                                                    .add(snapshot.data[index]);
+                                                showModalBottomSheet(
+                                                  context: context,
+                                                  builder:
+                                                      (BuildContext context) {
+                                                    return DeadlineBottomSheet(
+                                                        bloc: _bloc,
+                                                        isDeadlineUrgent: true);
+                                                  },
+                                                );
+                                              },
+                                              child: Column(
+                                                children: <Widget>[
+                                                  CircleAvatar(
+                                                    radius: 30.0,
+                                                    backgroundColor: redColor,
+                                                    child: Column(
+                                                      mainAxisAlignment:
+                                                          MainAxisAlignment
+                                                              .center,
+                                                      crossAxisAlignment:
+                                                          CrossAxisAlignment
+                                                              .center,
+                                                      mainAxisSize:
+                                                          MainAxisSize.min,
+                                                      children: <Widget>[
+                                                        Text(
+                                                          snapshot
+                                                              .data[index].day
+                                                              .toString(),
+                                                          style: deadlineTextStyle
+                                                              .copyWith(
+                                                                  color: Colors
+                                                                      .white,
                                                                   fontSize:
-                                                                      15.0),
-                                                            )
-                                                          ],
+                                                                      26.0),
                                                         ),
-                                                      ),
-                                                    )
-                                                  : Padding(
-                                                      padding: EdgeInsets.only(
-                                                          left: 10.0,
-                                                          right: 10.0,
-                                                          top: 7.0),
-                                                      child: GestureDetector(
-                                                        onTap: () {
-                                                          _bloc
-                                                              .chooseDeadlineModule
-                                                              .add(snapshot
-                                                                  .data[index]);
-                                                          showModalBottomSheet(
-                                                            context: context,
-                                                            builder:
-                                                                (BuildContext
-                                                                    context) {
-                                                              return DeadlineBottomSheet(
-                                                                bloc: _bloc,
-                                                                isDeadlineUrgent:
-                                                                    false,
-                                                              );
-                                                            },
-                                                          );
-                                                        },
-                                                        child: Column(
-                                                          children: <Widget>[
-                                                            CircleAvatar(
-                                                              radius: 30.0,
-                                                              backgroundColor:
-                                                                  Colors.white,
-                                                              child: Column(
-                                                                mainAxisAlignment:
-                                                                    MainAxisAlignment
-                                                                        .center,
-                                                                crossAxisAlignment:
-                                                                    CrossAxisAlignment
-                                                                        .center,
-                                                                mainAxisSize:
-                                                                    MainAxisSize
-                                                                        .min,
-                                                                children: <
-                                                                    Widget>[
-                                                                  Text(
-                                                                    snapshot
-                                                                        .data[
-                                                                            index]
-                                                                        .day
-                                                                        .toString(),
-                                                                    style: deadlineTextStyle.copyWith(
-                                                                        color:
-                                                                            lightGreyTextColor,
-                                                                        fontSize:
-                                                                            26.0),
-                                                                  ),
-                                                                  Text(
-                                                                    months[snapshot
-                                                                            .data[index]
-                                                                            .month -
-                                                                        1],
-                                                                    style: deadlineTextStyle.copyWith(
-                                                                        color:
-                                                                            lightGreyTextColor,
-                                                                        fontSize:
-                                                                            10.0),
-                                                                  )
-                                                                ],
-                                                              ),
-                                                            ),
-                                                            // FloatingActionButton(
-                                                            //     backgroundColor: Colors.white,
-                                                            //     onPressed: () {},
-                                                            //     child: Column(
-                                                            //       mainAxisAlignment:
-                                                            //           MainAxisAlignment.center,
-                                                            //       crossAxisAlignment:
-                                                            //           CrossAxisAlignment.center,
-                                                            //       mainAxisSize: MainAxisSize.min,
-                                                            //       children: <Widget>[
-                                                            //         Text(
-                                                            //           deadlinesList[index].date,
-                                                            //           style: deadlineTextStyle.copyWith(
-                                                            //               color: lightGreyTextColor,
-                                                            //               fontSize: 26.0),
-                                                            //         ),
-                                                            //         Text(
-                                                            //           deadlinesList[index]
-                                                            //               .month
-                                                            //               .toUpperCase(),
-                                                            //           style: deadlineTextStyle.copyWith(
-                                                            //               color: lightGreyTextColor,
-                                                            //               fontSize: 10.0),
-                                                            //         )
-                                                            //       ],
-                                                            //     ),
-                                                            //     shape: CircleBorder(
-                                                            //         side: BorderSide(color: redColor))),
-                                                            // // ClipRRect(
-                                                            //   borderRadius: BorderRadius.all(
-                                                            //       Radius.circular(200.0)),
-                                                            //   child: Container(
-                                                            //     padding: EdgeInsets.symmetric(
-                                                            //         horizontal: 16.0, vertical: 5.0),
-                                                            //     color: redColor.withAlpha(150),
-                                                            //     // radius: 30.0,
-                                                            //     child: Column(
-                                                            //       mainAxisAlignment:
-                                                            //           MainAxisAlignment.center,
-                                                            //       crossAxisAlignment:
-                                                            //           CrossAxisAlignment.center,
-                                                            //       mainAxisSize: MainAxisSize.min,
-                                                            //       children: <Widget>[
-                                                            //         Text(
-                                                            //           deadlinesList[index].date,
-                                                            //           style: deadlineTextStyle.copyWith(
-                                                            //               color: lightGreyTextColor,
-                                                            //               fontSize: 26.0),
-                                                            //         ),
-                                                            //         Text(
-                                                            //           deadlinesList[index]
-                                                            //               .month
-                                                            //               .toUpperCase(),
-                                                            //           style: deadlineTextStyle.copyWith(
-                                                            //               color: lightGreyTextColor,
-                                                            //               fontSize: 10.0),
-                                                            //         )
-                                                            //       ],
-                                                            //     ),
-                                                            //   ),
-                                                            // ),
-                                                            SizedBox(
-                                                                height: 5.0),
-                                                            Text(
-                                                              snapshot
+                                                        Text(
+                                                          months[snapshot
                                                                   .data[index]
-                                                                  .moduleShortName
-                                                                  .toUpperCase(),
-                                                              style: deadlineTextStyle.copyWith(
-                                                                  fontWeight:
-                                                                      FontWeight
-                                                                          .w500,
+                                                                  .month -
+                                                              1],
+                                                          style: deadlineTextStyle
+                                                              .copyWith(
+                                                                  color: Colors
+                                                                      .white,
+                                                                  fontSize:
+                                                                      10.0),
+                                                        )
+                                                      ],
+                                                    ),
+                                                  ),
+                                                  SizedBox(height: 5.0),
+                                                  Text(
+                                                    snapshot.data[index]
+                                                        .moduleShortName,
+                                                    style: deadlineTextStyle
+                                                        .copyWith(
+                                                            color: redColor,
+                                                            fontSize: 13.0),
+                                                  )
+                                                ],
+                                              ),
+                                            ),
+                                          )
+                                        : Padding(
+                                            padding: EdgeInsets.only(
+                                                left: 10.0,
+                                                right: index ==
+                                                        snapshot.data.length - 1
+                                                    ? 22.0
+                                                    : 10.0,
+                                                top: 7.0),
+                                            child: GestureDetector(
+                                              onTap: () {
+                                                _bloc.chooseDeadlineModule
+                                                    .add(snapshot.data[index]);
+                                                showModalBottomSheet(
+                                                  context: context,
+                                                  builder:
+                                                      (BuildContext context) {
+                                                    return DeadlineBottomSheet(
+                                                        bloc: _bloc,
+                                                        isDeadlineUrgent:
+                                                            false);
+                                                  },
+                                                );
+                                              },
+                                              child: Column(
+                                                children: <Widget>[
+                                                  CircleAvatar(
+                                                    radius: 30.0,
+                                                    backgroundColor:
+                                                        Colors.white,
+                                                    child: Column(
+                                                      mainAxisAlignment:
+                                                          MainAxisAlignment
+                                                              .center,
+                                                      crossAxisAlignment:
+                                                          CrossAxisAlignment
+                                                              .center,
+                                                      mainAxisSize:
+                                                          MainAxisSize.min,
+                                                      children: <Widget>[
+                                                        Text(
+                                                          snapshot
+                                                              .data[index].day
+                                                              .toString(),
+                                                          style: deadlineTextStyle
+                                                              .copyWith(
                                                                   color:
                                                                       lightGreyTextColor,
                                                                   fontSize:
-                                                                      15.0),
-                                                            )
-                                                          ],
+                                                                      26.0),
                                                         ),
-                                                      ),
+                                                        Text(
+                                                          months[snapshot
+                                                                  .data[index]
+                                                                  .month -
+                                                              1],
+                                                          style: deadlineTextStyle
+                                                              .copyWith(
+                                                                  color:
+                                                                      lightGreyTextColor,
+                                                                  fontSize:
+                                                                      10.0),
+                                                        )
+                                                      ],
                                                     ),
-                                        )
-                                      : DrawPlatformCircularIndicator(),
-                                ),
-                              ),
-                            ),
-                          )
-                        : SliverToBoxAdapter(),
+                                                  ),
+                                                  SizedBox(height: 5.0),
+                                                  Text(
+                                                    snapshot.data[index]
+                                                        .moduleShortName
+                                                        .toUpperCase(),
+                                                    style: deadlineTextStyle.copyWith(
+                                                        color:
+                                                            lightGreyTextColor,
+                                                        fontSize: 13.0),
+                                                  )
+                                                ],
+                                              ),
+                                            ),
+                                          ),
+                                  )
+                                : Center(
+                                    child:
+                                        Text('There is no deadlines to show'))
+                            : DrawPlatformCircularIndicator(),
+                      ),
+                    ),
                   ),
+
                   // SliverToBoxAdapter(
                   //     child: SafeArea(
                   //   bottom: false,
