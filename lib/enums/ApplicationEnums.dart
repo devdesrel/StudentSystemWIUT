@@ -17,7 +17,7 @@ enum MessageTypes { ERROR, INFO, SUCCESS, INFINITE_INFO }
 enum TimetableDropdownlinListType { Group, Room, Teacher }
 enum ChangePinCodeDialogArguments { CurrentPin, NewPin, ConfirmPin }
 
-enum RequestType { GetMarks, GetTeachingMaterials }
+enum RequestType { GetMarks, GetTeachingMaterials, GetTurnitin }
 enum IosPinRequestType { SetPin, ChangePin }
 
 enum AttachmentTypes { CAMERA, GALLERY, QUESTIONNAIRE, FILE, STICKER }

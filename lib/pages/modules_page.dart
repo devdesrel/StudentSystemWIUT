@@ -105,6 +105,14 @@ class ModulesPage extends StatelessWidget {
 
     return lists;
   }
+  // Future<List<Module>> _getMethods(BuildContext context, RequestType requestType){
+  //   if(requestType==RequestType.GetMarks){
+  //     return
+  //     _getModulesWithMarks(context);
+  //   } else{
+
+  //   }
+  // }
 
   Future<Widget> _checkInternetConnection(BuildContext context) async {
     ConnectivityResult connectionStatus;

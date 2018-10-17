@@ -147,7 +147,10 @@ void openSelectedPage(BuildContext context, MainPageGridItems page) {
               ModulesPage(requestType: RequestType.GetTeachingMaterials)));
       break;
     case MainPageGridItems.OFFENCES:
-      Navigator.of(context).pushNamed(offencesPage);
+      Navigator.of(context).push(MaterialPageRoute(
+          builder: (context) =>
+              ModulesPage(requestType: RequestType.GetTurnitin)));
+      // Navigator.of(context).pushNamed(offencesPage);
       break;
     case MainPageGridItems.COURSEWORK_UPLOAD:
       Navigator.of(context).pushNamed(courseworkUploadPage);

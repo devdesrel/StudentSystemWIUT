@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:student_system_flutter/helpers/function_helpers.dart';
 import 'package:student_system_flutter/pages/learning_materials_page.dart';
+import 'package:student_system_flutter/pages/modules_turnitin_page.dart';
 
 import '../helpers/app_constants.dart';
 import '../helpers/ui_helpers.dart';
@@ -30,6 +31,10 @@ class ItemModules extends StatelessWidget {
                 Navigator.of(context).push(MaterialPageRoute(
                     builder: (context) =>
                         LearningMaterialsPage(module: module)));
+                break;
+              case RequestType.GetTurnitin:
+                Navigator.of(context).push(MaterialPageRoute(
+                    builder: (context) => ModuleTurnitinPage(module: module)));
                 break;
               default:
             }
