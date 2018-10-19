@@ -9,7 +9,8 @@ enum MainPageGridItems {
   PAYMENT,
   BOOK_ORDERING,
   SOCIAL,
-  CCMFEEDBACK
+  CCMFEEDBACK,
+  WEBMAIL
 }
 
 enum MessageTypes { ERROR, INFO, SUCCESS, INFINITE_INFO }
