@@ -14,7 +14,8 @@ final accentColor = Color(0xFF0091ea);
 final redColor = Colors.red[700];
 final greenColor = Colors.green[400];
 final yellowColor = Colors.yellow;
-final greyColor = Colors.blueGrey;
+final greyColor = Color(0xFF78909c);
+// final greyColor = Colors.blueGrey;
 final lightOverlayColor = Color(0xBF333333);
 final backgroundColor = Color(0xFFF1F1F5);
 final blackColor = Color(0xCC333333);
@@ -57,6 +58,7 @@ final replyPage = '/replyPage';
 final ccmCategoryPage = '/ccmCategoryPage';
 final ccmFeedbackForSUPage = '/ccmFeedbackForSUPage';
 final timetablePickerIosPage = 'timetablePickerIosPage';
+final tipsTricksPage = 'tipsTrickspage';
 
 //Shared preferance keys
 final lastAppVersion = 'lastAppVersion';
@@ -85,7 +87,7 @@ final isSU = 'isSU';
 final isSecurityValueOn = 'isSecurityValueOn';
 
 //API List
-final baseUrl = 'https://newintranetapi.wiut.uz';
+final baseUrl = 'http://newintranetapi.wiut.uz';
 final currentYearID = '19';
 final apiAuthenticate = '$baseUrl/api/Account/Authenticate';
 final apiStudentMarks =

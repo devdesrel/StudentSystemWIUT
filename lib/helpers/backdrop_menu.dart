@@ -706,14 +706,16 @@ class DeadlineBottomSheet extends StatelessWidget {
                     ),
                     SizedBox(height: 8.0),
                     RaisedButton(
-                        child: Text('View Learning Materials'),
-                        onPressed: () => {}
-                        // Navigator.of(context).pushNamed(lecturesPage),
-                        // Navigator.of(context).push(MaterialPageRoute(
-                        //     builder: (context) => LearningMaterialsPage(
-                        //         module: snapshot.data.moduleID)));
-
-                        )
+                      child: Text('View Learning Materials'),
+                      onPressed: () => {},
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.all(Radius.circular(100.0)),
+                      ),
+                      // Navigator.of(context).pushNamed(lecturesPage),
+                      // Navigator.of(context).push(MaterialPageRoute(
+                      //     builder: (context) => LearningMaterialsPage(
+                      //         module: snapshot.data.moduleID)));
+                    )
                   ],
                 )
               //TODO: change

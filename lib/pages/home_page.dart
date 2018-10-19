@@ -165,6 +165,13 @@ void openSelectedPage(BuildContext context, MainPageGridItems page) {
       getSharedPrefData().then((val) => Navigator.of(context)
           .pushNamed(val ? ccmFeedbackForSUPage : ccmCategoryPage));
       break;
+    case MainPageGridItems.WEBMAIl:
+      _openOutlookApp();
+      break;
+    case MainPageGridItems.TIPSTRICKS:
+      Navigator.of(context).pushNamed(tipsTricksPage);
+
+      break;
     default:
       print('Nothing');
   }
@@ -253,13 +260,17 @@ class CustomGridView {
               MainPageGridItems.TIMETABLE, 1),
           makeGridCell("Learning Materials", 'assets/lectures.png',
               MainPageGridItems.LEARNING_MATERIALS, 2),
+          makeGridCell(
+              "Web Mail", 'assets/web_mail.png', MainPageGridItems.WEBMAIl, 3),
+          makeGridCell("Tips & Tricks", 'assets/tips_tricks.png',
+              MainPageGridItems.TIPSTRICKS, 4),
 
           FutureBuilder<bool>(
             future: isCCMFeedbackApplicable(),
             builder: (context, snapshot) => snapshot.hasData
                 ? snapshot.data
                     ? makeGridCell("CCM Feedback", 'assets/ccmfeedback.png',
-                        MainPageGridItems.CCMFEEDBACK, 3)
+                        MainPageGridItems.CCMFEEDBACK, 5)
                     : Container()
                 : DrawPlatformCircularIndicator(),
           )
@@ -431,12 +442,16 @@ class CustomGridViewForTeachers {
               MainPageGridItems.TIMETABLE, 0),
           makeGridCell("Learning Materials", 'assets/lectures.png',
               MainPageGridItems.LEARNING_MATERIALS, 1),
+          makeGridCell(
+              "Web Mail", 'assets/web_mail.png', MainPageGridItems.WEBMAIl, 2),
+          makeGridCell("Tips & Tricks", 'assets/tips_tricks.png',
+              MainPageGridItems.TIPSTRICKS, 3),
           FutureBuilder<bool>(
             future: isCCMFeedbackApplicable(),
             builder: (context, snapshot) => snapshot.hasData
                 ? snapshot.data
                     ? makeGridCell("CCM Feedback", 'assets/ccmfeedback.png',
-                        MainPageGridItems.CCMFEEDBACK, 2)
+                        MainPageGridItems.CCMFEEDBACK, 4)
                     : Container()
                 : DrawPlatformCircularIndicator(),
           )
