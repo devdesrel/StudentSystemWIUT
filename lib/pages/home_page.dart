@@ -3,6 +3,7 @@ import 'dart:io';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:student_system_flutter/bloc/backdrop/backdrop_bloc.dart';
 import 'package:student_system_flutter/bloc/backdrop/backdrop_provider.dart';
 import 'package:student_system_flutter/enums/ApplicationEnums.dart';
@@ -131,6 +132,16 @@ class _HomePageState extends State<HomePage>
   }
 }
 
+Future _openOutlookApp() async {
+  const platform =
+      const MethodChannel('com.rtoshmukhamedov.flutter.outlookappopener');
+  try {
+    await platform.invokeMethod('openOutlookApp');
+  } catch (e) {
+    print(e.toString());
+  }
+}
+
 void openSelectedPage(BuildContext context, MainPageGridItems page) {
   switch (page) {
     case MainPageGridItems.MARKS:
@@ -146,11 +157,14 @@ void openSelectedPage(BuildContext context, MainPageGridItems page) {
           builder: (context) =>
               ModulesPage(requestType: RequestType.GetTeachingMaterials)));
       break;
+    case MainPageGridItems.WEBMAIl:
+      _openOutlookApp();
+      break;
     case MainPageGridItems.OFFENCES:
       Navigator.of(context).push(MaterialPageRoute(
           builder: (context) =>
               ModulesPage(requestType: RequestType.GetTurnitin)));
-      // Navigator.of(context).pushNamed(offencesPage);
+      Navigator.of(context).pushNamed(offencesPage);
       break;
     case MainPageGridItems.COURSEWORK_UPLOAD:
       Navigator.of(context).pushNamed(courseworkUploadPage);
