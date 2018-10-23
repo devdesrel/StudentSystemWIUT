@@ -17,27 +17,27 @@ import Flutter
     
     
     
-    let controller : FlutterViewController = window?.rootViewController as! FlutterViewController;
-    let outlookOpenerChannel = FlutterMethodChannel.init(name: "com.rtoshmukhamedov.flutter.outlookappopener",
-                                                   binaryMessenger: controller);
+//     let controller : FlutterViewController = window?.rootViewController as! FlutterViewController;
+//     let outlookOpenerChannel = FlutterMethodChannel.init(name: "com.rtoshmukhamedov.flutter.outlookappopener",
+//                                                    binaryMessenger: controller);
 
-     outlookOpenerChannel.setMethodCallHandler({
-      (call: FlutterMethodCall, result: FlutterResult) -> Void in
-        if ("openOutlookApp" == call.method) {
-          let packageName = "com.microsoft.Office.Outlook";
-          Intent launchIntent = getPackageManager().getLaunchIntentForPackage(packageName);
+//      outlookOpenerChannel.setMethodCallHandler({
+//       (call: FlutterMethodCall, result: FlutterResult) -> Void in
+//         if ("openOutlookApp" == call.method) {
+//           let packageName = "com.microsoft.Office.Outlook";
+//           Intent launchIntent = getPackageManager().getLaunchIntentForPackage(packageName);
 
-          if (launchIntent != null) {
-              result.success(true);
-              startActivity(launchIntent);
-          } else {
-              result.success(false);
-//                        startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("https://play.google.com/store/apps/details?id=" + packageName)));
-          }
-        } else {
-          result(FlutterMethodNotImplemented);
-        }
-    });
+//           if (launchIntent != null) {
+//               result.success(true);
+//               startActivity(launchIntent);
+//           } else {
+//               result.success(false);
+// //                        startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("https://play.google.com/store/apps/details?id=" + packageName)));
+//           }
+//         } else {
+//           result(FlutterMethodNotImplemented);
+//         }
+//     });
                                                   
 
 
