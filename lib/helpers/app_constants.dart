@@ -53,6 +53,7 @@ final iosPinSetPage = '/iosPinSetPage';
 final ccmFeedbackPage = '/ccmFeedbackPage';
 final ccmAddFeedbackPage = '/ccmAddFeedbackPage';
 final testPage2 = '/testPage2';
+final videosPage = '/videosPage';
 final replyPage = '/replyPage';
 final ccmCategoryPage = '/ccmCategoryPage';
 final ccmFeedbackForSUPage = '/ccmFeedbackForSUPage';

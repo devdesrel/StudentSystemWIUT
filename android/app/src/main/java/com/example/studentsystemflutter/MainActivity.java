@@ -33,9 +33,11 @@ public class MainActivity extends FlutterActivity {
                     Intent launchIntent = getPackageManager().getLaunchIntentForPackage(packageName);
 
                     if (launchIntent != null) {
+                        result.success(true);
                         startActivity(launchIntent);
                     } else {
-                        startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("https://play.google.com/store/apps/details?id=" + packageName)));
+                        result.success(false);
+//                        startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("https://play.google.com/store/apps/details?id=" + packageName)));
                     }
                 }
             }
