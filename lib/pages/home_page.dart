@@ -164,7 +164,7 @@ void openSelectedPage(BuildContext context, MainPageGridItems page) {
       Navigator.of(context).push(MaterialPageRoute(
           builder: (context) =>
               ModulesPage(requestType: RequestType.GetTurnitin)));
-      Navigator.of(context).pushNamed(offencesPage);
+      // Navigator.of(context).pushNamed(offencesPage);
       break;
     case MainPageGridItems.COURSEWORK_UPLOAD:
       Navigator.of(context).pushNamed(courseworkUploadPage);
@@ -183,7 +183,7 @@ void openSelectedPage(BuildContext context, MainPageGridItems page) {
       _openOutlookApp();
       break;
     case MainPageGridItems.TIPSTRICKS:
-      Navigator.of(context).pushNamed(tipsTricksPage);
+      Navigator.of(context).pushNamed(tipsTricksListPage);
 
       break;
     default:

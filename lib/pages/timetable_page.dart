@@ -9,7 +9,7 @@ import 'package:student_system_flutter/helpers/app_constants.dart';
 import 'package:student_system_flutter/helpers/ui_helpers.dart';
 import 'package:student_system_flutter/list_items/item_week_timetable.dart';
 import 'package:student_system_flutter/models/Timetable/timetable_model.dart';
-import 'package:student_system_flutter/pages/timetable_picker_ios.dart';
+// import 'package:student_system_flutter/pages/timetable_picker_ios.dart';
 
 class TimetablePage extends StatelessWidget {
   final listItemLength = 6;

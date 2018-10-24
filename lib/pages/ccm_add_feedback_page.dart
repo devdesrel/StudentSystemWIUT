@@ -569,12 +569,13 @@ class _CCMAddFeedBackPageState extends State<CCMAddFeedBackPage> {
 
                                   child: Container(
                                     padding:
-                                        EdgeInsets.symmetric(vertical: 16.0),
+                                        EdgeInsets.symmetric(vertical: 13.0),
                                     decoration: BoxDecoration(
                                         color: Colors.transparent,
+                                        borderRadius:
+                                            BorderRadius.circular(100),
                                         border: Border.all(
                                             width: 2.0, color: redColor)),
-                                    // onPressed: () {},
                                     child: Text(
                                       'Delete'.toUpperCase(),
                                       textAlign: TextAlign.center,

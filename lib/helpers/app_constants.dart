@@ -59,6 +59,7 @@ final ccmCategoryPage = '/ccmCategoryPage';
 final ccmFeedbackForSUPage = '/ccmFeedbackForSUPage';
 final timetablePickerIosPage = 'timetablePickerIosPage';
 final tipsTricksPage = 'tipsTrickspage';
+final tipsTricksListPage = 'tipsTricksListPage';
 
 //Shared preferance keys
 final lastAppVersion = 'lastAppVersion';
