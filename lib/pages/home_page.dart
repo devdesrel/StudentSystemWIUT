@@ -9,6 +9,7 @@ import 'package:student_system_flutter/bloc/backdrop/backdrop_provider.dart';
 import 'package:student_system_flutter/enums/ApplicationEnums.dart';
 import 'package:student_system_flutter/helpers/backdrop_menu.dart';
 import 'package:student_system_flutter/pages/modules_page.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import '../helpers/app_constants.dart';
 import '../helpers/function_helpers.dart';
@@ -132,13 +133,25 @@ class _HomePageState extends State<HomePage>
   }
 }
 
-Future _openOutlookApp() async {
-  const platform =
-      const MethodChannel('com.rtoshmukhamedov.flutter.outlookappopener');
-  try {
-    await platform.invokeMethod('openOutlookApp');
-  } catch (e) {
-    print(e.toString());
+// Future _openOutlookApp(BuildContext context) async {
+//   const platform =
+//       const MethodChannel('com.rtoshmukhamedov.flutter.outlookappopener');
+//   try {
+//     bool isInstalled = await platform.invokeMethod('openOutlookApp');
+//     if (!isInstalled) {
+//       Navigator.of(context).pushNamed(offencesPage);
+//     }
+//   } catch (e) {
+//     print(e.toString());
+//   }
+// }
+
+_openOutlookApp(BuildContext context) async {
+  const url = 'ms-outlook://';
+  if (await canLaunch(url)) {
+    await launch(url);
+  } else {
+    Navigator.of(context).pushNamed(offencesPage);
   }
 }
 
@@ -157,14 +170,14 @@ void openSelectedPage(BuildContext context, MainPageGridItems page) {
           builder: (context) =>
               ModulesPage(requestType: RequestType.GetTeachingMaterials)));
       break;
-    case MainPageGridItems.WEBMAIl:
-      _openOutlookApp();
+    case MainPageGridItems.WEBMAIL:
+      _openOutlookApp(context);
       break;
     case MainPageGridItems.OFFENCES:
       Navigator.of(context).push(MaterialPageRoute(
           builder: (context) =>
               ModulesPage(requestType: RequestType.GetTurnitin)));
-      // Navigator.of(context).pushNamed(offencesPage);
+      // Navigator.of(context).pushNamed(videosPage);
       break;
     case MainPageGridItems.COURSEWORK_UPLOAD:
       Navigator.of(context).pushNamed(courseworkUploadPage);
@@ -179,12 +192,8 @@ void openSelectedPage(BuildContext context, MainPageGridItems page) {
       getSharedPrefData().then((val) => Navigator.of(context)
           .pushNamed(val ? ccmFeedbackForSUPage : ccmCategoryPage));
       break;
-    case MainPageGridItems.WEBMAIl:
-      _openOutlookApp();
-      break;
     case MainPageGridItems.TIPSTRICKS:
       Navigator.of(context).pushNamed(tipsTricksListPage);
-
       break;
     default:
       print('Nothing');

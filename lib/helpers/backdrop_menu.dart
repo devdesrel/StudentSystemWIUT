@@ -607,14 +607,8 @@ class DeadlineBottomSheet extends StatelessWidget {
                   mainAxisSize: MainAxisSize.min,
                   children: <Widget>[
                     Padding(
-                      padding: EdgeInsets.only(left: 24.0, right: 10.0),
+                      padding: EdgeInsets.only(left: 24.0, right: 24.0),
                       child: GestureDetector(
-                        onTap: () => showModalBottomSheet(
-                              context: context,
-                              builder: (BuildContext context) {
-                                return DeadlineBottomSheet();
-                              },
-                            ),
                         child: Column(
                           children: <Widget>[
                             CircleAvatar(
