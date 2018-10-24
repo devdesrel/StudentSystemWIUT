@@ -3,7 +3,6 @@ import 'dart:io';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:student_system_flutter/bloc/backdrop/backdrop_bloc.dart';
 import 'package:student_system_flutter/bloc/backdrop/backdrop_provider.dart';
 import 'package:student_system_flutter/enums/ApplicationEnums.dart';
@@ -284,7 +283,7 @@ class CustomGridView {
           makeGridCell("Learning Materials", 'assets/lectures.png',
               MainPageGridItems.LEARNING_MATERIALS, 2),
           makeGridCell(
-              "Web Mail", 'assets/web_mail.png', MainPageGridItems.WEBMAIl, 3),
+              "Web Mail", 'assets/web_mail.png', MainPageGridItems.WEBMAIL, 3),
           makeGridCell("Tips & Tricks", 'assets/tips_tricks.png',
               MainPageGridItems.TIPSTRICKS, 4),
 
@@ -466,7 +465,7 @@ class CustomGridViewForTeachers {
           makeGridCell("Learning Materials", 'assets/lectures.png',
               MainPageGridItems.LEARNING_MATERIALS, 1),
           makeGridCell(
-              "Web Mail", 'assets/web_mail.png', MainPageGridItems.WEBMAIl, 2),
+              "Web Mail", 'assets/web_mail.png', MainPageGridItems.WEBMAIL, 2),
           makeGridCell("Tips & Tricks", 'assets/tips_tricks.png',
               MainPageGridItems.TIPSTRICKS, 3),
           FutureBuilder<bool>(
