@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:student_system_flutter/helpers/app_constants.dart';
 
 //Material Drawer
 class CustomAndroidDrawer extends StatelessWidget {
@@ -72,6 +73,10 @@ class CustomCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Card(
+      shape: RoundedRectangleBorder(
+        side: BorderSide(width: 0.0, color: whiteColor),
+        borderRadius: BorderRadius.circular(8.0),
+      ),
       elevation: 2.0,
       child: _child,
     );

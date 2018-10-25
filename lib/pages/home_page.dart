@@ -8,6 +8,7 @@ import 'package:student_system_flutter/bloc/backdrop/backdrop_provider.dart';
 import 'package:student_system_flutter/enums/ApplicationEnums.dart';
 import 'package:student_system_flutter/helpers/backdrop_menu.dart';
 import 'package:student_system_flutter/pages/modules_page.dart';
+import 'package:student_system_flutter/pages/tips_tricks_page.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import '../helpers/app_constants.dart';
@@ -150,7 +151,9 @@ _openOutlookApp(BuildContext context) async {
   if (await canLaunch(url)) {
     await launch(url);
   } else {
-    Navigator.of(context).pushNamed(offencesPage);
+    Navigator.of(context).push(MaterialPageRoute(
+        builder: (context) =>
+            TipsAndTricksPage(type: TipsRequestType.Outlook)));
   }
 }
 

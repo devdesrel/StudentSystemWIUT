@@ -19,7 +19,7 @@ class LearningMaterialsExpansionTile extends StatelessWidget {
     // var bloc = CourseworkUploadProvider.of(context);
     return AppExpansionTile(
       key: expansionTile,
-      title: Text(bloc.materialType),
+      title: Text(bloc.materialType.toUpperCase()),
       backgroundColor: whiteColor,
       // onExpansionChanged: (b) => print(b),
       children: expansionChildrenList
@@ -65,6 +65,7 @@ class ItemSelection extends StatelessWidget {
           SizedBox(height: 12.0),
           Divider(
             height: 0.0,
+            color: greyColor,
           )
         ],
       ),
@@ -179,79 +180,78 @@ class AppExpansionTileState extends State<AppExpansionTile>
   }
 
   Widget _buildChildren(BuildContext context, Widget child) {
-    final Color borderSideColor =
-        _borderColor.evaluate(_easeOutAnimation) ?? Colors.transparent;
-
-    return new Container(
+    return Container(
       decoration: new BoxDecoration(
           color: _backgroundColor.evaluate(_easeOutAnimation) ??
               Colors.transparent,
-          border: new Border(
-            top: new BorderSide(color: borderSideColor),
-            bottom: new BorderSide(color: borderSideColor),
-          )),
-      child: Container(
-        color: whiteColor,
-        child: new Column(
-          mainAxisSize: MainAxisSize.min,
-          children: <Widget>[
-            IconTheme.merge(
-                data: new IconThemeData(
-                    color: _iconColor.evaluate(_easeInAnimation)),
-                child: InkWell(
-                  onTap: toggle,
-                  child: Container(
-                    color: greyColor,
-                    padding: const EdgeInsets.only(top: 10.0, bottom: 10.0),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: <Widget>[
-                        DefaultTextStyle(
-                          style: Theme.of(context).textTheme.subhead.copyWith(
-                                fontSize: 16.0,
-                                letterSpacing: 0.3,
-                                color: Colors.white,
-                                fontWeight: FontWeight.bold,
-                              ),
-                          child: widget.title,
-                        ),
-                        SizedBox(width: 1.0),
-                        widget.trailing ??
-                            new RotationTransition(
-                              turns: _iconTurns,
-                              child: const Icon(Icons.expand_more),
+          borderRadius: BorderRadius.circular(22.0),
+          border: Border.all(width: 1.0, color: greyColor)
+          // border: new Border(
+          //   top: new BorderSide(color: borderSideColor),
+          //   bottom: new BorderSide(color: borderSideColor),
+          // )
+          ),
+      child: new Column(
+        mainAxisSize: MainAxisSize.min,
+        children: <Widget>[
+          IconTheme.merge(
+              data: new IconThemeData(
+                  color: _iconColor.evaluate(_easeInAnimation)),
+              child: InkWell(
+                onTap: toggle,
+                child: Container(
+                  decoration: BoxDecoration(
+                      color: greyColor,
+                      borderRadius: BorderRadius.circular(100.0),
+                      border: Border.all(width: 0.0, color: greyColor)),
+                  padding: const EdgeInsets.symmetric(vertical: 5.0),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: <Widget>[
+                      DefaultTextStyle(
+                        style: Theme.of(context).textTheme.subhead.copyWith(
+                              fontSize: 15.0,
+                              letterSpacing: 0.2,
+                              color: Colors.white,
                             ),
-                      ],
-                    ),
+                        child: widget.title,
+                      ),
+                      SizedBox(width: 1.0),
+                      widget.trailing ??
+                          new RotationTransition(
+                            turns: _iconTurns,
+                            child: const Icon(Icons.expand_more),
+                          ),
+                    ],
                   ),
-                )
-
-                // new ListTile(
-                //   onTap: toggle,
-                //   leading: widget.leading,
-                //   title: new DefaultTextStyle(
-                //     style: Theme
-                //         .of(context)
-                //         .textTheme
-                //         .subhead
-                //         .copyWith(color: titleColor),
-                //     child: widget.title,
-                //   ),
-                //   trailing: widget.trailing ??
-                //       new RotationTransition(
-                //         turns: _iconTurns,
-                //         child: const Icon(Icons.expand_more),
-                //       ),
-                // ),
                 ),
-            new ClipRect(
-              child: new Align(
-                heightFactor: _easeInAnimation.value,
-                child: child,
+              )
+
+              // new ListTile(
+              //   onTap: toggle,
+              //   leading: widget.leading,
+              //   title: new DefaultTextStyle(
+              //     style: Theme
+              //         .of(context)
+              //         .textTheme
+              //         .subhead
+              //         .copyWith(color: titleColor),
+              //     child: widget.title,
+              //   ),
+              //   trailing: widget.trailing ??
+              //       new RotationTransition(
+              //         turns: _iconTurns,
+              //         child: const Icon(Icons.expand_more),
+              //       ),
+              // ),
               ),
+          new ClipRect(
+            child: new Align(
+              heightFactor: _easeInAnimation.value,
+              child: child,
             ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }

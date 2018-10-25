@@ -1,16 +1,21 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:student_system_flutter/enums/ApplicationEnums.dart';
 import 'package:student_system_flutter/helpers/app_constants.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class TipsAndTricksPage extends StatefulWidget {
+  final TipsRequestType type;
+
   @override
   _TipsAndTricksPageState createState() => _TipsAndTricksPageState();
+
+  TipsAndTricksPage({this.type});
 }
 
 class _TipsAndTricksPageState extends State<TipsAndTricksPage> {
-  int current_step = 0;
+  int currentStep = 0;
   List<Step> mySteps = [
     Step(
         title: Text("Download the application"),
@@ -53,7 +58,9 @@ class _TipsAndTricksPageState extends State<TipsAndTricksPage> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          title: Text('Tips & Tricks'),
+          title: Text(widget.type == TipsRequestType.Outlook
+              ? 'Web Mail (Outlook)'
+              : 'Turnitin'),
           centerTitle: true,
         ),
         backgroundColor: backgroundColor,
@@ -76,20 +83,20 @@ class _TipsAndTricksPageState extends State<TipsAndTricksPage> {
             ];
           },
           body: Stepper(
-            currentStep: current_step,
+            currentStep: currentStep,
             steps: mySteps,
             type: StepperType.vertical,
             onStepTapped: (step) {
               setState(() {
-                current_step = step;
+                currentStep = step;
               });
             },
             onStepContinue: () {
               setState(() {
-                if (current_step < mySteps.length - 1) {
-                  current_step = current_step + 1;
+                if (currentStep < mySteps.length - 1) {
+                  currentStep = currentStep + 1;
                 } else {
-                  current_step = 0;
+                  currentStep = 0;
                 }
               });
             },
