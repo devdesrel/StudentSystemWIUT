@@ -116,6 +116,18 @@ class CardBody extends StatelessWidget {
     final iconSize = 18.0;
     final Icon postLikeIcon = Icon(FontAwesomeIcons.heart);
 
+    final _widget = Container(
+      height: 200.0,
+      decoration: BoxDecoration(
+        image: DecorationImage(
+            image: CachedNetworkImageProvider(
+                'https://picsum.photos/520/300/?random'),
+            fit: BoxFit.fitHeight,
+            alignment: Alignment.topLeft),
+        borderRadius: BorderRadius.all(Radius.circular(12.0)),
+      ),
+    );
+
     // final heartIcon = const IconData(442, fontFamily: CuperIcon);
     // final heartIcon = const IconData(442, fontFamily: CuperIcon);
     return Column(children: <Widget>[
@@ -130,23 +142,13 @@ class CardBody extends StatelessWidget {
       ),
       Container(height: 10.0),
       GestureDetector(
-        child: Hero(
-          tag: 'imageHero$position',
-          child: Container(
-            height: 200.0,
-            decoration: BoxDecoration(
-              image: DecorationImage(
-                  image: CachedNetworkImageProvider(
-                      'https://picsum.photos/520/300/?random'),
-                  fit: BoxFit.fitHeight,
-                  alignment: Alignment.topLeft),
-              borderRadius: BorderRadius.all(Radius.circular(12.0)),
-            ),
-          ),
-        ),
+        child: Hero(tag: 'imageHero$position', child: _widget),
         onTap: () {
-          Navigator.push(context,
-              MaterialPageRoute(builder: (_) => ImageDetailPage(position)));
+          Navigator.push(
+              context,
+              MaterialPageRoute(
+                  builder: (_) =>
+                      ImageDetailPage(position: position, widget: _widget)));
         },
       ),
       SizedBox(

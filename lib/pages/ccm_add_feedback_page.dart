@@ -573,7 +573,7 @@ class _CCMAddFeedBackPageState extends State<CCMAddFeedBackPage> {
                                     decoration: BoxDecoration(
                                         color: Colors.transparent,
                                         borderRadius:
-                                            BorderRadius.circular(100),
+                                            BorderRadius.circular(100.0),
                                         border: Border.all(
                                             width: 2.0, color: redColor)),
                                     child: Text(
