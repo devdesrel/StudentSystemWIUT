@@ -1,13 +1,18 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:student_system_flutter/enums/ApplicationEnums.dart';
 import 'package:student_system_flutter/helpers/app_constants.dart';
 import 'package:student_system_flutter/pages/image_detail_page.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class TipsAndTricksPage extends StatefulWidget {
+  final TipsRequestType type;
+
   @override
   _TipsAndTricksPageState createState() => _TipsAndTricksPageState();
+
+  TipsAndTricksPage({this.type});
 }
 
 class _TipsAndTricksPageState extends State<TipsAndTricksPage> {
@@ -217,7 +222,9 @@ class _TipsAndTricksPageState extends State<TipsAndTricksPage> {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text('Tips & Tricks'),
+        title: Text(widget.type == TipsRequestType.Outlook
+            ? 'Web Mail (Outlook)'
+            : 'Turnitin'),
         centerTitle: true,
       ),
       backgroundColor: backgroundColor,

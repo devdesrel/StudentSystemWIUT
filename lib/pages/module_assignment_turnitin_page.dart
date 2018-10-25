@@ -30,12 +30,12 @@ class ModuleAssignmentTurnitinPage extends StatelessWidget {
               CircularStackEntry(
                 <CircularSegmentEntry>[
                   CircularSegmentEntry(
-                    23,
+                    23.0,
                     Colors.red[700],
                     rankKey: 'completed',
                   ),
                   CircularSegmentEntry(
-                    77,
+                    77.0,
                     // Colors.white,
                     // lightGreyTextColor,
                     Colors.grey[300],
