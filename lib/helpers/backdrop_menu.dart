@@ -629,7 +629,7 @@ class DeadlineBottomSheet extends StatelessWidget {
                                         fontSize: 26.0),
                                   ),
                                   Text(
-                                    months[snapshot.data.month],
+                                    months[snapshot.data.month - 1],
                                     style: deadlineTextStyle.copyWith(
                                         color: isDeadlineUrgent
                                             ? Colors.white

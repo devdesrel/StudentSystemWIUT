@@ -15,52 +15,54 @@ class TipsAndTricksListPage extends StatelessWidget {
       ),
       body: ListView(
         children: <Widget>[
-          InkWell(
-              onTap: () {
-                Navigator.of(context).pushNamed(tipsTricksPage);
-              },
-              child: Padding(
-                padding: EdgeInsets.only(left: 5.0, right: 5.0, top: 8.0),
-                child: CustomCard(
-                  Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: ListTile(
-                      leading: Image(
-                        image: AssetImage('assets/outlook.png'),
-                        width: 40.0,
-                      ),
-                      title: Text(
-                        'Web Mail (Outlook) ',
-                        style: stylish,
-                      ),
-                      trailing: Icon(CupertinoIcons.right_chevron),
+          Padding(
+            padding: EdgeInsets.only(left: 8.0, right: 8.0, top: 8.0),
+            child: CustomCard(
+              InkWell(
+                onTap: () {
+                  Navigator.of(context).pushNamed(tipsTricksPage);
+                },
+                child: Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: ListTile(
+                    leading: Image(
+                      image: AssetImage('assets/outlook.png'),
+                      width: 40.0,
                     ),
+                    title: Text(
+                      'Web Mail (Outlook) ',
+                      style: stylish,
+                    ),
+                    trailing: Icon(CupertinoIcons.right_chevron),
                   ),
                 ),
-              )),
-          InkWell(
-              onTap: () {
-                Navigator.of(context).pushNamed(tipsTricksPage);
-              },
-              child: Padding(
-                padding: EdgeInsets.only(left: 5.0, right: 5.0, top: 5.0),
-                child: CustomCard(
-                  Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: ListTile(
-                      leading: Image(
-                        image: AssetImage('assets/turnitin.png'),
-                        width: 40.0,
-                      ),
-                      title: Text(
-                        'Turnitin ',
-                        style: stylish,
-                      ),
-                      trailing: Icon(CupertinoIcons.right_chevron),
+              ),
+            ),
+          ),
+          Padding(
+            padding: EdgeInsets.only(left: 8.0, right: 8.0, top: 3.0),
+            child: CustomCard(
+              InkWell(
+                onTap: () {
+                  Navigator.of(context).pushNamed(tipsTricksPage);
+                },
+                child: Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: ListTile(
+                    leading: Image(
+                      image: AssetImage('assets/turnitin.png'),
+                      width: 40.0,
                     ),
+                    title: Text(
+                      'Turnitin ',
+                      style: stylish,
+                    ),
+                    trailing: Icon(CupertinoIcons.right_chevron),
                   ),
                 ),
-              ))
+              ),
+            ),
+          )
         ],
       ),
     );
