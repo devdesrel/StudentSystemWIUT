@@ -70,6 +70,7 @@ flutter:
     - assets/file_manager_icons/
     - assets/player/
     - assets/fonts/CupertinoIcons.ttf
+    - assets/instructions/
 
   fonts:
     - family: CuperIcon

@@ -1,10 +1,10 @@
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 
 class ImageDetailPage extends StatelessWidget {
   final position;
+  final widget;
 
-  ImageDetailPage(this.position);
+  ImageDetailPage({this.position, this.widget});
 
   @override
   Widget build(BuildContext context) {
@@ -12,18 +12,7 @@ class ImageDetailPage extends StatelessWidget {
       backgroundColor: Colors.white,
       body: GestureDetector(
         child: Center(
-          child: Hero(
-            tag: 'imageHero$position',
-            child: Container(
-              height: 200.0,
-              decoration: BoxDecoration(
-                  image: DecorationImage(
-                      image: CachedNetworkImageProvider(
-                          'https://picsum.photos/520/300/?random'),
-                      fit: BoxFit.fitWidth,
-                      alignment: Alignment.topLeft)),
-            ),
-          ),
+          child: Hero(tag: 'imageHero$position', child: widget),
         ),
         onTap: () {
           Navigator.pop(context);
