@@ -359,16 +359,17 @@ class _MaterialsListTabState extends State<MaterialsListTab>
       // 'Courseworks'
     ];
 
-    double halfWidth = (MediaQuery.of(context).size.width / 2) - 7.0;
+    double halfWidth = (MediaQuery.of(context).size.width / 2) - 24.0;
 
     return CustomScrollView(
       slivers: <Widget>[
         SliverToBoxAdapter(
           child: Row(
             crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
               Container(
-                padding: EdgeInsets.only(left: 4.0, right: 3.0, top: 10.0),
+                padding: EdgeInsets.only(right: 6.0, top: 10.0),
                 color: backgroundColor,
                 child: SizedBox(
                   width: halfWidth,
@@ -386,7 +387,7 @@ class _MaterialsListTabState extends State<MaterialsListTab>
                 ),
               ),
               Container(
-                padding: EdgeInsets.only(left: 3.0, right: 4.0, top: 10.0),
+                padding: EdgeInsets.only(left: 6.0, top: 10.0),
                 color: backgroundColor,
                 child: SizedBox(
                   width: halfWidth,
@@ -811,8 +812,12 @@ class LearningMaterialsCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: EdgeInsets.symmetric(horizontal: 12.0, vertical: 2.0),
+      padding: EdgeInsets.symmetric(horizontal: 12.0, vertical: 1.0),
       child: Card(
+        shape: RoundedRectangleBorder(
+          side: BorderSide(width: 2.0, color: whiteColor),
+          borderRadius: BorderRadius.circular(8.0),
+        ),
         child: InkWell(
           onTap: () => _showDialogToDownload(context),
           child: Padding(
@@ -823,7 +828,7 @@ class LearningMaterialsCard extends StatelessWidget {
               style: Theme.of(context)
                   .textTheme
                   .headline
-                  .copyWith(color: lightGreyTextColor, fontSize: 18.0),
+                  .copyWith(color: lightGreyTextColor, fontSize: 16.0),
             ),
           ),
         ),

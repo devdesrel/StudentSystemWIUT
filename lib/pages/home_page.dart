@@ -8,6 +8,8 @@ import 'package:student_system_flutter/bloc/backdrop/backdrop_provider.dart';
 import 'package:student_system_flutter/enums/ApplicationEnums.dart';
 import 'package:student_system_flutter/helpers/backdrop_menu.dart';
 import 'package:student_system_flutter/pages/modules_page.dart';
+import 'package:student_system_flutter/pages/tips_tricks_page.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import '../helpers/app_constants.dart';
 import '../helpers/function_helpers.dart';
@@ -29,8 +31,6 @@ class _HomePageState extends State<HomePage>
     super.initState();
 
     getMinimumAppVersion(context);
-
-    getUserProfileForTheCurrentYear();
 
     controller = AnimationController(
         vsync: this, duration: Duration(milliseconds: 100), value: 1.0);
@@ -133,6 +133,30 @@ class _HomePageState extends State<HomePage>
   }
 }
 
+// Future _openOutlookApp(BuildContext context) async {
+//   const platform =
+//       const MethodChannel('com.rtoshmukhamedov.flutter.outlookappopener');
+//   try {
+//     bool isInstalled = await platform.invokeMethod('openOutlookApp');
+//     if (!isInstalled) {
+//       Navigator.of(context).pushNamed(offencesPage);
+//     }
+//   } catch (e) {
+//     print(e.toString());
+//   }
+// }
+
+_openOutlookApp(BuildContext context) async {
+  const url = 'ms-outlook://';
+  if (await canLaunch(url)) {
+    await launch(url);
+  } else {
+    Navigator.of(context).push(MaterialPageRoute(
+        builder: (context) =>
+            TipsAndTricksPage(type: TipsRequestType.Outlook)));
+  }
+}
+
 void openSelectedPage(BuildContext context, MainPageGridItems page) {
   switch (page) {
     case MainPageGridItems.MARKS:
@@ -148,8 +172,14 @@ void openSelectedPage(BuildContext context, MainPageGridItems page) {
           builder: (context) =>
               ModulesPage(requestType: RequestType.GetTeachingMaterials)));
       break;
+    case MainPageGridItems.WEBMAIL:
+      _openOutlookApp(context);
+      break;
     case MainPageGridItems.OFFENCES:
-      Navigator.of(context).pushNamed(offencesPage);
+      Navigator.of(context).push(MaterialPageRoute(
+          builder: (context) =>
+              ModulesPage(requestType: RequestType.GetTurnitin)));
+      // Navigator.of(context).pushNamed(videosPage);
       break;
     case MainPageGridItems.COURSEWORK_UPLOAD:
       Navigator.of(context).pushNamed(courseworkUploadPage);
@@ -164,6 +194,9 @@ void openSelectedPage(BuildContext context, MainPageGridItems page) {
       getSharedPrefData().then((val) => Navigator.of(context)
           .pushNamed(val ? ccmFeedbackForSUPage : ccmCategoryPage));
       break;
+    case MainPageGridItems.TIPSTRICKS:
+      Navigator.of(context).pushNamed(tipsTricksListPage);
+      break;
     default:
       print('Nothing');
   }
@@ -171,9 +204,8 @@ void openSelectedPage(BuildContext context, MainPageGridItems page) {
 
 class CustomGridView {
   BuildContext context;
-  bool isCCMFeedbackApllicable;
 
-  CustomGridView(this.context, this.isCCMFeedbackApllicable);
+  CustomGridView(this.context);
 
   Widget makeGridCell(
       String name, String imageSource, MainPageGridItems page, int position) {
@@ -242,34 +274,36 @@ class CustomGridView {
         crossAxisCount: 2,
         mainAxisSpacing: 0.0,
         crossAxisSpacing: 10.0,
-        children: isCCMFeedbackApllicable
-            ? <Widget>[
-                // SliverToBoxAdapter(
-                // SliverToBoxAdapter(
-                //   child: SliverGrid.count(
-                //     crossAxisCount: 2,
-                //     children: <Widget>[
-                makeGridCell(
-                    "Marks", 'assets/marks.png', MainPageGridItems.MARKS, 0),
-                makeGridCell("Timetable", 'assets/timetable.png',
-                    MainPageGridItems.TIMETABLE, 1),
-                makeGridCell("Learning Materials", 'assets/lectures.png',
-                    MainPageGridItems.LEARNING_MATERIALS, 2),
-
-                makeGridCell("CCM Feedback", 'assets/ccmfeedback.png',
-                    MainPageGridItems.CCMFEEDBACK, 3)
-                //     ],
-                //   ),
-                // ),
-              ]
-            : <Widget>[
-                makeGridCell(
-                    "Marks", 'assets/marks.png', MainPageGridItems.MARKS, 0),
-                makeGridCell("Timetable", 'assets/timetable.png',
-                    MainPageGridItems.TIMETABLE, 1),
-                makeGridCell("Learning Materials", 'assets/lectures.png',
-                    MainPageGridItems.LEARNING_MATERIALS, 2),
-              ]);
+        children: <Widget>[
+          // SliverToBoxAdapter(
+          // SliverToBoxAdapter(
+          //   child: SliverGrid.count(
+          //     crossAxisCount: 2,
+          //     children: <Widget>[
+          makeGridCell("Marks", 'assets/marks.png', MainPageGridItems.MARKS, 0),
+          makeGridCell("Timetable", 'assets/timetable.png',
+              MainPageGridItems.TIMETABLE, 1),
+          makeGridCell("Learning Materials", 'assets/lectures.png',
+              MainPageGridItems.LEARNING_MATERIALS, 2),
+          makeGridCell(
+              "Web Mail", 'assets/web_mail.png', MainPageGridItems.WEBMAIL, 3),
+          makeGridCell("Tips & Tricks", 'assets/tips_tricks.png',
+              MainPageGridItems.TIPSTRICKS, 4),
+          makeGridCell("CCM Feedback", 'assets/ccmfeedback.png',
+              MainPageGridItems.CCMFEEDBACK, 5)
+          // FutureBuilder<bool>(
+          //   future: isCCMFeedbackApplicable(),
+          //   builder: (context, snapshot) => snapshot.hasData
+          //       ? snapshot.data
+          //           ? makeGridCell("CCM Feedback", 'assets/ccmfeedback.png',
+          //               MainPageGridItems.CCMFEEDBACK, 5)
+          //           : Container()
+          //       : DrawPlatformCircularIndicator(),
+          // )
+          //     ],
+          //   ),
+          // ),
+        ]);
   }
 }
 
@@ -354,9 +388,8 @@ class CustomGridView2 {
 
 class CustomGridViewForTeachers {
   BuildContext context;
-  bool isCCMFeedbackApllicable;
 
-  CustomGridViewForTeachers(this.context, this.isCCMFeedbackApllicable);
+  CustomGridViewForTeachers(this.context);
 
   Widget makeGridCell(
       String name, String imageSource, MainPageGridItems page, int position) {
@@ -425,29 +458,31 @@ class CustomGridViewForTeachers {
         crossAxisCount: 2,
         mainAxisSpacing: 0.0,
         crossAxisSpacing: 10.0,
-        children: isCCMFeedbackApllicable
-            ? <Widget>[
-                // SliverToBoxAdapter(
-                // SliverToBoxAdapter(
-                //   child: SliverGrid.count(
-                //     crossAxisCount: 2,
-                //     children: <Widget>[
-                makeGridCell("Timetable", 'assets/timetable.png',
-                    MainPageGridItems.TIMETABLE, 0),
-                makeGridCell("Learning Materials", 'assets/lectures.png',
-                    MainPageGridItems.LEARNING_MATERIALS, 1),
-                makeGridCell("CCM Feedback", 'assets/ccmfeedback.png',
-                    MainPageGridItems.CCMFEEDBACK, 2)
-
-                //     ],
-                //   ),
-                // ),
-              ]
-            : <Widget>[
-                makeGridCell("Timetable", 'assets/timetable.png',
-                    MainPageGridItems.TIMETABLE, 0),
-                makeGridCell("Learning Materials", 'assets/lectures.png',
-                    MainPageGridItems.LEARNING_MATERIALS, 1),
-              ]);
+        children: <Widget>[
+          // SliverToBoxAdapter(
+          // SliverToBoxAdapter(
+          //   child: SliverGrid.count(
+          //     crossAxisCount: 2,
+          //     children: <Widget>[
+          makeGridCell("Timetable", 'assets/timetable.png',
+              MainPageGridItems.TIMETABLE, 0),
+          makeGridCell("Learning Materials", 'assets/lectures.png',
+              MainPageGridItems.LEARNING_MATERIALS, 1),
+          makeGridCell(
+              "Web Mail", 'assets/web_mail.png', MainPageGridItems.WEBMAIL, 2),
+          makeGridCell("Tips & Tricks", 'assets/tips_tricks.png',
+              MainPageGridItems.TIPSTRICKS, 3),
+          makeGridCell("CCM Feedback", 'assets/ccmfeedback.png',
+              MainPageGridItems.CCMFEEDBACK, 4)
+          // FutureBuilder<bool>(
+          //   future: isCCMFeedbackApplicable(),
+          //   builder: (context, snapshot) => snapshot.hasData
+          //       ? snapshot.data
+          //           ? makeGridCell("CCM Feedback", 'assets/ccmfeedback.png',
+          //               MainPageGridItems.CCMFEEDBACK, 4)
+          //           : Container()
+          //       : DrawPlatformCircularIndicator(),
+          // )
+        ]);
   }
 }

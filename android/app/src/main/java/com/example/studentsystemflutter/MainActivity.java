@@ -14,9 +14,10 @@ import io.flutter.plugin.common.MethodChannel;
 import io.flutter.plugins.GeneratedPluginRegistrant;
 
 public class MainActivity extends FlutterActivity {
-  private static final String CHANNEL = "com.rtoshmukhamedov.flutter.fileopener";
+//  private static final String CHANNEL = "com.rtoshmukhamedov.flutter.fileopener";
+    private static final String CHANNEL = "com.rtoshmukhamedov.flutter.outlookappopener";
 
-  @Override
+    @Override
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     GeneratedPluginRegistrant.registerWith(this);
@@ -27,6 +28,17 @@ public class MainActivity extends FlutterActivity {
                 final Map<String, Object> arguments = methodCall.arguments();
                 if (methodCall.method.equals("openFile")) {
 //                   openFile((String) arguments.get("filePath"), (String) arguments.get("mimeType"));
+                } else if (methodCall.method.equals("openOutlookApp")) {
+                    String packageName = "com.microsoft.office.outlook";
+                    Intent launchIntent = getPackageManager().getLaunchIntentForPackage(packageName);
+
+                    if (launchIntent != null) {
+                        result.success(true);
+                        startActivity(launchIntent);
+                    } else {
+                        result.success(false);
+//                        startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("https://play.google.com/store/apps/details?id=" + packageName)));
+                    }
                 }
             }
       });

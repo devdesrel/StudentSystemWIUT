@@ -197,6 +197,9 @@ class CourseworkUploadItemsState extends State<CourseworkUploadItems> {
             ? RaisedButton(
                 color: accentColor,
                 onPressed: saveTitle,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.all(Radius.circular(100.0)),
+                ),
                 child: Padding(
                   padding: const EdgeInsets.all(12.0),
                   child: Text(

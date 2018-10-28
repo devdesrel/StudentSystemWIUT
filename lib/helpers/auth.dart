@@ -28,6 +28,10 @@ class AuthStateProvider {
   void initState() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
 
+    if (prefs.getBool(isSecurityValueOn) == null) {
+      await prefs.setBool(isSecurityValueOn, true);
+    }
+
     int _lastAppVersion = prefs.getInt(lastAppVersion) ?? 1;
 
     PackageInfo packageInfo = await PackageInfo.fromPlatform();

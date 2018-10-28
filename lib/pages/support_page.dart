@@ -35,7 +35,7 @@ class SupportPage extends StatelessWidget {
                     ),
                   ),
                   RaisedButton(
-                    padding: const EdgeInsets.symmetric(vertical: 15.0),
+                    padding: EdgeInsets.symmetric(vertical: 14.0),
                     elevation: 8.0,
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.all(Radius.circular(100.0)),

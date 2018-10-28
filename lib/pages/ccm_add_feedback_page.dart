@@ -540,7 +540,11 @@ class _CCMAddFeedBackPageState extends State<CCMAddFeedBackPage> {
                           padding: EdgeInsets.only(
                               left: 5.0, right: 5.0, top: 5.0, bottom: 8.0),
                           child: RaisedButton(
-                            padding: EdgeInsets.symmetric(vertical: 16.0),
+                            padding: EdgeInsets.symmetric(vertical: 14.0),
+                            shape: RoundedRectangleBorder(
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(100.0)),
+                            ),
                             color: accentColor,
                             onPressed: saveComment,
                             child: Text(
@@ -565,12 +569,13 @@ class _CCMAddFeedBackPageState extends State<CCMAddFeedBackPage> {
 
                                   child: Container(
                                     padding:
-                                        EdgeInsets.symmetric(vertical: 16.0),
+                                        EdgeInsets.symmetric(vertical: 13.0),
                                     decoration: BoxDecoration(
                                         color: Colors.transparent,
+                                        borderRadius:
+                                            BorderRadius.circular(100.0),
                                         border: Border.all(
                                             width: 2.0, color: redColor)),
-                                    // onPressed: () {},
                                     child: Text(
                                       'Delete'.toUpperCase(),
                                       textAlign: TextAlign.center,

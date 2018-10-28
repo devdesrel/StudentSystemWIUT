@@ -317,69 +317,68 @@ class CustomGridView {
         .copyWith(color: Theme.of(context).accentColor, fontSize: 16.0);
 
     return CustomCard(
-      InkWell(
-        onTap: () {
-          print('object');
-        },
-        child: Container(
-          color: whiteColor,
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            mainAxisAlignment: MainAxisAlignment.start,
-            mainAxisSize: MainAxisSize.min,
-            verticalDirection: VerticalDirection.down,
-            children: <Widget>[
-              Container(
-                color: Theme.of(context).accentColor,
-                padding: const EdgeInsets.symmetric(vertical: 8.0),
-                child: Text(
-                  componentName.toUpperCase(),
-                  textAlign: TextAlign.center,
-                  maxLines: 1,
-                  overflow: TextOverflow.ellipsis,
-                  style: _componentNameTextStyle,
-                ),
-              ),
-              Padding(
-                padding: const EdgeInsets.fromLTRB(5.0, 10.0, 5.0, 5.0),
-                child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: <Widget>[
-                      Text(
-                        'Mark'.toUpperCase(),
-                        style: _greyTextStyle,
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.only(right: 1.0),
-                        child: Text(
-                          '$mark',
-                          style: _accentTextStyle,
-                        ),
-                      ),
-                    ]),
-              ),
-              Container(
-                color: Theme.of(context).accentColor,
-                height: 1.5,
-              ),
-              Padding(
-                padding: const EdgeInsets.fromLTRB(5.0, 5.0, 5.0, 0.0),
-                child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: <Widget>[
-                      Text(
-                        'Weight'.toUpperCase(),
-                        style: _greyTextStyle,
-                      ),
-                      Text(
-                        '$weight%',
-                        style: _accentTextStyle,
-                      )
-                    ]),
-              ),
-            ],
+      Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        mainAxisAlignment: MainAxisAlignment.start,
+        mainAxisSize: MainAxisSize.min,
+        verticalDirection: VerticalDirection.down,
+        children: <Widget>[
+          Container(
+            decoration: BoxDecoration(
+                color: accentColor,
+                borderRadius: BorderRadius.only(
+                    topLeft: Radius.circular(8.0),
+                    topRight: Radius.circular(8.0),
+                    bottomLeft: Radius.circular(0.0),
+                    bottomRight: Radius.circular(0.0)),
+                border: Border.all(width: 0.0, color: accentColor)),
+            padding: const EdgeInsets.symmetric(vertical: 8.0),
+            child: Text(
+              componentName.toUpperCase(),
+              textAlign: TextAlign.center,
+              maxLines: 1,
+              overflow: TextOverflow.ellipsis,
+              style: _componentNameTextStyle,
+            ),
           ),
-        ),
+          Padding(
+            padding: const EdgeInsets.fromLTRB(5.0, 10.0, 5.0, 5.0),
+            child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: <Widget>[
+                  Text(
+                    'Mark'.toUpperCase(),
+                    style: _greyTextStyle,
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.only(right: 1.0),
+                    child: Text(
+                      '$mark',
+                      style: _accentTextStyle,
+                    ),
+                  ),
+                ]),
+          ),
+          Container(
+            color: Theme.of(context).accentColor,
+            height: 1.5,
+          ),
+          Padding(
+            padding: const EdgeInsets.fromLTRB(5.0, 5.0, 5.0, 0.0),
+            child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: <Widget>[
+                  Text(
+                    'Weight'.toUpperCase(),
+                    style: _greyTextStyle,
+                  ),
+                  Text(
+                    '$weight%',
+                    style: _accentTextStyle,
+                  )
+                ]),
+          ),
+        ],
       ),
     );
   }

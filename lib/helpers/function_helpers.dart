@@ -42,37 +42,45 @@ void getMinimumAppVersion(BuildContext context) async {
   }
 }
 
-void getStudentsProfileForSelectedYear() async {
-  SharedPreferences prefs = await SharedPreferences.getInstance();
-  final _token = prefs.getString(token);
-  final _studentID = prefs.getString(studentID);
+// void getStudentsProfileForSelectedYear() async {
+//   SharedPreferences prefs = await SharedPreferences.getInstance();
+//   final _token = prefs.getString(token);
+//   final _studentID = prefs.getString(studentID);
 
-  try {
-    final response = await http.post(
-        "$apiStudentProfileForSelectedAcademicYear?StudentID=$_studentID&AcadYearID=$currentYearID",
-        headers: {
-          "Accept": "application/json",
-          "Authorization": "Bearer $_token"
-        });
+//   try {
+//     final response = await http.post(
+//         "$apiStudentProfileForSelectedAcademicYear?StudentID=$_studentID&AcadYearID=$currentYearID",
+//         headers: {
+//           "Accept": "application/json",
+//           "Authorization": "Bearer $_token"
+//         });
 
-    if (response.statusCode == 200) {
-      final _parsed = json.decode(response.body);
+//     if (response.statusCode == 200) {
+//       final _parsed = json.decode(response.body);
 
-      List<ProfileModel> profile = _parsed
-          .map<ProfileModel>((item) => ProfileModel.fromJson(item))
-          .toList();
+//       List<ProfileModel> profile = _parsed
+//           .map<ProfileModel>((item) => ProfileModel.fromJson(item))
+//           .toList();
 
-      var currentProfile = profile[profile.length - 1];
+//       var currentProfile = profile[profile.length - 1];
 
-      prefs.setString(groupNameSharedPref, currentProfile.groupName);
-      prefs.setInt(academicYearIDSharedPref, currentProfile.acadYearIDField);
-    }
-  } catch (e) {
-    print('Error');
-  }
+//       prefs.setString(groupNameSharedPref, currentProfile.groupName);
+//       prefs.setInt(academicYearIDSharedPref, currentProfile.acadYearIDField);
+//     }
+//   } catch (e) {
+//     print('Error');
+//   }
+// }
+
+Future<bool> isCCMFeedbackApplicable() async {
+  bool isCCMFeedbackable = await getUserProfileForTheCurrentYear();
+
+  // SharedPreferences prefs = await SharedPreferences.getInstance();
+  // isCCMFeedbackable = prefs.getBool(isApplicableForCCMFeedback) ?? false;
+  return isCCMFeedbackable;
 }
 
-void getUserProfileForTheCurrentYear() async {
+Future<bool> getUserProfileForTheCurrentYear() async {
   SharedPreferences prefs = await SharedPreferences.getInstance();
   final _token = prefs.getString(token);
   final _userName = prefs.getString(studentID);
@@ -119,10 +127,14 @@ void getUserProfileForTheCurrentYear() async {
       await prefs.setString(teacherNameSharedPref, teacherFullName);
       await prefs.setBool(
           isApplicableForCCMFeedback, data['IsApplicableForCCMFeedback']);
+
+      return data['IsApplicableForCCMFeedback'];
     }
   } catch (e) {
     print('Error');
+    return false;
   }
+  return false;
 }
 
 Color getMarkColor(String moduleMark) {

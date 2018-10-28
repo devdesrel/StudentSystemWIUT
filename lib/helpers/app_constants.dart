@@ -14,7 +14,8 @@ final accentColor = Color(0xFF0091ea);
 final redColor = Colors.red[700];
 final greenColor = Colors.green[400];
 final yellowColor = Colors.yellow;
-final greyColor = Colors.blueGrey;
+final greyColor = Color(0xFF78909c);
+// final greyColor = Colors.blueGrey;
 final lightOverlayColor = Color(0xBF333333);
 final backgroundColor = Color(0xFFF1F1F5);
 final blackColor = Color(0xCC333333);
@@ -53,10 +54,13 @@ final iosPinSetPage = '/iosPinSetPage';
 final ccmFeedbackPage = '/ccmFeedbackPage';
 final ccmAddFeedbackPage = '/ccmAddFeedbackPage';
 final testPage2 = '/testPage2';
+final videosPage = '/videosPage';
 final replyPage = '/replyPage';
 final ccmCategoryPage = '/ccmCategoryPage';
 final ccmFeedbackForSUPage = '/ccmFeedbackForSUPage';
 final timetablePickerIosPage = 'timetablePickerIosPage';
+final tipsTricksPage = 'tipsTrickspage';
+final tipsTricksListPage = 'tipsTricksListPage';
 
 //Shared preferance keys
 final lastAppVersion = 'lastAppVersion';
@@ -124,6 +128,8 @@ final getAllCurrentGroupsAsSelectList =
 final apiCCMFeedbackAddFeedback = '$baseUrl/api/CCMFeedback/AddFeedback';
 final apiCCMFeedbackEditFeedback = '$baseUrl/api/CCMFeedback/EditFeedback';
 final apiCCMFeedbackDeleteFeedback = '$baseUrl/api/CCMFeedback/DeleteFeedback';
+final apiGetCourseworkDeadlinesByModules =
+    '$baseUrl/api/CourseworkUpload/GetCourseworkDeadlinesByModules';
 
 //Errors List
 final String authProblems = 'Authorization problems';
