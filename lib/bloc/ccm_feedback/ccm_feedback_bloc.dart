@@ -66,8 +66,8 @@ class CCMFeedbackBloc {
     try {
       final response = await http.get(
           groupID == null
-              ? "$apiCCMFeedbackGetCategorySelectionList?type=$_type"
-              : "$apiCCMFeedbackGetCategorySelectionList?type=$_type&groupID=$groupID",
+              ? "$apiCCMFeedbackGetCategoriesSelectionList?type=$_type"
+              : "$apiCCMFeedbackGetCategoriesSelectionList?type=$_type&groupID=$groupID",
           headers: {
             "Accept": "application/json",
             "Authorization": "Bearer $_token"
@@ -76,7 +76,10 @@ class CCMFeedbackBloc {
       if (response.statusCode == 200) {
         final parsed = json.decode(response.body);
 
-        _categoriesList = parsed
+        SharedPreferences prefs = await SharedPreferences.getInstance();
+        await prefs.setBool(feedbackIsEditable, parsed['feedbackIsEditable']);
+
+        _categoriesList = parsed['categories']
             .map<CCMFeedbackAsSelectedList>(
                 (item) => CCMFeedbackAsSelectedList.fromJson(item))
             .toList();

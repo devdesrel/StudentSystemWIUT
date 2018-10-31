@@ -27,7 +27,7 @@ class CCMFeedbackPage extends StatelessWidget {
 
   Future<bool> _getSharedPrefData() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    bool val = prefs.getBool(isSU);
+    bool val = prefs.getBool(feedbackIsEditable);
 
     return val;
   }
@@ -226,7 +226,7 @@ class CCMFeedbackPage extends StatelessWidget {
                                             ),
                                             InkWell(
                                                 onTap: () {
-                                                  getSharedPrefData().then((val) => !val
+                                                  getSharedPrefData().then((val) => val
                                                       ? Navigator.of(context).push(MaterialPageRoute(
                                                           builder: (context) => CCMAddFeedBackPage(
                                                               model: CCMAddFeedbackPageModel(
