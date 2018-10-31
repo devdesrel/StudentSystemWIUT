@@ -166,7 +166,7 @@ class ModulesPage extends StatelessWidget {
 
                   List<Entry> _sortedModulesList = [];
 
-                  int _initialLevel = 6;
+                  int _initialLevel = 7 ;
 
                   for (var i = 0; i < 4; i++) {
                     List<dynamic> _modules = _modulesList
