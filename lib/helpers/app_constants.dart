@@ -85,6 +85,7 @@ final userRole = 'userRole';
 final teacherID = 'teacherID';
 final teacherNameSharedPref = 'teacherNameSharedPref';
 final isApplicableForCCMFeedback = 'isApplicableForCCMFeedback';
+final feedbackIsEditable = 'feedbackIsEditable';
 final isSU = 'isSU';
 final isSecurityValueOn = 'isSecurityValueOn';
 
@@ -116,6 +117,8 @@ final apiProfileGetProfileByUserName =
     '$baseUrl/api/Profile/GetProfileByUserName';
 final apiCCMFeedbackGetCategorySelectionList =
     '$baseUrl/api/CCMFeedback/GetCategorySelectionList';
+final apiCCMFeedbackGetCategoriesSelectionList =
+    '$baseUrl/api/CCMFeedback/GetCategoriesSelectionList';
 final apiCCMFeedbackGetModuleRepresentatives =
     '$baseUrl/api/CCMFeedback/GetModuleRepresentatives';
 final apiCCMFeedbackGetFeedback = '$baseUrl/api/CCMFeedback/GetFeedback';
