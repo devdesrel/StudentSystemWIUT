@@ -66,15 +66,13 @@ class _TwoPanelsState extends State<TwoPanels> {
       final _token = prefs.getString(token);
       // final _academYearID = prefs.getInt(academicYearIDSharedPref);
       final _academYear = 19;
-      final _userID = prefs.getString(userRole) == 'staff'
-          ? prefs.getString(teacherID)
-          : prefs.getString(studentID);
+      final _userID = prefs.getString(userID);
       // final _isStudent=true;
       final _isStudent = prefs.getString(userRole) == 'student' ? true : false;
 
       try {
         final response = await http.post(
-            "$apiGetCourseworkDeadlinesByModules?AcademicYearID=$_academYear&UserID=$_userID&IsStudent=true",
+            "$apiGetCourseworkDeadlinesByModules?AcademicYearID=$_academYear&UserID=$_userID&IsStudent=$_isStudent",
             headers: {
               "Accept": "application/json",
               "Authorization": "Bearer $_token"

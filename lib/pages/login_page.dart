@@ -124,7 +124,7 @@ class _LoginPageState extends State<LoginPage> implements AuthStateListener {
 
         await prefs.setString(tokenExpireDay,
             DateTime.now().toUtc().add(Duration(days: 6)).toString());
-        await prefs.setString(studentID, _username);
+        await prefs.setString(userID, _username);
         await prefs.setString(userPasssword, _password);
         await prefs.setBool(isLoggedIn, true);
         var pin = prefs.getString(pinCode);
