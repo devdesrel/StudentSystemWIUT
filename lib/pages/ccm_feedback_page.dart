@@ -336,8 +336,7 @@ class CCMFeedbackPage extends StatelessWidget {
                 initialData: false,
                 builder: (context, snapshot) => snapshot.hasData
                     ? snapshot.data
-                        ? Container()
-                        : FloatingActionButton(
+                        ? FloatingActionButton(
                             onPressed: () {
                               Navigator.of(context).push(MaterialPageRoute(
                                   builder: (context) => CCMAddFeedBackPage(
@@ -352,7 +351,7 @@ class CCMFeedbackPage extends StatelessWidget {
                                               .feedbackType))));
                             },
                             child: Icon(Icons.add),
-                          )
+                          ) : Container()
                     : Container()),
             body: _getCarousel(),
           )
