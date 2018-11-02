@@ -33,19 +33,22 @@ class CCMFeedbackModel {
 
   factory CCMFeedbackModel.fromJson(Map<String, dynamic> json) {
     return CCMFeedbackModel(
-      id: json['ID'] ?? 0,
-      type: json['Type'] ?? nullFixer,
-      isPositive: json['IsPositive'] ?? true,
-      depOrModID: json['DepOrModID'] ?? 0,
-      staffID: json['StaffID'] ?? 0, 
-      staffFullName: json['StaffFullName'] ?? nullFixer,
-      groupCoverage: json['GroupCoverage'] ?? 0.0,
-      text: json['Text'] ?? nullFixer,
-      groupName: json['GroupName'] ?? nullFixer,
-      dateCreated: json['DateCreated'] ?? nullFixer,
-      dateCreatedStr: json['DateCreatedStr'] ?? nullFixer,
-      isRepliable: json['IsRepliable'] ?? false,
-      comments: json['Comments'] ?? <ActionsTakenModel>[]
-    );
+        id: json['ID'] ?? 0,
+        type: json['Type'] ?? nullFixer,
+        isPositive: json['IsPositive'] ?? true,
+        depOrModID: json['DepOrModID'] ?? 0,
+        staffID: json['StaffID'] ?? 0,
+        staffFullName: json['StaffFullName'] ?? nullFixer,
+        groupCoverage: json['GroupCoverage'] ?? 0.0,
+        text: json['Text'] ?? nullFixer,
+        groupName: json['GroupName'] ?? nullFixer,
+        dateCreated: json['DateCreated'] ?? nullFixer,
+        dateCreatedStr: json['DateCreatedStr'] ?? nullFixer,
+        isRepliable: json['IsRepliable'] ?? false,
+        comments: json['Comments']
+                .map<ActionsTakenModel>(
+                    (item) => ActionsTakenModel.fromJson(item))
+                .toList() ??
+            <ActionsTakenModel>[]);
   }
 }

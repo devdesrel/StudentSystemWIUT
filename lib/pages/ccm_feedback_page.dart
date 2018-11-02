@@ -9,9 +9,9 @@ import 'package:student_system_flutter/bloc/ccm_feedback/ccm_feedback_item_bloc.
 import 'package:student_system_flutter/enums/ApplicationEnums.dart';
 import 'package:student_system_flutter/helpers/app_constants.dart';
 import 'package:student_system_flutter/helpers/ccm_carousel.dart';
-import 'package:student_system_flutter/helpers/function_helpers.dart';
 
 import 'package:student_system_flutter/helpers/ui_helpers.dart';
+import 'package:student_system_flutter/list_items/item_ccm_feedback.dart';
 import 'package:student_system_flutter/models/CCMFeedback/ccm_add_feedback_page_model.dart';
 import 'package:student_system_flutter/models/CCMFeedback/ccm_feedback_as_selected_list.dart';
 import 'package:student_system_flutter/models/CCMFeedback/ccm_feedback_model.dart';
@@ -180,108 +180,15 @@ class CCMFeedbackPage extends StatelessWidget {
                         ? snapshot.data.length > 0
                             ? ListView.builder(
                                 itemCount: snapshot.data.length,
-                                itemBuilder: (c, i) => Padding(
-                                      padding:
-                                          const EdgeInsets.only(bottom: 10.0),
-                                      child: CustomCard(Column(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.start,
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.stretch,
-                                          children: <Widget>[
-                                            Container(
-                                              margin: EdgeInsets.all(0.0),
-                                              padding: EdgeInsets.all(8.0),
-                                              color: greyColor,
-                                              child: Row(
-                                                mainAxisAlignment:
-                                                    MainAxisAlignment
-                                                        .spaceBetween,
-                                                children: <Widget>[
-                                                  Text(
-                                                    'To ${snapshot.data[i].staffFullName}',
-                                                    style: TextStyle(
-                                                        color: Colors.white),
-                                                  ),
-                                                  snapshot.data[i].isRepliable
-                                                      ? InkWell(
-                                                          onTap: () {
-                                                            Navigator.of(
-                                                                    context)
-                                                                .pushNamed(
-                                                                    ccmAddFeedbackPage);
-                                                          },
-                                                          child: Text(
-                                                            'Reply',
-                                                            textAlign:
-                                                                TextAlign.right,
-                                                            style: TextStyle(
-                                                                color: Colors
-                                                                    .white),
-                                                          ),
-                                                        )
-                                                      : Container()
-                                                ],
-                                              ),
-                                            ),
-                                            InkWell(
-                                                onTap: () {
-                                                  getSharedPrefData().then((val) => val
-                                                      ? Navigator.of(context).push(MaterialPageRoute(
-                                                          builder: (context) => CCMAddFeedBackPage(
-                                                              model: CCMAddFeedbackPageModel(
-                                                                  feedback: snapshot
-                                                                      .data[i],
-                                                                  viewType:
-                                                                      FeedbackViewType
-                                                                          .Edit,
-                                                                  depOrMod:
-                                                                      requestType,
-                                                                  depOrModID:
-                                                                      _pageBloc
-                                                                          .depOrModID,
-                                                                  feedbackType:
-                                                                      _pageBloc
-                                                                          .feedbackType))))
-                                                      : null);
-                                                },
-                                                child: DrawCardBody(
-                                                  groupCoverage: snapshot
-                                                      .data[i].groupCoverage,
-                                                  feedback:
-                                                      snapshot.data[i].text,
-                                                )),
-                                            Container(
-                                                margin: EdgeInsets.all(0.0),
-                                                padding: EdgeInsets.all(8.0),
-                                                color: CupertinoColors
-                                                    .lightBackgroundGray,
-                                                child: Row(
-                                                  mainAxisAlignment:
-                                                      MainAxisAlignment
-                                                          .spaceBetween,
-                                                  children: <Widget>[
-                                                    Text(
-                                                        'From ${snapshot.data[i].groupName}',
-                                                        style: TextStyle(
-                                                            color: Colors.black,
-                                                            fontSize: 12.0)),
-                                                    Text(
-                                                        snapshot.data[i]
-                                                            .dateCreatedStr,
-                                                        style: TextStyle(
-                                                            color: Colors.black,
-                                                            fontSize: 12.0)),
-                                                  ],
-                                                )),
-                                          ])),
-                                    ),
-                              )
+                                itemBuilder: (c, i) => ItemCCMFeedback(
+                                      feedbackModel: snapshot.data[i],
+                                      bloc: _pageBloc,
+                                      requestType: requestType,
+                                    ))
                             : Container(child: Center(child: Text(noFeedback)))
                         : DrawPlatformCircularIndicator())),
           ),
         ]);
-
         _carouselPagesList.add(_page);
       }
 
@@ -351,7 +258,8 @@ class CCMFeedbackPage extends StatelessWidget {
                                               .feedbackType))));
                             },
                             child: Icon(Icons.add),
-                          ) : Container()
+                          )
+                        : Container()
                     : Container()),
             body: _getCarousel(),
           )
@@ -418,38 +326,5 @@ class CCMFeedbackPage extends StatelessWidget {
                 ),
                 child: SafeArea(child: _getCarousel())),
           );
-  }
-}
-
-class DrawCardBody extends StatelessWidget {
-  final int groupCoverage;
-  final String feedback;
-
-  DrawCardBody({Key key, @required this.groupCoverage, @required this.feedback})
-      : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: <Widget>[
-        Padding(
-          padding: EdgeInsets.only(left: 10.0, right: 10.0, top: 10.0),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.start,
-            children: <Widget>[
-              Text('Group coverage:',
-                  style: TextStyle(fontWeight: FontWeight.bold)),
-              SizedBox(width: 5.0),
-              Text('$groupCoverage%', textAlign: TextAlign.left),
-            ],
-          ),
-        ),
-        Padding(
-          padding: EdgeInsets.all(10.0),
-          child: Text(feedback),
-        ),
-      ],
-    );
   }
 }

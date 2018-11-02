@@ -6,7 +6,7 @@ class ActionsTakenModel{
   String dateCreatedStr;
   bool isEditable;
   bool isDeletable;
-  String type;
+  String type; 
   
   ActionsTakenModel({
     this.id,
