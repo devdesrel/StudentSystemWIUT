@@ -39,36 +39,38 @@ class PreviewPage extends StatelessWidget {
 
             //Book ordering
             CustomPreviewContainer(
-              logoPath: 'assets/bookordering.png',
-              text1: 'Ordered books'.toUpperCase(),
-              text2: 'You won\'t forget to return books back to LRC anymore',
+              logoPath: 'assets/ccmfeedback.png',
+              text1: 'CCM Feedback'.toUpperCase(),
+              text2:
+                  // 'Online platform to communicate among users to improve University life',
+                  'Online feedback platform to improve University life',
               hasButton: false,
             ),
             //Offences
 
             CustomPreviewContainer(
-              logoPath: 'assets/offences.png',
-              text1: 'Offences'.toUpperCase(),
-              text2: 'View all offences in a detailed form',
+              logoPath: 'assets/web_mail.png',
+              text1: 'web mail'.toUpperCase(),
+              text2: 'Don\'t miss urgent messages about your academic life',
               hasButton: false,
             ),
             //CW upload
 
             CustomPreviewContainer(
-              logoPath: 'assets/cwupload.png',
-              text1: 'Coursework submisson'.toUpperCase(),
+              logoPath: 'assets/tips_tricks.png',
+              text1: 'Tips & Tricks'.toUpperCase(),
               text2:
-                  'Upload your CWs to Intranet and Turnitin at the same time (simultaneously)',
-              hasButton: false,
+                  'Helpful instructions to use WIUT online services in an efficient way',
+              hasButton: true,
             ),
 
             //Social
-            CustomPreviewContainer(
-              logoPath: 'assets/social.png',
-              text1: 'WIUT network'.toUpperCase(),
-              text2: 'Discuss your academic life with WIUT community ',
-              hasButton: true,
-            ),
+            // CustomPreviewContainer(
+            //   logoPath: 'assets/social.png',
+            //   text1: 'WIUT network'.toUpperCase(),
+            //   text2: 'Discuss your academic life with WIUT community ',
+            //   hasButton: true,
+            // ),
           ],
         ),
       ),
@@ -126,8 +128,7 @@ class CustomPreviewContainer extends StatelessWidget {
                                 await SharedPreferences.getInstance();
 
                             await prefs.setBool(isPreviewSeen, true);
-                            Navigator
-                                .of(context)
+                            Navigator.of(context)
                                 .pushReplacementNamed(loginPage);
                           },
                           color: Colors.white,

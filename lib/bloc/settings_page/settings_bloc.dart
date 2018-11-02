@@ -1,13 +1,19 @@
 import 'dart:async';
 
+import 'package:flutter/cupertino.dart';
 import 'package:rxdart/subjects.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:student_system_flutter/enums/ApplicationEnums.dart';
+
 import 'package:student_system_flutter/helpers/app_constants.dart';
 
 class SettingsBloc {
   SharedPreferences prefs;
   bool switchValue;
   bool securityValue;
+  String webMailTypeEnum;
+  FixedExtentScrollController webMailScrollController =
+      FixedExtentScrollController(initialItem: 0);
 
   ///[Streams] receiving
   Stream<bool> get switchtileValue => _switchtileValueSubject.stream;
@@ -26,6 +32,13 @@ class SettingsBloc {
 
   final _isSecurityOnSubject = BehaviorSubject<bool>(seedValue: true);
 
+  Stream<String> get webMailType => _webMailTypeSubject.stream;
+
+  final _webMailTypeSubject = BehaviorSubject<String>();
+  // Stream<int> get iosWebMailPickerIndex => _iosWebMailPickerIndexSubject.stream;
+
+  // final _iosWebMailPickerIndexSubject = BehaviorSubject<int>();
+
   /// [Sinks] sending
   Sink<bool> get setSwitchtileValue => _setSwitchtileValueController.sink;
 
@@ -42,10 +55,19 @@ class SettingsBloc {
 
   final _setSecurityValueController = StreamController<bool>();
 
+  Sink<String> get setWebMailType => _setWebMailTypeController.sink;
+
+  final _setWebMailTypeController = StreamController<String>();
+  Sink<int> get setIosWebMailPickerIndex =>
+      _setIosWebMailPickerIndexController.sink;
+
+  final _setIosWebMailPickerIndexController = StreamController<int>();
+
   SettingsBloc() {
     // getting Switchtile value from Sharedpreferences
     getSwitchtileValue();
     getSecurity();
+    getWebMail();
 
     _setSwitchtileValueController.stream.listen((switchtileValue) {
       // setting new Switchtile value to Sharedpreferences
@@ -64,6 +86,15 @@ class SettingsBloc {
       setSecurity(value);
       _isSecurityOnSubject.add(value);
     });
+
+    _setWebMailTypeController.stream.listen((type) {
+      setWebMail(type);
+      _webMailTypeSubject.add(type);
+    });
+    _setIosWebMailPickerIndexController.stream.listen((index) {
+      // _iosWebMailPickerIndexSubject.add(index);
+      webMailScrollController = FixedExtentScrollController(initialItem: index);
+    });
   }
   setSwitchValue(bool switchValue) async {
     prefs = await SharedPreferences.getInstance();
@@ -73,6 +104,11 @@ class SettingsBloc {
   setSecurity(bool value) async {
     prefs = await SharedPreferences.getInstance();
     prefs.setBool(isSecurityValueOn, value);
+  }
+
+  setWebMail(String webMail) async {
+    prefs = await SharedPreferences.getInstance();
+    prefs.setString(webMailTypePrefs, webMail);
   }
 
   getSwitchtileValue() async {
@@ -89,6 +125,17 @@ class SettingsBloc {
     return securityValue;
   }
 
+  getWebMail() async {
+    prefs = await SharedPreferences.getInstance();
+    webMailTypeEnum = prefs.getString(webMailTypePrefs);
+    webMailTypeEnum == WebMailType.Outlook.toString()
+        ? webMailScrollController = FixedExtentScrollController(initialItem: 0)
+        : webMailScrollController = FixedExtentScrollController(initialItem: 1);
+
+    _webMailTypeSubject.add(webMailTypeEnum);
+    return webMailTypeEnum;
+  }
+
   void dispose() {
     _switchtileValueSubject.close();
     _setSwitchtileValueController.close();
@@ -98,5 +145,7 @@ class SettingsBloc {
     _setAutoValidationController.close();
     _isSecurityOnSubject.close();
     _setSecurityValueController.close();
+    _setWebMailTypeController.close();
+    _webMailTypeSubject.close();
   }
 }

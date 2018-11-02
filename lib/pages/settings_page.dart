@@ -3,6 +3,8 @@ import 'dart:io';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:student_system_flutter/bloc/settings_page/settings_bloc.dart';
 import 'package:student_system_flutter/bloc/settings_page/settings_provider.dart';
@@ -20,6 +22,30 @@ class SettingsPage extends StatelessWidget {
   String confirmPin;
   String currentPin;
   String notMatched;
+  double _kPickerItemHeight = 32.0;
+  double _kPickerSheetHeight = 216.0;
+  List<String> webMailOptionList = ["Outlook", "Gmail"];
+
+  Widget _buildBottomPicker(Widget picker) {
+    return Container(
+      height: _kPickerSheetHeight,
+      padding: const EdgeInsets.only(top: 6.0),
+      color: CupertinoColors.white,
+      child: DefaultTextStyle(
+        style: const TextStyle(
+          color: CupertinoColors.black,
+          fontSize: 22.0,
+        ),
+        child: GestureDetector(
+          onTap: () {},
+          child: SafeArea(
+            top: false,
+            child: picker,
+          ),
+        ),
+      ),
+    );
+  }
 
   Widget build(BuildContext context) {
     var _bloc = SettingsBloc();
@@ -177,8 +203,7 @@ class SettingsPage extends StatelessWidget {
               body: ListView(
                 children: <Widget>[
                   Padding(
-                    padding:
-                        EdgeInsets.only(left: Platform.isAndroid ? 14.0 : 19.0),
+                    padding: EdgeInsets.only(left: 14.0),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: <Widget>[
@@ -267,7 +292,68 @@ class SettingsPage extends StatelessWidget {
                         ],
                       ),
                     ),
-                  )
+                  ),
+                  //Start
+                  Padding(
+                    padding:
+                        EdgeInsets.only(left: 14.0, top: 9.0, bottom: 13.0),
+                    child: Text(
+                      'Web mail',
+                      style: TextStyle(
+                          color: accentColor,
+                          fontWeight: FontWeight.bold,
+                          fontSize: 16.0),
+                    ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 10.0),
+                    child: Card(
+                      elevation: 2.0,
+                      child: PopupMenuButton<String>(
+                        padding: EdgeInsets.zero,
+                        offset: Offset(1.0, 0.0),
+                        onSelected: (value) {
+                          value == "Outlook"
+                              ? _bloc.setWebMailType
+                                  .add(WebMailType.Outlook.toString())
+                              : _bloc.setWebMailType
+                                  .add(WebMailType.Gmail.toString());
+                        },
+                        itemBuilder: (BuildContext context) =>
+                            <PopupMenuItem<String>>[
+                              PopupMenuItem<String>(
+                                  value: 'Outlook',
+                                  child: const Text('Outlook')),
+                              PopupMenuItem<String>(
+                                  value: 'Gmail', child: const Text('Gmail')),
+                            ],
+                        child: ListTile(
+                          enabled: true,
+                          onTap: null,
+                          trailing: Icon(
+                            MdiIcons.chevronDown,
+                            color: Colors.grey[500],
+                          ),
+                          leading: Image.asset(
+                            'assets/email_ios.png',
+                            height: 22.0,
+                            color: Colors.grey[500],
+                          ),
+                          title: StreamBuilder(
+                            initialData: 'Outlook',
+                            stream: _bloc.webMailType,
+                            builder: (context, snapshot) => Text(
+                                snapshot.hasData
+                                    ? snapshot.data ==
+                                            WebMailType.Outlook.toString()
+                                        ? "Outlook"
+                                        : "Gmail"
+                                    : "Outlook"),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
                 ],
               ),
             )
@@ -292,8 +378,7 @@ class SettingsPage extends StatelessWidget {
                       largeTitle: Text("Settings"),
                     ),
                     SliverPadding(
-                      padding: EdgeInsets.only(
-                          left: Platform.isAndroid ? 14.0 : 19.0),
+                      padding: EdgeInsets.only(left: 19.0),
                       sliver: SliverToBoxAdapter(
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -324,8 +409,7 @@ class SettingsPage extends StatelessWidget {
                       child: Container(
                         color: Colors.white,
                         child: Padding(
-                          padding: EdgeInsets.symmetric(
-                              horizontal: Platform.isAndroid ? 10.0 : 3.0),
+                          padding: EdgeInsets.symmetric(horizontal: 3.0),
                           child: Column(
                             children: <Widget>[
                               StreamBuilder(
@@ -365,34 +449,129 @@ class SettingsPage extends StatelessWidget {
                               Divider(
                                 height: 0.0,
                               ),
-                              StreamBuilder(
-                                stream: _bloc.isSecurityOn,
-                                initialData: true,
-                                builder: (context, snapshot) => ListTile(
-                                      enabled: snapshot.hasData
-                                          ? snapshot.data
-                                          : true,
-                                      onTap: () {
-                                        Navigator.of(context).push(
-                                            MaterialPageRoute(
-                                                builder: (context) =>
-                                                    IosPinSetPage(
-                                                        pinRequestType:
-                                                            IosPinRequestType
-                                                                .ChangePin)));
-                                      },
-                                      leading: Image.asset(
-                                        'assets/key.png',
-                                        height: 28.0,
+                              Padding(
+                                padding: EdgeInsets.symmetric(horizontal: 3.0),
+                                child: StreamBuilder(
+                                  stream: _bloc.isSecurityOn,
+                                  initialData: true,
+                                  builder: (context, snapshot) => ListTile(
+                                        enabled: snapshot.hasData
+                                            ? snapshot.data
+                                            : true,
+                                        onTap: () {
+                                          Navigator.of(context).push(
+                                              MaterialPageRoute(
+                                                  builder: (context) =>
+                                                      IosPinSetPage(
+                                                          pinRequestType:
+                                                              IosPinRequestType
+                                                                  .ChangePin)));
+                                        },
+                                        leading: Image.asset(
+                                          'assets/key.png',
+                                          height: 28.0,
+                                        ),
+                                        title: Text('Change PIN code'),
                                       ),
-                                      title: Text('Change PIN code'),
-                                    ),
+                                ),
                               ),
                             ],
                           ),
                         ),
                       ),
-                    )
+                    ),
+                    //Start
+                    SliverPadding(
+                      padding:
+                          EdgeInsets.only(left: 19.0, top: 10.0, bottom: 10.0),
+                      sliver: SliverToBoxAdapter(
+                        child: Text(
+                          'Web mail',
+                          style: TextStyle(
+                              color: lightGreyTextColor,
+                              fontWeight: FontWeight.normal,
+                              fontSize: 16.0),
+                        ),
+
+                        //End
+                        // SwitchListTile(onChanged: (value) {}, value: true)
+                      ),
+                    ),
+                    SliverToBoxAdapter(
+                      child: Container(
+                        color: Colors.white,
+                        child: Padding(
+                          padding: EdgeInsets.symmetric(horizontal: 6.0),
+                          child: StreamBuilder(
+                            stream: _bloc.webMailType,
+                            initialData: 'Outlook',
+                            builder: (context, snapshot) => ListTile(
+                                  enabled: true,
+                                  onTap: () async {
+                                    await showCupertinoModalPopup<void>(
+                                        context: context,
+                                        builder: (BuildContext context) {
+                                          return _buildBottomPicker(
+                                            CupertinoPicker(
+                                              scrollController:
+                                                  _bloc.webMailScrollController,
+                                              itemExtent: _kPickerItemHeight,
+                                              backgroundColor:
+                                                  CupertinoColors.white,
+                                              onSelectedItemChanged:
+                                                  (int index) {
+                                                index == 0
+                                                    ? _bloc.setWebMailType.add(
+                                                        WebMailType.Outlook
+                                                            .toString())
+                                                    : _bloc.setWebMailType.add(
+                                                        WebMailType.Gmail
+                                                            .toString());
+                                                _bloc.setIosWebMailPickerIndex
+                                                    .add(index);
+                                              },
+                                              children: List<Widget>.generate(
+                                                  webMailOptionList.length,
+                                                  (int index) {
+                                                return Center(
+                                                  child: Text(
+                                                      webMailOptionList[index]),
+                                                );
+                                              }),
+                                            ),
+                                          );
+                                        });
+                                  },
+                                  leading: Image.asset(
+                                    'assets/email_ios.png',
+                                    height: 22.0,
+                                    color: Colors.grey[500],
+                                  ),
+                                  title: Text(snapshot.hasData
+                                      ? snapshot.data ==
+                                              WebMailType.Outlook.toString()
+                                          ? "Outlook"
+                                          : "Gmail"
+                                      : "Outlook"),
+                                  // trailing: PopupMenuButton<String>(
+                                  //     padding: EdgeInsets.zero,
+                                  //     onSelected: (value) {
+                                  //       _bloc.setWebMailType.add(value);
+                                  //     },
+                                  //     itemBuilder: (BuildContext context) =>
+                                  //         <PopupMenuItem<String>>[
+                                  //           PopupMenuItem<String>(
+                                  //               value: 'Outlook',
+                                  //               child: const Text('Outlook')),
+                                  //           PopupMenuItem<String>(
+                                  //               value: 'Gmail',
+                                  //               child: const Text('Gmail')),
+                                  //         ]),
+                                ),
+                          ),
+                        ),
+                      ),
+                    ),
                   ],
                 ),
               ),

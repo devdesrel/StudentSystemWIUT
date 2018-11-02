@@ -1,7 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:student_system_flutter/enums/ApplicationEnums.dart';
 import 'package:student_system_flutter/helpers/app_constants.dart';
 import 'package:student_system_flutter/helpers/ui_helpers.dart';
+import 'package:student_system_flutter/pages/tips_tricks_page.dart';
 
 class TipsAndTricksListPage extends StatelessWidget {
   final TextStyle stylish = TextStyle(color: accentColor);
@@ -17,7 +19,12 @@ class TipsAndTricksListPage extends StatelessWidget {
         children: <Widget>[
           InkWell(
               onTap: () {
-                Navigator.of(context).pushNamed(tipsTricksPage);
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (_) => TipsAndTricksPage(
+                              type: TipsRequestType.Outlook,
+                            )));
               },
               child: Padding(
                 padding: EdgeInsets.only(left: 5.0, right: 5.0, top: 8.0),
@@ -30,7 +37,7 @@ class TipsAndTricksListPage extends StatelessWidget {
                         width: 40.0,
                       ),
                       title: Text(
-                        'Web Mail (Outlook) ',
+                        'Web Mail (Outlook)',
                         style: stylish,
                       ),
                       trailing: Icon(CupertinoIcons.right_chevron),
@@ -40,7 +47,12 @@ class TipsAndTricksListPage extends StatelessWidget {
               )),
           InkWell(
               onTap: () {
-                Navigator.of(context).pushNamed(tipsTricksPage);
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (_) => TipsAndTricksPage(
+                              type: TipsRequestType.Gmail,
+                            )));
               },
               child: Padding(
                 padding: EdgeInsets.only(left: 5.0, right: 5.0, top: 5.0),
@@ -49,18 +61,41 @@ class TipsAndTricksListPage extends StatelessWidget {
                     padding: const EdgeInsets.all(8.0),
                     child: ListTile(
                       leading: Image(
-                        image: AssetImage('assets/turnitin.png'),
-                        width: 40.0,
+                        image: AssetImage('assets/gmail_logo.png'),
+                        width: 50.0,
                       ),
                       title: Text(
-                        'Turnitin ',
+                        'Web Mail (Gmail)',
                         style: stylish,
                       ),
                       trailing: Icon(CupertinoIcons.right_chevron),
                     ),
                   ),
                 ),
-              ))
+              )),
+          // InkWell(
+          //     onTap: () {
+          //       Navigator.of(context).pushNamed(tipsTricksPage);
+          //     },
+          //     child: Padding(
+          //       padding: EdgeInsets.only(left: 5.0, right: 5.0, top: 5.0),
+          //       child: CustomCard(
+          //         Padding(
+          //           padding: const EdgeInsets.all(8.0),
+          //           child: ListTile(
+          //             leading: Image(
+          //               image: AssetImage('assets/turnitin.png'),
+          //               width: 40.0,
+          //             ),
+          //             title: Text(
+          //               'Turnitin ',
+          //               style: stylish,
+          //             ),
+          //             trailing: Icon(CupertinoIcons.right_chevron),
+          //           ),
+          //         ),
+          //       ),
+          //     )),
         ],
       ),
     );

@@ -87,9 +87,10 @@ final teacherNameSharedPref = 'teacherNameSharedPref';
 final isApplicableForCCMFeedback = 'isApplicableForCCMFeedback';
 final isSU = 'isSU';
 final isSecurityValueOn = 'isSecurityValueOn';
+final webMailTypePrefs = 'webMailTypePrefs';
 
 //API List
-final baseUrl = 'https://newintranetapi.wiut.uz';
+final baseUrl = 'http://newintranetapi.wiut.uz';
 final currentYearID = '19';
 final apiAuthenticate = '$baseUrl/api/Account/Authenticate';
 final apiStudentMarks =

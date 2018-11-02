@@ -28,4 +28,5 @@ enum CupertinoTimetablePickerType { Teacher, Room, Group }
 
 enum FeedbackViewType { Add, Edit }
 enum CCMFeedbackCategory { ModulesFeedback, DepartmentsFeedback }
-enum TipsRequestType { Outlook, Turnitin }
+enum TipsRequestType { Outlook, Gmail }
+enum WebMailType { Outlook, Gmail }

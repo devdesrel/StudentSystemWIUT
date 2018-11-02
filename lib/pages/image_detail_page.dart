@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 
 class ImageDetailPage extends StatelessWidget {
-  final position;
+  final tag;
   final widget;
 
-  ImageDetailPage({this.position, this.widget});
+  ImageDetailPage({this.tag, this.widget});
 
   @override
   Widget build(BuildContext context) {
@@ -12,7 +12,7 @@ class ImageDetailPage extends StatelessWidget {
       backgroundColor: Colors.white,
       body: GestureDetector(
         child: Center(
-          child: Hero(tag: 'imageHero$position', child: widget),
+          child: Hero(tag: tag, child: widget),
         ),
         onTap: () {
           Navigator.pop(context);

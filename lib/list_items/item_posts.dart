@@ -147,8 +147,8 @@ class CardBody extends StatelessWidget {
           Navigator.push(
               context,
               MaterialPageRoute(
-                  builder: (_) =>
-                      ImageDetailPage(position: position, widget: _widget)));
+                  builder: (_) => ImageDetailPage(
+                      tag: 'imageHero$position', widget: _widget)));
         },
       ),
       SizedBox(
