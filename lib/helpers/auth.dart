@@ -40,7 +40,7 @@ class AuthStateProvider {
     if (_buildNumber > _lastAppVersion) {
       await prefs.setString(token, "");
       await prefs.setString(tokenExpireDay, null);
-      await prefs.setString(studentID, "");
+      await prefs.setString(userID, "");
       await prefs.setString(userPasssword, "");
       await prefs.setString(firstName, "");
       await prefs.setString(lastName, "");
@@ -70,7 +70,7 @@ class AuthStateProvider {
   void _setMainPage() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     var _tokenExpireDay = prefs.getString(tokenExpireDay);
-    var username = prefs.getString(studentID);
+    var username = prefs.getString(userID);
     var password = prefs.getString(userPasssword);
     var userToken = prefs.getString(token);
 
@@ -114,7 +114,7 @@ class AuthStateProvider {
         await prefs.setString(token, data['token']);
         await prefs.setString(tokenExpireDay,
             DateTime.now().toUtc().add(Duration(days: 6)).toString());
-        await prefs.setString(studentID, username);
+        await prefs.setString(userID, username);
         await prefs.setString(userPasssword, password);
         await prefs.setBool(isLoggedIn, true);
 

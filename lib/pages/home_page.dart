@@ -289,16 +289,17 @@ class CustomGridView {
               "Web Mail", 'assets/web_mail.png', MainPageGridItems.WEBMAIL, 3),
           makeGridCell("Tips & Tricks", 'assets/tips_tricks.png',
               MainPageGridItems.TIPSTRICKS, 4),
-
-          FutureBuilder<bool>(
-            future: isCCMFeedbackApplicable(),
-            builder: (context, snapshot) => snapshot.hasData
-                ? snapshot.data
-                    ? makeGridCell("CCM Feedback", 'assets/ccmfeedback.png',
-                        MainPageGridItems.CCMFEEDBACK, 5)
-                    : Container()
-                : DrawPlatformCircularIndicator(),
-          )
+          makeGridCell("CCM Feedback", 'assets/ccmfeedback.png',
+              MainPageGridItems.CCMFEEDBACK, 5)
+          // FutureBuilder<bool>(
+          //   future: isCCMFeedbackApplicable(),
+          //   builder: (context, snapshot) => snapshot.hasData
+          //       ? snapshot.data
+          //           ? makeGridCell("CCM Feedback", 'assets/ccmfeedback.png',
+          //               MainPageGridItems.CCMFEEDBACK, 5)
+          //           : Container()
+          //       : DrawPlatformCircularIndicator(),
+          // )
           //     ],
           //   ),
           // ),
@@ -471,15 +472,17 @@ class CustomGridViewForTeachers {
               "Web Mail", 'assets/web_mail.png', MainPageGridItems.WEBMAIL, 2),
           makeGridCell("Tips & Tricks", 'assets/tips_tricks.png',
               MainPageGridItems.TIPSTRICKS, 3),
-          FutureBuilder<bool>(
-            future: isCCMFeedbackApplicable(),
-            builder: (context, snapshot) => snapshot.hasData
-                ? snapshot.data
-                    ? makeGridCell("CCM Feedback", 'assets/ccmfeedback.png',
-                        MainPageGridItems.CCMFEEDBACK, 4)
-                    : Container()
-                : DrawPlatformCircularIndicator(),
-          )
+          makeGridCell("CCM Feedback", 'assets/ccmfeedback.png',
+              MainPageGridItems.CCMFEEDBACK, 4)
+          // FutureBuilder<bool>(
+          //   future: isCCMFeedbackApplicable(),
+          //   builder: (context, snapshot) => snapshot.hasData
+          //       ? snapshot.data
+          //           ? makeGridCell("CCM Feedback", 'assets/ccmfeedback.png',
+          //               MainPageGridItems.CCMFEEDBACK, 4)
+          //           : Container()
+          //       : DrawPlatformCircularIndicator(),
+          // )
         ]);
   }
 }

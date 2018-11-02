@@ -45,7 +45,7 @@ void getMinimumAppVersion(BuildContext context) async {
 // void getStudentsProfileForSelectedYear() async {
 //   SharedPreferences prefs = await SharedPreferences.getInstance();
 //   final _token = prefs.getString(token);
-//   final _studentID = prefs.getString(studentID);
+//   final _studentID = prefs.getString(userID);
 
 //   try {
 //     final response = await http.post(
@@ -83,7 +83,7 @@ Future<bool> isCCMFeedbackApplicable() async {
 Future<bool> getUserProfileForTheCurrentYear() async {
   SharedPreferences prefs = await SharedPreferences.getInstance();
   final _token = prefs.getString(token);
-  final _userName = prefs.getString(studentID);
+  final _userName = prefs.getString(userID);
   final _role = prefs.getString(userRole);
 
   try {
@@ -328,7 +328,7 @@ void _cleanUserData() async {
   SharedPreferences prefs = await SharedPreferences.getInstance();
   await prefs.setString(token, "");
   await prefs.setString(tokenExpireDay, null);
-  await prefs.setString(studentID, "");
+  await prefs.setString(userID, "");
   await prefs.setString(userPasssword, "");
   await prefs.setString(firstName, "");
   await prefs.setString(lastName, "");
