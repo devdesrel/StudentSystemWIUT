@@ -42,6 +42,11 @@ class TipsAndTricksListPage extends StatelessWidget {
                       ),
                       trailing: Icon(CupertinoIcons.right_chevron),
                     ),
+                    // title: Text(
+                    //   'Web Mail (Outlook) ',
+                    //   style: stylish,
+                    // ),
+                    // trailing: Icon(CupertinoIcons.right_chevron),
                   ),
                 ),
               )),
