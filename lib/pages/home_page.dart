@@ -192,10 +192,8 @@ void openSelectedPage(BuildContext context, MainPageGridItems page) {
       Navigator.of(context).pushNamed(socialPage);
       break;
     case MainPageGridItems.CCMFEEDBACK:
-      // getIsSuSharedPrefData().then((val) => Navigator.of(context)
-      //     .pushNamed(val ? ccmFeedbackForSUPage : ccmCategoryPage));
-      getIsSuSharedPrefData().then((val) => Navigator.of(context)
-          .pushNamed(val ? ccmFeedbackForSUPage : ccmRoleSelectPage));
+      openCCMFeedbackPageByRole()
+          .then((val) => Navigator.of(context).pushNamed(val));
       break;
     case MainPageGridItems.TIPSTRICKS:
       Navigator.of(context).pushNamed(tipsTricksListPage);

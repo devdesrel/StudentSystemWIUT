@@ -164,9 +164,25 @@ bool isNumeric(String s) {
   return double.parse(s, (e) => null) != null;
 }
 
-Future<bool> getIsSuSharedPrefData() async {
+Future<String> openCCMFeedbackPageByRole() async {
   SharedPreferences prefs = await SharedPreferences.getInstance();
   bool val = prefs.getBool(isSU);
+
+  if (val) {
+    return ccmFeedbackForSUPage;
+  } else {
+    String _role = prefs.getString(userRole);
+    if (_role == 'student') {
+      return ccmCategoryPage;
+    } else {
+      return ccmRoleSelectPage;
+    }
+  }
+}
+
+Future<bool> checkIsFeedbackEditable() async {
+  SharedPreferences prefs = await SharedPreferences.getInstance();
+  bool val = prefs.getBool(feedbackIsEditable);
 
   return val;
 }

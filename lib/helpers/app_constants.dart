@@ -124,6 +124,8 @@ final apiCCMFeedbackGetCategoriesSelectionList =
 final apiCCMFeedbackGetModuleRepresentatives =
     '$baseUrl/api/CCMFeedback/GetModuleRepresentatives';
 final apiCCMFeedbackGetFeedback = '$baseUrl/api/CCMFeedback/GetFeedback';
+final apiCCMFeedbackGetFeedbackAsStaff =
+    '$baseUrl/api/CCMFeedback/GetFeedbackAsStaff';
 
 final apiCCMFeedbackGetModuleRepresentativesAsSelectList =
     '$baseUrl/api/CCMFeedback/GetModuleRepresentativesAsSelectList';
