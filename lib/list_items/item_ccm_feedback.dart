@@ -25,6 +25,7 @@ class ItemCCMFeedback extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.only(bottom: 10.0),
       child: Column(
+        mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
           CustomCard(Column(
@@ -42,25 +43,25 @@ class ItemCCMFeedback extends StatelessWidget {
                         'To ${feedbackModel.staffFullName}',
                         style: TextStyle(color: Colors.white),
                       ),
-                      feedbackModel.isRepliable
-                          ? InkWell(
-                              onTap: () {
-                                Navigator.of(context)
-                                    .pushNamed(ccmAddFeedbackPage);
-                              },
-                              child: Text(
-                                'Reply',
-                                textAlign: TextAlign.right,
-                                style: TextStyle(color: Colors.white),
-                              ),
-                            )
-                          : Container()
+                      // feedbackModel.isRepliable
+                      //     ? InkWell(
+                      //         onTap: () {
+                      //           Navigator.of(context)
+                      //               .pushNamed(ccmAddFeedbackPage);
+                      //         },
+                      //         child: Text(
+                      //           'Reply',
+                      //           textAlign: TextAlign.right,
+                      //           style: TextStyle(color: Colors.white),
+                      //         ),
+                      //       )
+                      //     : Container()
                     ],
                   ),
                 ),
                 InkWell(
                     onTap: () {
-                      getSharedPrefData().then((val) => val
+                      checkIsFeedbackEditable().then((val) => val
                           ? Navigator.of(context).push(MaterialPageRoute(
                               builder: (context) => CCMAddFeedBackPage(
                                   model: CCMAddFeedbackPageModel(
@@ -105,14 +106,19 @@ class ItemCCMFeedback extends StatelessWidget {
                   ),
                 )
               : Container(),
-          SizedBox(
-            height: 300.0,
-            child: ListView.builder(
-                itemCount: feedbackModel.comments.length ?? 0,
-                itemBuilder: (c, i) => ItemCCMFeedbackComment(
-                      actionTakenModel: feedbackModel.comments[i],
-                    )),
-          )
+          feedbackModel.comments != null && feedbackModel.comments.length > 0
+              ? Container(
+                  constraints: BoxConstraints(maxHeight: 300.0),
+                  child: ListView.builder(
+                    itemCount: feedbackModel.comments.length ?? 0,
+                    itemBuilder: (c, i) => ItemCCMFeedbackComment(
+                          actionTakenModel: feedbackModel.comments[i],
+                        ),
+                    shrinkWrap: true,
+                    physics: ClampingScrollPhysics(),
+                  ),
+                )
+              : Container(),
         ],
       ),
     );

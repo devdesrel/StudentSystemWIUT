@@ -61,16 +61,14 @@ class OffenceHeaderMessage extends StatelessWidget {
               Text(
                 _totalOffences.toString().toUpperCase(),
                 textAlign: TextAlign.center,
-                style: Theme
-                    .of(context)
+                style: Theme.of(context)
                     .textTheme
                     .display2
                     .copyWith(color: whiteColor),
               ),
               Text(
                 'Total points'.toUpperCase(),
-                style: Theme
-                    .of(context)
+                style: Theme.of(context)
                     .textTheme
                     .body2
                     .copyWith(color: whiteColor),

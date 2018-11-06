@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:convert';
 
+import 'package:http/http.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:rxdart/subjects.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -96,17 +97,31 @@ class CCMFeedbackItemBloc {
   void getFeedback(int pageIndex, String type) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     final _token = prefs.getString(token);
+    final _userRole = prefs.getString(userRole) ?? 'student';
+    Response response;
 
     try {
       print(depOrModID);
-      final response = await http.get(
-          groupID == 0
-              ? "$apiCCMFeedbackGetFeedback?type=$type&depOrModID=$depOrModID"
-              : "$apiCCMFeedbackGetFeedback?type=$type&depOrModID=$depOrModID&groupID=$groupID",
-          headers: {
-            "Accept": "application/json",
-            "Authorization": "Bearer $_token"
-          });
+
+      if (_userRole == 'staff') {
+        response = await http.get(
+            groupID == 0
+                ? "$apiCCMFeedbackGetFeedbackAsStaff?type=$type&depOrModID=0&addressedToMe=true"
+                : "$apiCCMFeedbackGetFeedbackAsStaff?type=$type&depOrModID=0&groupID=$groupID&addressedToMe=true",
+            headers: {
+              "Accept": "application/json",
+              "Authorization": "Bearer $_token"
+            });
+      } else {
+        response = await http.get(
+            groupID == 0
+                ? "$apiCCMFeedbackGetFeedback?type=$type&depOrModID=$depOrModID"
+                : "$apiCCMFeedbackGetFeedback?type=$type&depOrModID=$depOrModID&groupID=$groupID",
+            headers: {
+              "Accept": "application/json",
+              "Authorization": "Bearer $_token"
+            });
+      }
 
       if (response.statusCode == 200) {
         final parsed = json.decode(response.body);

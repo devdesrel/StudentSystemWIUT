@@ -164,9 +164,16 @@ bool isNumeric(String s) {
   return double.parse(s, (e) => null) != null;
 }
 
-Future<bool> getSharedPrefData() async {
+Future<bool> isCurrentUserIsSU() async {
   SharedPreferences prefs = await SharedPreferences.getInstance();
   bool val = prefs.getBool(isSU);
+
+  return val;
+}
+
+Future<bool> checkIsFeedbackEditable() async {
+  SharedPreferences prefs = await SharedPreferences.getInstance();
+  bool val = prefs.getBool(feedbackIsEditable);
 
   return val;
 }

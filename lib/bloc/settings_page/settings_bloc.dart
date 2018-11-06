@@ -147,5 +147,6 @@ class SettingsBloc {
     _setSecurityValueController.close();
     _setWebMailTypeController.close();
     _webMailTypeSubject.close();
+    _setIosWebMailPickerIndexController.close();
   }
 }

@@ -191,7 +191,7 @@ void openSelectedPage(BuildContext context, MainPageGridItems page) {
       Navigator.of(context).pushNamed(socialPage);
       break;
     case MainPageGridItems.CCMFEEDBACK:
-      getSharedPrefData().then((val) => Navigator.of(context)
+      isCurrentUserIsSU().then((val) => Navigator.of(context)
           .pushNamed(val ? ccmFeedbackForSUPage : ccmCategoryPage));
       break;
     case MainPageGridItems.TIPSTRICKS:
