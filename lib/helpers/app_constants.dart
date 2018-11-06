@@ -61,6 +61,7 @@ final ccmFeedbackForSUPage = '/ccmFeedbackForSUPage';
 final timetablePickerIosPage = 'timetablePickerIosPage';
 final tipsTricksPage = 'tipsTrickspage';
 final tipsTricksListPage = 'tipsTricksListPage';
+final ccmRoleSelectPage = 'ccmRoleSelectPage';
 
 //Shared preferance keys
 final lastAppVersion = 'lastAppVersion';
@@ -134,6 +135,7 @@ final apiCCMFeedbackEditFeedback = '$baseUrl/api/CCMFeedback/EditFeedback';
 final apiCCMFeedbackDeleteFeedback = '$baseUrl/api/CCMFeedback/DeleteFeedback';
 final apiGetCourseworkDeadlinesByModules =
     '$baseUrl/api/CourseworkUpload/GetCourseworkDeadlinesByModules';
+final apiGetCCMRoles = '$baseUrl/api/CCMFeedback/GetCCMRoles';
 
 //Errors List
 final String authProblems = 'Authorization problems';

@@ -60,7 +60,7 @@ class ItemCCMFeedback extends StatelessWidget {
                 ),
                 InkWell(
                     onTap: () {
-                      getSharedPrefData().then((val) => val
+                      getIsSuSharedPrefData().then((val) => val
                           ? Navigator.of(context).push(MaterialPageRoute(
                               builder: (context) => CCMAddFeedBackPage(
                                   model: CCMAddFeedbackPageModel(

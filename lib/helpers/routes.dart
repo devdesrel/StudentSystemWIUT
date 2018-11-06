@@ -4,6 +4,7 @@ import 'package:student_system_flutter/pages/books_page.dart';
 import 'package:student_system_flutter/pages/ccm_add_feedback_page.dart';
 import 'package:student_system_flutter/pages/ccm_feedback_category_page.dart';
 import 'package:student_system_flutter/pages/ccm_feedback_su_page.dart';
+import 'package:student_system_flutter/pages/ccm_role_select_page.dart';
 import 'package:student_system_flutter/pages/comments_page.dart';
 import 'package:student_system_flutter/pages/contacts_page.dart';
 import 'package:student_system_flutter/pages/coursework_upload_page.dart';
@@ -69,4 +70,5 @@ final routes = {
   tipsTricksPage: (BuildContext context) => TipsAndTricksPage(),
   tipsTricksListPage: (BuildContext context) => TipsAndTricksListPage(),
   videosPage: (BuildContext context) => VideoPage(),
+  ccmRoleSelectPage: (BuildContext context) => CCMRoleSelectPage(),
 };

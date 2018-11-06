@@ -182,7 +182,8 @@ void openSelectedPage(BuildContext context, MainPageGridItems page) {
       // Navigator.of(context).pushNamed(videosPage);
       break;
     case MainPageGridItems.COURSEWORK_UPLOAD:
-      Navigator.of(context).pushNamed(courseworkUploadPage);
+      // Navigator.of(context).pushNamed(courseworkUploadPage);
+      Navigator.of(context).pushNamed(ccmRoleSelectPage);
       break;
     case MainPageGridItems.BOOK_ORDERING:
       Navigator.of(context).pushNamed(booksPage);
@@ -191,8 +192,10 @@ void openSelectedPage(BuildContext context, MainPageGridItems page) {
       Navigator.of(context).pushNamed(socialPage);
       break;
     case MainPageGridItems.CCMFEEDBACK:
-      getSharedPrefData().then((val) => Navigator.of(context)
-          .pushNamed(val ? ccmFeedbackForSUPage : ccmCategoryPage));
+      // getIsSuSharedPrefData().then((val) => Navigator.of(context)
+      //     .pushNamed(val ? ccmFeedbackForSUPage : ccmCategoryPage));
+      getIsSuSharedPrefData().then((val) => Navigator.of(context)
+          .pushNamed(val ? ccmFeedbackForSUPage : ccmRoleSelectPage));
       break;
     case MainPageGridItems.TIPSTRICKS:
       Navigator.of(context).pushNamed(tipsTricksListPage);
