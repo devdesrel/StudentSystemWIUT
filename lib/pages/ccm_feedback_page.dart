@@ -46,6 +46,21 @@ class CCMFeedbackPage extends StatelessWidget {
 
     final _bloc = CCMFeedbackBloc(context, _type, groupID);
 
+    Widget _buildCCMFeedbackNote() {
+      return Container(
+        width: double.infinity,
+        padding: EdgeInsets.symmetric(horizontal: 10.0, vertical: 10.0),
+        color: redColor,
+        child: Center(
+          child: Text(
+            'Only CRs can add feedback',
+            overflow: TextOverflow.ellipsis,
+            style: TextStyle(color: Colors.white),
+          ),
+        ),
+      );
+    }
+
     List<Widget> _getListOfWidget(List<CCMFeedbackAsSelectedList> list) {
       var _carouselPagesList = List<Widget>();
       _listOfPageBlocs = [];
@@ -79,12 +94,19 @@ class CCMFeedbackPage extends StatelessWidget {
           builder: (context, snapshot) => snapshot.hasData
               ? snapshot.data.length > 0
                   ? Center(
-                      child: CCMCarousel(
-                          bloc: _bloc,
-                          autoplay: false,
-                          dotSize: 5.0,
-                          dotColor: accentColor,
-                          images: _getListOfWidget(snapshot.data)))
+                      child: Column(
+                      children: <Widget>[
+                        _buildCCMFeedbackNote(),
+                        Expanded(
+                          child: CCMCarousel(
+                              bloc: _bloc,
+                              autoplay: false,
+                              dotSize: 5.0,
+                              dotColor: accentColor,
+                              images: _getListOfWidget(snapshot.data)),
+                        ),
+                      ],
+                    ))
                   : Container(
                       child: Text(''),
                     )
