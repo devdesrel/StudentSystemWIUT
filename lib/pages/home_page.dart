@@ -3,6 +3,8 @@ import 'dart:io';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:student_system_flutter/bloc/backdrop/backdrop_bloc.dart';
 import 'package:student_system_flutter/bloc/backdrop/backdrop_provider.dart';
 import 'package:student_system_flutter/enums/ApplicationEnums.dart';
@@ -133,27 +135,48 @@ class _HomePageState extends State<HomePage>
   }
 }
 
-// Future _openOutlookApp(BuildContext context) async {
-//   const platform =
-//       const MethodChannel('com.rtoshmukhamedov.flutter.outlookappopener');
-//   try {
-//     bool isInstalled = await platform.invokeMethod('openOutlookApp');
-//     if (!isInstalled) {
-//       Navigator.of(context).pushNamed(offencesPage);
-//     }
-//   } catch (e) {
-//     print(e.toString());
-//   }
-// }
+Future _openGmailApp(BuildContext context) async {
+  const platform =
+      const MethodChannel('com.rtoshmukhamedov.flutter.outlookappopener');
+  try {
+    bool isInstalled = await platform.invokeMethod('openGmailApp');
+    if (!isInstalled) {
+      Navigator.of(context).push(MaterialPageRoute(
+          builder: (context) =>
+              TipsAndTricksPage(type: TipsRequestType.Gmail)));
+    }
+  } catch (e) {
+    print(e.toString());
+  }
+}
 
-_openOutlookApp(BuildContext context) async {
-  const url = 'ms-outlook://';
-  if (await canLaunch(url)) {
-    await launch(url);
-  } else {
-    Navigator.of(context).push(MaterialPageRoute(
-        builder: (context) =>
-            TipsAndTricksPage(type: TipsRequestType.Outlook)));
+_openWebMail(BuildContext context) async {
+  const outlookUrl = 'ms-outlook://';
+  const gmailUrl = 'googlegmail://';
+
+  SharedPreferences prefs = await SharedPreferences.getInstance();
+  String webMailTypeEnum = prefs.getString(webMailTypePrefs);
+
+  if (webMailTypeEnum == WebMailType.Gmail.toString()) {
+    if (Platform.isAndroid) {
+      _openGmailApp(context);
+    } else {
+      if (await canLaunch(gmailUrl)) {
+        await launch(gmailUrl);
+      } else {
+        Navigator.of(context).push(MaterialPageRoute(
+            builder: (context) =>
+                TipsAndTricksPage(type: TipsRequestType.Gmail)));
+      }
+    }
+  } else if (webMailTypeEnum == WebMailType.Outlook.toString()) {
+    if (await canLaunch(outlookUrl)) {
+      await launch(outlookUrl);
+    } else {
+      Navigator.of(context).push(MaterialPageRoute(
+          builder: (context) =>
+              TipsAndTricksPage(type: TipsRequestType.Outlook)));
+    }
   }
 }
 
@@ -173,7 +196,7 @@ void openSelectedPage(BuildContext context, MainPageGridItems page) {
               ModulesPage(requestType: RequestType.GetTeachingMaterials)));
       break;
     case MainPageGridItems.WEBMAIL:
-      _openOutlookApp(context);
+      _openWebMail(context);
       break;
     case MainPageGridItems.OFFENCES:
       Navigator.of(context).push(MaterialPageRoute(
