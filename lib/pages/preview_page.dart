@@ -33,7 +33,7 @@ class PreviewPage extends StatelessWidget {
             CustomPreviewContainer(
               logoPath: 'assets/lectures.png',
               text1: 'Learning Materials'.toUpperCase(),
-              text2: 'All your academic materials are stored in one place',
+              text2: 'All academic materials are stored in one place',
               hasButton: false,
             ),
 
@@ -43,7 +43,7 @@ class PreviewPage extends StatelessWidget {
               text1: 'CCM Feedback'.toUpperCase(),
               text2:
                   // 'Online platform to communicate among users to improve University life',
-                  'Online feedback platform to improve University life',
+                  'Online feedback platform to improve University',
               hasButton: false,
             ),
             //Offences
@@ -51,7 +51,7 @@ class PreviewPage extends StatelessWidget {
             CustomPreviewContainer(
               logoPath: 'assets/web_mail.png',
               text1: 'web mail'.toUpperCase(),
-              text2: 'Don\'t miss urgent messages about your academic life',
+              text2: 'Don\'t miss urgent messages',
               hasButton: false,
             ),
             //CW upload

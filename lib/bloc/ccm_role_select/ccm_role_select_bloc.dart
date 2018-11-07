@@ -46,10 +46,10 @@ class CCMRoleSelectBloc {
   }
 
   CCMRoleSelectBloc(this.context) {
-    getRoles().then<CCMRolesModel>((val) {
-      // model = val;
-      _ccmRolesSubject.add(val);
-    });
+    // getRoles().then<CCMRolesModel>((val) {
+    //   // model = val;
+    //   _ccmRolesSubject.add(val);
+    // });
   }
   void dispose() {
     _setCCMRolesController.close();

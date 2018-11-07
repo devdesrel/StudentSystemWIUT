@@ -3,6 +3,7 @@ import 'package:student_system_flutter/bloc/ccm_role_select/ccm_role_select_bloc
 import 'package:student_system_flutter/helpers/app_constants.dart';
 import 'package:student_system_flutter/helpers/ui_helpers.dart';
 import 'package:student_system_flutter/models/ccm_roles_model.dart';
+import 'package:student_system_flutter/pages/ccm_feedback_page.dart';
 
 class CCMRoleSelectPage extends StatelessWidget {
   @override
@@ -104,9 +105,22 @@ class CCMRoleSelectPage extends StatelessWidget {
                       ),
               ),
               CustomCard(
-                Padding(
-                  padding: EdgeInsets.all(12.0),
-                  child: Center(child: Text('Addressed to me')),
+                InkWell(
+                  onTap: () {
+                    Navigator.of(context).push(MaterialPageRoute(
+                        builder: (context) =>
+                            CCMFeedbackPage(addressedToMe: true)));
+                  },
+                  child: Padding(
+                      padding: EdgeInsets.all(16.0),
+                      child: Center(
+                        child: Text("Addressed to me",
+                            textAlign: TextAlign.center,
+                            style: Theme.of(context)
+                                .textTheme
+                                .headline
+                                .copyWith(color: accentColor)),
+                      )),
                 ),
               ),
             ],

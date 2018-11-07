@@ -36,9 +36,12 @@ class TipsAndTricksListPage extends StatelessWidget {
                         image: AssetImage('assets/outlook.png'),
                         width: 40.0,
                       ),
-                      title: Text(
-                        'Web Mail (Outlook)',
-                        style: stylish,
+                      title: Padding(
+                        padding: const EdgeInsets.only(left: 5.0),
+                        child: Text(
+                          'Web Mail (Outlook)',
+                          style: stylish,
+                        ),
                       ),
                       trailing: Icon(CupertinoIcons.right_chevron),
                     ),
@@ -63,7 +66,8 @@ class TipsAndTricksListPage extends StatelessWidget {
                 padding: EdgeInsets.only(left: 5.0, right: 5.0, top: 5.0),
                 child: CustomCard(
                   Padding(
-                    padding: const EdgeInsets.all(8.0),
+                    padding: const EdgeInsets.symmetric(
+                        vertical: 8.0, horizontal: 3.0),
                     child: ListTile(
                       leading: Image(
                         image: AssetImage('assets/gmail_logo.png'),
