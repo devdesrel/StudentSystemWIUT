@@ -338,7 +338,6 @@ class _MaterialsListTabState extends State<MaterialsListTab>
   final GlobalKey<AppExpansionTileState> materialTypeExpansionTile =
       new GlobalKey();
 
-  // TODO: implement wantKeepAlive
   @override
   bool get wantKeepAlive => true;
 
@@ -482,7 +481,6 @@ class FileDownloadingTab extends StatefulWidget {
 
 class _FileDownloadingTabState extends State<FileDownloadingTab>
     with AutomaticKeepAliveClientMixin {
-  // TODO: implement wantKeepAlive
   @override
   bool get wantKeepAlive => true;
 

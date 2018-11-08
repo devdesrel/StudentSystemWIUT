@@ -167,7 +167,7 @@ class AppExpansionTileState extends State<AppExpansionTile>
         if (_isExpanded)
           _controller.forward();
         else
-          _controller.reverse().then<void>((Null value) {
+          _controller.reverse().then<void>((void value) {
             setState(() {
               // Rebuild without widget.children.
             });

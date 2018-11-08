@@ -148,7 +148,6 @@ class _IosPinSetPageState extends State<IosPinSetPage> {
         SharedPreferences prefs = await SharedPreferences.getInstance();
         prefs.setString(pinCode, confirmPin);
 
-        ///TODO: check
         prefs.setBool(isPinFilled, true);
 
         bloc.setAutoValidation.add(false);

@@ -36,7 +36,6 @@ class FileManagerState extends State<FileManager>
 
   List<String> _filteredPathsList = List();
 
-  // TODO: implement wantKeepAlive
   @override
   bool get wantKeepAlive => true;
 
@@ -174,12 +173,10 @@ class FileManagerState extends State<FileManager>
 
   _initPlatformState() async {
     if (Platform.isAndroid) {
-      SimplePermissions
-          .checkPermission(Permission.WriteExternalStorage)
+      SimplePermissions.checkPermission(Permission.WriteExternalStorage)
           .then((checkOkay) {
         if (!checkOkay) {
-          SimplePermissions
-              .requestPermission(Permission.WriteExternalStorage)
+          SimplePermissions.requestPermission(Permission.WriteExternalStorage)
               .then((okDone) {
             if (okDone) {
               externalStoragePermissionOkay = okDone;

@@ -63,8 +63,6 @@ class _LoginPageState extends State<LoginPage> implements AuthStateListener {
         progressDialogVisible = true;
       });
       postAuthData();
-      //TODO: check user type
-
     } else {
       setState(() {
         dataNotValid = true;
@@ -84,10 +82,8 @@ class _LoginPageState extends State<LoginPage> implements AuthStateListener {
       SharedPreferences prefs = await SharedPreferences.getInstance();
       prefs.setString(pinCode, confirmPin);
 
-      ///TODO: check
       prefs.setBool(isPinFilled, true);
 
-      ///
       bloc.setAutoValidation.add(false);
       Navigator.pop(context);
       Navigator.of(context).pushReplacementNamed(securityPage);

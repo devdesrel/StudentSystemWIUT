@@ -16,7 +16,6 @@ class BooksPage extends StatelessWidget {
             ),
             backgroundColor: backgroundColor,
             body: ListView.builder(
-              //TODO: change itemCount into list.length
               itemCount: 10,
               itemBuilder: (context, index) {
                 if (index == 0) {
@@ -28,7 +27,6 @@ class BooksPage extends StatelessWidget {
                     ),
                     child: CustomBooksCard(daysLeft: daysLeft),
                   );
-                  //TODO: change index with list.length-1
                 } else if (index == 9) {
                   return Padding(
                     padding: const EdgeInsets.only(
@@ -54,7 +52,6 @@ class BooksPage extends StatelessWidget {
             ),
             backgroundColor: backgroundColor,
             child: ListView.builder(
-              //TODO: change itemCount into list.length
               itemCount: 10,
               itemBuilder: (context, index) {
                 if (index == 0) {
@@ -66,7 +63,6 @@ class BooksPage extends StatelessWidget {
                     ),
                     child: CustomBooksCard(daysLeft: daysLeft),
                   );
-                  //TODO: change index with list.length-1
                 } else if (index == 9) {
                   return Padding(
                     padding: const EdgeInsets.only(
