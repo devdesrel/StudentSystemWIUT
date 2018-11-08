@@ -101,18 +101,20 @@ class _CCMAddFeedBackPageState extends State<CCMAddFeedBackPage> {
           : widget.model.feedback.staffFullName;
 
       if (_value == 0.0) {
+        // bloc.setSaveButtonEnability.add(true);
         return false;
       } else if (widget.model.viewType == FeedbackViewType.Edit &&
               teacherName == '' ||
           widget.model.viewType == FeedbackViewType.Edit &&
               teacherName == 'Select a teacher') {
+        // bloc.setSaveButtonEnability.add(true);
         return false;
       } else {
         return true;
       }
     }
 
-    void saveComment() {
+    bool saveComment() {
       final form = formKey.currentState;
       bloc.setAutoValidation.add(true);
       bloc.setGroupCoverageDataValidation.add(true);
@@ -123,14 +125,24 @@ class _CCMAddFeedBackPageState extends State<CCMAddFeedBackPage> {
       if (checkErrors()) {
         if (form.validate() && bloc.groupCoverage != 0.0) {
           form.save();
+          bloc.setSaveButtonEnability.add(false);
 
           if (widget.model.viewType == FeedbackViewType.Add) {
             bloc.postFeedback();
+            // bloc.setSaveButtonEnability.add(false);
+
+            return false;
           } else {
             bloc.editFeedback(widget.model.feedback.id);
+            // bloc.setSaveButtonEnability.add(false);
+
+            return false;
           }
         }
+      } else {
+        bloc.setSaveButtonEnability.add(true);
       }
+      return true;
     }
 
     Future<Null> showDeleteDialog(BuildContext context) async {
@@ -539,20 +551,28 @@ class _CCMAddFeedBackPageState extends State<CCMAddFeedBackPage> {
                         Padding(
                           padding: EdgeInsets.only(
                               left: 5.0, right: 5.0, top: 5.0, bottom: 8.0),
-                          child: RaisedButton(
-                            padding: EdgeInsets.symmetric(vertical: 14.0),
-                            shape: RoundedRectangleBorder(
-                              borderRadius:
-                                  BorderRadius.all(Radius.circular(100.0)),
-                            ),
-                            color: accentColor,
-                            onPressed: saveComment,
-                            child: Text(
-                              widget.model.viewType == FeedbackViewType.Add
-                                  ? 'Submit'.toUpperCase()
-                                  : 'Save'.toUpperCase(),
-                              style: TextStyle(color: Colors.white),
-                            ),
+                          child: StreamBuilder(
+                            stream: bloc.isSaveButtonEnabled,
+                            builder: (context, snapshot) => RaisedButton(
+                                  padding: EdgeInsets.symmetric(vertical: 14.0),
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.all(
+                                        Radius.circular(100.0)),
+                                  ),
+                                  color: accentColor,
+                                  onPressed: snapshot.hasData
+                                      ? snapshot.data == false
+                                          ? null
+                                          : saveComment
+                                      : saveComment,
+                                  child: Text(
+                                    widget.model.viewType ==
+                                            FeedbackViewType.Add
+                                        ? 'Submit'.toUpperCase()
+                                        : 'Save'.toUpperCase(),
+                                    style: TextStyle(color: Colors.white),
+                                  ),
+                                ),
                           ),
                         ),
                         widget.model.viewType == FeedbackViewType.Edit
@@ -911,12 +931,34 @@ class _CCMAddFeedBackPageState extends State<CCMAddFeedBackPage> {
                                     right: 5.0,
                                     top: 5.0,
                                     bottom: 8.0),
-                                child: Platform.isAndroid
-                                    ? RaisedButton(
+                                child:
+                                    // Platform.isAndroid
+                                    //     ? RaisedButton(
+                                    //         padding: EdgeInsets.symmetric(
+                                    //             vertical: 16.0),
+                                    //         color: accentColor,
+                                    //         onPressed: saveComment,
+                                    //         child: Text(
+                                    //           widget.model.viewType ==
+                                    //                   FeedbackViewType.Add
+                                    //               ? 'Submit'.toUpperCase()
+                                    //               : 'Save'.toUpperCase(),
+                                    //           style: TextStyle(color: Colors.white),
+                                    //         ),
+                                    //       )
+                                    //     :
+                                    StreamBuilder(
+                                  stream: bloc.isSaveButtonEnabled,
+                                  builder: (context, snapshot) =>
+                                      CupertinoButton(
                                         padding: EdgeInsets.symmetric(
                                             vertical: 16.0),
                                         color: accentColor,
-                                        onPressed: saveComment,
+                                        onPressed: snapshot.hasData
+                                            ? snapshot.data == false
+                                                ? null
+                                                : saveComment
+                                            : saveComment,
                                         child: Text(
                                           widget.model.viewType ==
                                                   FeedbackViewType.Add
@@ -924,68 +966,57 @@ class _CCMAddFeedBackPageState extends State<CCMAddFeedBackPage> {
                                               : 'Save'.toUpperCase(),
                                           style: TextStyle(color: Colors.white),
                                         ),
-                                      )
-                                    : CupertinoButton(
-                                        padding: EdgeInsets.symmetric(
-                                            vertical: 16.0),
-                                        color: accentColor,
-                                        onPressed: saveComment,
-                                        child: Text(
-                                          widget.model.viewType ==
-                                                  FeedbackViewType.Add
-                                              ? 'Submit'.toUpperCase()
-                                              : 'Save'.toUpperCase(),
-                                          style: TextStyle(color: Colors.white),
-                                        ),
-                                      )),
+                                      ),
+                                )),
                             widget.model.viewType == FeedbackViewType.Edit
                                 ? Padding(
                                     padding: EdgeInsets.only(
                                         left: 5.0, right: 5.0, bottom: 8.0),
-                                    child: Platform.isAndroid
-                                        ? InkWell(
-                                            highlightColor:
-                                                Colors.red[400].withAlpha(20),
-                                            splashColor:
-                                                Colors.red[400].withAlpha(20),
-                                            onTap: () =>
-                                                showDeleteDialog(context),
-                                            // () {
-                                            // if (widget.model.feedback != null)
-                                            //   bloc.deleteFeedback(
-                                            //       widget.model.feedback);
-                                            // },
-                                            child: Container(
-                                              padding: EdgeInsets.symmetric(
-                                                  vertical: 16.0),
-                                              decoration: BoxDecoration(
-                                                  color: Colors.transparent,
-                                                  border: Border.all(
-                                                      width: 2.0,
-                                                      color: redColor)),
-                                              // onPressed: () {},
-                                              child: Text(
-                                                'Delete'.toUpperCase(),
-                                                textAlign: TextAlign.center,
-                                                style:
-                                                    TextStyle(color: redColor),
-                                              ),
-                                            ),
-                                          )
-                                        : CupertinoButton(
-                                            color: redColor,
-                                            child: Text(
-                                              'Delete'.toUpperCase(),
-                                              textAlign: TextAlign.center,
-                                              style:
-                                                  TextStyle(color: whiteColor),
-                                            ),
-                                            onPressed: () {
-                                              if (widget.model.feedback != null)
-                                                bloc.deleteFeedback(
-                                                    widget.model.feedback);
-                                            },
-                                          ))
+                                    child:
+                                        // Platform.isAndroid
+                                        //     ? InkWell(
+                                        //         highlightColor:
+                                        //             Colors.red[400].withAlpha(20),
+                                        //         splashColor:
+                                        //             Colors.red[400].withAlpha(20),
+                                        //         onTap: () =>
+                                        //             showDeleteDialog(context),
+                                        //         // () {
+                                        //         // if (widget.model.feedback != null)
+                                        //         //   bloc.deleteFeedback(
+                                        //         //       widget.model.feedback);
+                                        //         // },
+                                        //         child: Container(
+                                        //           padding: EdgeInsets.symmetric(
+                                        //               vertical: 16.0),
+                                        //           decoration: BoxDecoration(
+                                        //               color: Colors.transparent,
+                                        //               border: Border.all(
+                                        //                   width: 2.0,
+                                        //                   color: redColor)),
+                                        //           // onPressed: () {},
+                                        //           child: Text(
+                                        //             'Delete'.toUpperCase(),
+                                        //             textAlign: TextAlign.center,
+                                        //             style:
+                                        //                 TextStyle(color: redColor),
+                                        //           ),
+                                        //         ),
+                                        //       )
+                                        //     :
+                                        CupertinoButton(
+                                      color: redColor,
+                                      child: Text(
+                                        'Delete'.toUpperCase(),
+                                        textAlign: TextAlign.center,
+                                        style: TextStyle(color: whiteColor),
+                                      ),
+                                      onPressed: () {
+                                        if (widget.model.feedback != null)
+                                          bloc.deleteFeedback(
+                                              widget.model.feedback);
+                                      },
+                                    ))
                                 : Container(),
                           ],
                         ),

@@ -127,7 +127,9 @@ class SettingsBloc {
 
   getWebMail() async {
     prefs = await SharedPreferences.getInstance();
-    webMailTypeEnum = prefs.getString(webMailTypePrefs);
+
+    webMailTypeEnum =
+        prefs.getString(webMailTypePrefs) ?? WebMailType.Outlook.toString();
     webMailTypeEnum == WebMailType.Outlook.toString()
         ? webMailScrollController = FixedExtentScrollController(initialItem: 0)
         : webMailScrollController = FixedExtentScrollController(initialItem: 1);

@@ -66,6 +66,7 @@ class _LoginPageState extends State<LoginPage> implements AuthStateListener {
     } else {
       setState(() {
         dataNotValid = true;
+        // progressDialogVisible = false;
       });
     }
   }

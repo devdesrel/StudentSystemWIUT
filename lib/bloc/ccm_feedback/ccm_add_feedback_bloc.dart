@@ -52,6 +52,10 @@ class CCMAddFeedbackBloc {
   Sink<String> get setFeedbackType => _setFeedbackTypeController.sink;
 
   final _setFeedbackTypeController = StreamController<String>();
+  Sink<bool> get setSaveButtonEnability =>
+      _setSaveButtonEnabilityController.sink;
+
+  final _setSaveButtonEnabilityController = StreamController<bool>();
 
   //receiving
   Stream<String> get teacherNameValue => _teacherNameValueSubject.stream;
@@ -81,6 +85,10 @@ class CCMAddFeedbackBloc {
   Stream<String> get feedbackType => _feedbackTypeSubject.stream;
 
   final _feedbackTypeSubject = BehaviorSubject<String>();
+
+  Stream<bool> get isSaveButtonEnabled => _isSaveButtonEnabledSubject.stream;
+
+  final _isSaveButtonEnabledSubject = BehaviorSubject<bool>();
 
   CCMAddFeedbackBloc(BuildContext context, CCMAddFeedbackPageModel model) {
     this.context = context;
@@ -121,6 +129,9 @@ class CCMAddFeedbackBloc {
       } else {
         isPositive = false;
       }
+    });
+    _setSaveButtonEnabilityController.stream.listen((val) {
+      _isSaveButtonEnabledSubject.add(val);
     });
   }
 
@@ -172,16 +183,16 @@ class CCMAddFeedbackBloc {
     String quotesFixedFeedbackText =
         commentMessage.replaceAll('\'', '\\\'').replaceAll('\"', '\\\"');
 
-    if (feedbackCategory == 'modules') {
-      postJson =
-          '{"Type": "$feedbackCategory", "IsPositive": $isPositive, "DepOrModID": ${model.depOrModID}, "StaffID": ${int.tryParse(staffID)}, "GroupCoverage": ${groupCoverage.toInt()}, "Text": "$quotesFixedFeedbackText"}';
-    } else {
-      postJson =
-          '{"Type": "$feedbackCategory", "IsPositive": $isPositive, "DepOrModID": ${model.depOrModID}, "GroupCoverage": ${groupCoverage.toInt()}, "Text": "$quotesFixedFeedbackText"}';
-    }
-
     // print(postData.toString());
     try {
+      if (feedbackCategory == 'modules') {
+        postJson =
+            '{"Type": "$feedbackCategory", "IsPositive": $isPositive, "DepOrModID": ${model.depOrModID}, "StaffID": ${int.tryParse(staffID)}, "GroupCoverage": ${groupCoverage.toInt()}, "Text": "$quotesFixedFeedbackText"}';
+      } else {
+        postJson =
+            '{"Type": "$feedbackCategory", "IsPositive": $isPositive, "DepOrModID": ${model.depOrModID}, "GroupCoverage": ${groupCoverage.toInt()}, "Text": "$quotesFixedFeedbackText"}';
+      }
+
       http.Response res = await http.post(apiCCMFeedbackAddFeedback,
           body: postJson,
           headers: {
@@ -192,7 +203,10 @@ class CCMAddFeedbackBloc {
       if (res.statusCode == 200) {
         Navigator.of(context).pop();
       }
+      // _isSaveButtonEnabledSubject.add(true);
     } catch (e) {
+      _isSaveButtonEnabledSubject.add(true);
+
       showFlushBar(connectionFailure, checkInternetConnection,
           MessageTypes.ERROR, context, 2);
     }
@@ -206,15 +220,16 @@ class CCMAddFeedbackBloc {
         commentMessage.replaceAll('\'', '\\\'').replaceAll('\"', '\\\"');
     String postJson;
 
-    if (feedbackCategory == 'modules') {
-      postJson =
-          '{"ID": $feedbackID, "Type": "$feedbackCategory", "IsPositive": $isPositive, "DepOrModID": $depOrModID, "StaffID": ${int.parse(staffID)}, "GroupCoverage": ${groupCoverage.toInt()}, "Text": "$quotesFixedFeedbackText"}';
-    } else {
-      postJson =
-          '{"ID": $feedbackID, "Type": "$feedbackCategory", "IsPositive": $isPositive, "DepOrModID": $depOrModID, "GroupCoverage": ${groupCoverage.toInt()}, "Text": "$quotesFixedFeedbackText"}';
-    }
     // print(postData.toString());
     try {
+      if (feedbackCategory == 'modules') {
+        postJson =
+            '{"ID": $feedbackID, "Type": "$feedbackCategory", "IsPositive": $isPositive, "DepOrModID": $depOrModID, "StaffID": ${int.parse(staffID)}, "GroupCoverage": ${groupCoverage.toInt()}, "Text": "$quotesFixedFeedbackText"}';
+      } else {
+        postJson =
+            '{"ID": $feedbackID, "Type": "$feedbackCategory", "IsPositive": $isPositive, "DepOrModID": $depOrModID, "GroupCoverage": ${groupCoverage.toInt()}, "Text": "$quotesFixedFeedbackText"}';
+      }
+
       http.Response res = await http.post(apiCCMFeedbackEditFeedback,
           body: postJson,
           headers: {
@@ -224,8 +239,11 @@ class CCMAddFeedbackBloc {
 
       if (res.statusCode == 200) {
         Navigator.of(context).pop();
+        // _isSaveButtonEnabledSubject.add(true);
       }
     } catch (e) {
+      _isSaveButtonEnabledSubject.add(true);
+
       showFlushBar(connectionFailure, checkInternetConnection,
           MessageTypes.ERROR, context, 2);
     }
@@ -261,6 +279,7 @@ class CCMAddFeedbackBloc {
     _setGroupCoverageDataValidationController.close();
     _setTeacherNameDataValidationController.close();
     _setFeedbackTypeController.close();
+    _setSaveButtonEnabilityController.close();
 
     _teacherNameValueSubject.close();
     _autoValidationSubject.close();
@@ -268,5 +287,6 @@ class CCMAddFeedbackBloc {
     _groupCoverageDataValidationSubject.cast();
     _teacherNameDataValidationSubject.close();
     _feedbackTypeSubject.close();
+    _isSaveButtonEnabledSubject.close();
   }
 }
