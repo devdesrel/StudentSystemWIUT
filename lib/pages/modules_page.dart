@@ -6,6 +6,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:http/http.dart' as http;
+import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:student_system_flutter/enums/ApplicationEnums.dart';
 import 'package:student_system_flutter/helpers/function_helpers.dart';
@@ -166,7 +167,7 @@ class ModulesPage extends StatelessWidget {
 
                   List<Entry> _sortedModulesList = [];
 
-                  int _initialLevel = 7 ;
+                  int _initialLevel = 7;
 
                   for (var i = 0; i < 4; i++) {
                     List<dynamic> _modules = _modulesList
@@ -246,7 +247,7 @@ class ModulesPage extends StatelessWidget {
               actions: <Widget>[
                 requestType == RequestType.GetTeachingMaterials
                     ? IconButton(
-                        icon: Icon(Icons.cloud_download),
+                        icon: Icon(MdiIcons.folderDownload),
                         onPressed: () {
                           Navigator.of(context).push(MaterialPageRoute(
                               builder: (context) =>

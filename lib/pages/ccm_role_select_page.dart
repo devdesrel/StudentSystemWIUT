@@ -108,8 +108,9 @@ class CCMRoleSelectPage extends StatelessWidget {
                 InkWell(
                   onTap: () {
                     Navigator.of(context).push(MaterialPageRoute(
-                        builder: (context) =>
-                            CCMFeedbackPage(addressedToMe: true)));
+                        builder: (context) => CCMFeedbackPage(
+                              addressedToMe: true,
+                            )));
                   },
                   child: Padding(
                       padding: EdgeInsets.all(16.0),

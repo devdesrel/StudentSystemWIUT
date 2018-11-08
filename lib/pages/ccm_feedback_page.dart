@@ -8,7 +8,6 @@ import 'package:student_system_flutter/bloc/ccm_feedback/ccm_feedback_item_bloc.
 import 'package:student_system_flutter/enums/ApplicationEnums.dart';
 import 'package:student_system_flutter/helpers/app_constants.dart';
 import 'package:student_system_flutter/helpers/ccm_carousel.dart';
-import 'package:student_system_flutter/helpers/function_helpers.dart';
 
 import 'package:student_system_flutter/helpers/ui_helpers.dart';
 import 'package:student_system_flutter/list_items/item_ccm_feedback.dart';
@@ -53,7 +52,7 @@ class CCMFeedbackPage extends StatelessWidget {
         color: redColor,
         child: Center(
           child: Text(
-            'Only CRs can add feedback',
+            'Only CRs have right to add feedback',
             overflow: TextOverflow.ellipsis,
             style: TextStyle(color: Colors.white),
           ),
@@ -153,17 +152,18 @@ class CCMFeedbackPage extends StatelessWidget {
               centerTitle: true,
             ),
             backgroundColor: backgroundColor,
-            floatingActionButton: FutureBuilder<bool>(
-                future: checkIsFeedbackEditable(),
-                initialData: false,
-                builder: (context, snapshot) => snapshot.hasData
-                    ? snapshot.data
-                        ? FloatingActionButton(
-                            onPressed: _openAddFeedbackPage,
-                            child: Icon(Icons.add),
-                          )
-                        : Container()
-                    : Container()),
+            floatingActionButton: StreamBuilder<bool>(
+              stream: _bloc.isFeedbackEditable,
+              initialData: false,
+              builder: (context, snapshot) => snapshot.hasData
+                  ? snapshot.data
+                      ? FloatingActionButton(
+                          onPressed: _openAddFeedbackPage,
+                          child: Icon(Icons.add),
+                        )
+                      : Container()
+                  : Container(),
+            ),
             body: SafeArea(child: _buildCCMFeedbage()),
           )
         : Material(
@@ -173,8 +173,8 @@ class CCMFeedbackPage extends StatelessWidget {
                 navigationBar: CupertinoNavigationBar(
                   automaticallyImplyLeading: true,
                   middle: Text("CCM Feedback"),
-                  trailing: FutureBuilder<bool>(
-                      future: checkIsFeedbackEditable(),
+                  trailing: StreamBuilder<bool>(
+                      stream: _bloc.isFeedbackEditable,
                       initialData: false,
                       builder: (context, snapshot) => snapshot.hasData
                           ? snapshot.data
