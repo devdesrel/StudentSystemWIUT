@@ -356,4 +356,5 @@ void _cleanUserData() async {
   await prefs.setString(teacherNameSharedPref, "");
   await prefs.setBool(isApplicableForCCMFeedback, false);
   await prefs.setBool(isSU, false);
+  await prefs.setBool(feedbackIsEditable, false);
 }

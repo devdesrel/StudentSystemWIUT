@@ -50,6 +50,7 @@ class AuthStateProvider {
       await prefs.setString(userRole, "");
       await prefs.setString(teacherID, "");
       await prefs.setString(teacherNameSharedPref, "");
+      await prefs.setBool(feedbackIsEditable, false);
     }
 
     await prefs.setInt(lastAppVersion, _buildNumber);

@@ -175,170 +175,180 @@ class CCMRoleSelectPage extends StatelessWidget {
           )
         : Material(
             child: CupertinoPageScaffold(
-              navigationBar: CupertinoNavigationBar(
-                middle: Text('Select role'),
-              ),
-              backgroundColor: backgroundColor,
-              child: SafeArea(
-                child: SingleChildScrollView(
-                  child: Padding(
-                    padding:
-                        EdgeInsets.symmetric(horizontal: 14.0, vertical: 8.0),
-                    child: Column(
-                      // crossAxisAlignment: CrossAxisAlignment.stretch,
-                      children: <Widget>[
-                        StreamBuilder<CCMRolesModel>(
-                          stream: _bloc.ccmRoles,
-                          // initialData: false,
-                          builder: (context, snapshot) => snapshot.hasData
-                              ? snapshot.data.deansOffice
-                                  ? CustomCard(
-                                      Padding(
-                                        padding: EdgeInsets.all(12.0),
-                                        child: Center(
-                                            child: Text('Dean\'s office',
-                                                textAlign: TextAlign.center,
-                                                style: Theme.of(context)
-                                                    .textTheme
-                                                    .headline
-                                                    .copyWith(
-                                                        color: accentColor,
-                                                        fontSize: 17.0))),
-                                      ),
-                                    )
+                navigationBar: CupertinoNavigationBar(
+                  middle: Text('Select role'),
+                ),
+                backgroundColor: backgroundColor,
+                child: SafeArea(
+                    child: SingleChildScrollView(
+                  child: CustomCard(
+                    InkWell(
+                      onTap: () {
+                        Navigator.of(context).push(MaterialPageRoute(
+                            builder: (context) => CCMFeedbackPage(
+                                  addressedToMe: true,
+                                )));
+                      },
+                      child: Padding(
+                        padding: EdgeInsets.symmetric(
+                            horizontal: 14.0, vertical: 8.0),
+                        child: Column(
+                          // crossAxisAlignment: CrossAxisAlignment.stretch,
+                          children: <Widget>[
+                            StreamBuilder<CCMRolesModel>(
+                              stream: _bloc.ccmRoles,
+                              // initialData: false,
+                              builder: (context, snapshot) => snapshot.hasData
+                                  ? snapshot.data.deansOffice
+                                      ? CustomCard(
+                                          Padding(
+                                            padding: EdgeInsets.all(12.0),
+                                            child: Center(
+                                                child: Text('Dean\'s office',
+                                                    textAlign: TextAlign.center,
+                                                    style: Theme.of(context)
+                                                        .textTheme
+                                                        .headline
+                                                        .copyWith(
+                                                            color: accentColor,
+                                                            fontSize: 17.0))),
+                                          ),
+                                        )
+                                      : Container(
+                                          height: 0.0,
+                                        )
                                   : Container(
                                       height: 0.0,
-                                    )
-                              : Container(
-                                  height: 0.0,
-                                ),
-                        ),
-                        StreamBuilder<CCMRolesModel>(
-                          stream: _bloc.ccmRoles,
-                          builder: (context, snapshot) => snapshot.hasData
-                              ? snapshot.data.headOfCourse
-                                  ? CustomCard(
-                                      Padding(
-                                        padding: EdgeInsets.all(12.0),
-                                        child: Center(
-                                            child: Text('Head of Course',
-                                                textAlign: TextAlign.center,
-                                                style: Theme.of(context)
-                                                    .textTheme
-                                                    .headline
-                                                    .copyWith(
-                                                        color: accentColor,
-                                                        fontSize: 17.0))),
-                                      ),
-                                    )
+                                    ),
+                            ),
+                            StreamBuilder<CCMRolesModel>(
+                              stream: _bloc.ccmRoles,
+                              builder: (context, snapshot) => snapshot.hasData
+                                  ? snapshot.data.headOfCourse
+                                      ? CustomCard(
+                                          Padding(
+                                            padding: EdgeInsets.all(12.0),
+                                            child: Center(
+                                                child: Text('Head of Course',
+                                                    textAlign: TextAlign.center,
+                                                    style: Theme.of(context)
+                                                        .textTheme
+                                                        .headline
+                                                        .copyWith(
+                                                            color: accentColor,
+                                                            fontSize: 17.0))),
+                                          ),
+                                        )
+                                      : Container(
+                                          height: 0.0,
+                                        )
                                   : Container(
                                       height: 0.0,
-                                    )
-                              : Container(
-                                  height: 0.0,
-                                ),
-                        ),
-                        StreamBuilder<CCMRolesModel>(
-                          stream: _bloc.ccmRoles,
-                          builder: (context, snapshot) => snapshot.hasData
-                              ? snapshot.data.rectorsOffice
-                                  ? CustomCard(
-                                      Padding(
-                                        padding: EdgeInsets.all(12.0),
-                                        child: Center(
-                                            child: Text('Rector\'s office',
-                                                textAlign: TextAlign.center,
-                                                style: Theme.of(context)
-                                                    .textTheme
-                                                    .headline
-                                                    .copyWith(
-                                                        color: accentColor,
-                                                        fontSize: 17.0))),
-                                      ),
-                                    )
+                                    ),
+                            ),
+                            StreamBuilder<CCMRolesModel>(
+                              stream: _bloc.ccmRoles,
+                              builder: (context, snapshot) => snapshot.hasData
+                                  ? snapshot.data.rectorsOffice
+                                      ? CustomCard(
+                                          Padding(
+                                            padding: EdgeInsets.all(12.0),
+                                            child: Center(
+                                                child: Text('Rector\'s office',
+                                                    textAlign: TextAlign.center,
+                                                    style: Theme.of(context)
+                                                        .textTheme
+                                                        .headline
+                                                        .copyWith(
+                                                            color: accentColor,
+                                                            fontSize: 17.0))),
+                                          ),
+                                        )
+                                      : Container(
+                                          height: 0.0,
+                                        )
                                   : Container(
                                       height: 0.0,
-                                    )
-                              : Container(
-                                  height: 0.0,
-                                ),
-                        ),
-                        StreamBuilder<CCMRolesModel>(
-                            stream: _bloc.ccmRoles,
-                            builder: (context, snapshot) => snapshot.hasData
-                                ? snapshot.data.courseLeader
-                                    ? CustomCard(
-                                        Padding(
-                                          padding: EdgeInsets.all(12.0),
-                                          child: Center(
-                                              child: Text('Course Leader',
-                                                  textAlign: TextAlign.center,
-                                                  style: Theme.of(context)
-                                                      .textTheme
-                                                      .headline
-                                                      .copyWith(
-                                                          color: accentColor,
-                                                          fontSize: 17.0))),
-                                        ),
-                                      )
+                                    ),
+                            ),
+                            StreamBuilder<CCMRolesModel>(
+                                stream: _bloc.ccmRoles,
+                                builder: (context, snapshot) => snapshot.hasData
+                                    ? snapshot.data.courseLeader
+                                        ? CustomCard(
+                                            Padding(
+                                              padding: EdgeInsets.all(12.0),
+                                              child: Center(
+                                                  child: Text('Course Leader',
+                                                      textAlign:
+                                                          TextAlign.center,
+                                                      style: Theme.of(context)
+                                                          .textTheme
+                                                          .headline
+                                                          .copyWith(
+                                                              color:
+                                                                  accentColor,
+                                                              fontSize: 17.0))),
+                                            ),
+                                          )
+                                        : Container(
+                                            height: 0.0,
+                                          )
                                     : Container(
                                         height: 0.0,
-                                      )
-                                : Container(
-                                    height: 0.0,
-                                  )),
-                        StreamBuilder<CCMRolesModel>(
-                          stream: _bloc.ccmRoles,
-                          builder: (context, snapshot) => snapshot.hasData
-                              ? snapshot.data.moduleLeader
-                                  ? CustomCard(
-                                      Padding(
-                                        padding: EdgeInsets.all(12.0),
-                                        child: Center(
-                                            child: Text('Module Leader',
-                                                textAlign: TextAlign.center,
-                                                style: Theme.of(context)
-                                                    .textTheme
-                                                    .headline
-                                                    .copyWith(
-                                                        color: accentColor,
-                                                        fontSize: 17.0))),
-                                      ),
-                                    )
+                                      )),
+                            StreamBuilder<CCMRolesModel>(
+                              stream: _bloc.ccmRoles,
+                              builder: (context, snapshot) => snapshot.hasData
+                                  ? snapshot.data.moduleLeader
+                                      ? CustomCard(
+                                          Padding(
+                                            padding: EdgeInsets.all(12.0),
+                                            child: Center(
+                                                child: Text('Module Leader',
+                                                    textAlign: TextAlign.center,
+                                                    style: Theme.of(context)
+                                                        .textTheme
+                                                        .headline
+                                                        .copyWith(
+                                                            color: accentColor,
+                                                            fontSize: 17.0))),
+                                          ),
+                                        )
+                                      : Container(
+                                          height: 0.0,
+                                        )
                                   : Container(
                                       height: 0.0,
-                                    )
-                              : Container(
-                                  height: 0.0,
-                                ),
+                                    ),
+                            ),
+                            CustomCard(
+                              InkWell(
+                                onTap: () {
+                                  Navigator.of(context).push(MaterialPageRoute(
+                                      builder: (context) => CCMFeedbackPage(
+                                          addressedToMe: true)));
+                                },
+                                child: Padding(
+                                    padding: EdgeInsets.all(16.0),
+                                    child: Center(
+                                      child: Text("Addressed to me",
+                                          textAlign: TextAlign.center,
+                                          style: Theme.of(context)
+                                              .textTheme
+                                              .headline
+                                              .copyWith(
+                                                  color: accentColor,
+                                                  fontSize: 17.0)),
+                                    )),
+                              ),
+                            ),
+                          ],
                         ),
-                        CustomCard(
-                          InkWell(
-                            onTap: () {
-                              Navigator.of(context).push(MaterialPageRoute(
-                                  builder: (context) =>
-                                      CCMFeedbackPage(addressedToMe: true)));
-                            },
-                            child: Padding(
-                                padding: EdgeInsets.all(16.0),
-                                child: Center(
-                                  child: Text("Addressed to me",
-                                      textAlign: TextAlign.center,
-                                      style: Theme.of(context)
-                                          .textTheme
-                                          .headline
-                                          .copyWith(
-                                              color: accentColor,
-                                              fontSize: 17.0)),
-                                )),
-                          ),
-                        ),
-                      ],
+                      ),
                     ),
                   ),
-                ),
-              ),
-            ),
+                ))),
           );
   }
 }

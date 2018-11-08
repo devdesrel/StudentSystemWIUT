@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'package:simple_permissions/simple_permissions.dart';
 import 'package:student_system_flutter/bloc/file_download/file_download_bloc.dart';
 import 'package:student_system_flutter/bloc/file_download/learning_materials_bloc.dart';
@@ -72,7 +73,7 @@ class _LearningMaterialsPageState extends State<LearningMaterialsPage>
                   centerTitle: true,
                   actions: <Widget>[
                     IconButton(
-                      icon: Icon(Icons.cloud_download),
+                      icon: Icon(MdiIcons.folderDownload),
                       onPressed: () {
                         Navigator.of(context).push(MaterialPageRoute(
                             builder: (context) => OfflinePage(

@@ -28,17 +28,26 @@ public class MainActivity extends FlutterActivity {
                 final Map<String, Object> arguments = methodCall.arguments();
                 if (methodCall.method.equals("openFile")) {
 //                   openFile((String) arguments.get("filePath"), (String) arguments.get("mimeType"));
-                } else if (methodCall.method.equals("openOutlookApp")) {
-                    String packageName = "com.microsoft.office.outlook";
-                    Intent launchIntent = getPackageManager().getLaunchIntentForPackage(packageName);
-
-                    if (launchIntent != null) {
+                } else if (methodCall.method.equals("openGmailApp")) {
+                    // String packageName = "com.microsoft.office.outlook";
+                    // Intent launchIntent = getPackageManager().getLaunchIntentForPackage(packageName);
+                    Intent gmailIntent = getPackageManager().getLaunchIntentForPackage("com.google.android.gm"); 
+                    
+                    if (gmailIntent != null) {
                         result.success(true);
-                        startActivity(launchIntent);
+                        startActivity(gmailIntent);
                     } else {
                         result.success(false);
 //                        startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("https://play.google.com/store/apps/details?id=" + packageName)));
                     }
+
+//                     if (launchIntent != null) {
+//                         result.success(true);
+//                         startActivity(launchIntent);
+//                     } else {
+//                         result.success(false);
+// //                        startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("https://play.google.com/store/apps/details?id=" + packageName)));
+//                     }
                 }
             }
       });

@@ -8,7 +8,6 @@ import 'package:student_system_flutter/bloc/ccm_feedback/ccm_feedback_item_bloc.
 import 'package:student_system_flutter/enums/ApplicationEnums.dart';
 import 'package:student_system_flutter/helpers/app_constants.dart';
 import 'package:student_system_flutter/helpers/ccm_carousel.dart';
-import 'package:student_system_flutter/helpers/function_helpers.dart';
 
 import 'package:student_system_flutter/helpers/ui_helpers.dart';
 import 'package:student_system_flutter/list_items/item_ccm_feedback.dart';
@@ -46,6 +45,21 @@ class CCMFeedbackPage extends StatelessWidget {
 
     final _bloc = CCMFeedbackBloc(context, _type, groupID);
 
+    Widget _buildCCMFeedbackNote() {
+      return Container(
+        width: double.infinity,
+        padding: EdgeInsets.symmetric(horizontal: 10.0, vertical: 10.0),
+        color: redColor,
+        child: Center(
+          child: Text(
+            'Only CRs have right to add feedback',
+            overflow: TextOverflow.ellipsis,
+            style: TextStyle(color: Colors.white),
+          ),
+        ),
+      );
+    }
+
     List<Widget> _getListOfWidget(List<CCMFeedbackAsSelectedList> list) {
       var _carouselPagesList = List<Widget>();
       _listOfPageBlocs = [];
@@ -79,12 +93,19 @@ class CCMFeedbackPage extends StatelessWidget {
           builder: (context, snapshot) => snapshot.hasData
               ? snapshot.data.length > 0
                   ? Center(
-                      child: CCMCarousel(
-                          bloc: _bloc,
-                          autoplay: false,
-                          dotSize: 5.0,
-                          dotColor: accentColor,
-                          images: _getListOfWidget(snapshot.data)))
+                      child: Column(
+                      children: <Widget>[
+                        _buildCCMFeedbackNote(),
+                        Expanded(
+                          child: CCMCarousel(
+                              bloc: _bloc,
+                              autoplay: false,
+                              dotSize: 5.0,
+                              dotColor: accentColor,
+                              images: _getListOfWidget(snapshot.data)),
+                        ),
+                      ],
+                    ))
                   : Container(
                       child: Text(''),
                     )
@@ -131,17 +152,18 @@ class CCMFeedbackPage extends StatelessWidget {
               centerTitle: true,
             ),
             backgroundColor: backgroundColor,
-            floatingActionButton: FutureBuilder<bool>(
-                future: checkIsFeedbackEditable(),
-                initialData: false,
-                builder: (context, snapshot) => snapshot.hasData
-                    ? snapshot.data
-                        ? FloatingActionButton(
-                            onPressed: _openAddFeedbackPage,
-                            child: Icon(Icons.add),
-                          )
-                        : Container()
-                    : Container()),
+            floatingActionButton: StreamBuilder<bool>(
+              stream: _bloc.isFeedbackEditable,
+              initialData: false,
+              builder: (context, snapshot) => snapshot.hasData
+                  ? snapshot.data
+                      ? FloatingActionButton(
+                          onPressed: _openAddFeedbackPage,
+                          child: Icon(Icons.add),
+                        )
+                      : Container()
+                  : Container(),
+            ),
             body: SafeArea(child: _buildCCMFeedbage()),
           )
         : Material(
@@ -151,8 +173,8 @@ class CCMFeedbackPage extends StatelessWidget {
                 navigationBar: CupertinoNavigationBar(
                   automaticallyImplyLeading: true,
                   middle: Text("CCM Feedback"),
-                  trailing: FutureBuilder<bool>(
-                      future: checkIsFeedbackEditable(),
+                  trailing: StreamBuilder<bool>(
+                      stream: _bloc.isFeedbackEditable,
                       initialData: false,
                       builder: (context, snapshot) => snapshot.hasData
                           ? snapshot.data
