@@ -14,16 +14,10 @@ import 'package:flutter/services.dart';
 import 'package:student_system_flutter/pages/iOS_pages/ios_pin_set.dart';
 
 class SettingsPage extends StatelessWidget {
-  SharedPreferences prefs;
-  String currentUserPin;
-  var formKey = GlobalKey<FormState>();
-  String newPin;
-  String confirmPin;
-  String currentPin;
-  String notMatched;
-  double _kPickerItemHeight = 32.0;
-  double _kPickerSheetHeight = 216.0;
-  List<String> webMailOptionList = ["Outlook", "Gmail"];
+  final formKey = GlobalKey<FormState>();
+  final double _kPickerItemHeight = 32.0;
+  final double _kPickerSheetHeight = 216.0;
+  final List<String> webMailOptionList = ["Outlook", "Gmail"];
 
   Widget _buildBottomPicker(Widget picker) {
     return Container(
@@ -47,6 +41,11 @@ class SettingsPage extends StatelessWidget {
   }
 
   Widget build(BuildContext context) {
+    SharedPreferences prefs;
+    String currentUserPin;
+    String newPin;
+    String confirmPin;
+    String currentPin;
     var _bloc = SettingsBloc();
 
     void savePin(BuildContext context, SettingsBloc bloc) async {
@@ -66,6 +65,71 @@ class SettingsPage extends StatelessWidget {
       } else {
         bloc.setAutoValidation.add(true);
       }
+    }
+
+    _getCurrentUserPin() async {
+      prefs = await SharedPreferences.getInstance();
+      currentUserPin = prefs.getString(pinCode);
+
+      return currentUserPin;
+    }
+
+    Widget customeFormField(
+        String placeholder,
+        ChangePinCodeDialogArguments type,
+        BuildContext context,
+        SettingsBloc bloc) {
+      return StreamBuilder(
+        stream: bloc.isAutoValidationOn,
+        builder: (context, snapshot) => TextFormField(
+            autovalidate: snapshot.hasData ? snapshot.data : false,
+            style: Theme.of(context).textTheme.body2.copyWith(
+                color: Theme.of(context).accentColor,
+                decorationColor: Colors.white),
+            autofocus: false,
+            obscureText: true,
+            maxLength: 4,
+            keyboardType: TextInputType.number,
+            validator: (val) {
+              switch (type) {
+                case ChangePinCodeDialogArguments.CurrentPin:
+                  currentPin = val;
+                  break;
+                case ChangePinCodeDialogArguments.NewPin:
+                  newPin = val;
+                  break;
+                case ChangePinCodeDialogArguments.ConfirmPin:
+                  confirmPin = val;
+                  break;
+                default:
+              }
+
+              currentUserPin = prefs.getString(pinCode);
+
+              if (val.length == 0) {
+                return '$placeholder can not be empty';
+              } else if (!isNumeric(val)) {
+                return '$placeholder should be a number';
+              } else if (val.length != 4) {
+                return '$placeholder should contain 4 digits';
+              } else if (currentUserPin != currentPin &&
+                  type == ChangePinCodeDialogArguments.CurrentPin) {
+                return 'Wrong PIN';
+              } else {
+                if (confirmPin != newPin &&
+                    type == ChangePinCodeDialogArguments.ConfirmPin) {
+                  return 'New PIN is not confirmed correctly';
+                }
+              }
+            },
+            onSaved: (val) {
+              if (type == ChangePinCodeDialogArguments.ConfirmPin)
+                confirmPin = val;
+            },
+            decoration: InputDecoration(
+              labelText: placeholder,
+            )),
+      );
     }
 
     Future<Null> showPinDialog(BuildContext context, SettingsBloc bloc) async {
@@ -575,68 +639,6 @@ class SettingsPage extends StatelessWidget {
                 ),
               ),
             ),
-    );
-  }
-
-  _getCurrentUserPin() async {
-    prefs = await SharedPreferences.getInstance();
-    currentUserPin = prefs.getString(pinCode);
-
-    return currentUserPin;
-  }
-
-  Widget customeFormField(String placeholder, ChangePinCodeDialogArguments type,
-      BuildContext context, SettingsBloc bloc) {
-    return StreamBuilder(
-      stream: bloc.isAutoValidationOn,
-      builder: (context, snapshot) => TextFormField(
-          autovalidate: snapshot.hasData ? snapshot.data : false,
-          style: Theme.of(context).textTheme.body2.copyWith(
-              color: Theme.of(context).accentColor,
-              decorationColor: Colors.white),
-          autofocus: false,
-          obscureText: true,
-          maxLength: 4,
-          keyboardType: TextInputType.number,
-          validator: (val) {
-            switch (type) {
-              case ChangePinCodeDialogArguments.CurrentPin:
-                currentPin = val;
-                break;
-              case ChangePinCodeDialogArguments.NewPin:
-                newPin = val;
-                break;
-              case ChangePinCodeDialogArguments.ConfirmPin:
-                confirmPin = val;
-                break;
-              default:
-            }
-
-            currentUserPin = prefs.getString(pinCode);
-
-            if (val.length == 0) {
-              return '$placeholder can not be empty';
-            } else if (!isNumeric(val)) {
-              return '$placeholder should be a number';
-            } else if (val.length != 4) {
-              return '$placeholder should contain 4 digits';
-            } else if (currentUserPin != currentPin &&
-                type == ChangePinCodeDialogArguments.CurrentPin) {
-              return 'Wrong PIN';
-            } else {
-              if (confirmPin != newPin &&
-                  type == ChangePinCodeDialogArguments.ConfirmPin) {
-                return 'New PIN is not confirmed correctly';
-              }
-            }
-          },
-          onSaved: (val) {
-            if (type == ChangePinCodeDialogArguments.ConfirmPin)
-              confirmPin = val;
-          },
-          decoration: InputDecoration(
-            labelText: placeholder,
-          )),
     );
   }
 

@@ -28,6 +28,14 @@ class AuthStateProvider {
   void initState() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
 
+    bool isApplicationUserDataCleaned =
+        prefs.getBool(cleanApplicationUserData) ?? false;
+
+    if (!isApplicationUserDataCleaned) {
+      prefs.clear();
+      prefs.setBool(cleanApplicationUserData, true);
+    }
+
     if (prefs.getBool(isSecurityValueOn) == null) {
       await prefs.setBool(isSecurityValueOn, true);
     }

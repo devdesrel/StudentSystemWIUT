@@ -90,6 +90,7 @@ final feedbackIsEditable = 'feedbackIsEditable';
 final isSU = 'isSU';
 final isSecurityValueOn = 'isSecurityValueOn';
 final webMailTypePrefs = 'webMailTypePrefs';
+final cleanApplicationUserData = 'cleanApplicationUserData';
 
 //API List
 final baseUrl = 'https://newintranetapi.wiut.uz';

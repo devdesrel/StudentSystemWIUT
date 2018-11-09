@@ -4,7 +4,7 @@ import 'package:student_system_flutter/helpers/app_constants.dart';
 
 class CCMFeedbackTypeExpansionTile extends StatelessWidget {
   final GlobalKey<AppExpansionTile2State> expansionTile;
-  String value;
+  final String value;
   final CCMAddFeedbackBloc bloc;
   final List<String> expansionChildrenList;
 

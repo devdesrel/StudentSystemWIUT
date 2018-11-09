@@ -10,7 +10,7 @@ import 'package:url_launcher/url_launcher.dart';
 class TipsAndTricksPage extends StatelessWidget {
   final TipsRequestType type;
   TipsAndTricksPage({this.type});
-  List<Image> step2 = [
+  final List<Image> step2 = [
     Image.asset(
       'assets/instructions/step1.png',
     ),
@@ -21,7 +21,7 @@ class TipsAndTricksPage extends StatelessWidget {
       'assets/instructions/step3.png',
     ),
   ];
-  List<Image> step3 = [
+  final List<Image> step3 = [
     Image.asset(
       'assets/instructions/addstep1.png',
     ),
@@ -32,7 +32,7 @@ class TipsAndTricksPage extends StatelessWidget {
       'assets/instructions/step6.png',
     ),
   ];
-  List<Image> step4 = [
+  final List<Image> step4 = [
     Image.asset(
       'assets/instructions/step7.png',
     ),
@@ -40,7 +40,7 @@ class TipsAndTricksPage extends StatelessWidget {
       'assets/instructions/final.png',
     ),
   ];
-  List<Image> iosStep1 = [
+  final List<Image> iosStep1 = [
     Image.asset(
       'assets/instructions/step1.png',
     ),
@@ -48,7 +48,7 @@ class TipsAndTricksPage extends StatelessWidget {
       'assets/instructions/ios_step1.PNG',
     ),
   ];
-  List<Image> iosStep2 = [
+  final List<Image> iosStep2 = [
     Image.asset(
       'assets/instructions/ios_step2.PNG',
     ),
@@ -59,7 +59,7 @@ class TipsAndTricksPage extends StatelessWidget {
       'assets/instructions/ios_step4.PNG',
     ),
   ];
-  List<Image> iosStep3 = [
+  final List<Image> iosStep3 = [
     Image.asset(
       'assets/instructions/ios_step5.PNG',
     ),
@@ -68,22 +68,23 @@ class TipsAndTricksPage extends StatelessWidget {
     ),
   ];
 
-  List<Image> gmailAndroidStep1 = [
+  final List<Image> gmailAndroidStep1 = [
     Image.asset('assets/instructions/gmail_step0.png'),
     Image.asset('assets/instructions/gmail_step1.png'),
   ];
-  List<Image> gmailAndroidStep2 = [
+  final List<Image> gmailAndroidStep2 = [
     Image.asset('assets/instructions/gmail_step2.png'),
     Image.asset('assets/instructions/gmail_step3.png'),
     Image.asset('assets/instructions/gmail_step4.png'),
     Image.asset('assets/instructions/gmail_step5.png'),
   ];
-  List<Image> gmailAndroidStep3 = [
+  final List<Image> gmailAndroidStep3 = [
     Image.asset('assets/instructions/gmail_step6.png'),
     Image.asset('assets/instructions/gmail_step7.png'),
     Image.asset('assets/instructions/gmail_step8.png'),
     Image.asset('assets/instructions/gmail_step9.png'),
   ];
+
   @override
   Widget build(BuildContext context) {
     return Platform.isAndroid
@@ -115,7 +116,6 @@ class TipsAndTricksPage extends StatelessWidget {
                       iosStep1: iosStep1,
                       iosStep2: iosStep2,
                       iosStep3: iosStep3)
-                  // TODO: Ios version of gmail instructions
                   : AndroidGmailBody(
                       gmailAndroidStep1: gmailAndroidStep1,
                       gmailAndroidStep2: gmailAndroidStep2,

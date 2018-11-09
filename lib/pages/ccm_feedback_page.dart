@@ -20,13 +20,13 @@ import 'package:student_system_flutter/pages/ccm_add_feedback_page.dart';
 class CCMFeedbackPage extends StatelessWidget {
   final CCMFeedbackCategory requestType;
   final bool addressedToMe;
-  Widget _currentPage;
-  String groupID;
+  final String groupID;
 
   CCMFeedbackPage({this.requestType, this.addressedToMe = false, this.groupID});
 
   @override
   Widget build(BuildContext context) {
+    Widget _currentPage;
     if (_currentPage == null) {
       _currentPage = _createCurrentPage(context);
     }

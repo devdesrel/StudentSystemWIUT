@@ -169,7 +169,7 @@ class ModulesPage extends StatelessWidget {
 
                   int _initialLevel = 7;
 
-                  for (var i = 0; i < 4; i++) {
+                  for (var i = 0; i < 5; i++) {
                     List<dynamic> _modules = _modulesList
                         .where((m) => m.level == _initialLevel.toString())
                         .toList();

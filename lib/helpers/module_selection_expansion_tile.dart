@@ -5,7 +5,7 @@ import 'package:student_system_flutter/helpers/app_constants.dart';
 
 class ModuleSelectionExpansionTile extends StatelessWidget {
   final GlobalKey<AppExpansionTileState> expansionTile;
-  String value;
+  final String value;
   final bloc;
   final List<String> expansionChildrenList;
 

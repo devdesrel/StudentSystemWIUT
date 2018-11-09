@@ -7,7 +7,7 @@ import 'package:student_system_flutter/models/CCMFeedback/ccm_feedback_as_select
 
 class TeacherAttachingExpansionTile extends StatelessWidget {
   final GlobalKey<AppExpansionTileState> expansionTile;
-  String value;
+  final String value;
   final bloc;
   final List<CCMFeedbackAsSelectedList> expansionChildrenList;
 
