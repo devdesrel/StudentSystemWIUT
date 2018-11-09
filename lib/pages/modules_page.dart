@@ -267,18 +267,21 @@ class ModulesPage extends StatelessWidget {
             child: CupertinoPageScaffold(
               navigationBar: CupertinoNavigationBar(
                   middle: Text('Modules'),
-                  trailing: requestType == RequestType.GetTeachingMaterials
-                      ? IconButton(
-                          icon: Icon(Icons.cloud_download),
-                          onPressed: () {
-                            Navigator.of(context).push(MaterialPageRoute(
-                                builder: (context) =>
-                                    OfflinePage(moduleName: '')));
-                          },
-                        )
-                      : Container(
-                          width: 2.0,
-                        )),
+                  trailing: Material(
+                    color: Colors.transparent,
+                    child: requestType == RequestType.GetTeachingMaterials
+                        ? IconButton(
+                            icon: Icon(Icons.cloud_download),
+                            onPressed: () {
+                              Navigator.of(context).push(MaterialPageRoute(
+                                  builder: (context) =>
+                                      OfflinePage(moduleName: '')));
+                            },
+                          )
+                        : Container(
+                            width: 2.0,
+                          ),
+                  )),
               child: FutureBuilder<Widget>(
                   future: _checkInternetConnection(context),
                   initialData: CupertinoActivityIndicator(),

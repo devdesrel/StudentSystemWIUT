@@ -127,13 +127,17 @@ class _LearningMaterialsPageState extends State<LearningMaterialsPage>
                               widget.module.moduleName,
                               overflow: TextOverflow.ellipsis,
                             ),
-                            trailing: IconButton(
-                              icon: Icon(Icons.cloud_download),
-                              onPressed: () {
-                                Navigator.of(context).push(MaterialPageRoute(
-                                    builder: (context) => OfflinePage(
-                                        moduleName: widget.module.moduleName)));
-                              },
+                            trailing: Material(
+                              color: Colors.transparent,
+                              child: IconButton(
+                                icon: Icon(Icons.cloud_download),
+                                onPressed: () {
+                                  Navigator.of(context).push(MaterialPageRoute(
+                                      builder: (context) => OfflinePage(
+                                          moduleName:
+                                              widget.module.moduleName)));
+                                },
+                              ),
                             ),
                           ),
                           child: StreamBuilder(

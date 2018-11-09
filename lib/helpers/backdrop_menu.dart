@@ -287,7 +287,9 @@ class _TwoPanelsState extends State<TwoPanels> {
                             stream: _bloc.backdropPanelHidden,
                             initialData: true,
                             builder: (context, snapshot) => RotatedBox(
-                                  child: Icon(CupertinoIcons.left_chevron),
+                                  child: Material(
+                                      color: Colors.transparent,
+                                      child: Icon(CupertinoIcons.left_chevron)),
                                   quarterTurns: snapshot.data ? 3 : 1,
                                 ),
                           )),

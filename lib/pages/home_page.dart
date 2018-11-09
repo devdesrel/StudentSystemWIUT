@@ -45,31 +45,37 @@ class _HomePageState extends State<HomePage>
   }
 
   Widget _buildSignOutAction() {
-    return IconButton(
-      padding: EdgeInsets.only(top: 1.0),
-      icon: Image.asset(
-        Platform.isAndroid
-            ? 'assets/exit_run.png'
-            : 'assets/exit_run_black.png',
-        height: 22.0,
+    return Material(
+      color: Colors.transparent,
+      child: IconButton(
+        padding: EdgeInsets.only(top: 1.0),
+        icon: Image.asset(
+          Platform.isAndroid
+              ? 'assets/exit_run.png'
+              : 'assets/exit_run_black.png',
+          height: 22.0,
+        ),
+        onPressed: () {
+          showSignOutDialog(context);
+        },
       ),
-      onPressed: () {
-        showSignOutDialog(context);
-      },
     );
   }
 
   Widget _buildMenuAction() {
-    return IconButton(
-      onPressed: () {
-        controller.fling(velocity: _bloc.isBackdropPanelHidden ? -1.0 : 1.0);
+    return Material(
+      color: Colors.transparent,
+      child: IconButton(
+        onPressed: () {
+          controller.fling(velocity: _bloc.isBackdropPanelHidden ? -1.0 : 1.0);
 
-        _bloc.setBackdropPanelHidden.add(!_bloc.isBackdropPanelHidden);
-      },
-      icon: AnimatedIcon(
-        icon: AnimatedIcons.close_menu,
-        progress: controller.view,
-        color: Platform.isAndroid ? Colors.white : blackColor,
+          _bloc.setBackdropPanelHidden.add(!_bloc.isBackdropPanelHidden);
+        },
+        icon: AnimatedIcon(
+          icon: AnimatedIcons.close_menu,
+          progress: controller.view,
+          color: Platform.isAndroid ? Colors.white : blackColor,
+        ),
       ),
     );
   }
@@ -154,7 +160,8 @@ _openWebMail(BuildContext context) async {
   const gmailUrl = 'googlegmail://';
 
   SharedPreferences prefs = await SharedPreferences.getInstance();
-  String webMailTypeEnum = prefs.getString(webMailTypePrefs);
+  String webMailTypeEnum =
+      prefs.getString(webMailTypePrefs) ?? WebMailType.Outlook.toString();
 
   if (webMailTypeEnum == WebMailType.Gmail.toString()) {
     if (Platform.isAndroid) {

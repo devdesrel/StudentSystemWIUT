@@ -15,30 +15,30 @@ import 'package:student_system_flutter/pages/iOS_pages/ios_pin_set.dart';
 
 class SettingsPage extends StatelessWidget {
   final formKey = GlobalKey<FormState>();
-  final double _kPickerItemHeight = 32.0;
-  final double _kPickerSheetHeight = 216.0;
+  // final double _kPickerItemHeight = 32.0;
+  // final double _kPickerSheetHeight = 216.0;
   final List<String> webMailOptionList = ["Outlook", "Gmail"];
 
-  Widget _buildBottomPicker(Widget picker) {
-    return Container(
-      height: _kPickerSheetHeight,
-      padding: const EdgeInsets.only(top: 6.0),
-      color: CupertinoColors.white,
-      child: DefaultTextStyle(
-        style: const TextStyle(
-          color: CupertinoColors.black,
-          fontSize: 22.0,
-        ),
-        child: GestureDetector(
-          onTap: () {},
-          child: SafeArea(
-            top: false,
-            child: picker,
-          ),
-        ),
-      ),
-    );
-  }
+  // Widget _buildBottomPicker(Widget picker) {
+  //   return Container(
+  //     height: _kPickerSheetHeight,
+  //     padding: const EdgeInsets.only(top: 6.0),
+  //     color: CupertinoColors.white,
+  //     child: DefaultTextStyle(
+  //       style: const TextStyle(
+  //         color: CupertinoColors.black,
+  //         fontSize: 22.0,
+  //       ),
+  //       child: GestureDetector(
+  //         onTap: () {},
+  //         child: SafeArea(
+  //           top: false,
+  //           child: picker,
+  //         ),
+  //       ),
+  //     ),
+  //   );
+  // }
 
   Widget build(BuildContext context) {
     SharedPreferences prefs;
@@ -431,11 +431,15 @@ class SettingsPage extends StatelessWidget {
                   slivers: <Widget>[
                     CupertinoSliverNavigationBar(
                       automaticallyImplyLeading: false,
-                      trailing: InkWell(
-                        onTap: () => Navigator.of(context).pop(),
-                        child: Text(
-                          'Close',
-                          style: TextStyle(color: accentColor),
+                      trailing: Material(
+                        color: Colors.transparent,
+                        child: InkWell(
+                          onTap: () => Navigator.of(context).pop(),
+                          child: Text(
+                            'Close',
+                            style:
+                                TextStyle(color: accentColor, fontSize: 16.0),
+                          ),
                         ),
                       ),
                       largeTitle: Text("Settings"),

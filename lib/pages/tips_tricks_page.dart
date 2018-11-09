@@ -348,6 +348,7 @@ class IosOutlookBody extends StatelessWidget {
             child: Text('Download Application'.toUpperCase(),
                 style:
                     TextStyle(color: greyColor, fontWeight: FontWeight.bold))),
+        SizedBox(height: 7.0),
         GestureDetector(
           onTap: () {
             launch(
@@ -355,9 +356,10 @@ class IosOutlookBody extends StatelessWidget {
           },
           child: Image.asset(
             'assets/instructions/getios.png',
-            height: 100.0,
+            height: 65.0,
           ),
         ),
+        SizedBox(height: 7.0),
         Image.asset(
           'assets/tips_tricks_arrow.png',
           height: 50.0,

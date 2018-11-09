@@ -194,11 +194,14 @@ class IosContactsPage extends StatelessWidget {
             slivers: <Widget>[
               CupertinoSliverNavigationBar(
                 automaticallyImplyLeading: false,
-                trailing: InkWell(
-                  onTap: () => Navigator.of(context).pop(),
-                  child: Text(
-                    'Close',
-                    style: TextStyle(color: accentColor),
+                trailing: Material(
+                  color: Colors.transparent,
+                  child: InkWell(
+                    onTap: () => Navigator.of(context).pop(),
+                    child: Text(
+                      'Close',
+                      style: TextStyle(color: accentColor, fontSize: 16.0),
+                    ),
                   ),
                 ),
                 largeTitle: Text("Contacts"),
