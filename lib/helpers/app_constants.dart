@@ -62,6 +62,7 @@ final timetablePickerIosPage = 'timetablePickerIosPage';
 final tipsTricksPage = 'tipsTrickspage';
 final tipsTricksListPage = 'tipsTricksListPage';
 final ccmRoleSelectPage = 'ccmRoleSelectPage';
+final deadlinesListInfoPage = 'deadlinesListInfoPage';
 
 //Shared preferance keys
 final lastAppVersion = 'lastAppVersion';
@@ -91,6 +92,7 @@ final isSU = 'isSU';
 final isSecurityValueOn = 'isSecurityValueOn';
 final webMailTypePrefs = 'webMailTypePrefs';
 final cleanApplicationUserData = 'cleanApplicationUserData';
+final isDeadlinesListInfoSeen = 'isDeadlinesListInfoSeen';
 
 //API List
 final baseUrl = 'https://newintranetapi.wiut.uz';

@@ -32,6 +32,7 @@ class _HomePageState extends State<HomePage>
   void initState() {
     super.initState();
 
+    getDeadlinesListDetails(context);
     getMinimumAppVersion(context);
 
     controller = AnimationController(
@@ -158,6 +159,7 @@ Future _openGmailApp(BuildContext context) async {
 _openWebMail(BuildContext context) async {
   const outlookUrl = 'ms-outlook://';
   const gmailUrl = 'googlegmail://';
+  const appleMailUrl = 'message://';
 
   SharedPreferences prefs = await SharedPreferences.getInstance();
   String webMailTypeEnum =
@@ -182,6 +184,14 @@ _openWebMail(BuildContext context) async {
       Navigator.of(context).push(MaterialPageRoute(
           builder: (context) =>
               TipsAndTricksPage(type: TipsRequestType.Outlook)));
+    }
+  } else if (webMailTypeEnum == WebMailType.AppleMail.toString()) {
+    if (await canLaunch(appleMailUrl)) {
+      await launch(appleMailUrl);
+    } else {
+      Navigator.of(context).push(MaterialPageRoute(
+          builder: (context) =>
+              TipsAndTricksPage(type: TipsRequestType.AppleMail)));
     }
   }
 }
