@@ -15,30 +15,31 @@ import 'package:student_system_flutter/pages/iOS_pages/ios_pin_set.dart';
 
 class SettingsPage extends StatelessWidget {
   final formKey = GlobalKey<FormState>();
-  // final double _kPickerItemHeight = 32.0;
-  // final double _kPickerSheetHeight = 216.0;
-  final List<String> webMailOptionList = ["Outlook", "Gmail", "Apple Mail"];
+  final double _kPickerItemHeight = 32.0;
+  final double _kPickerSheetHeight = 216.0;
 
-  // Widget _buildBottomPicker(Widget picker) {
-  //   return Container(
-  //     height: _kPickerSheetHeight,
-  //     padding: const EdgeInsets.only(top: 6.0),
-  //     color: CupertinoColors.white,
-  //     child: DefaultTextStyle(
-  //       style: const TextStyle(
-  //         color: CupertinoColors.black,
-  //         fontSize: 22.0,
-  //       ),
-  //       child: GestureDetector(
-  //         onTap: () {},
-  //         child: SafeArea(
-  //           top: false,
-  //           child: picker,
-  //         ),
-  //       ),
-  //     ),
-  //   );
-  // }
+  final List<String> iosWebMailOptionList = ["Outlook", "iOS Mail"];
+
+  Widget _buildBottomPicker(Widget picker) {
+    return Container(
+      height: _kPickerSheetHeight,
+      padding: const EdgeInsets.only(top: 6.0),
+      color: CupertinoColors.white,
+      child: DefaultTextStyle(
+        style: const TextStyle(
+          color: CupertinoColors.black,
+          fontSize: 22.0,
+        ),
+        child: GestureDetector(
+          onTap: () {},
+          child: SafeArea(
+            top: false,
+            child: picker,
+          ),
+        ),
+      ),
+    );
+  }
 
   Widget build(BuildContext context) {
     SharedPreferences prefs;
@@ -548,97 +549,98 @@ class SettingsPage extends StatelessWidget {
                       ),
                     ),
                     //Start
-                    // SliverPadding(
-                    //   padding:
-                    //       EdgeInsets.only(left: 19.0, top: 10.0, bottom: 10.0),
-                    //   sliver: SliverToBoxAdapter(
-                    //     child: Text(
-                    //       'Web mail',
-                    //       style: TextStyle(
-                    //           color: lightGreyTextColor,
-                    //           fontWeight: FontWeight.normal,
-                    //           fontSize: 16.0),
-                    //     ),
+                    SliverPadding(
+                      padding:
+                          EdgeInsets.only(left: 19.0, top: 10.0, bottom: 10.0),
+                      sliver: SliverToBoxAdapter(
+                        child: Text(
+                          'Web mail',
+                          style: TextStyle(
+                              color: lightGreyTextColor,
+                              fontWeight: FontWeight.normal,
+                              fontSize: 16.0),
+                        ),
 
-                    //     //End
-                    //     // SwitchListTile(onChanged: (value) {}, value: true)
-                    //   ),
-                    // ),
-                    // SliverToBoxAdapter(
-                    //   child: Container(
-                    //     color: Colors.white,
-                    //     child: Padding(
-                    //       padding: EdgeInsets.symmetric(horizontal: 6.0),
-                    //       child: StreamBuilder(
-                    //         stream: _bloc.webMailType,
-                    //         initialData: 'Outlook',
-                    //         builder: (context, snapshot) => ListTile(
-                    //               enabled: true,
-                    //               onTap: () async {
-                    //                 await showCupertinoModalPopup<void>(
-                    //                     context: context,
-                    //                     builder: (BuildContext context) {
-                    //                       return _buildBottomPicker(
-                    //                         CupertinoPicker(
-                    //                           scrollController:
-                    //                               _bloc.webMailScrollController,
-                    //                           itemExtent: _kPickerItemHeight,
-                    //                           backgroundColor:
-                    //                               CupertinoColors.white,
-                    //                           onSelectedItemChanged:
-                    //                               (int index) {
-                    //                             index == 0
-                    //                                 ? _bloc.setWebMailType.add(
-                    //                                     WebMailType.Outlook
-                    //                                         .toString())
-                    //                                 : _bloc.setWebMailType.add(
-                    //                                     WebMailType.Gmail
-                    //                                         .toString());
-                    //                             _bloc.setIosWebMailPickerIndex
-                    //                                 .add(index);
-                    //                           },
-                    //                           children: List<Widget>.generate(
-                    //                               webMailOptionList.length,
-                    //                               (int index) {
-                    //                             return Center(
-                    //                               child: Text(
-                    //                                   webMailOptionList[index]),
-                    //                             );
-                    //                           }),
-                    //                         ),
-                    //                       );
-                    //                     });
-                    //               },
-                    //               leading: Image.asset(
-                    //                 'assets/email_ios.png',
-                    //                 height: 22.0,
-                    //                 color: Colors.grey[500],
-                    //               ),
-                    //               title: Text(snapshot.hasData
-                    //                   ? snapshot.data ==
-                    //                           WebMailType.Outlook.toString()
-                    //                       ? "Outlook"
-                    //                       : "Gmail"
-                    //                   : "Outlook"),
-                    //               // trailing: PopupMenuButton<String>(
-                    //               //     padding: EdgeInsets.zero,
-                    //               //     onSelected: (value) {
-                    //               //       _bloc.setWebMailType.add(value);
-                    //               //     },
-                    //               //     itemBuilder: (BuildContext context) =>
-                    //               //         <PopupMenuItem<String>>[
-                    //               //           PopupMenuItem<String>(
-                    //               //               value: 'Outlook',
-                    //               //               child: const Text('Outlook')),
-                    //               //           PopupMenuItem<String>(
-                    //               //               value: 'Gmail',
-                    //               //               child: const Text('Gmail')),
-                    //               //         ]),
-                    //             ),
-                    //       ),
-                    //     ),
-                    //   ),
-                    // ),
+                        //End
+                        // SwitchListTile(onChanged: (value) {}, value: true)
+                      ),
+                    ),
+                    SliverToBoxAdapter(
+                      child: Container(
+                        color: Colors.white,
+                        child: Padding(
+                          padding: EdgeInsets.symmetric(horizontal: 6.0),
+                          child: StreamBuilder(
+                            stream: _bloc.webMailType,
+                            initialData: 'Outlook',
+                            builder: (context, snapshot) => ListTile(
+                                  enabled: true,
+                                  onTap: () async {
+                                    await showCupertinoModalPopup<void>(
+                                        context: context,
+                                        builder: (BuildContext context) {
+                                          return _buildBottomPicker(
+                                            CupertinoPicker(
+                                              scrollController:
+                                                  _bloc.webMailScrollController,
+                                              itemExtent: _kPickerItemHeight,
+                                              backgroundColor:
+                                                  CupertinoColors.white,
+                                              onSelectedItemChanged:
+                                                  (int index) {
+                                                index == 0
+                                                    ? _bloc.setWebMailType.add(
+                                                        WebMailType.Outlook
+                                                            .toString())
+                                                    : _bloc.setWebMailType.add(
+                                                        WebMailType.AppleMail
+                                                            .toString());
+                                                _bloc.setIosWebMailPickerIndex
+                                                    .add(index);
+                                              },
+                                              children: List<Widget>.generate(
+                                                  iosWebMailOptionList.length,
+                                                  (int index) {
+                                                return Center(
+                                                  child: Text(
+                                                      iosWebMailOptionList[
+                                                          index]),
+                                                );
+                                              }),
+                                            ),
+                                          );
+                                        });
+                                  },
+                                  leading: Image.asset(
+                                    'assets/email_ios.png',
+                                    height: 22.0,
+                                    color: Colors.grey[500],
+                                  ),
+                                  title: Text(snapshot.hasData
+                                      ? snapshot.data ==
+                                              WebMailType.Outlook.toString()
+                                          ? "Outlook"
+                                          : "iOS Mail"
+                                      : "Outlook"),
+                                  // trailing: PopupMenuButton<String>(
+                                  //     padding: EdgeInsets.zero,
+                                  //     onSelected: (value) {
+                                  //       _bloc.setWebMailType.add(value);
+                                  //     },
+                                  //     itemBuilder: (BuildContext context) =>
+                                  //         <PopupMenuItem<String>>[
+                                  //           PopupMenuItem<String>(
+                                  //               value: 'Outlook',
+                                  //               child: const Text('Outlook')),
+                                  //           PopupMenuItem<String>(
+                                  //               value: 'Gmail',
+                                  //               child: const Text('Gmail')),
+                                  //         ]),
+                                ),
+                          ),
+                        ),
+                      ),
+                    ),
                   ],
                 ),
               ),
