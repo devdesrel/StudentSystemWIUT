@@ -85,6 +85,24 @@ class TipsAndTricksPage extends StatelessWidget {
     Image.asset('assets/instructions/gmail_step9.png'),
   ];
 
+  final List<Image> iosMailStep1 = [
+    Image.asset('assets/instructions/ios_mail_step1.PNG'),
+    Image.asset('assets/instructions/ios_mail_step2.PNG'),
+    Image.asset('assets/instructions/ios_mail_step3.PNG'),
+    Image.asset('assets/instructions/ios_mail_step4.PNG'),
+  ];
+  final List<Image> iosMailStep2 = [
+    Image.asset('assets/instructions/ios_mail_step5.PNG'),
+    Image.asset('assets/instructions/ios_mail_step6.PNG'),
+    Image.asset('assets/instructions/ios_mail_step7.PNG'),
+    Image.asset('assets/instructions/ios_mail_step8.PNG'),
+  ];
+  final List<Image> iosMailStep3 = [
+    Image.asset('assets/instructions/ios_mail_step9.PNG'),
+    Image.asset('assets/instructions/ios_mail_step10.PNG'),
+    Image.asset('assets/instructions/ios_mail_step11.png'),
+  ];
+
   @override
   Widget build(BuildContext context) {
     return Platform.isAndroid
@@ -105,22 +123,181 @@ class TipsAndTricksPage extends StatelessWidget {
           )
         : Material(
             child: CupertinoPageScaffold(
-              navigationBar: CupertinoNavigationBar(
-                middle: Text(type == TipsRequestType.Outlook
-                    ? 'Web Mail (Outlook)'
-                    : 'Gmail'),
-              ),
-              backgroundColor: backgroundColor,
-              child: type == TipsRequestType.Outlook
-                  ? IosOutlookBody(
-                      iosStep1: iosStep1,
-                      iosStep2: iosStep2,
-                      iosStep3: iosStep3)
-                  : AndroidGmailBody(
-                      gmailAndroidStep1: gmailAndroidStep1,
-                      gmailAndroidStep2: gmailAndroidStep2,
-                      gmailAndroidStep3: gmailAndroidStep3),
-            ),
+                navigationBar: CupertinoNavigationBar(
+                  middle: Text(type == TipsRequestType.Outlook
+                      ? 'Web Mail (Outlook)'
+                      : 'iOS Mail'),
+                ),
+                backgroundColor: backgroundColor,
+                child: type == TipsRequestType.Outlook
+                    ? IosOutlookBody(
+                        iosStep1: iosStep1,
+                        iosStep2: iosStep2,
+                        iosStep3: iosStep3)
+                    : ListView(
+                        children: <Widget>[
+                          Card(
+                            margin: EdgeInsets.only(
+                                left: 15.0,
+                                right: 15.0,
+                                top: 15.0,
+                                bottom: 8.0),
+                            child: Padding(
+                              padding: EdgeInsets.all(14.0),
+                              child: Text(
+                                  'Webmail is a widespread way of communication between Academic staff and students, where they share important messages about modules, timetable, VIVA Voce etc. \n\niOS mail supports web mail account, thus It can provide handy access to webmail through your mobile device. \n\nPlease, follow the instructions below to add and configure web mail account to your iOS mail.'),
+                            ),
+                          ),
+                          SizedBox(height: 10.0),
+
+                          // SizedBox(
+                          //   height: 20.0,
+                          // ),
+                          StepWidget(
+                            text: 'STEP 1',
+                          ),
+                          SizedBox(height: 7.0),
+                          Center(
+                              child: Text('Add account'.toUpperCase(),
+                                  style: TextStyle(
+                                      color: greyColor,
+                                      fontWeight: FontWeight.bold))),
+                          SizedBox(
+                            height: 310.0,
+                            child: ListView.builder(
+                                scrollDirection: Axis.horizontal,
+                                itemCount: iosMailStep1.length,
+                                itemBuilder: (context, index) => Padding(
+                                      padding: EdgeInsets.only(
+                                          left: index == 0 ? 16.0 : 8.0,
+                                          right:
+                                              index == iosMailStep1.length - 1
+                                                  ? 16.0
+                                                  : 8.0,
+                                          top: 8.0,
+                                          bottom: 8.0),
+                                      child: GestureDetector(
+                                        child: Hero(
+                                          tag: 'imageHeroIM1$index',
+                                          child: Container(
+                                            child: iosMailStep1[index],
+                                          ),
+                                        ),
+                                        onTap: () {
+                                          Navigator.push(
+                                              context,
+                                              MaterialPageRoute(
+                                                  builder: (_) => ImageDetailPage(
+                                                      tag: 'imageHeroIM1$index',
+                                                      widget: iosMailStep1[
+                                                          index])));
+                                        },
+                                      ),
+                                    )),
+                          ),
+                          Image.asset(
+                            'assets/tips_tricks_arrow.png',
+                            height: 50.0,
+                          ),
+                          SizedBox(
+                            height: 20.0,
+                          ),
+                          StepWidget(
+                            text: 'STEP 2',
+                          ),
+                          SizedBox(height: 7.0),
+                          Center(
+                              child: Text('Set up your account'.toUpperCase(),
+                                  style: TextStyle(
+                                      color: greyColor,
+                                      fontWeight: FontWeight.bold))),
+                          SizedBox(
+                            height: 310.0,
+                            child: ListView.builder(
+                                scrollDirection: Axis.horizontal,
+                                itemCount: iosMailStep2.length,
+                                itemBuilder: (context, index) => Padding(
+                                      padding: EdgeInsets.only(
+                                          left: index == 0 ? 16.0 : 8.0,
+                                          right:
+                                              index == iosMailStep2.length - 1
+                                                  ? 16.0
+                                                  : 8.0,
+                                          top: 8.0,
+                                          bottom: 8.0),
+                                      child: GestureDetector(
+                                        child: Hero(
+                                          tag: 'imageHeroIM2$index',
+                                          child: Container(
+                                            child: iosMailStep2[index],
+                                          ),
+                                        ),
+                                        onTap: () {
+                                          Navigator.push(
+                                              context,
+                                              MaterialPageRoute(
+                                                  builder: (_) => ImageDetailPage(
+                                                      tag: 'imageHeroIM2$index',
+                                                      widget: iosMailStep2[
+                                                          index])));
+                                        },
+                                      ),
+                                    )),
+                          ),
+                          Image.asset(
+                            'assets/tips_tricks_arrow.png',
+                            height: 50.0,
+                          ),
+                          SizedBox(
+                            height: 20.0,
+                          ),
+                          StepWidget(
+                            text: 'STEP 3',
+                          ),
+                          SizedBox(height: 7.0),
+                          Center(
+                              child: Text('Check the result'.toUpperCase(),
+                                  style: TextStyle(
+                                      color: greyColor,
+                                      fontWeight: FontWeight.bold))),
+                          SizedBox(
+                            height: 310.0,
+                            child: ListView.builder(
+                                scrollDirection: Axis.horizontal,
+                                itemCount: iosMailStep3.length,
+                                itemBuilder: (context, index) => Padding(
+                                      padding: EdgeInsets.only(
+                                          left: index == 0 ? 16.0 : 8.0,
+                                          right:
+                                              index == iosMailStep3.length - 1
+                                                  ? 16.0
+                                                  : 8.0,
+                                          top: 8.0,
+                                          bottom: 8.0),
+                                      child: GestureDetector(
+                                        child: Hero(
+                                          tag: 'imageHeroG3$index',
+                                          child: Container(
+                                            child: iosMailStep3[index],
+                                          ),
+                                        ),
+                                        onTap: () {
+                                          Navigator.push(
+                                              context,
+                                              MaterialPageRoute(
+                                                  builder: (_) => ImageDetailPage(
+                                                      tag: 'imageHeroG3$index',
+                                                      widget: iosMailStep3[
+                                                          index])));
+                                        },
+                                      ),
+                                    )),
+                          ),
+                          SizedBox(
+                            height: 20.0,
+                          ),
+                        ],
+                      )),
           );
   }
 }

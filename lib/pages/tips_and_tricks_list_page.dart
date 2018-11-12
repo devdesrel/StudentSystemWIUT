@@ -149,39 +149,39 @@ class TipsAndTricksListPage extends StatelessWidget {
                             ),
                           ),
                         )),
-                    // InkWell(
-                    //     onTap: () {
-                    //       Navigator.push(
-                    //           context,
-                    //           MaterialPageRoute(
-                    //               builder: (_) => TipsAndTricksPage(
-                    //                     type: TipsRequestType.Gmail,
-                    //                   )));
-                    //     },
-                    //     child: Padding(
-                    //       padding:
-                    //           EdgeInsets.only(left: 5.0, right: 5.0, top: 5.0),
-                    //       child: CustomCard(
-                    //         Padding(
-                    //           padding: const EdgeInsets.symmetric(
-                    //               vertical: 8.0, horizontal: 8.0),
-                    //           child: ListTile(
-                    //             leading: Image(
-                    //               image: AssetImage('assets/mail_ios.png'),
-                    //               width: 40.0,
-                    //             ),
-                    //             title: Padding(
-                    //               padding: const EdgeInsets.only(left: 1.0),
-                    //               child: Text(
-                    //                 'Web Mail (iOS mail)',
-                    //                 style: stylish,
-                    //               ),
-                    //             ),
-                    //             trailing: Icon(CupertinoIcons.right_chevron),
-                    //           ),
-                    //         ),
-                    //       ),
-                    //     )),
+                    InkWell(
+                        onTap: () {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (_) => TipsAndTricksPage(
+                                        type: TipsRequestType.Gmail,
+                                      )));
+                        },
+                        child: Padding(
+                          padding:
+                              EdgeInsets.only(left: 5.0, right: 5.0, top: 5.0),
+                          child: CustomCard(
+                            Padding(
+                              padding: const EdgeInsets.symmetric(
+                                  vertical: 8.0, horizontal: 8.0),
+                              child: ListTile(
+                                leading: Image(
+                                  image: AssetImage('assets/mail_ios.png'),
+                                  width: 40.0,
+                                ),
+                                title: Padding(
+                                  padding: const EdgeInsets.only(left: 1.0),
+                                  child: Text(
+                                    'Web Mail (iOS mail)',
+                                    style: stylish,
+                                  ),
+                                ),
+                                trailing: Icon(CupertinoIcons.right_chevron),
+                              ),
+                            ),
+                          ),
+                        )),
                   ],
                 ),
               ),
