@@ -96,8 +96,42 @@ class _HomePageState extends State<HomePage>
             leading: _buildMenuAction(),
             middle: Text("WIUT"),
             trailing: _buildSignOutAction()),
-        child: TwoPanels(
-          controller: controller,
+        child: Stack(
+          fit: StackFit.expand,
+          children: <Widget>[
+            TwoPanels(
+              controller: controller,
+            ),
+            Container(
+              width: double.infinity,
+              height: double.infinity,
+              color: blackColor,
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  Text(
+                    'Assignment Deadlines',
+                    style: Theme.of(context)
+                        .textTheme
+                        .display1
+                        .copyWith(color: redColor, fontSize: 28.0),
+                  ),
+                  SizedBox(height: 15.0),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 10.0),
+                    child: Text(
+                      'If your deadlines list is not full or empty, please approach your Module Leaders.',
+                      textAlign: TextAlign.center,
+                      style: Theme.of(context)
+                          .textTheme
+                          .body1
+                          .copyWith(color: whiteColor, fontSize: 15.0),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ],
         ),
       ),
     );

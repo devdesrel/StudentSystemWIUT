@@ -10,7 +10,7 @@ class DeadlinesListInfoPage extends StatelessWidget {
       children: <Widget>[
         Container(
             width: double.infinity,
-            child: Image.asset('assets/deadlines.png', fit: BoxFit.fitWidth)),
+            child: Image.asset('assets/deadlines.png', fit: BoxFit.fill)),
         Positioned(
           right: 30.0,
           bottom: 30.0,
