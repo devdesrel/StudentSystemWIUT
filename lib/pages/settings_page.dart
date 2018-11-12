@@ -17,7 +17,7 @@ class SettingsPage extends StatelessWidget {
   final formKey = GlobalKey<FormState>();
   // final double _kPickerItemHeight = 32.0;
   // final double _kPickerSheetHeight = 216.0;
-  final List<String> webMailOptionList = ["Outlook", "Gmail"];
+  final List<String> webMailOptionList = ["Outlook", "Gmail", "Apple Mail"];
 
   // Widget _buildBottomPicker(Widget picker) {
   //   return Container(

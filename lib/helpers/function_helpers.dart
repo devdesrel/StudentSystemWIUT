@@ -42,6 +42,18 @@ void getMinimumAppVersion(BuildContext context) async {
   }
 }
 
+void getDeadlinesListDetails(BuildContext context) async {
+  SharedPreferences pref = await SharedPreferences.getInstance();
+  bool isInfoDetailsSeen = pref.getBool(isDeadlinesListInfoSeen) ?? false;
+
+  if (!isInfoDetailsSeen) {
+    isInfoDetailsSeen = true;
+    pref.setBool(isDeadlinesListInfoSeen, true);
+
+    Navigator.of(context).pushNamed(deadlinesListInfoPage);
+  }
+}
+
 // void getStudentsProfileForSelectedYear() async {
 //   SharedPreferences prefs = await SharedPreferences.getInstance();
 //   final _token = prefs.getString(token);
