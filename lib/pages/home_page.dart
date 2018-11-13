@@ -97,40 +97,71 @@ class _HomePageState extends State<HomePage>
             middle: Text("WIUT"),
             trailing: _buildSignOutAction()),
         child: Stack(
-          fit: StackFit.expand,
+          fit: StackFit.loose,
           children: <Widget>[
             TwoPanels(
               controller: controller,
             ),
-            Container(
-              width: double.infinity,
-              height: double.infinity,
-              color: blackColor,
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: <Widget>[
-                  Text(
-                    'Assignment Deadlines',
-                    style: Theme.of(context)
-                        .textTheme
-                        .display1
-                        .copyWith(color: redColor, fontSize: 28.0),
-                  ),
-                  SizedBox(height: 15.0),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 10.0),
-                    child: Text(
-                      'If your deadlines list is not full or empty, please approach your Module Leaders.',
-                      textAlign: TextAlign.center,
-                      style: Theme.of(context)
-                          .textTheme
-                          .body1
-                          .copyWith(color: whiteColor, fontSize: 15.0),
-                    ),
-                  ),
-                ],
-              ),
-            ),
+            StreamBuilder(
+                stream: _bloc.isDeadlineInfoVisible,
+                initialData: false,
+                builder: (context, snapshot) => snapshot.hasData
+                    ? snapshot.data
+                        ? Container(
+                            width: double.infinity,
+                            height: double.infinity,
+                            color: blackColor,
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: <Widget>[
+                                Text(
+                                  'Assignment Deadlines',
+                                  style: Theme.of(context)
+                                      .textTheme
+                                      .display1
+                                      .copyWith(
+                                          color: redColor, fontSize: 28.0),
+                                ),
+                                SizedBox(height: 15.0),
+                                Padding(
+                                  padding: const EdgeInsets.symmetric(
+                                      horizontal: 10.0),
+                                  child: Text(
+                                    'If your deadlines list is not full or empty, please approach your Module Leaders.',
+                                    textAlign: TextAlign.center,
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .body1
+                                        .copyWith(
+                                            color: whiteColor, fontSize: 15.0),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          )
+                        : Container()
+                    : Container()),
+            StreamBuilder(
+                stream: _bloc.isDeadlineInfoVisible,
+                initialData: false,
+                builder: (context, snapshot) => snapshot.hasData
+                    ? snapshot.data
+                        ? Positioned(
+                            right: 30.0,
+                            bottom: 30.0,
+                            child: RaisedButton(
+                              child: Text(
+                                'Got it'.toUpperCase(),
+                                style: TextStyle(color: whiteColor),
+                              ),
+                              color: accentColor,
+                              onPressed: () {
+                                _bloc.setDeadlineInfoVisible.add(false);
+                              },
+                            ),
+                          )
+                        : Container()
+                    : Container())
           ],
         ),
       ),
@@ -138,13 +169,19 @@ class _HomePageState extends State<HomePage>
   }
 
   Future<bool> _onBackPressed() async {
-    if (!_bloc.isBackdropPanelHidden) {
-      controller.fling(velocity: _bloc.isBackdropPanelHidden ? -1.0 : 1.0);
+    if (_bloc.isDeadlineInfoScreenVisible) {
+      _bloc.setDeadlineInfoVisible.add(false);
 
-      _bloc.setBackdropPanelHidden.add(!_bloc.isBackdropPanelHidden);
+      return false;
+    } else {
+      if (!_bloc.isBackdropPanelHidden) {
+        controller.fling(velocity: _bloc.isBackdropPanelHidden ? -1.0 : 1.0);
+
+        _bloc.setBackdropPanelHidden.add(!_bloc.isBackdropPanelHidden);
+      }
+
+      return _bloc.isBackdropPanelHidden;
     }
-
-    return _bloc.isBackdropPanelHidden;
   }
 
   @override
@@ -164,8 +201,78 @@ class _HomePageState extends State<HomePage>
                           _buildSignOutAction(),
                         ],
                         leading: _buildMenuAction()),
-                    body: TwoPanels(
-                      controller: controller,
+                    body: Stack(
+                      fit: StackFit.loose,
+                      children: <Widget>[
+                        TwoPanels(
+                          controller: controller,
+                        ),
+                        StreamBuilder(
+                            stream: _bloc.isDeadlineInfoVisible,
+                            initialData: false,
+                            builder: (context, snapshot) => snapshot.hasData
+                                ? snapshot.data
+                                    ? Container(
+                                        width: double.infinity,
+                                        height: double.infinity,
+                                        color: blackColor,
+                                        child: Column(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.center,
+                                          children: <Widget>[
+                                            Text(
+                                              'Assignment Deadlines',
+                                              style: Theme.of(context)
+                                                  .textTheme
+                                                  .display1
+                                                  .copyWith(
+                                                      color: redColor,
+                                                      fontSize: 28.0),
+                                            ),
+                                            SizedBox(height: 15.0),
+                                            Padding(
+                                              padding:
+                                                  const EdgeInsets.symmetric(
+                                                      horizontal: 10.0),
+                                              child: Text(
+                                                'If your deadlines list is not full or empty, please approach your Module Leaders.',
+                                                textAlign: TextAlign.center,
+                                                style: Theme.of(context)
+                                                    .textTheme
+                                                    .body1
+                                                    .copyWith(
+                                                        color: whiteColor,
+                                                        fontSize: 15.0),
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                      )
+                                    : Container()
+                                : Container()),
+                        StreamBuilder(
+                            stream: _bloc.isDeadlineInfoVisible,
+                            initialData: false,
+                            builder: (context, snapshot) => snapshot.hasData
+                                ? snapshot.data
+                                    ? Positioned(
+                                        right: 30.0,
+                                        bottom: 30.0,
+                                        child: RaisedButton(
+                                          child: Text(
+                                            'Got it'.toUpperCase(),
+                                            style: TextStyle(color: whiteColor),
+                                          ),
+                                          color: accentColor,
+                                          onPressed: () {
+                                            _bloc.setDeadlineInfoVisible
+                                                .add(false);
+                                          },
+                                        ),
+                                      )
+                                    : Container()
+                                : Container())
+                      ],
                     )),
               ),
             ),

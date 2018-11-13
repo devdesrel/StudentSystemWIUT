@@ -5,6 +5,7 @@ import 'package:student_system_flutter/models/deadlines_model.dart';
 
 class BackdropBloc {
   bool isBackdropPanelHidden = true;
+  bool isDeadlineInfoScreenVisible = true;
   String minute;
 
   BackdropBloc() {
@@ -25,6 +26,11 @@ class BackdropBloc {
 
       _showDeadlineModuleSubject.add(mod);
     });
+
+    _setDeadlineInfoVisibleController.stream.listen((val) {
+      _isDeadlineInfoVisibleSubject.add(val);
+      isDeadlineInfoScreenVisible = val;
+    });
   }
 
   Sink<bool> get setBackdropPanelHidden =>
@@ -37,6 +43,11 @@ class BackdropBloc {
 
   final _chooseDeadlineModuleController = StreamController<DeadlinesModel>();
 
+  Sink<bool> get setDeadlineInfoVisible =>
+      _setDeadlineInfoVisibleController.sink;
+
+  final _setDeadlineInfoVisibleController = StreamController<bool>();
+
   Stream<bool> get backdropPanelHidden => _backdropPanelHiddenSubject.stream;
 
   final _backdropPanelHiddenSubject = BehaviorSubject<bool>(seedValue: true);
@@ -46,10 +57,17 @@ class BackdropBloc {
 
   final _showDeadlineModuleSubject = BehaviorSubject<DeadlinesModel>();
 
+  Stream<bool> get isDeadlineInfoVisible =>
+      _isDeadlineInfoVisibleSubject.stream;
+
+  final _isDeadlineInfoVisibleSubject = BehaviorSubject<bool>(seedValue: true);
+
   void dispose() {
     _setBackdropPanelHiddenController.close();
     _backdropPanelHiddenSubject.close();
     _chooseDeadlineModuleController.close();
     _showDeadlineModuleSubject.close();
+    _setDeadlineInfoVisibleController.close();
+    _isDeadlineInfoVisibleSubject.close();
   }
 }
