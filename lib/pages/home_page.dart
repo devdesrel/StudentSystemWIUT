@@ -32,7 +32,6 @@ class _HomePageState extends State<HomePage>
   void initState() {
     super.initState();
 
-    getDeadlinesListDetails(context);
     getMinimumAppVersion(context);
 
     controller = AnimationController(

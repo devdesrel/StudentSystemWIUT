@@ -62,7 +62,7 @@ final timetablePickerIosPage = 'timetablePickerIosPage';
 final tipsTricksPage = 'tipsTrickspage';
 final tipsTricksListPage = 'tipsTricksListPage';
 final ccmRoleSelectPage = 'ccmRoleSelectPage';
-final deadlinesListInfoPage = 'deadlinesListInfoPage';
+// final deadlinesListInfoPage = 'deadlinesListInfoPage';
 
 //Shared preferance keys
 final lastAppVersion = 'lastAppVersion';

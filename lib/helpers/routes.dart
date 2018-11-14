@@ -8,7 +8,6 @@ import 'package:student_system_flutter/pages/ccm_role_select_page.dart';
 import 'package:student_system_flutter/pages/comments_page.dart';
 import 'package:student_system_flutter/pages/contacts_page.dart';
 import 'package:student_system_flutter/pages/coursework_upload_page.dart';
-import 'package:student_system_flutter/pages/deadlines_list_info_page.dart';
 import 'package:student_system_flutter/pages/feedback_reply_page.dart';
 import 'package:student_system_flutter/pages/file_downloader_page.dart';
 import 'package:student_system_flutter/pages/file_picker_page.dart';
@@ -72,5 +71,4 @@ final routes = {
   tipsTricksListPage: (BuildContext context) => TipsAndTricksListPage(),
   videosPage: (BuildContext context) => VideoPage(),
   ccmRoleSelectPage: (BuildContext context) => CCMRoleSelectPage(),
-  deadlinesListInfoPage: (BuildContext context) => DeadlinesListInfoPage(),
 };
