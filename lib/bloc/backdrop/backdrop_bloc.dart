@@ -1,6 +1,8 @@
 import 'dart:async';
 
 import 'package:rxdart/rxdart.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:student_system_flutter/helpers/app_constants.dart';
 import 'package:student_system_flutter/models/deadlines_model.dart';
 
 class BackdropBloc {
@@ -9,6 +11,7 @@ class BackdropBloc {
   String minute;
 
   BackdropBloc() {
+    getDeadlineInfoValue();
     _setBackdropPanelHiddenController.stream.listen((val) {
       _backdropPanelHiddenSubject.add(val);
       isBackdropPanelHidden = val;
@@ -28,9 +31,22 @@ class BackdropBloc {
     });
 
     _setDeadlineInfoVisibleController.stream.listen((val) {
+      setDeadlineInfoValue(val);
       _isDeadlineInfoVisibleSubject.add(val);
       isDeadlineInfoScreenVisible = val;
     });
+  }
+  getDeadlineInfoValue() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    bool value = prefs.getBool(isDeadlinesListInfoSeen) ?? false;
+    _isDeadlineInfoVisibleSubject.add(value);
+    isDeadlineInfoScreenVisible = value;
+    return value;
+  }
+
+  setDeadlineInfoValue(value) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    prefs.setBool(isDeadlinesListInfoSeen, value);
   }
 
   Sink<bool> get setBackdropPanelHidden =>
