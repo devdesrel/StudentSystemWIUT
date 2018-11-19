@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 //Application
 final appName = 'Student System';
 final playStoreUrl =
-    'https://play.google.com/store/apps/details?id=com.wiut.studentsystemflutter';
+    'http://play.google.com/store/apps/details?id=com.wiut.studentsystemflutter';
 final appStoreUrl =
     'https://itunes.apple.com/us/app/wiut-intranet/id1437888555';
 
@@ -92,7 +92,7 @@ final isSU = 'isSU';
 final isSecurityValueOn = 'isSecurityValueOn';
 final webMailTypePrefs = 'webMailTypePrefs';
 final cleanApplicationUserData = 'cleanApplicationUserData';
-final isDeadlinesListInfoSeen = 'isDeadlinesListInfoSeen';
+final isDeadlinesListInfoVisible = 'isDeadlinesListInfoVisible';
 
 //API List
 final baseUrl = 'http://newintranetapi.wiut.uz';

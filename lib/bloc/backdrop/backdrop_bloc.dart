@@ -38,7 +38,7 @@ class BackdropBloc {
   }
   getDeadlineInfoValue() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    bool value = prefs.getBool(isDeadlinesListInfoSeen) ?? false;
+    bool value = prefs.getBool(isDeadlinesListInfoVisible) ?? true;
     _isDeadlineInfoVisibleSubject.add(value);
     isDeadlineInfoScreenVisible = value;
     return value;
@@ -46,7 +46,7 @@ class BackdropBloc {
 
   setDeadlineInfoValue(value) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    prefs.setBool(isDeadlinesListInfoSeen, value);
+    prefs.setBool(isDeadlinesListInfoVisible, value);
   }
 
   Sink<bool> get setBackdropPanelHidden =>
