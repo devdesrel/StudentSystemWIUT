@@ -271,7 +271,7 @@ class ModulesPage extends StatelessWidget {
                     color: Colors.transparent,
                     child: requestType == RequestType.GetTeachingMaterials
                         ? IconButton(
-                            icon: Icon(Icons.cloud_download),
+                            icon: Icon(MdiIcons.folderDownload),
                             onPressed: () {
                               Navigator.of(context).push(MaterialPageRoute(
                                   builder: (context) =>

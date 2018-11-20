@@ -130,7 +130,7 @@ class _LearningMaterialsPageState extends State<LearningMaterialsPage>
                             trailing: Material(
                               color: Colors.transparent,
                               child: IconButton(
-                                icon: Icon(Icons.cloud_download),
+                                icon: Icon(MdiIcons.folderDownload),
                                 onPressed: () {
                                   Navigator.of(context).push(MaterialPageRoute(
                                       builder: (context) => OfflinePage(
