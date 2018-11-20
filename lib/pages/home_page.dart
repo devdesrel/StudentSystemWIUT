@@ -355,14 +355,14 @@ void openSelectedPage(BuildContext context, MainPageGridItems page) {
       _openWebMail(context);
       break;
     case MainPageGridItems.OFFENCES:
-      Navigator.of(context).push(MaterialPageRoute(
-          builder: (context) =>
-              ModulesPage(requestType: RequestType.GetTurnitin)));
-      // Navigator.of(context).pushNamed(videosPage);
+      // Navigator.of(context).push(MaterialPageRoute(
+      //     builder: (context) =>
+      //         ModulesPage(requestType: RequestType.GetTurnitin)));
+      Navigator.of(context).pushNamed(offencesPage);
       break;
     case MainPageGridItems.COURSEWORK_UPLOAD:
-      // Navigator.of(context).pushNamed(courseworkUploadPage);
-      Navigator.of(context).pushNamed(ccmRoleSelectPage);
+      Navigator.of(context).pushNamed(courseworkUploadPage);
+      // Navigator.of(context).pushNamed(ccmRoleSelectPage);
       break;
     case MainPageGridItems.BOOK_ORDERING:
       Navigator.of(context).pushNamed(booksPage);
