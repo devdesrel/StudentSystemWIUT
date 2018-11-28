@@ -1,9 +1,11 @@
 import 'dart:async';
+import 'dart:convert';
 
 import 'package:rxdart/rxdart.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:student_system_flutter/helpers/app_constants.dart';
 import 'package:student_system_flutter/models/deadlines_model.dart';
+import 'package:http/http.dart' as http;
 
 class BackdropBloc {
   bool isBackdropPanelHidden = true;
@@ -12,6 +14,7 @@ class BackdropBloc {
 
   BackdropBloc() {
     getDeadlineInfoValue();
+    getDeadlines();
     _setBackdropPanelHiddenController.stream.listen((val) {
       _backdropPanelHiddenSubject.add(val);
       isBackdropPanelHidden = val;
@@ -35,18 +38,6 @@ class BackdropBloc {
       _isDeadlineInfoVisibleSubject.add(val);
       isDeadlineInfoScreenVisible = val;
     });
-  }
-  getDeadlineInfoValue() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    bool value = prefs.getBool(isDeadlinesListInfoVisible) ?? true;
-    _isDeadlineInfoVisibleSubject.add(value);
-    isDeadlineInfoScreenVisible = value;
-    return value;
-  }
-
-  setDeadlineInfoValue(value) async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    prefs.setBool(isDeadlinesListInfoVisible, value);
   }
 
   Sink<bool> get setBackdropPanelHidden =>
@@ -78,6 +69,11 @@ class BackdropBloc {
 
   final _isDeadlineInfoVisibleSubject = BehaviorSubject<bool>(seedValue: true);
 
+  Stream<List<DeadlinesModel>> get deadlineDatesList =>
+      _deadlineDatesListSubject.stream;
+
+  final _deadlineDatesListSubject = BehaviorSubject<List<DeadlinesModel>>();
+
   void dispose() {
     _setBackdropPanelHiddenController.close();
     _backdropPanelHiddenSubject.close();
@@ -85,5 +81,61 @@ class BackdropBloc {
     _showDeadlineModuleSubject.close();
     _setDeadlineInfoVisibleController.close();
     _isDeadlineInfoVisibleSubject.close();
+    _deadlineDatesListSubject.close();
+  }
+
+  getDeadlineInfoValue() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    bool value = prefs.getBool(isDeadlinesListInfoVisible) ?? true;
+    _isDeadlineInfoVisibleSubject.add(value);
+    isDeadlineInfoScreenVisible = value;
+    return value;
+  }
+
+  setDeadlineInfoValue(value) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    prefs.setBool(isDeadlinesListInfoVisible, value);
+  }
+
+  List<DeadlinesModel> _parseDeadlines(String responseBody) {
+    final parsed = json.decode(responseBody);
+
+    List<DeadlinesModel> lists = parsed
+        .map<DeadlinesModel>((item) => DeadlinesModel.fromJson(item))
+        .toList();
+
+    _deadlineDatesListSubject.add(lists);
+
+    return lists;
+  }
+
+  Future<List<DeadlinesModel>> getDeadlines() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    final _token = prefs.getString(token);
+    // final _academYearID = prefs.getInt(academicYearIDSharedPref);
+    final _academYear = 19;
+    final _userID = prefs.getString(userID);
+    // final _isStudent=true;
+    final _isStudent = prefs.getString(userRole) == 'student' ? true : false;
+
+    try {
+      final response = await http.post(
+          "$apiGetCourseworkDeadlinesByModules?AcademicYearID=$_academYear&UserID=$_userID&IsStudent=$_isStudent",
+          headers: {
+            "Accept": "application/json",
+            "Authorization": "Bearer $_token"
+          });
+
+      if (response.statusCode == 200) {
+        return _parseDeadlines(response.body);
+      } else {
+        // showFlushBar('Error', tryAgain, MessageTypes.ERROR, context, 2);
+        return null;
+      }
+    } catch (e) {
+      // showFlushBar(connectionFailure, checkInternetConnection,
+      //     MessageTypes.ERROR, context, 2);
+      return null;
+    }
   }
 }

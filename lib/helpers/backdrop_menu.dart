@@ -1,9 +1,7 @@
-import 'dart:convert';
 import 'dart:io';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:student_system_flutter/bloc/backdrop/backdrop_bloc.dart';
 import 'package:student_system_flutter/bloc/backdrop/backdrop_provider.dart';
 import 'package:student_system_flutter/bloc/home_page/home_page_bloc.dart';
@@ -13,7 +11,6 @@ import 'package:student_system_flutter/models/deadlines_model.dart';
 // import 'package:student_system_flutter/helpers/feedback_form.dart';
 // import 'package:student_system_flutter/models/feedback_model.dart';
 import 'package:student_system_flutter/pages/home_page.dart';
-import 'package:http/http.dart' as http;
 
 class TwoPanels extends StatefulWidget {
   final AnimationController controller;
@@ -31,6 +28,11 @@ class _TwoPanelsState extends State<TwoPanels> {
   }
 
   static const header_height = 32.0;
+  // final List<FeedbackModel> _questionNumbers = <FeedbackModel>[
+  //   FeedbackModel(questionTitle: 'Web Application Development'),
+  //   FeedbackModel(questionTitle: 'Internet Marketing'),
+  //   FeedbackModel(questionTitle: 'Software Quality, Performance and Testing'),
+  // ];
 
   Animation<RelativeRect> getPanelAnimation(BoxConstraints constraints) {
     final height = constraints.biggest.height;
@@ -46,59 +48,6 @@ class _TwoPanelsState extends State<TwoPanels> {
   }
 
   Widget bothPanels(BuildContext context, BoxConstraints constraints) {
-    // final List<FeedbackModel> _questionNumbers = <FeedbackModel>[
-    //   FeedbackModel(questionTitle: 'Web Application Development'),
-    //   FeedbackModel(questionTitle: 'Internet Marketing'),
-    //   FeedbackModel(questionTitle: 'Software Quality, Performance and Testing'),
-    // ];
-    List<DeadlinesModel> _parseDeadlines(String responseBody) {
-      final parsed = json.decode(responseBody);
-
-      List<DeadlinesModel> lists = parsed
-          .map<DeadlinesModel>((item) => DeadlinesModel.fromJson(item))
-          .toList();
-
-      return lists;
-    }
-
-    Future<List<DeadlinesModel>> getDeadlines() async {
-      SharedPreferences prefs = await SharedPreferences.getInstance();
-      final _token = prefs.getString(token);
-      // final _academYearID = prefs.getInt(academicYearIDSharedPref);
-      final _academYear = 19;
-      final _userID = prefs.getString(userID);
-      // final _isStudent=true;
-      final _isStudent = prefs.getString(userRole) == 'student' ? true : false;
-
-      try {
-        final response = await http.post(
-            "$apiGetCourseworkDeadlinesByModules?AcademicYearID=$_academYear&UserID=$_userID&IsStudent=$_isStudent",
-            headers: {
-              "Accept": "application/json",
-              "Authorization": "Bearer $_token"
-            });
-
-        if (response.statusCode == 200) {
-          return _parseDeadlines(response.body);
-        } else {
-          // showFlushBar('Error', tryAgain, MessageTypes.ERROR, context, 2);
-          return null;
-        }
-      } catch (e) {
-        // showFlushBar(connectionFailure, checkInternetConnection,
-        //     MessageTypes.ERROR, context, 2);
-        return null;
-      }
-    }
-
-    // final List<DeadlinesModel> deadlinesList = <DeadlinesModel>[
-    //   DeadlinesModel(date: '7', month: 'Nov', moduleName: 'QM'),
-    //   DeadlinesModel(date: '15', month: 'Nov', moduleName: 'EAP'),
-    //   DeadlinesModel(date: '23', month: 'Nov', moduleName: 'PD'),
-    //   DeadlinesModel(date: '15', month: 'Dec', moduleName: 'WWW'),
-    //   DeadlinesModel(date: '18', month: 'Dec', moduleName: 'CoB'),
-    //   DeadlinesModel(date: '20', month: 'Dec', moduleName: 'IL'),
-    // ];
     var deadlineTextStyle = TextStyle(color: Colors.white);
 
     var _bloc = BackdropProvider.of(context);
@@ -319,35 +268,21 @@ class _TwoPanelsState extends State<TwoPanels> {
                       ),
                     ),
                   ),
-                  SliverToBoxAdapter(
-                    child: SizedBox(
-                      height: 100.0,
-                      child: FutureBuilder<List<DeadlinesModel>>(
-                          future: getDeadlines(),
-                          builder: (context, snapshot) {
-                            switch (snapshot.connectionState) {
-                              case ConnectionState.none:
-                                return const Icon(Icons.sync_problem);
-                              case ConnectionState.waiting:
-                              case ConnectionState.active:
-                                return DrawPlatformCircularIndicator();
-                              case ConnectionState.done:
-                                if (snapshot.hasData) {
-                                  if (snapshot.data.length > 0) {
-                                    return buildDeadlinesHorizontalList(
-                                        snapshot);
-                                  } else {
-                                    return Center(
-                                        child: Text(
-                                            'There is no deadlines to show'));
-                                  }
-                                } else {
-                                  return DrawPlatformCircularIndicator();
-                                }
-                            }
-                          }),
-                    ),
-                  ),
+                  StreamBuilder(
+                      stream: _bloc.deadlineDatesList,
+                      builder: (context, snapshot) {
+                        return SliverToBoxAdapter(
+                            child: SizedBox(
+                          height: 100.0,
+                          child: snapshot.hasData
+                              ? snapshot.data.length > 0
+                                  ? buildDeadlinesHorizontalList(snapshot)
+                                  : Center(
+                                      child:
+                                          Text('There is no deadlines to show'))
+                              : DrawPlatformCircularIndicator(),
+                        ));
+                      }),
 
                   // SliverToBoxAdapter(
                   //     child: SafeArea(
