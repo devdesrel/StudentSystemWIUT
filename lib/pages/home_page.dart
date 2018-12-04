@@ -470,7 +470,9 @@ class CustomGridView {
           makeGridCell("Tips & Tricks", 'assets/tips_tricks.png',
               MainPageGridItems.TIPSTRICKS, 4),
           makeGridCell("CCM Feedback", 'assets/ccmfeedback.png',
-              MainPageGridItems.CCMFEEDBACK, 5)
+              MainPageGridItems.CCMFEEDBACK, 5),
+          makeGridCell("Offences", 'assets/offences2.png',
+              MainPageGridItems.OFFENCES, 6),
           // FutureBuilder<bool>(
           //   future: isCCMFeedbackApplicable(),
           //   builder: (context, snapshot) => snapshot.hasData
@@ -556,12 +558,10 @@ class CustomGridView2 {
         children: <Widget>[
           makeGridCell("Book ordering", 'assets/bookordering.png',
               MainPageGridItems.BOOK_ORDERING, 0),
-          makeGridCell("Offences", 'assets/offences2.png',
-              MainPageGridItems.OFFENCES, 1),
           makeGridCell("CW Upload", 'assets/cwupload.png',
-              MainPageGridItems.COURSEWORK_UPLOAD, 2),
+              MainPageGridItems.COURSEWORK_UPLOAD, 1),
           makeGridCell(
-              "Social", 'assets/social.png', MainPageGridItems.SOCIAL, 3),
+              "Social", 'assets/social.png', MainPageGridItems.SOCIAL, 2),
         ]);
   }
 }
@@ -653,7 +653,9 @@ class CustomGridViewForTeachers {
           makeGridCell("Tips & Tricks", 'assets/tips_tricks.png',
               MainPageGridItems.TIPSTRICKS, 3),
           makeGridCell("CCM Feedback", 'assets/ccmfeedback.png',
-              MainPageGridItems.CCMFEEDBACK, 4)
+              MainPageGridItems.CCMFEEDBACK, 4),
+          makeGridCell("Offences", 'assets/offences2.png',
+              MainPageGridItems.OFFENCES, 5),
           // FutureBuilder<bool>(
           //   future: isCCMFeedbackApplicable(),
           //   builder: (context, snapshot) => snapshot.hasData

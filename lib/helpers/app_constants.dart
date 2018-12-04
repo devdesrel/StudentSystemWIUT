@@ -95,7 +95,7 @@ final cleanApplicationUserData = 'cleanApplicationUserData';
 final isDeadlinesListInfoVisible = 'isDeadlinesListInfoVisible';
 
 //API List
-final baseUrl = 'https://newintranetapi.wiut.uz';
+final baseUrl = 'http://newintranetapi.wiut.uz';
 final currentYearID = '19';
 final apiAuthenticate = '$baseUrl/api/Account/Authenticate';
 final apiStudentMarks =
@@ -141,6 +141,12 @@ final apiCCMFeedbackDeleteFeedback = '$baseUrl/api/CCMFeedback/DeleteFeedback';
 final apiGetCourseworkDeadlinesByModules =
     '$baseUrl/api/CourseworkUpload/GetCourseworkDeadlinesByModules';
 final apiGetCCMRoles = '$baseUrl/api/CCMFeedback/GetCCMRoles';
+final apiAcadOffences =
+    "$baseUrl/api/StudentProfileAndMarks/GetStudentAcadOffences";
+final apiAttendanceOffences =
+    "$baseUrl/api/StudentProfileAndMarks/GetStudentAtOffences";
+final apiDisciplinaryOffences =
+    "$baseUrl/api/StudentProfileAndMarks/GetStudentDOffences";
 
 //Errors List
 final String authProblems = 'Authorization problems';
