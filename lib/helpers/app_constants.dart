@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 //Application
 final appName = 'Student System';
 final playStoreUrl =
-    'http://play.google.com/store/apps/details?id=com.wiut.studentsystemflutter';
+    'https://play.google.com/store/apps/details?id=com.wiut.studentsystemflutter';
 final appStoreUrl =
     'https://itunes.apple.com/us/app/wiut-intranet/id1437888555';
 
@@ -95,7 +95,7 @@ final cleanApplicationUserData = 'cleanApplicationUserData';
 final isDeadlinesListInfoVisible = 'isDeadlinesListInfoVisible';
 
 //API List
-final baseUrl = 'http://newintranetapi.wiut.uz';
+final baseUrl = 'https://newintranetapi.wiut.uz';
 final currentYearID = '19';
 final apiAuthenticate = '$baseUrl/api/Account/Authenticate';
 final apiStudentMarks =
