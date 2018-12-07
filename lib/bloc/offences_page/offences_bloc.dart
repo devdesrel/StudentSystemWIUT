@@ -38,7 +38,7 @@ class OffencesBloc {
     final _token = prefs.getString(token);
     final _userID = prefs.getString(userID);
     try {
-      final response = await http.post("$apiAcadOffences?StudentID=00007460",
+      final response = await http.post("$apiAcadOffences?StudentID=$_userID",
           headers: {
             "Accept": "application/json",
             "Authorization": "Bearer $_token"
@@ -78,7 +78,7 @@ class OffencesBloc {
     final _userID = prefs.getString(userID);
     try {
       final response = await http
-          .post("$apiAttendanceOffences?StudentID=00002417", headers: {
+          .post("$apiAttendanceOffences?StudentID=$_userID", headers: {
         "Accept": "application/json",
         "Authorization": "Bearer $_token"
       });
@@ -116,7 +116,7 @@ class OffencesBloc {
     final _userID = prefs.getString(userID);
     try {
       final response = await http
-          .post("$apiDisciplinaryOffences?StudentID=00007289", headers: {
+          .post("$apiDisciplinaryOffences?StudentID=$_userID", headers: {
         "Accept": "application/json",
         "Authorization": "Bearer $_token"
       });
