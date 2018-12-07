@@ -6,11 +6,13 @@ import 'package:student_system_flutter/bloc/offences_page/offences_bloc.dart';
 import 'package:student_system_flutter/models/offences/acad_offences_model.dart';
 import 'package:student_system_flutter/models/offences/atten_offences_model.dart';
 import 'package:student_system_flutter/models/offences/discip_offences_model.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:student_system_flutter/helpers/app_constants.dart';
 
 import '../helpers/app_constants.dart';
 import '../list_items/item_offences.dart';
 
-int _totalOffences = 7;
+// int _totalOffences = 7;
 
 class OffencesPage extends StatefulWidget {
   @override
@@ -62,16 +64,72 @@ class _OffencesPageState extends State<OffencesPage> {
                       screenHeight: screenHeight),
                 ])),
           )
-        : CupertinoPageScaffold(
-            navigationBar: CupertinoNavigationBar(
-              middle: Text('Offences'),
+        : WillPopScope(
+            onWillPop: () => Future<bool>.value(true),
+            child: CupertinoPageScaffold(
+              navigationBar: CupertinoNavigationBar(
+                middle: Text("Offences"),
+                automaticallyImplyLeading: true,
+                backgroundColor: backgroundColor,
+              ),
+              child: CupertinoTabScaffold(
+                tabBar: CupertinoTabBar(
+                  items: const <BottomNavigationBarItem>[
+                    BottomNavigationBarItem(
+                      icon: Icon(FontAwesomeIcons.book, size: 20.0),
+                      title: Text('Academic'),
+                    ),
+                    BottomNavigationBarItem(
+                      icon: Icon(FontAwesomeIcons.calendarAlt, size: 20.0),
+                      title: Text('Attendance'),
+                    ),
+                    BottomNavigationBarItem(
+                      icon: Icon(FontAwesomeIcons.peopleCarry, size: 20.0),
+                      title: Text('Disciplinary'),
+                    ),
+                  ],
+                ),
+                tabBuilder: (BuildContext context, int index) {
+                  assert(index >= 0 && index <= 2);
+                  switch (index) {
+                    case 0:
+                      return Material(
+                        child: CupertinoTabView(
+                          builder: (BuildContext context) {
+                            return AcademicOffencesBody(
+                                bloc: bloc,
+                                screenWidth: screenWidth,
+                                screenHeight: screenHeight);
+                          },
+                        ),
+                      );
+                      break;
+                    case 1:
+                      return CupertinoTabView(builder: (BuildContext context) {
+                        return Material(
+                          child: AttendanceOffencesBody(
+                              bloc: bloc,
+                              screenWidth: screenWidth,
+                              screenHeight: screenHeight),
+                        );
+                      });
+                      break;
+                    case 2:
+                      return CupertinoTabView(builder: (BuildContext context) {
+                        return Material(
+                          child: DisciplinaryOffencesBody(
+                              bloc: bloc,
+                              screenWidth: screenWidth,
+                              screenHeight: screenHeight),
+                        );
+                      });
+                      break;
+                  }
+                  return null;
+                },
+              ),
             ),
-            child: CustomScrollView(
-              slivers: <Widget>[
-                OffenceHeaderMessage(),
-                SliverToBoxAdapter(child: SizedBox(height: 5.0)),
-              ],
-            ));
+          );
   }
 }
 
@@ -144,15 +202,15 @@ class DisciplinaryOffencesBody extends StatelessWidget {
                     ),
                   ),
                 )
-              : NoOffence(),
+              : NoOffenceMessage(),
         ),
       ],
     );
   }
 }
 
-class NoOffence extends StatelessWidget {
-  const NoOffence({
+class NoOffenceMessage extends StatelessWidget {
+  const NoOffenceMessage({
     Key key,
   }) : super(key: key);
 
@@ -238,7 +296,7 @@ class AttendanceOffencesBody extends StatelessWidget {
                     ),
                   ),
                 )
-              : NoOffence(),
+              : NoOffenceMessage(),
         ),
       ],
     );
@@ -310,51 +368,51 @@ class AcademicOffencesBody extends StatelessWidget {
                     ),
                   ),
                 )
-              : NoOffence(),
+              : NoOffenceMessage(),
         ),
       ],
     );
   }
 }
 
-class OffenceHeaderMessage extends StatelessWidget {
-  const OffenceHeaderMessage({
-    Key key,
-  }) : super(key: key);
+// class OffenceHeaderMessage extends StatelessWidget {
+//   const OffenceHeaderMessage({
+//     Key key,
+//   }) : super(key: key);
 
-  @override
-  Widget build(BuildContext context) {
-    return SliverToBoxAdapter(
-      child: SafeArea(
-        bottom: false,
-        child: Container(
-          width: 100.0,
-          padding: const EdgeInsets.symmetric(vertical: 7.0),
-          color: redColor,
-          child: Column(
-            children: <Widget>[
-              Text(
-                _totalOffences.toString().toUpperCase(),
-                textAlign: TextAlign.center,
-                style: Theme.of(context)
-                    .textTheme
-                    .display2
-                    .copyWith(color: whiteColor),
-              ),
-              Text(
-                'Total points'.toUpperCase(),
-                style: Theme.of(context)
-                    .textTheme
-                    .body2
-                    .copyWith(color: whiteColor),
-              ),
-            ],
-          ),
-        ),
-      ),
-    );
-  }
-}
+//   @override
+//   Widget build(BuildContext context) {
+//     return SliverToBoxAdapter(
+//       child: SafeArea(
+//         bottom: false,
+//         child: Container(
+//           width: 100.0,
+//           padding: const EdgeInsets.symmetric(vertical: 7.0),
+//           color: redColor,
+//           child: Column(
+//             children: <Widget>[
+//               Text(
+//                 _totalOffences.toString().toUpperCase(),
+//                 textAlign: TextAlign.center,
+//                 style: Theme.of(context)
+//                     .textTheme
+//                     .display2
+//                     .copyWith(color: whiteColor),
+//               ),
+//               Text(
+//                 'Total points'.toUpperCase(),
+//                 style: Theme.of(context)
+//                     .textTheme
+//                     .body2
+//                     .copyWith(color: whiteColor),
+//               ),
+//             ],
+//           ),
+//         ),
+//       ),
+//     );
+//   }
+// }
 
 // class OffenceBody extends StatelessWidget {
 //   final OffencesType requestType;

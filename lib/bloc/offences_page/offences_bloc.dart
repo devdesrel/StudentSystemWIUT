@@ -11,21 +11,21 @@ import 'package:http/http.dart' as http;
 class OffencesBloc {
   OffencesBloc() {
     parseAcademOffences().then((acadOffenceList) {
-      if (acadOffenceList.isNotEmpty || acadOffenceList.length > 0) {
+      if (acadOffenceList != null || acadOffenceList.length > 0) {
         _academOffencesListSubject.add(acadOffenceList);
       } else {
         return null;
       }
     });
     parseAttenOffences().then((attenOffenceList) {
-      if (attenOffenceList.isNotEmpty || attenOffenceList != []) {
+      if (attenOffenceList != null || attenOffenceList != []) {
         _attendanceOffencesListSubject.add(attenOffenceList);
       } else {
         return null;
       }
     });
     parseDiscipOffences().then((dicipOffenceList) {
-      if (dicipOffenceList.isNotEmpty || dicipOffenceList != []) {
+      if (dicipOffenceList != null || dicipOffenceList != []) {
         _disciplinaryOffencesListSubject.add(dicipOffenceList);
       } else {
         return null;
@@ -38,7 +38,7 @@ class OffencesBloc {
     final _token = prefs.getString(token);
     final _userID = prefs.getString(userID);
     try {
-      final response = await http.post("$apiAcadOffences?StudentID=$_userID",
+      final response = await http.post("$apiAcadOffences?StudentID=00007460",
           headers: {
             "Accept": "application/json",
             "Authorization": "Bearer $_token"
@@ -78,7 +78,7 @@ class OffencesBloc {
     final _userID = prefs.getString(userID);
     try {
       final response = await http
-          .post("$apiAttendanceOffences?StudentID=$_userID", headers: {
+          .post("$apiAttendanceOffences?StudentID=00002417", headers: {
         "Accept": "application/json",
         "Authorization": "Bearer $_token"
       });
@@ -116,7 +116,7 @@ class OffencesBloc {
     final _userID = prefs.getString(userID);
     try {
       final response = await http
-          .post("$apiDisciplinaryOffences?StudentID=$_userID", headers: {
+          .post("$apiDisciplinaryOffences?StudentID=00007289", headers: {
         "Accept": "application/json",
         "Authorization": "Bearer $_token"
       });
