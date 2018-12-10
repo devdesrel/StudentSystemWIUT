@@ -26,6 +26,7 @@ import 'package:student_system_flutter/pages/preview_page.dart';
 import 'package:student_system_flutter/pages/security_page.dart';
 import 'package:student_system_flutter/pages/settings_page.dart';
 import 'package:student_system_flutter/pages/social_page.dart';
+import 'package:student_system_flutter/pages/social_profile_page.dart';
 import 'package:student_system_flutter/pages/support_page.dart';
 import 'package:student_system_flutter/pages/test_page2.dart';
 import 'package:student_system_flutter/pages/timetable_page.dart';
@@ -71,4 +72,5 @@ final routes = {
   tipsTricksListPage: (BuildContext context) => TipsAndTricksListPage(),
   videosPage: (BuildContext context) => VideoPage(),
   ccmRoleSelectPage: (BuildContext context) => CCMRoleSelectPage(),
+  socialProfilePage: (BuildContext context) => SocialProfilePage(),
 };
