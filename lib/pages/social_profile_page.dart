@@ -43,7 +43,7 @@ class SocialProfilePageState extends State<SocialProfilePage> {
                   alignment: AlignmentDirectional.centerStart,
                   children: <Widget>[
                     Container(
-                      height: 200.0,
+                      height: 220.0,
                       width: double.infinity,
                       decoration: BoxDecoration(
                         image: DecorationImage(
