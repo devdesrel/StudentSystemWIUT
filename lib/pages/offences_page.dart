@@ -6,11 +6,13 @@ import 'package:student_system_flutter/bloc/offences_page/offences_bloc.dart';
 import 'package:student_system_flutter/models/offences/acad_offences_model.dart';
 import 'package:student_system_flutter/models/offences/atten_offences_model.dart';
 import 'package:student_system_flutter/models/offences/discip_offences_model.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:student_system_flutter/helpers/app_constants.dart';
 
 import '../helpers/app_constants.dart';
 import '../list_items/item_offences.dart';
 
-int _totalOffences = 7;
+// int _totalOffences = 7;
 
 class OffencesPage extends StatefulWidget {
   @override
@@ -48,328 +50,369 @@ class _OffencesPageState extends State<OffencesPage> {
                   ),
                 ),
                 body: TabBarView(children: <Widget>[
-                  CustomScrollView(
-                    slivers: <Widget>[
-                      // OffenceHeaderMessage(),
-                      SliverToBoxAdapter(child: SizedBox(height: 5.0)),
-                      // OffenceBody(
-                      //   requestType: OffencesType.Academic,
-                      //   bloc: bloc,
-                      // ),
-                      StreamBuilder<List<AcademicOffencesModel>>(
-                        stream: bloc.academOffencesList,
-                        initialData: [],
-                        builder: (context, snapshot) => (snapshot.hasData) &
-                                (snapshot.data.length > 0)
-                            ? SliverToBoxAdapter(
-                                child: Container(
-                                  width: screenWidth - 30.0,
-                                  height: screenHeight - screenHeight / 4.5,
-                                  child: Padding(
-                                    padding: const EdgeInsets.symmetric(
-                                        horizontal: 8.0, vertical: 2.0),
-                                    child: ListView.builder(
-                                      itemCount: snapshot.data.length,
-                                      // itemCount: 3,
-                                      itemBuilder: (context, i) => Card(
-                                          //Custom card will be added
-                                          elevation: 2.0,
-                                          child: Padding(
-                                            padding: const EdgeInsets.all(16.0),
-                                            child: Column(
-                                              mainAxisSize: MainAxisSize.min,
-                                              crossAxisAlignment:
-                                                  CrossAxisAlignment.start,
-                                              children: <Widget>[
-                                                Text(
-                                                  snapshot.data[i].moduleName,
-                                                  // "something",
-                                                  textAlign: TextAlign.center,
-                                                  style: Theme.of(context)
-                                                      .textTheme
-                                                      .headline
-                                                      .copyWith(
-                                                          color: accentColor),
-                                                ),
-                                                SizedBox(height: 15.0),
-                                                OffenceCustomRow(
-                                                    isPoint: false,
-                                                    name: "Outcome:",
-                                                    value:
-                                                        // "ashdkjjsbgahjdkhjsadjk"
-                                                        snapshot
-                                                            .data[i].outcome),
-                                                SizedBox(height: 10.0),
-                                                OffenceCustomRow(
-                                                    isPoint: true,
-                                                    name: 'Points given:',
-                                                    value:
-                                                        // "yhujijhyuadskohvyujdiaskjhujdask"
-                                                        snapshot.data[i]
-                                                            .pointsGiven),
-                                                SizedBox(height: 10.0),
-                                                // Stack(
-                                                //   children: <Widget>[
-                                                //     Text(
-                                                //         "ghkjhvcghjkljhgfghjkljhgfdghjkj")
-                                                //   ],
-                                                // ),
-                                                // OffenceCustomRow(
-                                                //     name: 'Offence date', value: snapshot.data[i].),
-                                              ],
-                                            ),
-                                          )),
-                                    ),
-                                  ),
-                                ),
-                              )
-                            : SliverToBoxAdapter(
-                                child: Container(
-                                    width: 200.0,
-                                    height: 200.0,
-                                    padding: EdgeInsets.all(10.0),
-                                    color: greenColor,
-                                    child: Text(
-                                      "No offences to show",
-                                      textAlign: TextAlign.center,
-                                      style: TextStyle(color: Colors.white),
-                                    )),
-                              ),
-                      ),
-                    ],
-                  ),
-                  CustomScrollView(
-                    slivers: <Widget>[
-                      SliverToBoxAdapter(child: SizedBox(height: 5.0)),
-                      // OffenceBody(
-                      //   requestType: OffencesType.Attendance,
-                      //   bloc: bloc,
-                      // ),
-                      StreamBuilder<List<AttendanceOffencesModel>>(
-                        stream: bloc.attendanceOffencesList,
-                        initialData: [],
-                        builder: (context, snapshot) => (snapshot.hasData) &
-                                (snapshot.data.length > 0)
-                            ? SliverToBoxAdapter(
-                                child: Container(
-                                  width: screenWidth - 30.0,
-                                  height: screenHeight - screenHeight / 4.5,
-                                  child: Padding(
-                                    padding: const EdgeInsets.symmetric(
-                                        horizontal: 8.0, vertical: 2.0),
-                                    child: ListView.builder(
-                                      itemCount: snapshot.data.length,
-                                      // itemCount: 3,
-                                      itemBuilder: (context, i) => Card(
-                                          //Custom card will be added
-                                          elevation: 2.0,
-                                          child: Padding(
-                                            padding: const EdgeInsets.all(16.0),
-                                            child: Column(
-                                              mainAxisSize: MainAxisSize.min,
-                                              crossAxisAlignment:
-                                                  CrossAxisAlignment.start,
-                                              children: <Widget>[
-                                                Text(
-                                                  // "tyujbghukjhghjkjnbvhjkjbds",
-                                                  snapshot
-                                                      .data[i].moduleNameField,
-                                                  style: Theme.of(context)
-                                                      .textTheme
-                                                      .headline
-                                                      .copyWith(
-                                                          color: accentColor),
-                                                ),
-                                                SizedBox(height: 15.0),
-                                                OffenceCustomRow(
-                                                    isPoint: false,
-                                                    name: "Offence:",
-                                                    value:
-                                                        // "ftyuijsbhjknjknbhjkmnjk",
-                                                        snapshot.data[i]
-                                                            .offenceCommentField),
-                                                SizedBox(height: 10.0),
-                                                OffenceCustomRow(
-                                                    isPoint: false,
-                                                    name: 'Outcome:',
-                                                    value:
-                                                        // "hsjfbhjksndjfkmsnjdkf"
-                                                        snapshot.data[i]
-                                                            .outcomeField),
-                                                SizedBox(height: 10.0),
-                                                // OffenceCustomRow(
-                                                //     name: 'Offence date', value: snapshot.data[i].),
-                                              ],
-                                            ),
-                                          )),
-                                    ),
-                                  ),
-                                ),
-                              )
-                            : SliverToBoxAdapter(
-                                child: Container(
-                                    width: 200.0,
-                                    height: double.infinity,
-                                    padding: EdgeInsets.all(10.0),
-                                    color: greenColor,
-                                    child: Text(
-                                      "No Offences to show",
-                                      textAlign: TextAlign.center,
-                                      style: TextStyle(color: Colors.white),
-                                    )),
-                              ),
-                      ),
-                    ],
-                  ),
-                  CustomScrollView(
-                    slivers: <Widget>[
-                      SliverToBoxAdapter(child: SizedBox(height: 5.0)),
-                      // OffenceBody(
-                      //   requestType: OffencesType.Disciplinary,
-                      //   bloc: bloc,
-                      // ),
-                      StreamBuilder<List<DisciplinaryOffencesModel>>(
-                        stream: bloc.disciplinaryOffencesList,
-                        initialData: [],
-                        builder: (context, snapshot) => (snapshot.hasData) &
-                                (snapshot.data.length > 0)
-                            ? SliverToBoxAdapter(
-                                child: Container(
-                                  width: screenWidth - 30.0,
-                                  height: screenHeight - screenHeight / 4.5,
-                                  child: Padding(
-                                    padding: const EdgeInsets.symmetric(
-                                        horizontal: 8.0, vertical: 2.0),
-                                    child: ListView.builder(
-                                      itemCount: snapshot.data.length,
-                                      // itemCount: 3,
-                                      itemBuilder: (context, i) => Card(
-                                          //Custom card will be added
-                                          elevation: 2.0,
-                                          child: Padding(
-                                            padding: const EdgeInsets.all(16.0),
-                                            child: Column(
-                                              mainAxisSize: MainAxisSize.min,
-                                              crossAxisAlignment:
-                                                  CrossAxisAlignment.start,
-                                              children: <Widget>[
-                                                Text(
-                                                  // "gyukmnbhjkbhjkjnjklknbhjk",
-                                                  snapshot
-                                                      .data[i].offencesNature,
-                                                  style: Theme.of(context)
-                                                      .textTheme
-                                                      .headline
-                                                      .copyWith(
-                                                          color: accentColor),
-                                                ),
-                                                SizedBox(height: 15.0),
-                                                OffenceCustomRow(
-                                                    isPoint: false,
-                                                    name: "Offence:",
-                                                    value:
-                                                        // "fghjklfjhgsahjksldcvnbcnsaosidufhjdksdjf"
-                                                        snapshot.data[i]
-                                                            .offenceComment),
-                                                SizedBox(height: 10.0),
-                                                OffenceCustomRow(
-                                                    isPoint: false,
-                                                    name: 'Outcome:',
-                                                    value:
-                                                        // "gjbghjklkjiolkjuilkjikkjil,mj"
-                                                        snapshot
-                                                            .data[i].outcome),
-                                                SizedBox(height: 10.0),
-                                                OffenceCustomRow(
-                                                    isPoint: true,
-                                                    name: 'Points given:',
-                                                    value:
-                                                        // "ghkjhghikjbhjklkmnjklmkkmkolkko"
-                                                        snapshot
-                                                            .data[i].points),
-                                                SizedBox(height: 10.0),
-                                                // OffenceCustomRow(
-                                                //     name: 'Offence date', value: snapshot.data[i].),
-                                              ],
-                                            ),
-                                          )),
-                                    ),
-                                  ),
-                                ),
-                              )
-                            : SliverToBoxAdapter(
-                                child: Container(
-                                    width: 200.0,
-                                    height: 200.0,
-                                    padding: EdgeInsets.all(10.0),
-                                    color: greenColor,
-                                    child: Text(
-                                      "No Offences to show",
-                                      textAlign: TextAlign.center,
-                                      style: TextStyle(color: Colors.white),
-                                    )),
-                              ),
-                      ),
-                    ],
-                  ),
+                  AcademicOffencesBody(
+                      bloc: bloc,
+                      screenWidth: screenWidth,
+                      screenHeight: screenHeight),
+                  AttendanceOffencesBody(
+                      bloc: bloc,
+                      screenWidth: screenWidth,
+                      screenHeight: screenHeight),
+                  DisciplinaryOffencesBody(
+                      bloc: bloc,
+                      screenWidth: screenWidth,
+                      screenHeight: screenHeight),
                 ])),
           )
-        : CupertinoPageScaffold(
-            navigationBar: CupertinoNavigationBar(
-              middle: Text('Offences'),
+        : WillPopScope(
+            onWillPop: () => Future<bool>.value(true),
+            child: CupertinoPageScaffold(
+              navigationBar: CupertinoNavigationBar(
+                middle: Text("Offences"),
+                automaticallyImplyLeading: true,
+                backgroundColor: backgroundColor,
+              ),
+              child: CupertinoTabScaffold(
+                tabBar: CupertinoTabBar(
+                  items: const <BottomNavigationBarItem>[
+                    BottomNavigationBarItem(
+                      icon: Icon(FontAwesomeIcons.book, size: 20.0),
+                      title: Text('Academic'),
+                    ),
+                    BottomNavigationBarItem(
+                      icon: Icon(FontAwesomeIcons.calendarAlt, size: 20.0),
+                      title: Text('Attendance'),
+                    ),
+                    BottomNavigationBarItem(
+                      icon: Icon(FontAwesomeIcons.peopleCarry, size: 20.0),
+                      title: Text('Disciplinary'),
+                    ),
+                  ],
+                ),
+                tabBuilder: (BuildContext context, int index) {
+                  assert(index >= 0 && index <= 2);
+                  switch (index) {
+                    case 0:
+                      return Material(
+                        child: CupertinoTabView(
+                          builder: (BuildContext context) {
+                            return AcademicOffencesBody(
+                                bloc: bloc,
+                                screenWidth: screenWidth,
+                                screenHeight: screenHeight);
+                          },
+                        ),
+                      );
+                      break;
+                    case 1:
+                      return CupertinoTabView(builder: (BuildContext context) {
+                        return Material(
+                          child: AttendanceOffencesBody(
+                              bloc: bloc,
+                              screenWidth: screenWidth,
+                              screenHeight: screenHeight),
+                        );
+                      });
+                      break;
+                    case 2:
+                      return CupertinoTabView(builder: (BuildContext context) {
+                        return Material(
+                          child: DisciplinaryOffencesBody(
+                              bloc: bloc,
+                              screenWidth: screenWidth,
+                              screenHeight: screenHeight),
+                        );
+                      });
+                      break;
+                  }
+                  return null;
+                },
+              ),
             ),
-            child: CustomScrollView(
-              slivers: <Widget>[
-                OffenceHeaderMessage(),
-                SliverToBoxAdapter(child: SizedBox(height: 5.0)),
-                //TODO: change requestType
-                // OffenceBody(
-                //   requestType: OffencesType.Academic,
-                //   bloc: bloc,
-                // ),
-              ],
-            ));
+          );
   }
 }
 
-class OffenceHeaderMessage extends StatelessWidget {
-  const OffenceHeaderMessage({
+class DisciplinaryOffencesBody extends StatelessWidget {
+  const DisciplinaryOffencesBody({
+    Key key,
+    @required this.bloc,
+    @required this.screenWidth,
+    @required this.screenHeight,
+  }) : super(key: key);
+
+  final OffencesBloc bloc;
+  final double screenWidth;
+  final double screenHeight;
+
+  @override
+  Widget build(BuildContext context) {
+    return CustomScrollView(
+      slivers: <Widget>[
+        SliverToBoxAdapter(child: SizedBox(height: 5.0)),
+        StreamBuilder<List<DisciplinaryOffencesModel>>(
+          stream: bloc.disciplinaryOffencesList,
+          initialData: [],
+          builder: (context, snapshot) => (snapshot.hasData) &
+                  (snapshot.data.length > 0)
+              ? SliverToBoxAdapter(
+                  child: Container(
+                    width: screenWidth - 30.0,
+                    height: screenHeight - screenHeight / 4.5,
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 8.0, vertical: 2.0),
+                      child: ListView.builder(
+                        itemCount: snapshot.data.length,
+                        itemBuilder: (context, i) => Card(
+                            elevation: 2.0,
+                            child: Padding(
+                              padding: const EdgeInsets.all(16.0),
+                              child: Column(
+                                mainAxisSize: MainAxisSize.min,
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: <Widget>[
+                                  Text(
+                                    snapshot.data[i].offencesNature,
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .headline
+                                        .copyWith(color: accentColor),
+                                  ),
+                                  SizedBox(height: 15.0),
+                                  OffenceCustomRow(
+                                      isPoint: false,
+                                      name: "Offence:",
+                                      value: snapshot.data[i].offenceComment),
+                                  SizedBox(height: 10.0),
+                                  OffenceCustomRow(
+                                      isPoint: false,
+                                      name: 'Outcome:',
+                                      value: snapshot.data[i].outcome),
+                                  SizedBox(height: 10.0),
+                                  OffenceCustomRow(
+                                      isPoint: true,
+                                      name: 'Points given:',
+                                      value: snapshot.data[i].points),
+                                  SizedBox(height: 10.0),
+                                ],
+                              ),
+                            )),
+                      ),
+                    ),
+                  ),
+                )
+              : NoOffenceMessage(),
+        ),
+      ],
+    );
+  }
+}
+
+class NoOffenceMessage extends StatelessWidget {
+  const NoOffenceMessage({
     Key key,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return SliverToBoxAdapter(
-      child: SafeArea(
-        bottom: false,
-        child: Container(
-          width: 100.0,
-          padding: const EdgeInsets.symmetric(vertical: 7.0),
-          color: redColor,
-          child: Column(
-            children: <Widget>[
-              Text(
-                _totalOffences.toString().toUpperCase(),
-                textAlign: TextAlign.center,
-                style: Theme.of(context)
-                    .textTheme
-                    .display2
-                    .copyWith(color: whiteColor),
-              ),
-              Text(
-                'Total points'.toUpperCase(),
-                style: Theme.of(context)
-                    .textTheme
-                    .body2
-                    .copyWith(color: whiteColor),
-              ),
-            ],
-          ),
-        ),
-      ),
+      child: Container(
+          width: 200.0,
+          height: 40.0,
+          padding: EdgeInsets.all(10.0),
+          color: greenColor,
+          child: Text(
+            "No Offences to show",
+            textAlign: TextAlign.center,
+            style: TextStyle(color: Colors.white),
+          )),
     );
   }
 }
+
+class AttendanceOffencesBody extends StatelessWidget {
+  const AttendanceOffencesBody({
+    Key key,
+    @required this.bloc,
+    @required this.screenWidth,
+    @required this.screenHeight,
+  }) : super(key: key);
+
+  final OffencesBloc bloc;
+  final double screenWidth;
+  final double screenHeight;
+
+  @override
+  Widget build(BuildContext context) {
+    return CustomScrollView(
+      slivers: <Widget>[
+        SliverToBoxAdapter(child: SizedBox(height: 5.0)),
+        StreamBuilder<List<AttendanceOffencesModel>>(
+          stream: bloc.attendanceOffencesList,
+          initialData: [],
+          builder: (context, snapshot) => (snapshot.hasData) &
+                  (snapshot.data.length > 0)
+              ? SliverToBoxAdapter(
+                  child: Container(
+                    width: screenWidth - 30.0,
+                    height: screenHeight - screenHeight / 4.5,
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 8.0, vertical: 2.0),
+                      child: ListView.builder(
+                        itemCount: snapshot.data.length,
+                        itemBuilder: (context, i) => Card(
+                            elevation: 2.0,
+                            child: Padding(
+                              padding: const EdgeInsets.all(16.0),
+                              child: Column(
+                                mainAxisSize: MainAxisSize.min,
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: <Widget>[
+                                  Text(
+                                    snapshot.data[i].moduleNameField,
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .headline
+                                        .copyWith(color: accentColor),
+                                  ),
+                                  SizedBox(height: 15.0),
+                                  OffenceCustomRow(
+                                      isPoint: false,
+                                      name: "Offence:",
+                                      value:
+                                          snapshot.data[i].offenceCommentField),
+                                  SizedBox(height: 10.0),
+                                  OffenceCustomRow(
+                                      isPoint: false,
+                                      name: 'Outcome:',
+                                      value: snapshot.data[i].outcomeField),
+                                  SizedBox(height: 10.0),
+                                ],
+                              ),
+                            )),
+                      ),
+                    ),
+                  ),
+                )
+              : NoOffenceMessage(),
+        ),
+      ],
+    );
+  }
+}
+
+class AcademicOffencesBody extends StatelessWidget {
+  const AcademicOffencesBody({
+    Key key,
+    @required this.bloc,
+    @required this.screenWidth,
+    @required this.screenHeight,
+  }) : super(key: key);
+
+  final OffencesBloc bloc;
+  final double screenWidth;
+  final double screenHeight;
+
+  @override
+  Widget build(BuildContext context) {
+    return CustomScrollView(
+      slivers: <Widget>[
+        SliverToBoxAdapter(child: SizedBox(height: 5.0)),
+        StreamBuilder<List<AcademicOffencesModel>>(
+          stream: bloc.academOffencesList,
+          initialData: [],
+          builder: (context, snapshot) => (snapshot.hasData) &
+                  (snapshot.data.length > 0)
+              ? SliverToBoxAdapter(
+                  child: Container(
+                    width: screenWidth - 30.0,
+                    height: screenHeight - screenHeight / 4.5,
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 8.0, vertical: 2.0),
+                      child: ListView.builder(
+                        itemCount: snapshot.data.length,
+                        itemBuilder: (context, i) => Card(
+                            elevation: 2.0,
+                            child: Padding(
+                              padding: const EdgeInsets.all(16.0),
+                              child: Column(
+                                mainAxisSize: MainAxisSize.min,
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: <Widget>[
+                                  Text(
+                                    snapshot.data[i].moduleName,
+                                    textAlign: TextAlign.center,
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .headline
+                                        .copyWith(color: accentColor),
+                                  ),
+                                  SizedBox(height: 15.0),
+                                  OffenceCustomRow(
+                                      isPoint: false,
+                                      name: "Outcome:",
+                                      value: snapshot.data[i].outcome),
+                                  SizedBox(height: 10.0),
+                                  OffenceCustomRow(
+                                      isPoint: true,
+                                      name: 'Points given:',
+                                      value: snapshot.data[i].pointsGiven),
+                                  SizedBox(height: 10.0),
+                                ],
+                              ),
+                            )),
+                      ),
+                    ),
+                  ),
+                )
+              : NoOffenceMessage(),
+        ),
+      ],
+    );
+  }
+}
+
+// class OffenceHeaderMessage extends StatelessWidget {
+//   const OffenceHeaderMessage({
+//     Key key,
+//   }) : super(key: key);
+
+//   @override
+//   Widget build(BuildContext context) {
+//     return SliverToBoxAdapter(
+//       child: SafeArea(
+//         bottom: false,
+//         child: Container(
+//           width: 100.0,
+//           padding: const EdgeInsets.symmetric(vertical: 7.0),
+//           color: redColor,
+//           child: Column(
+//             children: <Widget>[
+//               Text(
+//                 _totalOffences.toString().toUpperCase(),
+//                 textAlign: TextAlign.center,
+//                 style: Theme.of(context)
+//                     .textTheme
+//                     .display2
+//                     .copyWith(color: whiteColor),
+//               ),
+//               Text(
+//                 'Total points'.toUpperCase(),
+//                 style: Theme.of(context)
+//                     .textTheme
+//                     .body2
+//                     .copyWith(color: whiteColor),
+//               ),
+//             ],
+//           ),
+//         ),
+//       ),
+//     );
+//   }
+// }
 
 // class OffenceBody extends StatelessWidget {
 //   final OffencesType requestType;

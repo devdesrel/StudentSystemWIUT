@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 //Application
 final appName = 'Student System';
 final playStoreUrl =
-    'http://play.google.com/store/apps/details?id=com.wiut.studentsystemflutter';
+    'https://play.google.com/store/apps/details?id=com.wiut.studentsystemflutter';
 final appStoreUrl =
     'https://itunes.apple.com/us/app/wiut-intranet/id1437888555';
 
@@ -62,6 +62,7 @@ final timetablePickerIosPage = 'timetablePickerIosPage';
 final tipsTricksPage = 'tipsTrickspage';
 final tipsTricksListPage = 'tipsTricksListPage';
 final ccmRoleSelectPage = 'ccmRoleSelectPage';
+final socialProfilePage = 'socialProfilePage';
 // final deadlinesListInfoPage = 'deadlinesListInfoPage';
 
 //Shared preferance keys

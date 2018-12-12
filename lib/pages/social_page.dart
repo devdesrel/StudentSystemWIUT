@@ -25,7 +25,14 @@ class SocialPage extends StatelessWidget {
               style: TextStyle(color: Theme.of(context).accentColor),
             ),
             actions: <Widget>[
-              IconButton(icon: Icon(Icons.account_circle), onPressed: () {}),
+              IconButton(
+                  icon: Icon(Icons.account_circle),
+                  onPressed: () {
+                    Navigator.of(context).pushNamed(socialProfilePage);
+                    //            Navigator.of(context).push(MaterialPageRoute(
+                    // builder: (context) =>
+                    //     ModulesPage(requestType: RequestType.GetMarks))
+                  }),
             ],
             bottom: TabBar(
               labelColor: Theme.of(context).accentColor,

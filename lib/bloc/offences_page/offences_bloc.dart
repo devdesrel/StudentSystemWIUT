@@ -11,21 +11,21 @@ import 'package:http/http.dart' as http;
 class OffencesBloc {
   OffencesBloc() {
     parseAcademOffences().then((acadOffenceList) {
-      if (acadOffenceList.isNotEmpty || acadOffenceList.length > 0) {
+      if (acadOffenceList != null || acadOffenceList.length > 0) {
         _academOffencesListSubject.add(acadOffenceList);
       } else {
         return null;
       }
     });
     parseAttenOffences().then((attenOffenceList) {
-      if (attenOffenceList.isNotEmpty || attenOffenceList != []) {
+      if (attenOffenceList != null || attenOffenceList != []) {
         _attendanceOffencesListSubject.add(attenOffenceList);
       } else {
         return null;
       }
     });
     parseDiscipOffences().then((dicipOffenceList) {
-      if (dicipOffenceList.isNotEmpty || dicipOffenceList != []) {
+      if (dicipOffenceList != null || dicipOffenceList != []) {
         _disciplinaryOffencesListSubject.add(dicipOffenceList);
       } else {
         return null;
