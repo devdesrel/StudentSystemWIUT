@@ -2,48 +2,54 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:student_system_flutter/models/social_content_model.dart';
 
 import '../helpers/app_constants.dart';
 import '../helpers/ui_helpers.dart';
 import '../pages/image_detail_page.dart';
 
 class ItemPosts extends StatelessWidget {
-  final positionIndex;
-
-  ItemPosts({Key key, this.positionIndex}) : super(key: key);
+  final SocialContentModel model;
+  ItemPosts({Key key, this.model}) : super(key: key);
 
   @override
   Widget build(BuildContext context) => Padding(
         padding: const EdgeInsets.fromLTRB(5.0, 5.0, 5.0, 0.0),
-        child: PostCard(
-          position: positionIndex,
+        child: CustomCard(
+          Padding(
+            padding: const EdgeInsets.all(10.0),
+            child: Column(children: <Widget>[
+              CardHeader(model),
+              CardBody(model),
+            ]),
+          ),
         ),
       );
 }
 
-class PostCard extends StatelessWidget {
-  final position;
+// class PostCard extends StatelessWidget {
+//   final SocialContentModel model;
 
-  PostCard({Key key, this.position}) : super(key: key);
+//   PostCard({Key key, this.model}) : super(key: key);
 
-  @override
-  Widget build(BuildContext context) {
-    return CustomCard(
-      Padding(
-        padding: const EdgeInsets.all(10.0),
-        child: Column(children: <Widget>[
-          CardHeader(position),
-          CardBody(position),
-        ]),
-      ),
-    );
-  }
-}
+//   @override
+//   Widget build(BuildContext context) {
+//     return CustomCard(
+//       Padding(
+//         padding: const EdgeInsets.all(10.0),
+//         child: Column(children: <Widget>[
+//           CardHeader(model),
+//           CardBody(model),
+//         ]),
+//       ),
+//     );
+//   }
+// }
 
 class CardHeader extends StatelessWidget {
-  final position;
+  final SocialContentModel model;
 
-  CardHeader(this.position);
+  CardHeader(this.model);
 
   @override
   Widget build(BuildContext context) => Row(
@@ -53,7 +59,7 @@ class CardHeader extends StatelessWidget {
             radius: 22.0,
             backgroundImage: CachedNetworkImageProvider(
                 'https://picsum.photos/100/100/?random'),
-            child: Text("A"),
+            child: Text(model.userName[0]),
           ),
           Container(width: 12.0),
           Expanded(
@@ -61,7 +67,7 @@ class CardHeader extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
                 Text(
-                  "What is Lorem Ipsum? $position",
+                  model.userName,
                   style: TextStyle(fontSize: 18.0, fontWeight: FontWeight.bold),
                 ),
                 Container(height: 2.0),
@@ -71,7 +77,7 @@ class CardHeader extends StatelessWidget {
                     size: 16.0,
                   ),
                   Text(
-                    'John Doe',
+                    model.userName,
                     style: TextStyle(
                         color: Theme.of(context).accentColor,
                         fontSize: 12.0,
@@ -83,7 +89,7 @@ class CardHeader extends StatelessWidget {
                     size: 16.0,
                   ),
                   Text(
-                    '16 May 2018',
+                    model.postedDate,
                     style: TextStyle(
                         color: Theme.of(context).accentColor,
                         fontSize: 12.0,
@@ -108,13 +114,14 @@ class CardHeader extends StatelessWidget {
 // }
 
 class CardBody extends StatelessWidget {
-  final position;
+  final SocialContentModel model;
 
-  CardBody(this.position);
+  CardBody(this.model);
   @override
   Widget build(BuildContext context) {
     final iconSize = 18.0;
     final Icon postLikeIcon = Icon(FontAwesomeIcons.heart);
+    final Icon postLikedIcon = Icon(FontAwesomeIcons.solidHeart);
 
     final _widget = Container(
       height: 200.0,
@@ -135,20 +142,20 @@ class CardBody extends StatelessWidget {
         color: Theme.of(context).accentColor,
       ),
       Text(
-        "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.",
+        model.text,
         maxLines: 6,
         overflow: TextOverflow.ellipsis,
         style: TextStyle(fontSize: 12.0, letterSpacing: 1.0),
       ),
       Container(height: 10.0),
       GestureDetector(
-        child: Hero(tag: 'imageHero$position', child: _widget),
+        child: Hero(tag: 'imageHero$model.id', child: _widget),
         onTap: () {
           Navigator.push(
               context,
               MaterialPageRoute(
                   builder: (_) => ImageDetailPage(
-                      tag: 'imageHero$position', widget: _widget)));
+                      tag: 'imageHero$model.id', widget: _widget)));
         },
       ),
       SizedBox(
@@ -163,7 +170,7 @@ class CardBody extends StatelessWidget {
             child: IconButton(
               padding: const EdgeInsets.all(0.0),
               onPressed: () {},
-              icon: postLikeIcon,
+              icon: model.isLiked ? postLikedIcon : postLikeIcon,
               //icon: IconData (f442, fontFamily: CuperIcon),
               //TextStyle(CuperIcon ),
               iconSize: iconSize,

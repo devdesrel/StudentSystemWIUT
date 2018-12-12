@@ -135,6 +135,7 @@ final apiCCMFeedbackGetModuleRepresentativesAsSelectList =
     '$baseUrl/api/CCMFeedback/GetModuleRepresentativesAsSelectList';
 final getAllCurrentGroupsAsSelectList =
     '$baseUrl/api/CCMFeedback/GetAllCurrentGroupsAsSelectList';
+final socialGetContent = '$baseUrl/api/social/getContent';
 
 final apiCCMFeedbackAddFeedback = '$baseUrl/api/CCMFeedback/AddFeedback';
 final apiCCMFeedbackEditFeedback = '$baseUrl/api/CCMFeedback/EditFeedback';
