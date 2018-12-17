@@ -2,6 +2,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:mime/mime.dart';
+import 'package:path/path.dart';
 import 'package:student_system_flutter/models/social_content_model.dart';
 
 import '../helpers/app_constants.dart';
@@ -25,6 +27,26 @@ class ItemPosts extends StatelessWidget {
           ),
         ),
       );
+}
+
+class VideoBox extends StatefulWidget {
+  final fileUrl;
+  VideoBox({this.fileUrl});
+  @override
+  _VideoBoxState createState() => _VideoBoxState();
+}
+
+class _VideoBoxState extends State<VideoBox> {
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      child: Center(child: Text('Video is coming')),
+      height: 200.0,
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.all(Radius.circular(12.0)),
+      ),
+    );
+  }
 }
 
 // class PostCard extends StatelessWidget {
@@ -113,6 +135,37 @@ class CardHeader extends StatelessWidget {
 //   return response.body;
 // }
 
+getFilExtension(String fileUrl) {
+  var extension = lookupMimeType(basename(fileUrl));
+
+  switch (extension) {
+    case 'image/jpeg':
+      return ImageHero(fileUrl: fileUrl);
+      break;
+    case 'image/png':
+      return ImageHero(fileUrl: fileUrl);
+      break;
+    case 'video/x-flv':
+      return VideoBox(fileUrl: fileUrl);
+      break;
+    case 'video/mp4':
+      return VideoBox(fileUrl: fileUrl);
+
+      break;
+    case 'application/x-mpegURL':
+      return VideoBox(fileUrl: fileUrl);
+      break;
+    case 'video/MP2T':
+      return VideoBox(fileUrl: fileUrl);
+      break;
+    //TODO: open video plugin
+    default:
+      return Container(
+        child: Center(child: Text("Other data type")),
+      );
+  }
+}
+
 class CardBody extends StatelessWidget {
   final SocialContentModel model;
 
@@ -123,17 +176,7 @@ class CardBody extends StatelessWidget {
     final Icon postLikeIcon = Icon(FontAwesomeIcons.heart);
     final Icon postLikedIcon = Icon(FontAwesomeIcons.solidHeart);
 
-    final _widget = Container(
-      height: 200.0,
-      decoration: BoxDecoration(
-        image: DecorationImage(
-            image: CachedNetworkImageProvider(
-                'https://picsum.photos/520/300/?random'),
-            fit: BoxFit.fitHeight,
-            alignment: Alignment.topLeft),
-        borderRadius: BorderRadius.all(Radius.circular(12.0)),
-      ),
-    );
+    // ImageHero(fileUrl: fil,);
 
     // final heartIcon = const IconData(442, fontFamily: CuperIcon);
     // final heartIcon = const IconData(442, fontFamily: CuperIcon);
@@ -148,16 +191,23 @@ class CardBody extends StatelessWidget {
         style: TextStyle(fontSize: 12.0, letterSpacing: 1.0),
       ),
       Container(height: 10.0),
-      GestureDetector(
-        child: Hero(tag: 'imageHero$model.id', child: _widget),
-        onTap: () {
-          Navigator.push(
-              context,
-              MaterialPageRoute(
-                  builder: (_) => ImageDetailPage(
-                      tag: 'imageHero$model.id', widget: _widget)));
-        },
-      ),
+      model.fileUrl != null
+          ? getFilExtension(model.fileUrl.toString())
+          // ImageHero(
+          //     fileUrl: model.fileUrl,
+          //   )
+          // ? GestureDetector(
+          //     child: Hero(tag: 'imageHero$model.id', child: _widget),
+          //     onTap: () {
+          //       Navigator.push(
+          //           context,
+          //           MaterialPageRoute(
+          //               builder: (_) => ImageDetailPage(
+          //                   tag: 'imageHero$model.id', widget: _widget)));
+          //     },
+          //   )
+          // : Container()
+          : Container(),
       SizedBox(
         height: 10.0,
       ),
@@ -209,6 +259,53 @@ class CardBody extends StatelessWidget {
       //   ),
       // ),
     ]);
+  }
+}
+
+class ImageHero extends StatelessWidget {
+  final fileUrl;
+  const ImageHero({Key key, this.fileUrl}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return GestureDetector(
+      onTap: () {
+        Navigator.push(
+            context,
+            MaterialPageRoute(
+                builder: (_) => ImageDetailPage(
+                    tag: '$fileUrl', widget: ImageBox(fileUrl: fileUrl))));
+      },
+      child: Hero(
+        tag: '$fileUrl',
+        child: ImageBox(fileUrl: fileUrl),
+      ),
+    );
+  }
+}
+
+class ImageBox extends StatelessWidget {
+  const ImageBox({
+    Key key,
+    @required this.fileUrl,
+  }) : super(key: key);
+
+  final fileUrl;
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      height: 200.0,
+      decoration: BoxDecoration(
+        image: DecorationImage(
+            image: CachedNetworkImageProvider('$baseUrl/$fileUrl'),
+            // 'https://picsum.photos/520/300/?random'),
+
+            fit: BoxFit.fitHeight,
+            alignment: Alignment.topLeft),
+        borderRadius: BorderRadius.all(Radius.circular(12.0)),
+      ),
+    );
   }
 }
 

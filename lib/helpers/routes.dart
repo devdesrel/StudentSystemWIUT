@@ -26,14 +26,12 @@ import 'package:student_system_flutter/pages/preview_page.dart';
 import 'package:student_system_flutter/pages/security_page.dart';
 import 'package:student_system_flutter/pages/settings_page.dart';
 import 'package:student_system_flutter/pages/social_page.dart';
-import 'package:student_system_flutter/pages/social_profile_page.dart';
 import 'package:student_system_flutter/pages/support_page.dart';
 import 'package:student_system_flutter/pages/test_page2.dart';
 import 'package:student_system_flutter/pages/timetable_page.dart';
 import 'package:student_system_flutter/pages/timetable_picker_ios.dart';
 import 'package:student_system_flutter/pages/tips_and_tricks_list_page.dart';
 import 'package:student_system_flutter/pages/tips_tricks_page.dart';
-import 'package:student_system_flutter/pages/video_page.dart';
 
 import 'app_constants.dart';
 
@@ -70,7 +68,6 @@ final routes = {
   timetablePickerIosPage: (BuildContext context) => TimetablePickerIosPage(),
   tipsTricksPage: (BuildContext context) => TipsAndTricksPage(),
   tipsTricksListPage: (BuildContext context) => TipsAndTricksListPage(),
-  videosPage: (BuildContext context) => VideoPage(),
+  // videosPage: (BuildContext context) => VideoPage(),
   ccmRoleSelectPage: (BuildContext context) => CCMRoleSelectPage(),
-  socialProfilePage: (BuildContext context) => SocialProfilePage(),
 };

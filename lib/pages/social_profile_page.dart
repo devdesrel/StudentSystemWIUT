@@ -1,32 +1,37 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:student_system_flutter/bloc/social/social_bloc.dart';
 import 'package:student_system_flutter/helpers/app_constants.dart';
 import 'package:student_system_flutter/helpers/ui_helpers.dart';
 
 class SocialProfilePage extends StatefulWidget {
+  final SocialBloc bloc;
+  SocialProfilePage({@required this.bloc});
   @override
   SocialProfilePageState createState() {
-    return new SocialProfilePageState();
+    return new SocialProfilePageState(bloc: bloc);
   }
 }
 
 class SocialProfilePageState extends State<SocialProfilePage> {
+  final SocialBloc bloc;
   String userID;
-  String userName;
-  String userSurname;
+  // String userName;
+  // String userSurname;
+  SocialProfilePageState({@required this.bloc});
 
   getUserPrefs() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     userID = prefs.getString(userID);
-    userName = prefs.getString(firstName);
-    userSurname = prefs.getString(lastName);
+    // userName = prefs.getString(firstName);
+    // userSurname = prefs.getString(lastName);
   }
 
   @override
   initState() {
     ///TODO check name and surname
-    // getUserPrefs();
+    getUserPrefs();
     super.initState();
   }
 
@@ -91,21 +96,33 @@ class SocialProfilePageState extends State<SocialProfilePage> {
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: <Widget>[
                           Text("Tweets".toUpperCase()),
-                          Text("0"),
+                          StreamBuilder(
+                              stream: bloc.postCount,
+                              builder: (context, snapshot) => snapshot.hasData
+                                  ? Text(snapshot.data.toString())
+                                  : Text("0")),
                         ],
                       ),
                       Column(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: <Widget>[
                           Text("Following".toUpperCase()),
-                          Text("0"),
+                          StreamBuilder(
+                              stream: bloc.following,
+                              builder: (context, snapshot) => snapshot.hasData
+                                  ? Text(snapshot.data.toString())
+                                  : Text("0")),
                         ],
                       ),
                       Column(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: <Widget>[
                           Text("Followers".toUpperCase()),
-                          Text("0"),
+                          StreamBuilder(
+                              stream: bloc.followers,
+                              builder: (context, snapshot) => snapshot.hasData
+                                  ? Text(snapshot.data.toString())
+                                  : Text("0")),
                         ],
                       ),
                     ],
@@ -120,8 +137,8 @@ class SocialProfilePageState extends State<SocialProfilePage> {
                   children: <Widget>[
                     ListTile(
                         leading: Icon(Icons.assignment_ind),
-                        // title: Text(userID)),
-                        title: Text("00004141")),
+                        title: Text(userID)),
+                    // title: Text("00004141")),
                     ListTile(
                         leading: Icon(Icons.mail),
                         title: Text("00004141@wiut.uz")),

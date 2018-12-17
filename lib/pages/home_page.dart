@@ -355,9 +355,8 @@ void openSelectedPage(BuildContext context, MainPageGridItems page) {
       _openWebMail(context);
       break;
     case MainPageGridItems.OFFENCES:
-      // Navigator.of(context).push(MaterialPageRoute(
-      //     builder: (context) =>
-      //         ModulesPage(requestType: RequestType.GetTurnitin)));
+      // Navigator.of(context)
+      //     .push(MaterialPageRoute(builder: (context) => VideoApp()));
       Navigator.of(context).pushNamed(offencesPage);
       break;
     case MainPageGridItems.COURSEWORK_UPLOAD:

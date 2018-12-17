@@ -5,6 +5,7 @@ import 'package:student_system_flutter/bloc/social/social_bloc.dart';
 import 'package:student_system_flutter/bloc/social/social_provider.dart';
 
 import 'package:student_system_flutter/models/social_content_model.dart';
+import 'package:student_system_flutter/pages/social_profile_page.dart';
 
 import '../helpers/app_constants.dart';
 import '../list_items/item_posts.dart';
@@ -32,10 +33,12 @@ class SocialPage extends StatelessWidget {
                 IconButton(
                     icon: Icon(Icons.account_circle),
                     onPressed: () {
-                      Navigator.of(context).pushNamed(socialProfilePage);
-                      //            Navigator.of(context).push(MaterialPageRoute(
-                      // builder: (context) =>
-                      //     ModulesPage(requestType: RequestType.GetMarks))
+                      // Navigator.of(context).pushNamed(socialProfilePage);
+                      Navigator.of(context).push(
+                        MaterialPageRoute(
+                            builder: (context) =>
+                                SocialProfilePage(bloc: bloc)),
+                      );
                     }),
               ],
               bottom: TabBar(

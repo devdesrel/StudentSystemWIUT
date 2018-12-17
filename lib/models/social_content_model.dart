@@ -2,6 +2,7 @@ import 'package:student_system_flutter/helpers/app_constants.dart';
 
 class SocialContentModel {
   int id;
+  String fileUrl;
   String postedDate;
   int postedById;
   String text;
@@ -18,10 +19,12 @@ class SocialContentModel {
       this.likesCount,
       this.postedById,
       this.text,
-      this.userName});
+      this.userName,
+      this.fileUrl});
   factory SocialContentModel.fromJson(Map<String, dynamic> json) {
     return SocialContentModel(
         id: json['Id'] ?? nullFixer,
+        fileUrl: json['FileUrl'] ?? nullFixer,
         postedDate: json['PostedDate'] ?? nullFixer,
         postedById: json['PostedBy'] ?? 0,
         text: json['Text'] ?? nullFixer,
