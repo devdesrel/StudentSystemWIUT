@@ -5,6 +5,9 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:mime/mime.dart';
 import 'package:path/path.dart';
 import 'package:student_system_flutter/models/social_content_model.dart';
+// import 'package:video_player/video_player.dart';
+import 'package:chewie/chewie.dart';
+import 'package:video_player/video_player.dart';
 
 import '../helpers/app_constants.dart';
 import '../helpers/ui_helpers.dart';
@@ -30,22 +33,56 @@ class ItemPosts extends StatelessWidget {
 }
 
 class VideoBox extends StatefulWidget {
-  final fileUrl;
+  final String fileUrl;
   VideoBox({this.fileUrl});
   @override
   _VideoBoxState createState() => _VideoBoxState();
 }
 
 class _VideoBoxState extends State<VideoBox> {
+  bool _isPlaying = false;
+  // VideoPlayerController get _controller =>
+  //     // VideoPlayerController.network(fileBaseUrl + widget.fileUrl)
+  //     VideoPlayerController.network(fileBaseUrl +
+  //         'Uploads/SocialFilePath/e714717e-0a60-49fc-ad2b-d5b87d4b43d0.mp4')
+  //       ..addListener(() {
+  //         final bool isPlaying = _controller.value.isPlaying;
+  //         if (isPlaying != _isPlaying) {
+  //           setState(() {
+  //             _isPlaying = isPlaying;
+  //           });
+  //         }
+  //       })
+  //       ..initialize().then((_) {
+  //         // Ensure the first frame is shown after the video is initialized, even before the play button has been pressed.
+  //         setState(() {});
+  //       });
+
+  VideoPlayerController _controller;
+  @override
+  void initState() {
+    super.initState();
+    _controller =
+        new VideoPlayerController.network(fileBaseUrl + widget.fileUrl);
+  }
+
+  @override
+  void dispose() {
+    // TODO: implement dispose
+    _controller.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Container(
-      child: Center(child: Text('Video is coming')),
-      height: 200.0,
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.all(Radius.circular(12.0)),
-      ),
-    );
+        child: new Chewie(
+      _controller,
+      aspectRatio: 3 / 2,
+      autoPlay: false,
+      looping: false,
+      autoInitialize: true,
+    ));
   }
 }
 
@@ -137,33 +174,36 @@ class CardHeader extends StatelessWidget {
 
 getFilExtension(String fileUrl) {
   var extension = lookupMimeType(basename(fileUrl));
+  var direction;
 
   switch (extension) {
     case 'image/jpeg':
-      return ImageHero(fileUrl: fileUrl);
+      direction = ImageHero(fileUrl: fileUrl);
       break;
     case 'image/png':
-      return ImageHero(fileUrl: fileUrl);
+      direction = ImageHero(fileUrl: fileUrl);
       break;
     case 'video/x-flv':
-      return VideoBox(fileUrl: fileUrl);
+      direction = VideoBox(fileUrl: fileUrl);
       break;
     case 'video/mp4':
-      return VideoBox(fileUrl: fileUrl);
+      direction = VideoBox(fileUrl: fileUrl);
 
       break;
     case 'application/x-mpegURL':
-      return VideoBox(fileUrl: fileUrl);
+      direction = VideoBox(fileUrl: fileUrl);
       break;
     case 'video/MP2T':
-      return VideoBox(fileUrl: fileUrl);
+      direction = VideoBox(fileUrl: fileUrl);
       break;
     //TODO: open video plugin
     default:
-      return Container(
+      direction = Container(
         child: Center(child: Text("Other data type")),
       );
   }
+
+  return direction;
 }
 
 class CardBody extends StatelessWidget {
@@ -192,7 +232,7 @@ class CardBody extends StatelessWidget {
       ),
       Container(height: 10.0),
       model.fileUrl != null
-          ? getFilExtension(model.fileUrl.toString())
+          ? getFilExtension(model.fileUrl.toString().substring(0))
           // ImageHero(
           //     fileUrl: model.fileUrl,
           //   )
@@ -211,46 +251,48 @@ class CardBody extends StatelessWidget {
       SizedBox(
         height: 10.0,
       ),
-      Row(
-        crossAxisAlignment: CrossAxisAlignment.center,
-        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-        children: <Widget>[
-          new SizedBox(
-            height: iconSize,
-            child: IconButton(
-              padding: const EdgeInsets.all(0.0),
-              onPressed: () {},
-              icon: model.isLiked ? postLikedIcon : postLikeIcon,
-              //icon: IconData (f442, fontFamily: CuperIcon),
-              //TextStyle(CuperIcon ),
-              iconSize: iconSize,
-              color: accentColor,
-            ),
-          ),
-          new SizedBox(
-            height: iconSize,
-            child: IconButton(
-              padding: const EdgeInsets.all(0.0),
-              onPressed: () {
-                Navigator.of(context).pushNamed(commentsPage);
-              },
-              icon: Icon(FontAwesomeIcons.comment),
-              iconSize: iconSize,
-              color: accentColor,
-            ),
-          ),
-          new SizedBox(
-            height: iconSize,
-            child: IconButton(
-              padding: const EdgeInsets.all(0.0),
-              onPressed: () {},
-              icon: Icon(Icons.share),
-              iconSize: iconSize,
-              color: accentColor,
-            ),
-          )
-        ],
-      ),
+
+      // Row(
+      //   crossAxisAlignment: CrossAxisAlignment.center,
+      //   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+      //   children: <Widget>[
+      //     new SizedBox(
+      //       height: iconSize,
+      //       child: IconButton(
+      //         padding: const EdgeInsets.all(0.0),
+      //         onPressed: () {},
+      //         icon: model.isLiked ? postLikedIcon : postLikeIcon,
+      //         //icon: IconData (f442, fontFamily: CuperIcon),
+      //         //TextStyle(CuperIcon ),
+      //         iconSize: iconSize,
+      //         color: accentColor,
+      //       ),
+      //     ),
+      //     new SizedBox(
+      //       height: iconSize,
+      //       child: IconButton(
+      //         padding: const EdgeInsets.all(0.0),
+      //         onPressed: () {
+      //           Navigator.of(context).pushNamed(commentsPage);
+      //         },
+      //         icon: Icon(FontAwesomeIcons.comment),
+      //         iconSize: iconSize,
+      //         color: accentColor,
+      //       ),
+      //     ),
+      //     new SizedBox(
+      //       height: iconSize,
+      //       child: IconButton(
+      //         padding: const EdgeInsets.all(0.0),
+      //         onPressed: () {},
+      //         icon: Icon(Icons.share),
+      //         iconSize: iconSize,
+      //         color: accentColor,
+      //       ),
+      //     )
+      //   ],
+      // ),
+
       // Center(
       //   child: CachedNetworkImage(
       //     placeholder: CircularProgressIndicator(),
@@ -298,7 +340,7 @@ class ImageBox extends StatelessWidget {
       height: 200.0,
       decoration: BoxDecoration(
         image: DecorationImage(
-            image: CachedNetworkImageProvider('$baseUrl/$fileUrl'),
+            image: CachedNetworkImageProvider(fileBaseUrl + fileUrl),
             // 'https://picsum.photos/520/300/?random'),
 
             fit: BoxFit.fitHeight,

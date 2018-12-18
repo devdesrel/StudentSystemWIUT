@@ -23,7 +23,10 @@ class SocialProfilePageState extends State<SocialProfilePage> {
 
   getUserPrefs() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    userID = prefs.getString(userID);
+
+    setState(() {
+      userID = prefs.getString(userID);
+    });
     // userName = prefs.getString(firstName);
     // userSurname = prefs.getString(lastName);
   }
@@ -137,7 +140,7 @@ class SocialProfilePageState extends State<SocialProfilePage> {
                   children: <Widget>[
                     ListTile(
                         leading: Icon(Icons.assignment_ind),
-                        title: Text(userID)),
+                        title: Text(userID ?? '0000')),
                     // title: Text("00004141")),
                     ListTile(
                         leading: Icon(Icons.mail),
@@ -186,7 +189,7 @@ class SocialProfilePageState extends State<SocialProfilePage> {
 }
 
 class CustomInfoCategory extends StatelessWidget {
-  final text;
+  final String text;
   const CustomInfoCategory({Key key, @required this.text}) : super(key: key);
 
   @override

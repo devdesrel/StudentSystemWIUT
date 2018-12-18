@@ -472,6 +472,8 @@ class CustomGridView {
               MainPageGridItems.CCMFEEDBACK, 5),
           makeGridCell("Offences", 'assets/offences2.png',
               MainPageGridItems.OFFENCES, 6),
+          makeGridCell(
+              "Social", 'assets/social.png', MainPageGridItems.SOCIAL, 7),
           // FutureBuilder<bool>(
           //   future: isCCMFeedbackApplicable(),
           //   builder: (context, snapshot) => snapshot.hasData
@@ -559,8 +561,6 @@ class CustomGridView2 {
               MainPageGridItems.BOOK_ORDERING, 0),
           makeGridCell("CW Upload", 'assets/cwupload.png',
               MainPageGridItems.COURSEWORK_UPLOAD, 1),
-          makeGridCell(
-              "Social", 'assets/social.png', MainPageGridItems.SOCIAL, 2),
         ]);
   }
 }

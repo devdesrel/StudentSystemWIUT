@@ -97,6 +97,7 @@ final isDeadlinesListInfoVisible = 'isDeadlinesListInfoVisible';
 
 //API List
 final baseUrl = 'https://newintranetapi.wiut.uz';
+final fileBaseUrl = 'http://intranet.wiut.uz';
 final currentYearID = '19';
 final apiAuthenticate = '$baseUrl/api/Account/Authenticate';
 final apiStudentMarks =
