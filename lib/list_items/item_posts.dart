@@ -196,6 +196,43 @@ getFilExtension(String fileUrl) {
     case 'video/MP2T':
       direction = VideoBox(fileUrl: fileUrl);
       break;
+    case 'application/msword':
+      //doc file
+      direction = DocBox(fileUrl: fileUrl);
+      break;
+    case 'application/vnd.openxmlformats-officedocument.wordprocessingml.document':
+      //docx file
+      direction = DocBox(fileUrl: fileUrl);
+
+      break;
+    case 'application/vnd.ms-powerpoint':
+      //ppt file
+      direction = PptBox(fileUrl: fileUrl);
+      break;
+    case 'application/vnd.openxmlformats-officedocument.presentationml.presentation':
+      //pptx file
+      direction = PptBox(fileUrl: fileUrl);
+      break;
+    case 'application/vnd.ms-excel':
+      //xls file
+      direction = ExcelBox(fileUrl: fileUrl);
+      break;
+    case 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet':
+      //xlsx file
+      direction = ExcelBox(fileUrl: fileUrl);
+      break;
+    case 'application/pdf':
+      //pdf file
+      direction = PdfBox(fileUrl: fileUrl);
+      break;
+    case 'application/zip':
+      //zip file
+      direction = ZipBox(fileUrl: fileUrl);
+      break;
+    case 'application/x-rar-compressed':
+      //rar file
+      direction = RarBox(fileUrl: fileUrl);
+      break;
     //TODO: open video plugin
     default:
       direction = Container(
@@ -273,7 +310,7 @@ class CardBody extends StatelessWidget {
       //       child: IconButton(
       //         padding: const EdgeInsets.all(0.0),
       //         onPressed: () {
-      //           Navigator.of(context).pushNamed(commentsPage);
+      //           Navigator.of(context).pushNamedpp(commentsPage);
       //         },
       //         icon: Icon(FontAwesomeIcons.comment),
       //         iconSize: iconSize,
@@ -348,6 +385,157 @@ class ImageBox extends StatelessWidget {
         borderRadius: BorderRadius.all(Radius.circular(12.0)),
       ),
     );
+  }
+}
+
+class DocBox extends StatelessWidget {
+  final String fileUrl;
+  DocBox({this.fileUrl});
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.start,
+      children: <Widget>[
+        Image.asset(
+          "assets/file_manager_icons/doc.png",
+          height: 20.0,
+        ),
+        SizedBox(
+          width: 10.0,
+        ),
+        Flexible(
+          child: Text(
+            basename(fileUrl),
+            overflow: TextOverflow.ellipsis,
+          ),
+        ),
+      ],
+    );
+  }
+}
+
+class PptBox extends StatelessWidget {
+  final String fileUrl;
+  PptBox({this.fileUrl});
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.start,
+      children: <Widget>[
+        Image.asset(
+          "assets/file_manager_icons/ppt.png",
+          height: 20.0,
+        ),
+        SizedBox(
+          width: 10.0,
+        ),
+        Flexible(
+          child: Text(
+            basename(fileUrl),
+            overflow: TextOverflow.ellipsis,
+          ),
+        ),
+      ],
+    );
+  }
+}
+
+class ExcelBox extends StatelessWidget {
+  final String fileUrl;
+  ExcelBox({this.fileUrl});
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.start,
+      children: <Widget>[
+        Image.asset("assets/file_manager_icons/xls.png", height: 20.0),
+        SizedBox(
+          width: 10.0,
+        ),
+        Flexible(
+          child: Text(
+            basename(fileUrl),
+            overflow: TextOverflow.ellipsis,
+          ),
+        ),
+      ],
+    );
+  }
+}
+
+class PdfBox extends StatelessWidget {
+  final String fileUrl;
+  PdfBox({this.fileUrl});
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.start,
+      children: <Widget>[
+        Image.asset("assets/file_manager_icons/pdf.png", height: 20.0),
+        SizedBox(
+          width: 10.0,
+        ),
+        Flexible(
+          child: Text(
+            basename(fileUrl),
+            overflow: TextOverflow.ellipsis,
+          ),
+        ),
+      ],
+    );
+  }
+}
+
+class ZipBox extends StatelessWidget {
+  final String fileUrl;
+  ZipBox({this.fileUrl});
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.start,
+      children: <Widget>[
+        Image.asset("assets/file_manager_icons/zip.png", height: 20.0),
+        SizedBox(
+          width: 10.0,
+        ),
+        Flexible(
+          child: Text(
+            basename(fileUrl),
+            overflow: TextOverflow.ellipsis,
+          ),
+        ),
+      ],
+    );
+  }
+}
+
+class RarBox extends StatelessWidget {
+  final String fileUrl;
+  RarBox({this.fileUrl});
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.start,
+      children: <Widget>[
+        Image.asset(
+          "assets/file_manager_icons/rar.png",
+          height: 20.0,
+        ),
+        SizedBox(
+          width: 10.0,
+        ),
+        Flexible(
+          child: Text(
+            basename(fileUrl),
+            overflow: TextOverflow.ellipsis,
+          ),
+        ),
+      ],
+    );
+    //  ListTile(
+    //   leading: Image.asset("assets/file_manager_icons/rar.png", height: 25.0),
+    //   title: Text(basename(fileUrl)),
+    // );
   }
 }
 

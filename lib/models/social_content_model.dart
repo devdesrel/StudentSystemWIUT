@@ -24,7 +24,7 @@ class SocialContentModel {
   factory SocialContentModel.fromJson(Map<String, dynamic> json) {
     return SocialContentModel(
         id: json['Id'] ?? nullFixer,
-        fileUrl: json['FileUrl'] ?? nullFixer,
+        fileUrl: json['FileUrl'],
         postedDate: json['PostedDate'] ?? nullFixer,
         postedById: json['PostedBy'] ?? 0,
         text: json['Text'] ?? nullFixer,

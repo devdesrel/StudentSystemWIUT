@@ -229,6 +229,7 @@ class _TwoPanelsState extends State<TwoPanels> {
                           .add(!_bloc.isBackdropPanelHidden);
                     },
                     child: Container(
+                      color: Colors.transparent,
                       padding: EdgeInsets.only(top: 5.0),
                       width: double.infinity,
                       child: StreamBuilder<bool>(

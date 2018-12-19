@@ -16,16 +16,16 @@ class SocialProfilePage extends StatefulWidget {
 
 class SocialProfilePageState extends State<SocialProfilePage> {
   final SocialBloc bloc;
-  String userID;
+  String userId;
   // String userName;
   // String userSurname;
   SocialProfilePageState({@required this.bloc});
 
   getUserPrefs() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-
+    String _userId = prefs.getString(userID);
     setState(() {
-      userID = prefs.getString(userID);
+      userId = _userId;
     });
     // userName = prefs.getString(firstName);
     // userSurname = prefs.getString(lastName);
@@ -140,11 +140,11 @@ class SocialProfilePageState extends State<SocialProfilePage> {
                   children: <Widget>[
                     ListTile(
                         leading: Icon(Icons.assignment_ind),
-                        title: Text(userID ?? '0000')),
+                        title: Text(userId ?? '0000')),
                     // title: Text("00004141")),
                     ListTile(
                         leading: Icon(Icons.mail),
-                        title: Text("00004141@wiut.uz")),
+                        title: Text(userId + "@wiut.uz")),
                   ],
                 ),
               ),
@@ -154,7 +154,7 @@ class SocialProfilePageState extends State<SocialProfilePage> {
               CustomCard(
                 ListTile(
                     leading: Icon(Icons.library_books),
-                    title: Text("Project name goes here")),
+                    title: Text("No projects")),
               ),
               CustomInfoCategory(
                 text: "Skills and expertise",
@@ -162,7 +162,7 @@ class SocialProfilePageState extends State<SocialProfilePage> {
               CustomCard(
                 ListTile(
                     leading: Icon(Icons.mode_edit),
-                    title: Text("Skills goes here")),
+                    title: Text("No skills mentioned")),
               ),
               CustomInfoCategory(
                 text: "Schools and education",
@@ -170,7 +170,7 @@ class SocialProfilePageState extends State<SocialProfilePage> {
               CustomCard(
                 ListTile(
                     leading: Icon(FontAwesomeIcons.graduationCap),
-                    title: Text("Education info goes here")),
+                    title: Text("No education mentioned")),
               ),
               CustomInfoCategory(
                 text: "Interests and hobbies",
@@ -178,7 +178,7 @@ class SocialProfilePageState extends State<SocialProfilePage> {
               CustomCard(
                 ListTile(
                     leading: Icon(FontAwesomeIcons.footballBall),
-                    title: Text("Hobbies goes here")),
+                    title: Text("No hobbies mentioned")),
               ),
             ]),
           )

@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:student_system_flutter/bloc/social/social_bloc.dart';
 import 'package:student_system_flutter/bloc/social/social_provider.dart';
+import 'package:student_system_flutter/helpers/ui_helpers.dart';
 
 import 'package:student_system_flutter/models/social_content_model.dart';
 import 'package:student_system_flutter/pages/social_profile_page.dart';
@@ -67,11 +68,17 @@ class SocialPage extends StatelessWidget {
                                       model: snapshot.data[i],
                                     ),
                               )
-                            : Container(
-                                child: Text("Nothing to show"),
+                            : CustomCard(
+                                Text(
+                                  "No posts to display",
+                                  textAlign: TextAlign.center,
+                                ),
                               )
-                        : Container(
-                            child: Text("Nothing to show"),
+                        : CustomCard(
+                            Text(
+                              "No posts to display",
+                              textAlign: TextAlign.center,
+                            ),
                           ),
                   ),
                 ),
