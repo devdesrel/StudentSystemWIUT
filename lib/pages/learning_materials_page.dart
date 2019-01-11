@@ -633,7 +633,12 @@ class LearningMaterialsCard extends StatelessWidget {
                 );
               });
         } else {
-          bool result2 = await SimplePermissions.requestPermission(permission);
+          bool result2;
+          await SimplePermissions.requestPermission(permission).then((status) {
+            status == PermissionStatus.authorized
+                ? result2 = true
+                : result2 = false;
+          });
 
           if (result2) {
             await showDialog(

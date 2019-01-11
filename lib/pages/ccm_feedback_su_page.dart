@@ -23,7 +23,8 @@ class _CCMFeedbackForSUPageState extends State<CCMFeedbackForSUPage> {
 
   CCMAddFeedbackBloc bloc;
 
-  Future<List<CCMFeedbackAsSelectedList>> getGroupList() async {
+  Future<List<CCMFeedbackAsSelectedList>> getGroupList(
+      BuildContext context) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     final _token = prefs.getString(token);
     try {
@@ -71,7 +72,7 @@ class _CCMFeedbackForSUPageState extends State<CCMFeedbackForSUPage> {
             ),
             backgroundColor: backgroundColor,
             body: FutureBuilder(
-              future: getGroupList(),
+              future: getGroupList(context),
               builder: (context, snapshot) => snapshot.hasData
                   ? ListView.builder(
                       itemCount: groupList.length,
@@ -107,7 +108,8 @@ class _CCMFeedbackForSUPageState extends State<CCMFeedbackForSUPage> {
                 ),
                 backgroundColor: backgroundColor,
                 child: FutureBuilder(
-                  future: getGroupList(),
+                  //Check
+                  future: getGroupList(context),
                   builder: (context, snapshot) => snapshot.hasData
                       ? ListView.builder(
                           itemCount: groupList.length,

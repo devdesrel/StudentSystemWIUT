@@ -5,12 +5,17 @@ import 'dart:io';
 import 'package:flushbar/flushbar.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:http/http.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:http/http.dart' as http;
+import 'package:intl/intl.dart';
+// import 'package:image_picker_saver/image_picker_saver.dart';
+// import 'package:image_picker_saver/image_picker_saver.dart';
 import 'package:package_info/package_info.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:student_system_flutter/enums/ApplicationEnums.dart';
 import 'package:student_system_flutter/models/profile_model.dart';
+import 'package:student_system_flutter/models/social_profile_model.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import 'app_constants.dart';
@@ -147,6 +152,28 @@ Future<bool> getUserProfileForTheCurrentYear() async {
     return false;
   }
   return false;
+}
+
+//UserTableID
+getUserTableId() async {
+  SharedPreferences prefs = await SharedPreferences.getInstance();
+  String _token = prefs.getString(token);
+  String _userName = prefs.getString(userID);
+  String result;
+  try {
+    Response response = await http.get('$apiGetUserIdByUsername/$_userName',
+        headers: {
+          "Accept": "application/json",
+          "Authorization": "Bearer $_token"
+        });
+    if (response.statusCode == 200) {
+      var parsed = json.decode(response.body);
+      result = parsed.toString();
+      await prefs.setString(userTableID, result);
+    }
+  } catch (e) {
+    print(e);
+  }
 }
 
 Color getMarkColor(String moduleMark) {
@@ -370,4 +397,75 @@ void _cleanUserData() async {
   await prefs.setBool(isApplicableForCCMFeedback, false);
   await prefs.setBool(isSU, false);
   await prefs.setBool(feedbackIsEditable, false);
+  await prefs.setString(userTableID, null);
+}
+
+String getDateDifference(String date) {
+  var parsedDate = DateTime.parse(date);
+  var dateNow = DateTime.now();
+  Duration difference = dateNow.difference(parsedDate);
+  if (difference.inHours >= 24) {
+    if (difference.inDays > 7) {
+      return formatDate(date);
+    } else {
+      return difference.inDays.toString() + ' days';
+    }
+  } else if (difference.inHours > 0 && difference.inHours < 24) {
+    return difference.inHours.toString() + ' hours';
+  } else {
+    if (difference.inMinutes == 0) {
+      return 'Recently';
+    } else {
+      return difference.inMinutes.toString() + ' minutes';
+    }
+  }
+}
+
+String formatDate(String date) {
+  var parsedDate = DateTime.parse(date);
+
+  var formatter = new DateFormat('dd/MM/yyyy');
+  String formatted = formatter.format(parsedDate);
+  return formatted.toString();
+}
+
+void markNotificationAsMarked() async {
+  SharedPreferences _prefs = await SharedPreferences.getInstance();
+  String _token = _prefs.getString(token);
+  String _userId = _prefs.getString(userTableID);
+  try {
+    Response _response = await http
+        .post('$apiSocialMarkNotificationAsViewed/$_userId', headers: {
+      "Accept": "application/json",
+      "Authorization": "Bearer $_token"
+    });
+    if (_response.statusCode == 200) {}
+  } catch (e) {
+    print(e);
+  }
+}
+
+Future<SocialProfileModel> getSocialProfile(String userId) async {
+  SharedPreferences prefs = await SharedPreferences.getInstance();
+  String _token = prefs.getString(token);
+  // String _userId = prefs.getString(userTableID);
+  // int userid = 845;
+  SocialProfileModel profile;
+  try {
+    Response _response = await http.post("$apiSocialProfile/$userId", headers: {
+      "Accept": "application/json",
+      "Authorization": "Bearer $_token"
+    });
+
+    if (_response.statusCode == 200) {
+      var parsed = json.decode(_response.body);
+
+      profile = SocialProfileModel.fromJson(parsed);
+    } else {
+      profile = null;
+    }
+    return profile;
+  } catch (e) {
+    return null;
+  }
 }

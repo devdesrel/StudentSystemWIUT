@@ -131,6 +131,7 @@ class _LoginPageState extends State<LoginPage> implements AuthStateListener {
         //     new Tween(begin: 0.1, end: 1.0).animate(controller);
 
         getUserProfileForTheCurrentYear();
+        getUserTableId();
 
         if (pin == null) {
           Platform.isAndroid

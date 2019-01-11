@@ -128,6 +128,7 @@ class AuthStateProvider {
         await prefs.setBool(isLoggedIn, true);
 
         getUserProfileForTheCurrentYear();
+        getUserTableId();
 
         notify(AuthState.LOGGED_IN);
       } else

@@ -60,9 +60,10 @@ class _FilesDownloadedPageState extends State<FilesDownloadedPage> {
         if (!checkOkay) {
           SimplePermissions.requestPermission(Permission.WriteExternalStorage)
               .then((okDone) {
-            if (okDone) {
+            if (okDone == PermissionStatus.authorized) {
               setState(() {
-                externalStoragePermissionOkay = okDone;
+                externalStoragePermissionOkay = true;
+                // externalStoragePermissionOkay = okDone;
               });
             }
           });

@@ -2,11 +2,15 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:cached_network_image/cached_network_image.dart';
+// import 'package:image_picker_saver/image_picker_saver.dart';
 import 'package:mime/mime.dart';
 import 'package:path/path.dart';
+import 'package:student_system_flutter/bloc/social/social_bloc.dart';
+import 'package:student_system_flutter/helpers/function_helpers.dart';
 import 'package:student_system_flutter/models/social_content_model.dart';
 // import 'package:video_player/video_player.dart';
 import 'package:chewie/chewie.dart';
+import 'package:student_system_flutter/pages/comments_page.dart';
 import 'package:video_player/video_player.dart';
 
 import '../helpers/app_constants.dart';
@@ -15,7 +19,16 @@ import '../pages/image_detail_page.dart';
 
 class ItemPosts extends StatelessWidget {
   final SocialContentModel model;
-  ItemPosts({Key key, this.model}) : super(key: key);
+  final bool isLast;
+  final SocialBloc bloc;
+  final String avatarUrl;
+  ItemPosts(
+      {Key key,
+      @required this.model,
+      @required this.isLast,
+      @required this.bloc,
+      @required this.avatarUrl})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) => Padding(
@@ -24,8 +37,26 @@ class ItemPosts extends StatelessWidget {
           Padding(
             padding: const EdgeInsets.all(10.0),
             child: Column(children: <Widget>[
-              CardHeader(model),
-              CardBody(model),
+              CardHeader(model, avatarUrl),
+              CardBody(model, bloc),
+              isLast
+                  ? Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: RaisedButton(
+                        child: Text('Load more'),
+                        elevation: 8.0,
+                        shape: RoundedRectangleBorder(
+                          borderRadius:
+                              BorderRadius.all(Radius.circular(100.0)),
+                        ),
+                        onPressed: () {
+                          bloc.incrementContentPageNumber.add(1);
+                        },
+                      ),
+                    )
+                  : Container(
+                      height: 0.0,
+                    ),
             ]),
           ),
         ),
@@ -40,7 +71,7 @@ class VideoBox extends StatefulWidget {
 }
 
 class _VideoBoxState extends State<VideoBox> {
-  bool _isPlaying = false;
+  // bool _isPlaying = false;
   // VideoPlayerController get _controller =>
   //     // VideoPlayerController.network(fileBaseUrl + widget.fileUrl)
   //     VideoPlayerController.network(fileBaseUrl +
@@ -68,7 +99,6 @@ class _VideoBoxState extends State<VideoBox> {
 
   @override
   void dispose() {
-    // TODO: implement dispose
     _controller.dispose();
     super.dispose();
   }
@@ -107,8 +137,9 @@ class _VideoBoxState extends State<VideoBox> {
 
 class CardHeader extends StatelessWidget {
   final SocialContentModel model;
+  final String avatarUrl;
 
-  CardHeader(this.model);
+  CardHeader(this.model, this.avatarUrl);
 
   @override
   Widget build(BuildContext context) => Row(
@@ -117,8 +148,10 @@ class CardHeader extends StatelessWidget {
           CircleAvatar(
             radius: 22.0,
             backgroundImage: CachedNetworkImageProvider(
-                'https://picsum.photos/100/100/?random'),
-            child: Text(model.userName[0]),
+                // 'https://picsum.photos/100/100/?random'
+                fileBaseUrl + avatarUrl),
+            // child: Text(model.userName[0]
+            // ),
           ),
           Container(width: 12.0),
           Expanded(
@@ -148,7 +181,7 @@ class CardHeader extends StatelessWidget {
                     size: 16.0,
                   ),
                   Text(
-                    model.postedDate,
+                    formatDate(model.postedDate),
                     style: TextStyle(
                         color: Theme.of(context).accentColor,
                         fontSize: 12.0,
@@ -245,13 +278,19 @@ getFilExtension(String fileUrl) {
 
 class CardBody extends StatelessWidget {
   final SocialContentModel model;
+  final SocialBloc bloc;
 
-  CardBody(this.model);
+  CardBody(this.model, this.bloc);
   @override
   Widget build(BuildContext context) {
     final iconSize = 18.0;
+    // final Icon postLikeIcon = Icon(
+    //   IconData(0xF443, fontFamily: 'CuperIcon'),
+    // );
     final Icon postLikeIcon = Icon(FontAwesomeIcons.heart);
     final Icon postLikedIcon = Icon(FontAwesomeIcons.solidHeart);
+    final TextStyle postParametersStyle =
+        TextStyle(color: textColor, fontSize: 10.0);
 
     // ImageHero(fileUrl: fil,);
 
@@ -288,48 +327,82 @@ class CardBody extends StatelessWidget {
       SizedBox(
         height: 10.0,
       ),
+      Row(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        children: <Widget>[
+          Column(
+            children: <Widget>[
+              Text(
+                model.likesCount != 0 ? model.likesCount.toString() : '',
+                // 'likes',
+                style: postParametersStyle,
+              ),
+              new SizedBox(
+                height: iconSize,
+                child: IconButton(
+                  padding: const EdgeInsets.only(top: 3.0),
+                  onPressed: () {
+                    model.isLiked
+                        ? bloc.postIdToUnlike.add(model.id)
+                        : bloc.postIdToLike.add(model.id);
+                  },
+                  icon: model.isLiked ? postLikedIcon : postLikeIcon,
+                  //icon: IconData (f442, fontFamily: CuperIcon),
+                  //TextStyle(CuperIcon ),
+                  iconSize: iconSize,
+                  color: accentColor,
+                ),
+              ),
+            ],
+          ),
+          Column(
+            children: <Widget>[
+              Text(
+                  model.commentsCount != 0
+                      ? model.commentsCount.toString()
+                      : '',
+                  // 'comments',
+                  style: postParametersStyle),
+              new SizedBox(
+                  height: iconSize,
+                  child: IconButton(
+                    padding: const EdgeInsets.only(top: 3.0),
+                    onPressed: () {
+                      // bloc.postIdForComments.add(model.id);
 
-      // Row(
-      //   crossAxisAlignment: CrossAxisAlignment.center,
-      //   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-      //   children: <Widget>[
-      //     new SizedBox(
-      //       height: iconSize,
-      //       child: IconButton(
-      //         padding: const EdgeInsets.all(0.0),
-      //         onPressed: () {},
-      //         icon: model.isLiked ? postLikedIcon : postLikeIcon,
-      //         //icon: IconData (f442, fontFamily: CuperIcon),
-      //         //TextStyle(CuperIcon ),
-      //         iconSize: iconSize,
-      //         color: accentColor,
-      //       ),
-      //     ),
-      //     new SizedBox(
-      //       height: iconSize,
-      //       child: IconButton(
-      //         padding: const EdgeInsets.all(0.0),
-      //         onPressed: () {
-      //           Navigator.of(context).pushNamedpp(commentsPage);
-      //         },
-      //         icon: Icon(FontAwesomeIcons.comment),
-      //         iconSize: iconSize,
-      //         color: accentColor,
-      //       ),
-      //     ),
-      //     new SizedBox(
-      //       height: iconSize,
-      //       child: IconButton(
-      //         padding: const EdgeInsets.all(0.0),
-      //         onPressed: () {},
-      //         icon: Icon(Icons.share),
-      //         iconSize: iconSize,
-      //         color: accentColor,
-      //       ),
-      //     )
-      //   ],
-      // ),
-
+                      // Navigator.of(context).pushNamed(commentsPage);
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (_) => CommentsPage(
+                                    postId: model.id,
+                                  )));
+                      // showBottomSheet(context, model.id);
+                    },
+                    icon: Icon(FontAwesomeIcons.comment),
+                    iconSize: iconSize,
+                    color: accentColor,
+                  )),
+            ],
+          ),
+          Column(
+            children: <Widget>[
+              Text('shares', style: postParametersStyle),
+              new SizedBox(
+                height: iconSize,
+                child: IconButton(
+                  padding: const EdgeInsets.only(top: 3.0),
+                  onPressed: () {},
+                  icon: Icon(Icons.share),
+                  iconSize: iconSize,
+                  color: accentColor,
+                ),
+              ),
+            ],
+          )
+        ],
+      ),
       // Center(
       //   child: CachedNetworkImage(
       //     placeholder: CircularProgressIndicator(),
@@ -344,19 +417,21 @@ class CardBody extends StatelessWidget {
 class ImageHero extends StatelessWidget {
   final fileUrl;
   const ImageHero({Key key, this.fileUrl}) : super(key: key);
-
+  //  var time=TimeOfDay.now();
   @override
   Widget build(BuildContext context) {
+    String time = DateTime.now().millisecondsSinceEpoch.toString();
     return GestureDetector(
       onTap: () {
         Navigator.push(
             context,
             MaterialPageRoute(
                 builder: (_) => ImageDetailPage(
-                    tag: '$fileUrl', widget: ImageBox(fileUrl: fileUrl))));
+                    tag: '$fileUrl/$time',
+                    widget: ImageBox(fileUrl: fileUrl))));
       },
       child: Hero(
-        tag: '$fileUrl',
+        tag: '$fileUrl/$time',
         child: ImageBox(fileUrl: fileUrl),
       ),
     );
@@ -391,28 +466,44 @@ class ImageBox extends StatelessWidget {
 class DocBox extends StatelessWidget {
   final String fileUrl;
   DocBox({this.fileUrl});
+
   @override
   Widget build(BuildContext context) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.start,
-      children: <Widget>[
-        Image.asset(
-          "assets/file_manager_icons/doc.png",
-          height: 20.0,
-        ),
-        SizedBox(
-          width: 10.0,
-        ),
-        Flexible(
-          child: Text(
-            basename(fileUrl),
-            overflow: TextOverflow.ellipsis,
+    return InkWell(
+      onTap: () async {
+        //TODO: implement save file and open file function
+        // await getFile(fileUrl).then((response) {
+        //   ImagePickerSaver.saveFile(fileData: response.bodyBytes);
+        // });
+        // ImagePickerSaver.saveFile(fileData: ));
+      },
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.start,
+        children: <Widget>[
+          Image.asset(
+            "assets/file_manager_icons/doc.png",
+            height: 20.0,
           ),
-        ),
-      ],
+          SizedBox(
+            width: 10.0,
+          ),
+          Flexible(
+            child: Text(
+              basename(fileUrl),
+              overflow: TextOverflow.ellipsis,
+            ),
+          ),
+        ],
+      ),
     );
   }
 }
+
+// getFile(String fileUrl) async {
+//   var response = await http.get(fileUrl).then((response) {
+//     return response;
+//   });
+// }
 
 class PptBox extends StatelessWidget {
   final String fileUrl;
@@ -538,6 +629,355 @@ class RarBox extends StatelessWidget {
     // );
   }
 }
+
+// showBottomSheet(context, postId) {
+//   double size = MediaQuery.of(context).size.height;
+//   return showModalBottomSheet(
+//       context: context,
+//       builder: (context) => Platform.isAndroid
+//           ? Container(
+//               height: 900.0,
+//               color: backgroundColor,
+//               child: Column(children: <Widget>[
+//                 Expanded(
+//                   child: FutureBuilder<List<SocialCommentModel>>(
+//                     future: getComments(postId),
+//                     builder: (context, snapshot) => snapshot.hasData &&
+//                             snapshot.data != null
+//                         ? ListView.builder(
+//                             itemCount: snapshot.data.length,
+//                             shrinkWrap: true,
+//                             itemBuilder: (context, index) =>
+//                                 Column(children: <Widget>[
+//                                   ListTile(
+//                                       leading: CircleAvatar(
+//                                         backgroundImage:
+//                                             CachedNetworkImageProvider(
+//                                                 fileBaseUrl +
+//                                                     snapshot
+//                                                         .data[index].avatarUrl),
+//                                       ),
+//                                       subtitle: CustomCard(Padding(
+//                                           padding: EdgeInsets.all(8.0),
+//                                           child: Column(
+//                                               crossAxisAlignment:
+//                                                   CrossAxisAlignment.start,
+//                                               children: <Widget>[
+//                                                 Text(
+//                                                   snapshot
+//                                                       .data[index].postedByName,
+//                                                   style: TextStyle(
+//                                                       fontWeight:
+//                                                           FontWeight.w500,
+//                                                       fontSize: 16.0),
+//                                                 ),
+//                                                 SizedBox(
+//                                                   height: 5.0,
+//                                                 ),
+//                                                 Text.rich(TextSpan(
+//                                                     text: snapshot.data[index]
+//                                                         .commentText,
+//                                                     // text:
+//                                                     //     "ghjkkjhghjkljhjklkjhghjklajskajksjaksjkajskajskajskajksjaksjakjskajskajksjaksjkajskajskajskajskajksjaksjaksjkajskajskajskajskajskajskajskjaksjaksjaksjaksjakjkjkjkjkjskasjkajskajskajskajskajskajskajskajskjaskjaksjaksjakjskajskajskajskajskajksjaksjaksjakjskajskajskajskajskajskajskajskajskajksjaksjaksjaksjakjsakjsakjskajsakjskasjkasj",
+//                                                     style: TextStyle(
+//                                                         color: textColor))),
+//                                               ])))),
+//                                   Padding(
+//                                     padding: const EdgeInsets.symmetric(
+//                                         horizontal: 25.0),
+//                                     child: Row(
+//                                       mainAxisAlignment: MainAxisAlignment.end,
+//                                       children: <Widget>[
+//                                         Text(
+//                                             getDateDifference(snapshot
+//                                                 .data[index].postedDate),
+//                                             style: TextStyle(color: textColor)),
+//                                         SizedBox(
+//                                           width: 10.0,
+//                                         ),
+//                                         InkWell(
+//                                           onTap: () {},
+//                                           child: Text(
+//                                             'Like',
+//                                             textAlign: TextAlign.right,
+//                                             style: TextStyle(fontSize: 15.5),
+//                                           ),
+//                                         ),
+//                                         SizedBox(
+//                                           width: 10.0,
+//                                         ),
+//                                         InkWell(
+//                                           onTap: () {},
+//                                           child: Text(
+//                                             'Reply',
+//                                             textAlign: TextAlign.right,
+//                                             style: TextStyle(fontSize: 15.5),
+//                                           ),
+//                                         ),
+//                                       ],
+//                                     ),
+//                                   ),
+//                                 ]))
+//                         : DrawPlatformCircularIndicator(),
+//                     // CustomCard(
+//                     //     Center(
+//                     //       child: Text(
+//                     //           'You are the first, YAAAAY!\nLeave your comment'),
+//                     //     ),
+//                     //   ),
+//                   ),
+//                 ),
+//                 Container(
+//                   color: whiteColor,
+//                   width: double.infinity,
+//                   padding: const EdgeInsets.symmetric(
+//                       vertical: 6.0, horizontal: 4.0),
+//                   child: Row(
+//                     crossAxisAlignment: CrossAxisAlignment.end,
+//                     children: <Widget>[
+//                       CustomSizedBox(
+//                         icon: MdiIcons.camera,
+//                         type: AttachmentTypes.CAMERA,
+//                       ),
+//                       // getImage: getImage(true)
+//                       CustomSizedBox(
+//                         icon: FontAwesomeIcons.image,
+//                         type: AttachmentTypes.GALLERY,
+//                         // getImage: getImage(false),
+//                       ),
+//                       Expanded(
+//                         child: Container(
+//                           constraints:
+//                               BoxConstraints.loose(Size.fromHeight(100.0)),
+//                           child: Theme(
+//                             data: ThemeData(hintColor: greyColor),
+//                             child: TextField(
+//                                 maxLines: null,
+//                                 keyboardType: TextInputType.multiline,
+//                                 decoration: InputDecoration(
+//                                   border: InputBorder.none,
+//                                   contentPadding: EdgeInsets.only(
+//                                       left: 10.0,
+//                                       right: 10.0,
+//                                       bottom: 10.0,
+//                                       top: 0.0),
+//                                   // border: OutlineInputBorder(
+//                                   //     borderRadius: BorderRadius.circular(50.0)),
+//                                   hintText: 'Comment',
+//                                 )
+//                                 // filled: true,
+//                                 // fillColor: backgroundColor),
+//                                 ),
+//                           ),
+//                         ),
+//                       ),
+//                       CustomSizedBox(
+//                         icon: Icons.insert_emoticon,
+//                         type: AttachmentTypes.STICKER,
+//                       )
+//                       //SEND BUTTON
+//                       // FloatingActionButton(
+//                       //   child: Icon(Icons.send),
+//                       //   onPressed: () => debugPrint("Pressed"),
+//                       //   //elevation: 4.0,
+//                       // ),
+//                       // TextField(),
+
+//                       // TextField(),
+//                       // Icon(Icons.insert_emoticon)
+//                     ],
+//                   ),
+//                 ),
+//               ]),
+//             )
+//           : Material(
+//               color: Colors.transparent,
+//               child: CupertinoPageScaffold(
+//                 backgroundColor: backgroundColor,
+//                 navigationBar: CupertinoNavigationBar(
+//                   middle: Text('Comments'),
+//                 ),
+//                 child: Column(children: <Widget>[
+//                   Expanded(
+//                     child: FutureBuilder<List<SocialCommentModel>>(
+//                       future: getComments(postId),
+//                       builder: (context, shot) => shot.hasData &&
+//                               shot.data != null
+//                           ? ListView.builder(
+//                               shrinkWrap: true,
+//                               itemCount: shot.data.length,
+//                               itemBuilder: (context, index) =>
+//                                   Column(children: <Widget>[
+//                                     ListTile(
+//                                         leading: CircleAvatar(
+//                                           backgroundImage:
+//                                               CachedNetworkImageProvider(
+//                                                   fileBaseUrl +
+//                                                       shot.data[index]
+//                                                           .avatarUrl),
+//                                         ),
+//                                         subtitle: CustomCard(Padding(
+//                                             padding: EdgeInsets.all(8.0),
+//                                             child: Column(
+//                                                 crossAxisAlignment:
+//                                                     CrossAxisAlignment.start,
+//                                                 children: <Widget>[
+//                                                   Text(
+//                                                     shot.data[index]
+//                                                         .postedByName,
+//                                                     style: TextStyle(
+//                                                         fontWeight:
+//                                                             FontWeight.w500,
+//                                                         fontSize: 16.0),
+//                                                   ),
+//                                                   SizedBox(
+//                                                     height: 5.0,
+//                                                   ),
+//                                                   Text.rich(TextSpan(
+//                                                       text: shot.data[index]
+//                                                           .commentText,
+//                                                       // text:
+//                                                       //     "ghjkkjhghjkljhjklkjhghjklajskajksjaksjkajskajskajskajksjaksjakjskajskajksjaksjkajskajskajskajskajksjaksjaksjkajskajskajskajskajskajskajskjaksjaksjaksjaksjakjkjkjkjkjskasjkajskajskajskajskajskajskajskajskjaskjaksjaksjakjskajskajskajskajskajksjaksjaksjakjskajskajskajskajskajskajskajskajskajksjaksjaksjaksjakjsakjsakjskajsakjskasjkasj",
+//                                                       style: TextStyle(
+//                                                           color: textColor))),
+//                                                 ])))),
+//                                     Padding(
+//                                       padding: const EdgeInsets.symmetric(
+//                                           horizontal: 25.0),
+//                                       child: Row(
+//                                         mainAxisAlignment:
+//                                             MainAxisAlignment.end,
+//                                         children: <Widget>[
+//                                           Text(
+//                                               getDateDifference(
+//                                                   shot.data[index].postedDate),
+//                                               style:
+//                                                   TextStyle(color: textColor)),
+//                                           SizedBox(
+//                                             width: 10.0,
+//                                           ),
+//                                           InkWell(
+//                                             onTap: () {},
+//                                             child: Text(
+//                                               'Like',
+//                                               textAlign: TextAlign.right,
+//                                               style: TextStyle(fontSize: 15.5),
+//                                             ),
+//                                           ),
+//                                           SizedBox(
+//                                             width: 10.0,
+//                                           ),
+//                                           InkWell(
+//                                             onTap: () {},
+//                                             child: Text(
+//                                               'Reply',
+//                                               textAlign: TextAlign.right,
+//                                               style: TextStyle(fontSize: 15.5),
+//                                             ),
+//                                           ),
+//                                         ],
+//                                       ),
+//                                     ),
+//                                   ]))
+//                           : DrawPlatformCircularIndicator(),
+//                       // CustomCard(
+//                       //     Center(
+//                       //       child: Text(
+//                       //           'You are the first, YAAAAY!\nLeave your comment'),
+//                       //     ),
+//                       //   ),
+//                     ),
+//                   ),
+//                   Container(
+//                     color: whiteColor,
+//                     width: double.infinity,
+//                     padding: const EdgeInsets.symmetric(
+//                         vertical: 6.0, horizontal: 4.0),
+//                     child: Row(
+//                       crossAxisAlignment: CrossAxisAlignment.end,
+//                       children: <Widget>[
+//                         CustomSizedBox(
+//                           icon: Icons.camera,
+//                           type: AttachmentTypes.CAMERA,
+//                         ),
+//                         // getImage: getImage(true)
+//                         CustomSizedBox(
+//                           icon: FontAwesomeIcons.image,
+//                           type: AttachmentTypes.GALLERY,
+//                           // getImage: getImage(false),
+//                         ),
+//                         Expanded(
+//                           child: Container(
+//                             constraints:
+//                                 BoxConstraints.loose(Size.fromHeight(100.0)),
+//                             child: Theme(
+//                               data: ThemeData(hintColor: greyColor),
+//                               child: TextField(
+//                                   maxLines: null,
+//                                   keyboardType: TextInputType.multiline,
+//                                   decoration: InputDecoration(
+//                                     border: InputBorder.none,
+//                                     contentPadding: EdgeInsets.only(
+//                                         left: 10.0,
+//                                         right: 10.0,
+//                                         bottom: 10.0,
+//                                         top: 0.0),
+//                                     // border: OutlineInputBorder(
+//                                     //     borderRadius: BorderRadius.circular(50.0)),
+//                                     hintText: 'Comment',
+//                                   )
+//                                   // filled: true,
+//                                   // fillColor: backgroundColor),
+//                                   ),
+//                             ),
+//                           ),
+//                         ),
+//                         CustomSizedBox(
+//                           icon: Icons.insert_emoticon,
+//                           type: AttachmentTypes.STICKER,
+//                         )
+//                         //SEND BUTTON
+//                         // FloatingActionButton(
+//                         //   child: Icon(Icons.send),
+//                         //   onPressed: () => debugPrint("Pressed"),
+//                         //   //elevation: 4.0,
+//                         // ),
+//                         // TextField(),
+
+//                         // TextField(),
+//                         // Icon(Icons.insert_emoticon)
+//                       ],
+//                     ),
+//                   ),
+//                 ]),
+//               ),
+//             ));
+// }
+
+// Future<List<SocialCommentModel>> getComments(int postId) async {
+//   SharedPreferences prefs = await SharedPreferences.getInstance();
+//   String _token = prefs.getString(token);
+//   // int postId = 1;
+//   List<SocialCommentModel> _comments;
+//   try {
+//     Response response = await http.get('$apiSocialGetComments/$postId',
+//         headers: {
+//           "Accept": "application/json",
+//           "Authorization": "Bearer $_token"
+//         });
+//     if (response.statusCode == 200) {
+//       var parsed = json.decode(response.body);
+//       _comments = parsed
+//           .map<SocialCommentModel>((item) => SocialCommentModel.fromJson(item))
+//           .toList();
+//     } else {
+//       _comments = null;
+//     }
+//   } catch (e) {
+//     print(e);
+//   }
+//   return _comments;
+// }
 
 //  @override
 // Widget build(BuildContext context) => Card(

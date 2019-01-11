@@ -1,9 +1,11 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:student_system_flutter/bloc/social/social_bloc.dart';
 import 'package:student_system_flutter/helpers/app_constants.dart';
 import 'package:student_system_flutter/helpers/ui_helpers.dart';
+import 'package:student_system_flutter/models/social_profile_model.dart';
 
 class SocialProfilePage extends StatefulWidget {
   final SocialBloc bloc;
@@ -60,13 +62,22 @@ class SocialProfilePageState extends State<SocialProfilePage> {
                             alignment: Alignment.center),
                       ),
                     ),
-                    Padding(
-                      padding: const EdgeInsets.only(top: 30.0, left: 30.0),
-                      child: CircleAvatar(
-                        radius: 50.0,
-                        backgroundImage:
-                            ExactAssetImage("assets/profile_picture.png"),
-                      ),
+                    StreamBuilder<SocialProfileModel>(
+                      stream: bloc.socialProfile,
+                      builder: (context, snapshot) => Padding(
+                            padding:
+                                const EdgeInsets.only(top: 30.0, left: 30.0),
+                            child: CircleAvatar(
+                              radius: 50.0,
+                              backgroundImage: snapshot.hasData
+                                  ? CachedNetworkImageProvider(fileBaseUrl +
+                                      snapshot.data.profileImageURL)
+                                  : ExactAssetImage(
+                                      'assets/png_transparent.png'),
+                              // ExactAssetImage(
+                              //     "assets/profile_picture.png"),
+                            ),
+                          ),
                     ),
                     Positioned(
                       bottom: 20.0,
@@ -92,43 +103,55 @@ class SocialProfilePageState extends State<SocialProfilePage> {
                 color: Colors.white,
                 child: Padding(
                   padding: const EdgeInsets.symmetric(vertical: 10.0),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceAround,
-                    children: <Widget>[
-                      Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: <Widget>[
-                          Text("Tweets".toUpperCase()),
-                          StreamBuilder(
-                              stream: bloc.postCount,
-                              builder: (context, snapshot) => snapshot.hasData
-                                  ? Text(snapshot.data.toString())
-                                  : Text("0")),
-                        ],
-                      ),
-                      Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: <Widget>[
-                          Text("Following".toUpperCase()),
-                          StreamBuilder(
-                              stream: bloc.following,
-                              builder: (context, snapshot) => snapshot.hasData
-                                  ? Text(snapshot.data.toString())
-                                  : Text("0")),
-                        ],
-                      ),
-                      Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: <Widget>[
-                          Text("Followers".toUpperCase()),
-                          StreamBuilder(
-                              stream: bloc.followers,
-                              builder: (context, snapshot) => snapshot.hasData
-                                  ? Text(snapshot.data.toString())
-                                  : Text("0")),
-                        ],
-                      ),
-                    ],
+                  child: StreamBuilder<SocialProfileModel>(
+                    stream: bloc.socialProfile,
+                    builder: (context, snapshot) => Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceAround,
+                          children: <Widget>[
+                            Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: <Widget>[
+                                Text("Tweets".toUpperCase()),
+                                Text(snapshot.hasData
+                                    ? snapshot.data.postCount.toString()
+                                    : '0'),
+                                // StreamBuilder(
+                                //     stream: bloc.postCount,
+                                //     builder: (context, snapshot) => snapshot.hasData
+                                //         ? Text(snapshot.data.toString())
+                                //         : Text("0")),
+                              ],
+                            ),
+                            Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: <Widget>[
+                                Text("Following".toUpperCase()),
+                                Text(snapshot.hasData
+                                    ? snapshot.data.followingsCount.toString()
+                                    : '0'),
+                                // StreamBuilder(
+                                //     stream: bloc.following,
+                                //     builder: (context, snapshot) => snapshot.hasData
+                                //         ? Text(snapshot.data.toString())
+                                //         : Text("0")),
+                              ],
+                            ),
+                            Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: <Widget>[
+                                Text("Followers".toUpperCase()),
+                                Text(snapshot.hasData
+                                    ? snapshot.data.followersCount.toString()
+                                    : '0'),
+                                // StreamBuilder(
+                                //     stream: bloc.followers,
+                                //     builder: (context, snapshot) => snapshot.hasData
+                                //         ? Text(snapshot.data.toString())
+                                //         : Text("0")),
+                              ],
+                            ),
+                          ],
+                        ),
                   ),
                 ),
               ),
@@ -144,7 +167,8 @@ class SocialProfilePageState extends State<SocialProfilePage> {
                     // title: Text("00004141")),
                     ListTile(
                         leading: Icon(Icons.mail),
-                        title: Text(userId + "@wiut.uz")),
+                        // title: Text(userId + "@wiut.uz")),
+                        title: Text("@wiut.uz")),
                   ],
                 ),
               ),

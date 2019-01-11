@@ -366,9 +366,9 @@ void openSelectedPage(BuildContext context, MainPageGridItems page) {
     case MainPageGridItems.BOOK_ORDERING:
       Navigator.of(context).pushNamed(booksPage);
       break;
-    case MainPageGridItems.SOCIAL:
-      Navigator.of(context).pushNamed(socialPage);
-      break;
+    // case MainPageGridItems.SOCIAL:
+    //   Navigator.of(context).pushNamed(socialPage);
+    //   break;
     case MainPageGridItems.CCMFEEDBACK:
       openCCMFeedbackPageByRole()
           .then((val) => Navigator.of(context).pushNamed(val));
@@ -472,8 +472,8 @@ class CustomGridView {
               MainPageGridItems.CCMFEEDBACK, 5),
           makeGridCell("Offences", 'assets/offences2.png',
               MainPageGridItems.OFFENCES, 6),
-          makeGridCell(
-              "Social", 'assets/social.png', MainPageGridItems.SOCIAL, 7),
+          // makeGridCell(
+          //     "Social", 'assets/social.png', MainPageGridItems.SOCIAL, 7),
           // FutureBuilder<bool>(
           //   future: isCCMFeedbackApplicable(),
           //   builder: (context, snapshot) => snapshot.hasData
@@ -561,6 +561,8 @@ class CustomGridView2 {
               MainPageGridItems.BOOK_ORDERING, 0),
           makeGridCell("CW Upload", 'assets/cwupload.png',
               MainPageGridItems.COURSEWORK_UPLOAD, 1),
+          makeGridCell(
+              "Social", 'assets/social.png', MainPageGridItems.SOCIAL, 3),
         ]);
   }
 }

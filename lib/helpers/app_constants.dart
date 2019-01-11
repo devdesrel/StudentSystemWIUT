@@ -63,6 +63,7 @@ final tipsTricksPage = 'tipsTrickspage';
 final tipsTricksListPage = 'tipsTricksListPage';
 final ccmRoleSelectPage = 'ccmRoleSelectPage';
 final socialProfilePage = 'socialProfilePage';
+final socialSearchPage = 'socialSearchPage';
 // final deadlinesListInfoPage = 'deadlinesListInfoPage';
 
 //Shared preferance keys
@@ -71,6 +72,7 @@ final isLoggedIn = 'isLoggedIn';
 final token = 'token';
 final tokenExpireDay = 'tokenExpireDay';
 final userID = 'userID';
+final userTableID = 'userTableID';
 final userPasssword = 'userPasssword';
 final firstName = 'firstName';
 final lastName = 'lastName';
@@ -102,11 +104,16 @@ final currentYearID = '19';
 final apiAuthenticate = '$baseUrl/api/Account/Authenticate';
 final apiStudentMarks =
     '$baseUrl/api/StudentProfileAndMarks/StudentProfileAndMarksForStudent';
-final apiGetClasses = '$baseUrl/api/TimeTable/GetClasses';
-final apiGetLessons = '$baseUrl/api/TimeTable/GetLessons';
-final apiGetGroups = '$baseUrl/api/TimeTable/GetClassesAsSelectList';
-final apiGetRooms = '$baseUrl/api/TimeTable/GetClassRoomsAsSelectList';
-final apiGetTeachers = '$baseUrl/api/TimeTable/GetTeachersAsSelectList';
+// final apiGetClasses = '$baseUrl/api/TimeTable/GetClasses';
+final apiGetLessons = '$baseUrl/api/TimeTableNew/GetLessons';
+final apiGetGroups = '$baseUrl/api/TimeTableNew/GetClassesAsSelectList';
+final apiGetRooms = '$baseUrl/api/TimeTableNew/GetClassRoomsAsSelectList';
+final apiGetTeachers = '$baseUrl/api/TimeTableNew/GetTeachersAsSelectList';
+final apiCpfsGetLessons = '$baseUrl/api/TimeTableCPFS/GetLessons';
+final apiCpfsGetGroups = '$baseUrl/api/TimeTableCPFS/GetClassesAsSelectList';
+final apiCpfsGetRooms = '$baseUrl/api/TimeTableCPFS/GetClassRoomsAsSelectList';
+final apiCpfsGetTeachers = '$baseUrl/api/TimeTableCPFS/GetTeachersAsSelectList';
+
 final apiUserModuleMaterialsModulesListByUserID =
     '$baseUrl/api/UserModuleMaterials/ModulesListByUserID';
 final apiGetAttachmentsByModuleMaterialIDWithFileSize =
@@ -136,10 +143,10 @@ final apiCCMFeedbackGetModuleRepresentativesAsSelectList =
     '$baseUrl/api/CCMFeedback/GetModuleRepresentativesAsSelectList';
 final getAllCurrentGroupsAsSelectList =
     '$baseUrl/api/CCMFeedback/GetAllCurrentGroupsAsSelectList';
-final socialGetContent = '$baseUrl/api/social/getContent';
-final socialGetFollowersCount = '$baseUrl/api/social/followersCount';
-final socialGetFollowingsCount = '$baseUrl/api/social/followingsCount';
-final socialGetPostsCount = '$baseUrl/api/social/postCount';
+final socialGetContentList = '$baseUrl/api/social/GetContentList';
+final apiSocialGetComments = '$baseUrl/api/social/GetComments';
+final apiSocialLike = '$baseUrl/api/social/Like';
+final apiSocialUnlike = '$baseUrl/api/social/Unlike';
 
 final apiCCMFeedbackAddFeedback = '$baseUrl/api/CCMFeedback/AddFeedback';
 final apiCCMFeedbackEditFeedback = '$baseUrl/api/CCMFeedback/EditFeedback';
@@ -153,6 +160,13 @@ final apiAttendanceOffences =
     "$baseUrl/api/StudentProfileAndMarks/GetStudentAtOffences";
 final apiDisciplinaryOffences =
     "$baseUrl/api/StudentProfileAndMarks/GetStudentDOffences";
+final apiSocialProfile = '$baseUrl/api/social/SocialProfile';
+final apiGetUserIdByUsername = '$baseUrl/api/social/GetUserId';
+final apiSocialNotifications = '$baseUrl/api/social/SocialNotification';
+final apiSocialMarkNotificationAsViewed =
+    '$baseUrl/api/social/MarkNotificationsAsViewed';
+final apiSocialSearch = '$baseUrl/api/social/GetUsers';
+final apiSocialNotificationCount = '$baseUrl/api/social/NotificationCount';
 
 //Errors List
 final String authProblems = 'Authorization problems';

@@ -3,6 +3,7 @@ enum AuthState { LOGGED_IN, LOGGED_OUT, SHOW_PREVIEW_PAGE }
 enum MainPageGridItems {
   MARKS,
   TIMETABLE,
+  CPFSTIMETABLE,
   LEARNING_MATERIALS,
   OFFENCES,
   COURSEWORK_UPLOAD,
@@ -30,3 +31,4 @@ enum FeedbackViewType { Add, Edit }
 enum CCMFeedbackCategory { ModulesFeedback, DepartmentsFeedback }
 enum TipsRequestType { Outlook, Gmail, AppleMail }
 enum WebMailType { Outlook, Gmail, AppleMail }
+enum TimetableType { NonCPFS, CPFS }

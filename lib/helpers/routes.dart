@@ -5,7 +5,6 @@ import 'package:student_system_flutter/pages/ccm_add_feedback_page.dart';
 import 'package:student_system_flutter/pages/ccm_feedback_category_page.dart';
 import 'package:student_system_flutter/pages/ccm_feedback_su_page.dart';
 import 'package:student_system_flutter/pages/ccm_role_select_page.dart';
-import 'package:student_system_flutter/pages/comments_page.dart';
 import 'package:student_system_flutter/pages/contacts_page.dart';
 import 'package:student_system_flutter/pages/coursework_upload_page.dart';
 import 'package:student_system_flutter/pages/feedback_reply_page.dart';
@@ -26,6 +25,7 @@ import 'package:student_system_flutter/pages/preview_page.dart';
 import 'package:student_system_flutter/pages/security_page.dart';
 import 'package:student_system_flutter/pages/settings_page.dart';
 import 'package:student_system_flutter/pages/social_page.dart';
+import 'package:student_system_flutter/pages/social_search_page.dart';
 import 'package:student_system_flutter/pages/support_page.dart';
 import 'package:student_system_flutter/pages/test_page2.dart';
 import 'package:student_system_flutter/pages/timetable_page.dart';
@@ -51,7 +51,7 @@ final routes = {
   courseworkUploadPage: (BuildContext context) => CourseworkUploadPage(),
   timetablePage: (BuildContext context) => TimetablePage(),
   filePickerPage: (BuildContext context) => FilePickerPage(),
-  commentsPage: (BuildContext context) => CommentsPage(),
+  // commentsPage: (BuildContext context) => CommentsPage(),
   settingsPage: (BuildContext context) => SettingsPage(),
   contactsPage: (BuildContext context) => ContactsPage(),
   mapPage: (BuildContext context) => MapPage(),
@@ -70,4 +70,5 @@ final routes = {
   tipsTricksListPage: (BuildContext context) => TipsAndTricksListPage(),
   // videosPage: (BuildContext context) => VideoPage(),
   ccmRoleSelectPage: (BuildContext context) => CCMRoleSelectPage(),
+  socialSearchPage: (BuildContext context) => SocialSearchPage(),
 };

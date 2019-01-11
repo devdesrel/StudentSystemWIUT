@@ -178,11 +178,13 @@ class FileManagerState extends State<FileManager>
         if (!checkOkay) {
           SimplePermissions.requestPermission(Permission.WriteExternalStorage)
               .then((okDone) {
-            if (okDone) {
-              externalStoragePermissionOkay = okDone;
+            if (okDone == PermissionStatus.authorized) {
+              // externalStoragePermissionOkay = okDone;
+              externalStoragePermissionOkay = true;
 
               setState(() {
-                externalStoragePermissionOkay = okDone;
+                // externalStoragePermissionOkay = okDone;
+                externalStoragePermissionOkay = true;
               });
             }
           });

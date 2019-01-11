@@ -404,16 +404,16 @@ class TimetableBloc {
 
     switch (type) {
       case TimetableDropdownlinListType.Group:
-        _url = '$apiGetLessons?classids=$_id';
+        _url = '$apiGetLessons?classid=$_id';
         break;
       case TimetableDropdownlinListType.Room:
-        _url = '$apiGetLessons?classroomids=$_id';
+        _url = '$apiGetLessons?classroomid=$_id';
         break;
       case TimetableDropdownlinListType.Teacher:
-        _url = '$apiGetLessons?teacherids=$_id';
+        _url = '$apiGetLessons?teacherid=$_id';
         break;
       default:
-        _url = '$apiGetLessons?classids=$_id';
+        _url = '$apiGetLessons?classid=$_id';
     }
 
     ConnectivityResult connectionStatus;
