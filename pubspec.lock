@@ -114,7 +114,7 @@ packages:
       name: flushbar
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "1.2.0"
+    version: "1.2.1"
   flutter:
     dependency: "direct overridden"
     description: flutter
@@ -180,7 +180,7 @@ packages:
       name: http
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.12.0"
+    version: "0.12.0+1"
   http_parser:
     dependency: transitive
     description:
@@ -201,7 +201,7 @@ packages:
       name: image_picker
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.4.10"
+    version: "0.4.12"
   intl:
     dependency: "direct overridden"
     description:
@@ -327,7 +327,7 @@ packages:
       name: sentry
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "2.1.1"
+    version: "2.2.0"
   shared_preferences:
     dependency: "direct overridden"
     description:
@@ -465,7 +465,7 @@ packages:
       name: xml
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "3.2.4"
+    version: "3.2.5"
   yaml:
     dependency: transitive
     description:
