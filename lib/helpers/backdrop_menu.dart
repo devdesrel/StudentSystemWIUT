@@ -215,150 +215,147 @@ class _TwoPanelsState extends State<TwoPanels> {
                   : BorderRadius.only(
                       topLeft: Radius.circular(16.0),
                       topRight: Radius.circular(16.0)),
-              child: Column(
-                children: <Widget>[
-                  GestureDetector(
-                    behavior: HitTestBehavior.opaque,
-                    // onVerticalDragUpdate: onVerticalDragUpdate,
-                    // onVerticalDragEnd: onVerticalDragEnd,
-                    onTap: () {
-                      widget.controller.fling(
-                          velocity: _bloc.isBackdropPanelHidden ? -2.0 : 2.0);
+              child: CustomScrollView(
+                slivers: <Widget>[
+                  SliverToBoxAdapter(
+                    child: GestureDetector(
+                      behavior: HitTestBehavior.opaque,
+                      // onVerticalDragUpdate: onVerticalDragUpdate,
+                      // onVerticalDragEnd: onVerticalDragEnd,
+                      onTap: () {
+                        widget.controller.fling(
+                            velocity: _bloc.isBackdropPanelHidden ? -2.0 : 2.0);
 
-                      _bloc.setBackdropPanelHidden
-                          .add(!_bloc.isBackdropPanelHidden);
-                    },
-                    child: StreamBuilder<bool>(
-                      stream: _bloc.backdropPanelHidden,
-                      initialData: true,
-                      builder: (context, snapshot) => RotatedBox(
-                            child: Material(
-                                color: Colors.transparent,
-                                child: Icon(CupertinoIcons.left_chevron)),
-                            quarterTurns: snapshot.data ? 3 : 1,
-                          ),
+                        _bloc.setBackdropPanelHidden
+                            .add(!_bloc.isBackdropPanelHidden);
+                      },
+                      child: StreamBuilder<bool>(
+                        stream: _bloc.backdropPanelHidden,
+                        initialData: true,
+                        builder: (context, snapshot) => RotatedBox(
+                              child: Material(
+                                  color: Colors.transparent,
+                                  child: Icon(CupertinoIcons.left_chevron)),
+                              quarterTurns: snapshot.data ? 3 : 1,
+                            ),
+                      ),
                     ),
                   ),
-                  Expanded(
-                    child: CustomScrollView(
-                      slivers: <Widget>[
-                        // SliverToBoxAdapter(
-                        //     child: SafeArea(
-                        //   bottom: false,
-                        //   child: FeedbackForm(questionNumbers: _questionNumbers),
-                        // )),
-                        SliverToBoxAdapter(
-                          child: Center(
-                            child: Padding(
-                              padding: const EdgeInsets.only(
-                                top: 22.0,
-                                bottom: 5.0, /* left: 24.0 */
-                              ),
-                              child: Text(
-                                'Deadline dates'.toUpperCase(),
-                                style: TextStyle(
-                                  color: Platform.isAndroid
-                                      ? lightGreyTextColor
-                                      : lightGreyTextColor,
-                                  fontSize: 11.0,
+                  // CustomScrollView(
+                  //   slivers: <Widget>[
+                  // SliverToBoxAdapter(
+                  //     child: SafeArea(
+                  //   bottom: false,
+                  //   child: FeedbackForm(questionNumbers: _questionNumbers),
+                  // )),
+                  SliverToBoxAdapter(
+                    child: Center(
+                      child: Padding(
+                        padding: const EdgeInsets.only(
+                          top: 22.0,
+                          bottom: 5.0, /* left: 24.0 */
+                        ),
+                        child: Text(
+                          'Deadline dates'.toUpperCase(),
+                          style: TextStyle(
+                            color: Platform.isAndroid
+                                ? lightGreyTextColor
+                                : lightGreyTextColor,
+                            fontSize: 11.0,
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                  StreamBuilder(
+                      stream: _bloc.deadlineDatesList,
+                      builder: (context, snapshot) {
+                        return SliverToBoxAdapter(
+                            child: SizedBox(
+                          height: 100.0,
+                          child: snapshot.hasData
+                              ? snapshot.data.length > 0
+                                  ? buildDeadlinesHorizontalList(snapshot)
+                                  : Center(
+                                      child:
+                                          Text('There is no deadlines to show'))
+                              : DrawPlatformCircularIndicator(),
+                        ));
+                      }),
+
+                  // SliverToBoxAdapter(
+                  //     child: SafeArea(
+                  //   bottom: false,
+                  //   child: FeedbackForm(questionNumbers: _questionNumbers),
+                  // )),
+                  StreamBuilder(
+                      stream: homePageBloc.userRoleStream,
+                      builder: (context, snapshot) => snapshot.hasData
+                          ? snapshot.data == "staff"
+                              ? CustomGridViewForTeachers(context).build()
+                              : CustomGridView(context).build()
+                          : SliverToBoxAdapter()),
+
+                  StreamBuilder(
+                    stream: homePageBloc.isUnderDevelopmentFeaturesOn,
+                    initialData: true,
+                    builder: (context, snapshot) => snapshot.data == false
+                        ? SliverToBoxAdapter(
+                            child: Center(
+                              child: Padding(
+                                padding: const EdgeInsets.only(
+                                  top: 22.0,
+                                  bottom: 5.0, /*left: 22.0 */
+                                ),
+                                child: Text(
+                                  'Under development'.toUpperCase(),
+                                  style: TextStyle(
+                                    color: Platform.isAndroid
+                                        ? lightGreyTextColor
+                                        : lightGreyTextColor,
+                                    fontSize: 12.0,
+                                  ),
                                 ),
                               ),
                             ),
-                          ),
-                        ),
-                        StreamBuilder(
-                            stream: _bloc.deadlineDatesList,
-                            builder: (context, snapshot) {
-                              return SliverToBoxAdapter(
-                                  child: SizedBox(
-                                height: 100.0,
-                                child: snapshot.hasData
-                                    ? snapshot.data.length > 0
-                                        ? buildDeadlinesHorizontalList(snapshot)
-                                        : Center(
-                                            child: Text(
-                                                'There is no deadlines to show'))
-                                    : DrawPlatformCircularIndicator(),
-                              ));
-                            }),
-
-                        // SliverToBoxAdapter(
-                        //     child: SafeArea(
-                        //   bottom: false,
-                        //   child: FeedbackForm(questionNumbers: _questionNumbers),
-                        // )),
-                        StreamBuilder(
-                            stream: homePageBloc.userRoleStream,
-                            builder: (context, snapshot) => snapshot.hasData
-                                ? snapshot.data == "staff"
-                                    ? CustomGridViewForTeachers(context).build()
-                                    : CustomGridView(context).build()
-                                : SliverToBoxAdapter()),
-
-                        StreamBuilder(
-                          stream: homePageBloc.isUnderDevelopmentFeaturesOn,
-                          initialData: true,
-                          builder: (context, snapshot) => snapshot.data == false
-                              ? SliverToBoxAdapter(
-                                  child: Center(
-                                    child: Padding(
-                                      padding: const EdgeInsets.only(
-                                        top: 22.0,
-                                        bottom: 5.0, /*left: 22.0 */
-                                      ),
-                                      child: Text(
-                                        'Under development'.toUpperCase(),
-                                        style: TextStyle(
-                                          color: Platform.isAndroid
-                                              ? lightGreyTextColor
-                                              : lightGreyTextColor,
-                                          fontSize: 12.0,
-                                        ),
-                                      ),
-                                    ),
-                                  ),
-                                )
-                              : SliverToBoxAdapter(),
-                        ),
-                        StreamBuilder(
-                            initialData: true,
-                            stream: homePageBloc.isUnderDevelopmentFeaturesOn,
-                            builder: (context, snapshot) =>
-                                snapshot.data == false
-                                    ? CustomGridView2(context).build()
-                                    : SliverToBoxAdapter()),
-                        SliverToBoxAdapter(
-                          child: ListTile(
-                              title: Text(
-                                'Hide under development features',
-                                style: TextStyle(
-                                    fontSize: isSmallScreen ? 13.0 : 15.0),
-                              ),
-                              trailing:
-                                  //  StreamBuilder(
-                                  //     initialData: false,
-                                  //     builder: (context, snapshot) =>
-                                  StreamBuilder(
-                                initialData: true,
-                                stream:
-                                    homePageBloc.isUnderDevelopmentFeaturesOn,
-                                builder: (context, snapshot) => Switch(
-                                    // value:   snapshot.hasData ? snapshot.data : false,
-                                    value:
-                                        snapshot.hasData ? snapshot.data : true,
-                                    onChanged: (val) => homePageBloc
-                                        .setUnderDevelopmentFeaturesVisibility
-                                        .add(val)),
-                              )
-                              // ),
-                              ),
-                          //           )
-                          // //         ],
-                          //       ),
-                        )
-                      ],
-                    ),
+                          )
+                        : SliverToBoxAdapter(),
                   ),
+                  StreamBuilder(
+                      initialData: true,
+                      stream: homePageBloc.isUnderDevelopmentFeaturesOn,
+                      builder: (context, snapshot) => snapshot.data == false
+                          ? CustomGridView2(context).build()
+                          : SliverToBoxAdapter()),
+                  SliverToBoxAdapter(
+                    child: ListTile(
+                        title: Text(
+                          'Hide under development features',
+                          style:
+                              TextStyle(fontSize: isSmallScreen ? 13.0 : 15.0),
+                        ),
+                        trailing:
+                            //  StreamBuilder(
+                            //     initialData: false,
+                            //     builder: (context, snapshot) =>
+                            StreamBuilder(
+                          initialData: true,
+                          stream: homePageBloc.isUnderDevelopmentFeaturesOn,
+                          builder: (context, snapshot) => Switch(
+                              // value:   snapshot.hasData ? snapshot.data : false,
+                              value: snapshot.hasData ? snapshot.data : true,
+                              onChanged: (val) => homePageBloc
+                                  .setUnderDevelopmentFeaturesVisibility
+                                  .add(val)),
+                        )
+                        // ),
+                        ),
+                    //           )
+                    // //         ],
+                    //       ),
+                  )
+                  // ],
+                  // ),
                 ],
               ),
             ))
