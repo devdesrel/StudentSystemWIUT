@@ -9,19 +9,19 @@
           <set>
             <option value="$PROJECT_DIR$" />
             <option value="$PROJECT_DIR$/app" />
-            <option value="C:/flutter/.pub-cache/hosted/pub.dartlang.org/connectivity-0.3.2/android" />
-            <option value="C:/flutter/.pub-cache/hosted/pub.dartlang.org/flutter_downloader-1.1.4/android" />
-            <option value="C:/flutter/.pub-cache/hosted/pub.dartlang.org/flutter_sound-1.2.1/android" />
-            <option value="C:/flutter/.pub-cache/hosted/pub.dartlang.org/image_picker-0.4.10/android" />
-            <option value="C:/flutter/.pub-cache/hosted/pub.dartlang.org/local_auth-0.2.1/android" />
-            <option value="C:/flutter/.pub-cache/hosted/pub.dartlang.org/open_file-1.1.1/android" />
-            <option value="C:/flutter/.pub-cache/hosted/pub.dartlang.org/package_info-0.3.2/android" />
-            <option value="C:/flutter/.pub-cache/hosted/pub.dartlang.org/path_provider-0.4.1/android" />
-            <option value="C:/flutter/.pub-cache/hosted/pub.dartlang.org/screen-0.0.4/android" />
-            <option value="C:/flutter/.pub-cache/hosted/pub.dartlang.org/shared_preferences-0.4.3/android" />
-            <option value="C:/flutter/.pub-cache/hosted/pub.dartlang.org/simple_permissions-0.1.9/android" />
-            <option value="C:/flutter/.pub-cache/hosted/pub.dartlang.org/url_launcher-4.0.3/android" />
-            <option value="C:/flutter/.pub-cache/hosted/pub.dartlang.org/video_player-0.7.2/android" />
+            <option value="$USER_HOME$/Documents/SDK/flutter/.pub-cache/hosted/pub.dartlang.org/connectivity-0.3.2/android" />
+            <option value="$USER_HOME$/Documents/SDK/flutter/.pub-cache/hosted/pub.dartlang.org/flutter_downloader-1.1.4/android" />
+            <option value="$USER_HOME$/Documents/SDK/flutter/.pub-cache/hosted/pub.dartlang.org/flutter_sound-1.2.1/android" />
+            <option value="$USER_HOME$/Documents/SDK/flutter/.pub-cache/hosted/pub.dartlang.org/image_picker-0.4.10/android" />
+            <option value="$USER_HOME$/Documents/SDK/flutter/.pub-cache/hosted/pub.dartlang.org/local_auth-0.2.1/android" />
+            <option value="$USER_HOME$/Documents/SDK/flutter/.pub-cache/hosted/pub.dartlang.org/open_file-1.1.1/android" />
+            <option value="$USER_HOME$/Documents/SDK/flutter/.pub-cache/hosted/pub.dartlang.org/package_info-0.3.2/android" />
+            <option value="$USER_HOME$/Documents/SDK/flutter/.pub-cache/hosted/pub.dartlang.org/path_provider-0.4.1/android" />
+            <option value="$USER_HOME$/Documents/SDK/flutter/.pub-cache/hosted/pub.dartlang.org/screen-0.0.4/android" />
+            <option value="$USER_HOME$/Documents/SDK/flutter/.pub-cache/hosted/pub.dartlang.org/shared_preferences-0.4.3/android" />
+            <option value="$USER_HOME$/Documents/SDK/flutter/.pub-cache/hosted/pub.dartlang.org/simple_permissions-0.1.9/android" />
+            <option value="$USER_HOME$/Documents/SDK/flutter/.pub-cache/hosted/pub.dartlang.org/url_launcher-4.0.3/android" />
+            <option value="$USER_HOME$/Documents/SDK/flutter/.pub-cache/hosted/pub.dartlang.org/video_player-0.7.2/android" />
           </set>
         </option>
         <option name="resolveModulePerSourceSet" value="false" />
