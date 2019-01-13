@@ -325,7 +325,12 @@ class TimetableBloc {
         var list = await _populateDropdownList(apiGetGroups);
 
         if (list != null) {
-          _groupID = list.firstWhere((group) => group.text == groupName).value;
+          // print(list
+          //     .where((group) => group.text.trim() == groupName.trim())
+          //     .toList());
+          _groupID = list
+              .firstWhere((group) => group.text.trim() == groupName.trim())
+              .value;
           prefs.setString(groupID, _groupID);
         }
       }
@@ -517,6 +522,8 @@ class TimetableBloc {
         "Accept": "application/json",
         "Authorization": "Bearer $_token"
       });
+
+      print(url + '\n' + response.body.toString());
 
       if (response.statusCode == 200) {
         List<TimetableDropdownListModel> _list = _parseJson(response.body);
