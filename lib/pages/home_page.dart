@@ -562,7 +562,7 @@ class CustomGridView2 {
           makeGridCell("CW Upload", 'assets/cwupload.png',
               MainPageGridItems.COURSEWORK_UPLOAD, 1),
           makeGridCell(
-              "Social", 'assets/social.png', MainPageGridItems.SOCIAL, 3),
+              "Social", 'assets/social.png', MainPageGridItems.SOCIAL, 2),
         ]);
   }
 }
