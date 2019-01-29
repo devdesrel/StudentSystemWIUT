@@ -4,13 +4,13 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:student_system_flutter/bloc/social/social_bloc.dart';
 import 'package:student_system_flutter/bloc/social/social_provider.dart';
+import 'package:student_system_flutter/enums/ApplicationEnums.dart';
 import 'package:student_system_flutter/helpers/function_helpers.dart';
 import 'package:student_system_flutter/helpers/ui_helpers.dart';
 
-import 'package:student_system_flutter/models/social_content_model.dart';
-import 'package:student_system_flutter/models/social_notifications_model.dart';
+import 'package:student_system_flutter/models/social/social_content_model.dart';
+import 'package:student_system_flutter/models/social/social_notifications_model.dart';
 import 'package:student_system_flutter/pages/social_profile_page.dart';
-import 'package:student_system_flutter/pages/social_search_page.dart';
 
 import '../helpers/app_constants.dart';
 import '../list_items/item_posts.dart';
@@ -22,25 +22,7 @@ class SocialPage extends StatefulWidget {
 
 class _SocialPageState extends State<SocialPage>
     with SingleTickerProviderStateMixin {
-  TabController _tabController;
   final String _title = 'WIUT Feed';
-  final int _notificationTabIndex = 4;
-
-  @override
-  initState() {
-    super.initState();
-    _tabController = new TabController(vsync: this, length: 4);
-    //TODO: mark as viewed when 4th tab is loaded
-    // if (_tabController.index == _notificationTabIndex) {
-    //   markNotificationAsMarked();
-    // }
-  }
-
-  @override
-  void dispose() {
-    _tabController.dispose();
-    super.dispose();
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -71,8 +53,11 @@ class _SocialPageState extends State<SocialPage>
                       // Navigator.of(context).pushNamed(socialProfilePage);
                       Navigator.of(context).push(
                         MaterialPageRoute(
-                            builder: (context) =>
-                                SocialProfilePage(bloc: bloc)),
+                            builder: (context) => SocialProfilePage(
+                                  requestType:
+                                      SocialProfileAccessType.MyProfile,
+                                  searchedUserId: '',
+                                )),
                       );
                     }),
               ],
@@ -86,12 +71,14 @@ class _SocialPageState extends State<SocialPage>
                   StreamBuilder<String>(
                       stream: bloc.notificationsCount,
                       builder: (context, snapshot) {
-                        if (snapshot.hasData && snapshot.data != '0') {
+                        if (snapshot.hasData &&
+                            snapshot.data != null &&
+                            snapshot.data != '0') {
                           return Tab(
                             child: Stack(
                               children: <Widget>[
                                 Icon(
-                                  Icons.notifications_active,
+                                  Icons.notifications,
                                 ),
                                 Positioned(
                                     right: 0.0,
@@ -108,16 +95,16 @@ class _SocialPageState extends State<SocialPage>
                           );
                         } else {
                           return Tab(
-                            icon: Icon(Icons.notifications_active),
+                            icon: Icon(Icons.notifications),
                           );
                         }
                       })
                 ],
-                controller: _tabController,
+                // controller: _tabController,
               ),
             ),
             body: TabBarView(
-              controller: _tabController,
+              // controller: _tabController,
               children: [
                 Container(
                   color: Theme.of(context).backgroundColor,
@@ -128,20 +115,20 @@ class _SocialPageState extends State<SocialPage>
                             ? ListView.builder(
                                 scrollDirection: Axis.vertical,
                                 itemCount: snapshot.data.length,
-                                itemBuilder: (context, i) => i ==
-                                        snapshot.data.length - 1
-                                    ? ItemPosts(
-                                        model: snapshot.data[i],
-                                        isLast: true,
-                                        bloc: bloc,
-                                        avatarUrl: snapshot.data[i].avatarUrl,
-                                      )
-                                    : ItemPosts(
-                                        model: snapshot.data[i],
-                                        isLast: false,
-                                        bloc: bloc,
-                                        avatarUrl: snapshot.data[i].avatarUrl,
-                                      ),
+                                itemBuilder: (context, i) =>
+                                    i == snapshot.data.length - 1
+                                        ? ItemPosts(
+                                            model: snapshot.data[i],
+                                            isLast: true,
+                                            bloc: bloc,
+                                            // avatarUrl: snapshot.data[i].avatarUrl,
+                                          )
+                                        : ItemPosts(
+                                            model: snapshot.data[i],
+                                            isLast: false,
+                                            bloc: bloc,
+                                            // avatarUrl: snapshot.data[i].avatarUrl,
+                                          ),
                               )
                             : CustomCard(
                                 Text(
@@ -207,7 +194,7 @@ class NotificationsTabState extends State<NotificationsTab> {
   @override
   initState() {
     super.initState();
-    markNotificationAsMarked();
+    markNotificationAsViewed();
   }
 
   @override
@@ -221,7 +208,22 @@ class NotificationsTabState extends State<NotificationsTab> {
                   itemCount: snapshot.data.length,
                   itemBuilder: (context, index) => InkWell(
                       onTap: () {
-                        // bloc.markNotificationAsMarked();
+                        // widget.bloc
+                        //     .getContentByNotification(
+                        //         snapshot.data[index].id.toString())
+                        //     .then((id) {
+                        //   widget.bloc
+                        //       .getContentByNotificationId()
+                        //       .then((model) {
+                        //     Navigator.push(
+                        //         context,
+                        //         MaterialPageRoute(
+                        //             builder: (BuildContext context) =>
+                        //                 OpenNotifiedContent(
+                        //                   model: model,
+                        //                 )));
+                        //   });
+                        // });
                       },
                       child: NotificationItem(data: snapshot.data[index])))
               : Container(

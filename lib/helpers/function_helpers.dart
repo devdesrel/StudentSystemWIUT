@@ -15,7 +15,6 @@ import 'package:package_info/package_info.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:student_system_flutter/enums/ApplicationEnums.dart';
 import 'package:student_system_flutter/models/profile_model.dart';
-import 'package:student_system_flutter/models/social_profile_model.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import 'app_constants.dart';
@@ -429,7 +428,7 @@ String formatDate(String date) {
   return formatted.toString();
 }
 
-void markNotificationAsMarked() async {
+void markNotificationAsViewed() async {
   SharedPreferences _prefs = await SharedPreferences.getInstance();
   String _token = _prefs.getString(token);
   String _userId = _prefs.getString(userTableID);
@@ -445,27 +444,14 @@ void markNotificationAsMarked() async {
   }
 }
 
-Future<SocialProfileModel> getSocialProfile(String userId) async {
+getUserTableIdFormPrefs() async {
   SharedPreferences prefs = await SharedPreferences.getInstance();
-  String _token = prefs.getString(token);
-  // String _userId = prefs.getString(userTableID);
-  // int userid = 845;
-  SocialProfileModel profile;
-  try {
-    Response _response = await http.post("$apiSocialProfile/$userId", headers: {
-      "Accept": "application/json",
-      "Authorization": "Bearer $_token"
-    });
+  String _userTableId = prefs.getString(userTableID);
+  return _userTableId;
+}
 
-    if (_response.statusCode == 200) {
-      var parsed = json.decode(_response.body);
-
-      profile = SocialProfileModel.fromJson(parsed);
-    } else {
-      profile = null;
-    }
-    return profile;
-  } catch (e) {
-    return null;
-  }
+getUserId() async {
+  SharedPreferences prefs = await SharedPreferences.getInstance();
+  String _userId = prefs.getString(userID);
+  return _userId;
 }

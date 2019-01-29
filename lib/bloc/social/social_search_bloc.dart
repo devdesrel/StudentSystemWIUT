@@ -6,7 +6,7 @@ import 'package:http/http.dart' as http;
 import 'package:rxdart/rxdart.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:student_system_flutter/helpers/app_constants.dart';
-import 'package:student_system_flutter/models/social_search_model.dart';
+import 'package:student_system_flutter/models/social/social_search_model.dart';
 
 class SocialSearchBloc {
   String _query;
@@ -54,6 +54,14 @@ class SocialSearchBloc {
 
   final _searchResultSubject = BehaviorSubject<List<SocialSearchModel>>();
 
+  Sink<bool> get textEntered => _textEnteredController.sink;
+
+  final _textEnteredController = StreamController<bool>();
+
+  Stream<bool> get isTextEntered => _isTextEnteredSubject.stream;
+
+  final _isTextEnteredSubject = BehaviorSubject<bool>();
+
   SocialSearchBloc() {
     _setSearchQueryController.stream.listen((query) {
       _query = query;
@@ -72,10 +80,16 @@ class SocialSearchBloc {
         _searchResultSubject.add(searchResultList);
       });
     });
+
+    _textEnteredController.stream.listen((val) {
+      _isTextEnteredSubject.add(val);
+    });
   }
   dispose() {
     _searchResultSubject.close();
     _setSearchQueryController.close();
     _incrementPageNumberController.close();
+    _isTextEnteredSubject.close();
+    _textEnteredController.close();
   }
 }

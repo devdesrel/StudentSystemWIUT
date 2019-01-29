@@ -366,9 +366,9 @@ void openSelectedPage(BuildContext context, MainPageGridItems page) {
     case MainPageGridItems.BOOK_ORDERING:
       Navigator.of(context).pushNamed(booksPage);
       break;
-    // case MainPageGridItems.SOCIAL:
-    //   Navigator.of(context).pushNamed(socialPage);
-    //   break;
+    case MainPageGridItems.SOCIAL:
+      Navigator.of(context).pushNamed(socialPage);
+      break;
     case MainPageGridItems.CCMFEEDBACK:
       openCCMFeedbackPageByRole()
           .then((val) => Navigator.of(context).pushNamed(val));

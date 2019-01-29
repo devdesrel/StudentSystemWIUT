@@ -7,7 +7,7 @@ import 'package:mime/mime.dart';
 import 'package:path/path.dart';
 import 'package:student_system_flutter/bloc/social/social_bloc.dart';
 import 'package:student_system_flutter/helpers/function_helpers.dart';
-import 'package:student_system_flutter/models/social_content_model.dart';
+import 'package:student_system_flutter/models/social/social_content_model.dart';
 // import 'package:video_player/video_player.dart';
 import 'package:chewie/chewie.dart';
 import 'package:student_system_flutter/pages/comments_page.dart';
@@ -21,14 +21,14 @@ class ItemPosts extends StatelessWidget {
   final SocialContentModel model;
   final bool isLast;
   final SocialBloc bloc;
-  final String avatarUrl;
-  ItemPosts(
-      {Key key,
-      @required this.model,
-      @required this.isLast,
-      @required this.bloc,
-      @required this.avatarUrl})
-      : super(key: key);
+  // final String avatarUrl;
+  ItemPosts({
+    Key key,
+    @required this.model,
+    @required this.isLast,
+    @required this.bloc,
+    // @required this.avatarUrl
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) => Padding(
@@ -37,7 +37,8 @@ class ItemPosts extends StatelessWidget {
           Padding(
             padding: const EdgeInsets.all(10.0),
             child: Column(children: <Widget>[
-              CardHeader(model, avatarUrl),
+              // CardHeader(model, avatarUrl),
+              CardHeader(model, model.avatarUrl),
               CardBody(model, bloc),
               isLast
                   ? Padding(
@@ -334,24 +335,36 @@ class CardBody extends StatelessWidget {
           Column(
             children: <Widget>[
               Text(
-                model.likesCount != 0 ? model.likesCount.toString() : '',
+                model.likesCount != 0
+                    ? model.likesCount.toString() +
+                        " like" +
+                        ending(model.likesCount)
+                    : '',
                 // 'likes',
                 style: postParametersStyle,
               ),
               new SizedBox(
                 height: iconSize,
-                child: IconButton(
-                  padding: const EdgeInsets.only(top: 3.0),
-                  onPressed: () {
-                    model.isLiked
-                        ? bloc.postIdToUnlike.add(model.id)
-                        : bloc.postIdToLike.add(model.id);
-                  },
-                  icon: model.isLiked ? postLikedIcon : postLikeIcon,
-                  //icon: IconData (f442, fontFamily: CuperIcon),
-                  //TextStyle(CuperIcon ),
-                  iconSize: iconSize,
-                  color: accentColor,
+                child: StreamBuilder(
+                  stream: bloc.getLikedPostsList,
+                  builder: (context, snapshot) => IconButton(
+                        padding: const EdgeInsets.only(top: 3.0),
+                        onPressed: () {
+                          // if (model.isLiked) {
+                          //   bloc.postIdToUnlike.add(model.id);
+                          // } else {
+                          //   bloc.postIdToLike.add(model.id);
+                          // }
+                          model.isLiked
+                              ? bloc.postIdToUnlike.add(model.id)
+                              : bloc.postIdToLike.add(model.id);
+                        },
+                        icon: model.isLiked ? postLikedIcon : postLikeIcon,
+                        //icon: IconData (f442, fontFamily: CuperIcon),
+                        //TextStyle(CuperIcon ),
+                        iconSize: iconSize,
+                        color: accentColor,
+                      ),
                 ),
               ),
             ],
@@ -360,11 +373,13 @@ class CardBody extends StatelessWidget {
             children: <Widget>[
               Text(
                   model.commentsCount != 0
-                      ? model.commentsCount.toString()
+                      ? model.commentsCount.toString() +
+                          " comment" +
+                          ending(model.commentsCount)
                       : '',
                   // 'comments',
                   style: postParametersStyle),
-              new SizedBox(
+              SizedBox(
                   height: iconSize,
                   child: IconButton(
                     padding: const EdgeInsets.only(top: 3.0),
@@ -388,8 +403,8 @@ class CardBody extends StatelessWidget {
           ),
           Column(
             children: <Widget>[
-              Text('shares', style: postParametersStyle),
-              new SizedBox(
+              // Text('shares', style: postParametersStyle),
+              SizedBox(
                 height: iconSize,
                 child: IconButton(
                   padding: const EdgeInsets.only(top: 3.0),
@@ -627,6 +642,19 @@ class RarBox extends StatelessWidget {
     //   leading: Image.asset("assets/file_manager_icons/rar.png", height: 25.0),
     //   title: Text(basename(fileUrl)),
     // );
+  }
+}
+
+String ending(int count) {
+  switch (count) {
+    case 0:
+      return '';
+      break;
+    case 1:
+      return '';
+      break;
+    default:
+      return 's';
   }
 }
 

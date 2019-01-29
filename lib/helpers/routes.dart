@@ -24,6 +24,7 @@ import 'package:student_system_flutter/pages/offline_page.dart';
 import 'package:student_system_flutter/pages/preview_page.dart';
 import 'package:student_system_flutter/pages/security_page.dart';
 import 'package:student_system_flutter/pages/settings_page.dart';
+import 'package:student_system_flutter/pages/social_myposts_page.dart';
 import 'package:student_system_flutter/pages/social_page.dart';
 import 'package:student_system_flutter/pages/social_search_page.dart';
 import 'package:student_system_flutter/pages/support_page.dart';
@@ -71,4 +72,5 @@ final routes = {
   // videosPage: (BuildContext context) => VideoPage(),
   ccmRoleSelectPage: (BuildContext context) => CCMRoleSelectPage(),
   socialSearchPage: (BuildContext context) => SocialSearchPage(),
+  socialMyPostsPage: (BuildContext context) => SocialMyPostsPage(),
 };
