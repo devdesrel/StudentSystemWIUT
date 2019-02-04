@@ -18,44 +18,51 @@ class TimetableBloc {
   TimetableBloc({
     this.context,
   }) {
-    _getTimetable().then((list) {
-      _timetableListSubject.add(list);
-    });
+    groupsListDropdown
+        .add(TimetableDropdownListModel(text: 'test', value: 'test'));
+    roomsListDropdown
+        .add(TimetableDropdownListModel(text: 'test', value: 'test'));
+    teachersListDropdown
+        .add(TimetableDropdownListModel(text: 'test', value: 'test'));
+    _getTimetable();
 
-    _populateDropdownList(apiGetGroups).then((list) {
-      if (list != null) {
-        groupsListDropdown = list;
+    // _populateDropdownList(apiGetGroups, TimetableDropdownlinListType.Group);
+    // _populateDropdownList(apiGetRooms, TimetableDropdownlinListType.Room);
+    // _populateDropdownList(apiGetTeachers, TimetableDropdownlinListType.Teacher);
 
-        TimetableDropdownListModel model =
-            TimetableDropdownListModel(text: '', value: '');
+//  _populateDropdownList(apiGetGroups).then((list) {
+//       if (list != null) {
+//         groupsListDropdown = list;
 
-        groupsListDropdown.insert(0, model);
-      }
-    });
+//         TimetableDropdownListModel model =
+//             TimetableDropdownListModel(text: 'a', value: 'a');
 
-    _populateDropdownList(apiGetRooms).then((list) {
-      if (list != null) {
-        roomsListDropdown = list;
+//         groupsListDropdown.insert(0, model);
+//       }
+//     });
+    // _populateDropdownList(apiGetRooms).then((list) {
+    //   if (list != null) {
+    //     roomsListDropdown = list;
 
-        TimetableDropdownListModel model =
-            TimetableDropdownListModel(text: '', value: '');
+    //     TimetableDropdownListModel model =
+    //         TimetableDropdownListModel(text: 'a', value: 'a');
 
-        roomsListDropdown.insert(0, model);
-      }
-    });
+    //     roomsListDropdown.insert(0, model);
+    //   }
+    // });
 
-    _populateDropdownList(apiGetTeachers).then((list) {
-      if (list != null) {
-        teachersListDropdown = list;
+    // _populateDropdownList(apiGetTeachers).then((list) {
+    //   if (list != null) {
+    //     teachersListDropdown = list;
 
-        TimetableDropdownListModel model =
-            TimetableDropdownListModel(text: '', value: '');
+    //     TimetableDropdownListModel model =
+    //         TimetableDropdownListModel(text: 'a', value: 'a');
 
-        teachersListDropdown.insert(0, model);
+    //     teachersListDropdown.insert(0, model);
 
-        _isLoadedSubject.add(true);
-      }
-    });
+    //     _isLoadedSubject.add(true);
+    //   }
+    // });
 
     _setGroupController.stream.listen((group) {
       String _id = _getIdFromList(TimetableDropdownlinListType.Group, group);
@@ -137,8 +144,8 @@ class TimetableBloc {
       roomScrollController = FixedExtentScrollController(initialItem: 0);
       cupertinoRoomIndex = 0;
       cupertinoTeacherIndex = 0;
-
-      _groupNameSubject.add(groupsListDropdown[groupIndex].text);
+//  D changed
+      _groupNameSubject.add(groupsListDropdown[groupIndex].text.trim());
       if (Platform.isAndroid) {
         _roomNameSubject.add('');
         _teacherNameSubject.add('');
@@ -191,13 +198,19 @@ class TimetableBloc {
     _setGroupController.close();
     _setRoomController.close();
     _setTeacherController.close();
-    _timetableTitleSubject.close();
     _cupertinoPickerGroupIndexSubject.close();
     _cupertinoPickerTeacherIndexSubject.close();
     _cupertinoPickerRoomIndexSubject.close();
     _setCupertinoPickerGroupIndexController.close();
     _setCupertinoPickerTeacherIndexController.close();
     _setCupertinoPickerRoomIndexController.close();
+    _timetableListSubject.close();
+    _timetableTitleSubject.close();
+    _groupNameSubject.close();
+    _roomNameSubject.close();
+    _teacherNameSubject.close();
+    _isLoadedSubject.close();
+    _timetableDateSubject.close();
   }
 
   Sink<String> get setGroup => _setGroupController.sink;
@@ -322,7 +335,7 @@ class TimetableBloc {
       }
 
       if (groupName != '' && _groupID == '') {
-        var list = await _populateDropdownList(apiGetGroups);
+        var list = await _getGroupIDByGroupName(apiGetGroups);
 
         if (list != null) {
           // print(list
@@ -338,14 +351,23 @@ class TimetableBloc {
       if (groupName == '') {
         showFlushBar(error, youDontHaveGroup, MessageTypes.ERROR, context, 2);
 
+        _requestDropdownLists();
+
         return [];
       } else if (_groupID != '') {
         List<TimetableModel> _timetableList = await _getTimetableList(
             TimetableDropdownlinListType.Group, _groupID);
 
+        _timetableListSubject.add(_timetableList);
+
+        _requestDropdownLists();
+
         return _timetableList;
       } else {
         showFlushBar(error, tryAgain, MessageTypes.ERROR, context, 2);
+
+        _requestDropdownLists();
+
         return [];
       }
     } else {
@@ -361,7 +383,8 @@ class TimetableBloc {
       }
 
       if (teacherName != '' && _teacherID == '') {
-        var list = await _populateDropdownList(apiGetTeachers);
+        var list = await _populateDropdownList(
+            apiGetTeachers, TimetableDropdownlinListType.Teacher);
 
         if (list != null) {
           _teacherID =
@@ -377,6 +400,8 @@ class TimetableBloc {
       } else if (_teacherID != '') {
         List<TimetableModel> _timetableList = await _getTimetableList(
             TimetableDropdownlinListType.Teacher, _teacherID);
+
+        _timetableListSubject.add(_timetableList);
 
         return _timetableList;
       } else {
@@ -496,7 +521,8 @@ class TimetableBloc {
     switch (type) {
       case TimetableDropdownlinListType.Group:
         return groupsListDropdown
-            .firstWhere((group) => group.text == name)
+            //D changed
+            .firstWhere((group) => group.text.trim() == name)
             .value;
         break;
       case TimetableDropdownlinListType.Room:
@@ -513,6 +539,75 @@ class TimetableBloc {
   }
 
   Future<List<TimetableDropdownListModel>> _populateDropdownList(
+      String url, TimetableDropdownlinListType type) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    final _token = prefs.getString(token);
+
+    try {
+      final response = await http.get(url, headers: {
+        "Accept": "application/json",
+        "Authorization": "Bearer $_token"
+      });
+
+      print(url + '\n' + response.body.toString());
+
+      if (response.statusCode == 200) {
+        List<TimetableDropdownListModel> _list = _parseJson(response.body);
+
+        switch (type) {
+          case TimetableDropdownlinListType.Group:
+            if (_list != null) {
+              groupsListDropdown = _list;
+
+              TimetableDropdownListModel model =
+                  TimetableDropdownListModel(text: 'a', value: 'a');
+
+              groupsListDropdown.insert(0, model);
+            }
+
+            break;
+          case TimetableDropdownlinListType.Room:
+            if (_list != null) {
+              roomsListDropdown = _list;
+
+              TimetableDropdownListModel model =
+                  TimetableDropdownListModel(text: 'a', value: 'a');
+
+              roomsListDropdown.insert(0, model);
+            }
+
+            break;
+          case TimetableDropdownlinListType.Teacher:
+            if (_list != null) {
+              teachersListDropdown = _list;
+
+              TimetableDropdownListModel model =
+                  TimetableDropdownListModel(text: 'a', value: 'a');
+
+              teachersListDropdown.insert(0, model);
+            }
+
+            break;
+          default:
+        }
+
+        if (type == TimetableDropdownlinListType.Teacher) {
+          _isLoadedSubject.add(true);
+        }
+
+        return _list;
+      } else {
+        TimetableDropdownListModel model =
+            TimetableDropdownListModel(text: '', value: '');
+
+        return <TimetableDropdownListModel>[model];
+      }
+    } catch (e) {
+      return null;
+    }
+  }
+
+  Future<List<TimetableDropdownListModel>> _getGroupIDByGroupName(
       String url) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     final _token = prefs.getString(token);
@@ -538,6 +633,12 @@ class TimetableBloc {
     } catch (e) {
       return null;
     }
+  }
+
+  void _requestDropdownLists() {
+    _populateDropdownList(apiGetGroups, TimetableDropdownlinListType.Group);
+    _populateDropdownList(apiGetRooms, TimetableDropdownlinListType.Room);
+    _populateDropdownList(apiGetTeachers, TimetableDropdownlinListType.Teacher);
   }
 
   List<TimetableDropdownListModel> _parseJson(String responseBody) {
