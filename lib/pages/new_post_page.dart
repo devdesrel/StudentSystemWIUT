@@ -83,7 +83,14 @@ Widget _createCurrentPage(BuildContext context) {
               ),
               floatingActionButton: FloatingActionButton(
                 child: Icon(Icons.send),
-                onPressed: () => print("Pressed"),
+                onPressed: () {
+                  bloc.createPost().then((isPosted) {
+                    isPosted
+                        ? Navigator.pop(context)
+                        : showFlushBar(
+                            'Error', tryAgain, MessageTypes.ERROR, context, 2);
+                  });
+                },
               ),
               floatingActionButtonLocation:
                   FloatingActionButtonLocation.endDocked,
@@ -156,7 +163,7 @@ class NewPostBody extends StatelessWidget {
     return Column(children: <Widget>[
       Container(
         color: whiteColor,
-        child: TextFormField(
+        child: TextField(
           autofocus: false,
           maxLines: 8,
           keyboardType: TextInputType.text,
@@ -166,6 +173,7 @@ class NewPostBody extends StatelessWidget {
                 EdgeInsets.symmetric(horizontal: 16.0, vertical: 15.0),
             hintText: 'Share your ideas',
           ),
+          onChanged: (text) => _bloc.postText.add(text),
         ),
       ),
       StreamBuilder(

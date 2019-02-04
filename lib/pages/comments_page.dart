@@ -13,7 +13,7 @@ import 'package:student_system_flutter/helpers/app_constants.dart';
 import 'package:student_system_flutter/helpers/function_helpers.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'package:student_system_flutter/helpers/ui_helpers.dart';
-import 'package:student_system_flutter/models/social_comment_model.dart';
+import 'package:student_system_flutter/models/social/social_comment_model.dart';
 
 class CommentsPage extends StatelessWidget {
   final int postId;

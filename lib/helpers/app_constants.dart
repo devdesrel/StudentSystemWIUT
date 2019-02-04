@@ -64,6 +64,7 @@ final tipsTricksListPage = 'tipsTricksListPage';
 final ccmRoleSelectPage = 'ccmRoleSelectPage';
 final socialProfilePage = 'socialProfilePage';
 final socialSearchPage = 'socialSearchPage';
+final socialMyPostsPage = 'socialMyPostsPage';
 // final deadlinesListInfoPage = 'deadlinesListInfoPage';
 
 //Shared preferance keys
@@ -133,6 +134,7 @@ final apiCCMFeedbackGetCategorySelectionList =
     '$baseUrl/api/CCMFeedback/GetCategorySelectionList';
 final apiCCMFeedbackGetCategoriesSelectionList =
     '$baseUrl/api/CCMFeedback/GetCategoriesSelectionList';
+
 final apiCCMFeedbackGetModuleRepresentatives =
     '$baseUrl/api/CCMFeedback/GetModuleRepresentatives';
 final apiCCMFeedbackGetFeedback = '$baseUrl/api/CCMFeedback/GetFeedback';
@@ -147,6 +149,10 @@ final socialGetContentList = '$baseUrl/api/social/GetContentList';
 final apiSocialGetComments = '$baseUrl/api/social/GetComments';
 final apiSocialLike = '$baseUrl/api/social/Like';
 final apiSocialUnlike = '$baseUrl/api/social/Unlike';
+final apiSocialGetContentIdByNotificationId =
+    '$baseUrl/api/social/GetContentIdByNotification';
+final apiSocialGetContentByNotification =
+    '$baseUrl/api/social/GetContentIdByNotification';
 
 final apiCCMFeedbackAddFeedback = '$baseUrl/api/CCMFeedback/AddFeedback';
 final apiCCMFeedbackEditFeedback = '$baseUrl/api/CCMFeedback/EditFeedback';
@@ -167,7 +173,11 @@ final apiSocialMarkNotificationAsViewed =
     '$baseUrl/api/social/MarkNotificationsAsViewed';
 final apiSocialSearch = '$baseUrl/api/social/GetUsers';
 final apiSocialNotificationCount = '$baseUrl/api/social/NotificationCount';
-
+final apiSocialCreateContent = '$baseUrl/api/social/CreateContent';
+final apiSocialFollow = '$baseUrl/api/social/FollowMe';
+final apiSocialGetFollowers = '$baseUrl/api/social/GetMyFollowers';
+final apiSocialGetFollowings = '$baseUrl/api/social/GetMyFollowings';
+final apiSocialGetMyPosts = '$baseUrl/api/social/GetMyContent';
 //Errors List
 final String authProblems = 'Authorization problems';
 final String connectionFailure = 'Internet connection failure';

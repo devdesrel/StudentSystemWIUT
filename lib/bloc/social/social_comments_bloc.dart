@@ -1,3 +1,3 @@
-class CommentsBloc {
-  CommentsBloc();
+class SocialCommentsBloc {
+  SocialCommentsBloc();
 }

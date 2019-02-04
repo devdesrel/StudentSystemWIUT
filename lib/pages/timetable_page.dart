@@ -22,7 +22,7 @@ class TimetablePage extends StatelessWidget {
 
     return TimetableProvider(
         timetableBloc: _bloc,
-        child: Platform.isAndroid
+        child: Platform.isIOS
             ? Scaffold(
                 // bottomNavigationBar: Container(
                 //     padding:
@@ -279,10 +279,11 @@ class DrawBottomSheetWidget extends StatelessWidget {
                             : bloc.groupsListDropdown[0].text,
                         items: bloc.groupsListDropdown
                             .map((model) => DropdownMenuItem(
-                                value: model.text, child: Text(model.text)))
+                                value: model.text.trim(),
+                                child: Text(model.text.trim())))
                             .toList(),
                         onChanged: (value) {
-                          bloc.setGroup.add(value);
+                          bloc.setGroup.add(value.trim());
                           Navigator.pop(context);
                         },
                       ),
@@ -300,10 +301,11 @@ class DrawBottomSheetWidget extends StatelessWidget {
                             : bloc.roomsListDropdown[0].text,
                         items: bloc.roomsListDropdown
                             .map((model) => DropdownMenuItem(
-                                value: model.text, child: Text(model.text)))
+                                value: model.text.trim(),
+                                child: Text(model.text.trim())))
                             .toList(),
                         onChanged: (value) {
-                          bloc.setRoom.add(value);
+                          bloc.setRoom.add(value.trim());
                           Navigator.pop(context);
                         },
                       ),
@@ -321,13 +323,13 @@ class DrawBottomSheetWidget extends StatelessWidget {
                             : bloc.teachersListDropdown[0].text,
                         items: bloc.teachersListDropdown
                             .map((model) => DropdownMenuItem(
-                                value: model.text,
+                                value: model.text.trim(),
                                 child: Text(
-                                  model.text,
+                                  model.text.trim(),
                                 )))
                             .toList(),
                         onChanged: (value) {
-                          bloc.setTeacher.add(value);
+                          bloc.setTeacher.add(value.trim());
                           Navigator.pop(context);
                         },
                       ),

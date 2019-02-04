@@ -6,54 +6,32 @@ import 'package:http/http.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:student_system_flutter/helpers/app_constants.dart';
 import 'package:student_system_flutter/helpers/function_helpers.dart';
-import 'package:student_system_flutter/models/social_content_model.dart';
+import 'package:student_system_flutter/models/social/social_content_model.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
-import 'package:student_system_flutter/models/social_notifications_model.dart';
-import 'package:student_system_flutter/models/social_profile_model.dart';
+import 'package:student_system_flutter/models/social/social_notifications_model.dart';
+// import 'package:student_system_flutter/models/social_profile_model.dart';
 
 class SocialBloc {
   List<SocialContentModel> allContents;
   List<int> likedPostsList;
+  String contentId;
 
-  Future<SocialProfileModel> getSocialProfile() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    String _token = prefs.getString(token);
-    String _userId = prefs.getString(userTableID);
-    int userid = 845;
-    SocialProfileModel profile;
-    try {
-      Response _response = await http.post("$apiSocialProfile/$userid",
-          headers: {
-            "Accept": "application/json",
-            "Authorization": "Bearer $_token"
-          });
-
-      if (_response.statusCode == 200) {
-        var parsed = json.decode(_response.body);
-
-        profile = SocialProfileModel.fromJson(parsed);
-      } else {
-        profile = null;
-      }
-      return profile;
-    } catch (e) {
-      return null;
-    }
-  }
+  // SocialProfileModel profileData;
 
   int contentPageNumber = 1;
 
   Future<List<SocialContentModel>> getContent() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     String _token = prefs.getString(token);
-    // String _userId = prefs.getString(userID);
-    String _userId = '00004141';
+    String _userId = prefs.getString(userTableID);
+    // String _userId = '00004141';
+
     // int _pageId = 1;
     List<SocialContentModel> _contenList;
     try {
       Response _response = await http
-          .get("$socialGetContentList/845/$contentPageNumber/0", headers: {
+          .get("$socialGetContentList/$_userId/$contentPageNumber/0", headers: {
         "Accept": "application/json",
         "Authorization": "Bearer $_token"
       });
@@ -176,6 +154,53 @@ class SocialBloc {
     return notificationsCount.toString();
   }
 
+//TODO: open content
+  getContentByNotification(String notificationId) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    String _token = prefs.getString(token);
+    try {
+      Response _response = await http.get(
+          '$apiSocialGetContentIdByNotificationId/$notificationId',
+          headers: {
+            "Accept": "application/json",
+            "Authorization": "Bearer $_token"
+          });
+      if (_response.statusCode == 200) {
+        print('success');
+        final parsed = json.decode(_response.body);
+        contentId = parsed['ContentId'];
+        print(contentId);
+      }
+    } catch (e) {
+      print(e);
+    }
+  }
+
+  Future<SocialContentModel> getContentByNotificationId() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    String _token = prefs.getString(token);
+    String _userTableId = prefs.getString(userTableID);
+    SocialContentModel _content;
+    try {
+      Response _response = await http.get(
+          '$apiSocialGetContentByNotification/$contentId/$_userTableId',
+          headers: {
+            "Accept": "application/json",
+            "Authorization": "Bearer $_token"
+          });
+      if (_response.statusCode == 200) {
+        var parsed = json.decode(_response.body);
+        _content = parsed
+            .map<SocialContentModel>(
+                (item) => SocialContentModel.fromJson(item))
+            .toList();
+      }
+    } catch (e) {
+      print(e);
+    }
+    return _content;
+  }
+
   addNotificationsList() async {
     await getNotificationsList().then((list) {
       _notificationsListSubject.add(list);
@@ -197,11 +222,12 @@ class SocialBloc {
     });
   }
 
-  getSocialProfileData() async {
-    getSocialProfile().then((data) {
-      _socialProfileSubject.add(data);
-    });
-  }
+  // getSocialProfileData() async {
+  //   getSocialProfile().then((data) {
+  //     profileData = data;
+  //     // _socialProfileSubject.add(data);
+  //   });
+  // }
 
   contentIncrement() {
     contentPageNumber += 1;
@@ -222,7 +248,7 @@ class SocialBloc {
     checkUserTableID();
     addListToStream();
     getNotificationsCount();
-    getSocialProfileData();
+    // getSocialProfileData();
     addNotificationsList();
     _incrementContentPageNumberController.stream.listen((val) {
       contentPageNumber += val;
@@ -239,7 +265,8 @@ class SocialBloc {
       likePost(postId).then((isLiked) {
         if (isLiked) {
           print('tadaam');
-          // likedPostsList.add(postId);
+          likedPostsList.add(postId);
+          _getLikedPostsListSubject.add(likedPostsList);
           // _isLikedSubject.add(likedPostsList);
         }
       });
@@ -249,7 +276,8 @@ class SocialBloc {
       unlikePost(postId).then((isUnliked) {
         if (isUnliked) {
           print('tadaaam');
-          // likedPostsList.remove(postId);
+          likedPostsList.remove(postId);
+          _getLikedPostsListSubject.add(likedPostsList);
           // _isLikedSubject.add(likedPostsList);
         }
       });
@@ -266,9 +294,9 @@ class SocialBloc {
 
   final _incrementContentPageNumberController = StreamController<int>();
 
-  Stream<SocialProfileModel> get socialProfile => _socialProfileSubject.stream;
+  // Stream<SocialProfileModel> get socialProfile => _socialProfileSubject.stream;
 
-  final _socialProfileSubject = BehaviorSubject<SocialProfileModel>();
+  // final _socialProfileSubject = BehaviorSubject<SocialProfileModel>();
 
   Sink<int> get postIdForComments => _postIdForCommentsController.sink;
 
@@ -291,19 +319,17 @@ class SocialBloc {
   Stream<String> get notificationsCount => _notificationsCountSubject.stream;
 
   final _notificationsCountSubject = BehaviorSubject<String>();
+  Stream<List<int>> get getLikedPostsList => _getLikedPostsListSubject.stream;
 
-  // Stream<List<int>> get isLiked => _isLikedSubject.stream;
-
-  // final _isLikedSubject = BehaviorSubject<List<int>>();
+  final _getLikedPostsListSubject = BehaviorSubject<List<int>>();
 
   dispose() {
-    _socialProfileSubject.close();
     _incrementContentPageNumberController.close();
     _postIdForCommentsController.close();
     _postIdToLikeController.close();
     _postIdToUnlikeController.close();
     _notificationsListSubject.close();
     _notificationsCountSubject.close();
-    // _isLikedSubject.close();
+    _getLikedPostsListSubject.close();
   }
 }

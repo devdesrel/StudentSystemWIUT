@@ -31,4 +31,4 @@ enum FeedbackViewType { Add, Edit }
 enum CCMFeedbackCategory { ModulesFeedback, DepartmentsFeedback }
 enum TipsRequestType { Outlook, Gmail, AppleMail }
 enum WebMailType { Outlook, Gmail, AppleMail }
-enum TimetableType { NonCPFS, CPFS }
+enum SocialProfileAccessType { MyProfile, OtherProfile }
