@@ -39,18 +39,21 @@ class _TimetablePickerIosPageState extends State<TimetablePickerIosPage> {
 
   Future<bool> _onBackPressed() async {
     if (widget.bloc.timetableFilterType == CupertinoTimetablePickerType.Group) {
-      widget.bloc.setGroup.add(
-          widget.bloc.groupsListDropdown[widget.bloc.cupertinoGroupIndex].text);
+      widget.bloc.setGroup.add(widget
+          .bloc.groupsListDropdown[widget.bloc.cupertinoGroupIndex].text
+          .trim());
       return true;
     } else if (widget.bloc.timetableFilterType ==
         CupertinoTimetablePickerType.Teacher) {
       widget.bloc.setTeacher.add(widget
-          .bloc.teachersListDropdown[widget.bloc.cupertinoTeacherIndex].text);
+          .bloc.teachersListDropdown[widget.bloc.cupertinoTeacherIndex].text
+          .trim());
       return true;
     } else if (widget.bloc.timetableFilterType ==
         CupertinoTimetablePickerType.Room) {
-      widget.bloc.setRoom.add(
-          widget.bloc.roomsListDropdown[widget.bloc.cupertinoRoomIndex].text);
+      widget.bloc.setRoom.add(widget
+          .bloc.roomsListDropdown[widget.bloc.cupertinoRoomIndex].text
+          .trim());
       return true;
     }
 
