@@ -50,7 +50,9 @@ class TimetablePage extends StatelessWidget {
                           showModalBottomSheet<void>(
                               context: context,
                               builder: (BuildContext context) {
-                                return DrawBottomSheetWidget(bloc: _bloc);
+                                return DrawBottomSheetWidget(
+                                    // bloc: _bloc
+                                    );
                               });
                         })
 
@@ -149,7 +151,7 @@ class TimetablePage extends StatelessWidget {
 
                             Navigator.of(context).push(MaterialPageRoute(
                                 builder: (context) => TimetablePickerIosPage(
-                                      bloc: _bloc,
+                                    // bloc: _bloc,
                                     )));
                             // showModalBottomSheet<void>(
                             //     context: context,
@@ -239,11 +241,13 @@ class TimetablePage extends StatelessWidget {
 }
 
 class DrawBottomSheetWidget extends StatelessWidget {
-  final TimetableBloc bloc;
-  DrawBottomSheetWidget({this.bloc});
+  // final TimetableBloc bloc;
+  // DrawBottomSheetWidget({this.bloc});
 
   @override
   Widget build(BuildContext context) {
+    var bloc = TimetableProvider.of(context);
+
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 12.0),
       child: Column(

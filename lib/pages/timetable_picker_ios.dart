@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:student_system_flutter/bloc/timetable_page/timetable_bloc.dart';
+import 'package:student_system_flutter/bloc/timetable_page/timetable_provider.dart';
 import 'package:student_system_flutter/enums/ApplicationEnums.dart';
 import 'package:student_system_flutter/helpers/app_constants.dart';
 
 class TimetablePickerIosPage extends StatefulWidget {
-  final TimetableBloc bloc;
-  TimetablePickerIosPage({this.bloc});
+  // final TimetableBloc bloc;
+  // TimetablePickerIosPage({this.bloc});
 
   @override
   _TimetablePickerIosPageState createState() => _TimetablePickerIosPageState();
@@ -15,6 +16,7 @@ class TimetablePickerIosPage extends StatefulWidget {
 class _TimetablePickerIosPageState extends State<TimetablePickerIosPage> {
   double _kPickerItemHeight = 32.0;
   double _kPickerSheetHeight = 216.0;
+  var _bloc;
 
   Widget _buildBottomPicker(Widget picker) {
     return Container(
@@ -38,39 +40,35 @@ class _TimetablePickerIosPageState extends State<TimetablePickerIosPage> {
   }
 
   Future<bool> _onBackPressed() async {
-    if (widget.bloc.timetableFilterType == CupertinoTimetablePickerType.Group) {
-      widget.bloc.setGroup.add(widget
-          .bloc.groupsListDropdown[widget.bloc.cupertinoGroupIndex].text
-          .trim());
+    if (_bloc.timetableFilterType == CupertinoTimetablePickerType.Group) {
+      _bloc.setGroup
+          .add(_bloc.groupsListDropdown[_bloc.cupertinoGroupIndex].text.trim());
       return true;
-    } else if (widget.bloc.timetableFilterType ==
+    } else if (_bloc.timetableFilterType ==
         CupertinoTimetablePickerType.Teacher) {
-      widget.bloc.setTeacher.add(widget
-          .bloc.teachersListDropdown[widget.bloc.cupertinoTeacherIndex].text
-          .trim());
+      _bloc.setTeacher.add(
+          _bloc.teachersListDropdown[_bloc.cupertinoTeacherIndex].text.trim());
       return true;
-    } else if (widget.bloc.timetableFilterType ==
-        CupertinoTimetablePickerType.Room) {
-      widget.bloc.setRoom.add(widget
-          .bloc.roomsListDropdown[widget.bloc.cupertinoRoomIndex].text
-          .trim());
+    } else if (_bloc.timetableFilterType == CupertinoTimetablePickerType.Room) {
+      _bloc.setRoom
+          .add(_bloc.roomsListDropdown[_bloc.cupertinoRoomIndex].text.trim());
       return true;
     }
 
     return true;
-    // if (widget.bloc.cupertinoGroupIndex != 0) {
-    //   widget.bloc.setGroup.add(
-    //       widget.bloc.groupsListDropdown[widget.bloc.cupertinoGroupIndex].text);
+    // if (_bloc.cupertinoGroupIndex != 0) {
+    //   _bloc.setGroup.add(
+    //       _bloc.groupsListDropdown[_bloc.cupertinoGroupIndex].text);
     //   return true;
-    // } else if (widget.bloc.cupertinoRoomIndex != 0) {
-    //   widget.bloc.setRoom.add(
-    //       widget.bloc.roomsListDropdown[widget.bloc.cupertinoRoomIndex].text);
+    // } else if (_bloc.cupertinoRoomIndex != 0) {
+    //   _bloc.setRoom.add(
+    //       _bloc.roomsListDropdown[_bloc.cupertinoRoomIndex].text);
     //   return true;
-    // } else if (widget.bloc.cupertinoTeacherIndex != 0) {
-    //   widget.bloc.setTeacher.add(widget
-    //       .bloc.teachersListDropdown[widget.bloc.cupertinoTeacherIndex].text);
+    // } else if (_bloc.cupertinoTeacherIndex != 0) {
+    //   _bloc.setTeacher.add(widget
+    //       .bloc.teachersListDropdown[_bloc.cupertinoTeacherIndex].text);
     //   print(widget
-    //       .bloc.teachersListDropdown[widget.bloc.cupertinoTeacherIndex].text);
+    //       .bloc.teachersListDropdown[_bloc.cupertinoTeacherIndex].text);
     //   return true;
     // } else {
     //   return false;
@@ -79,206 +77,209 @@ class _TimetablePickerIosPageState extends State<TimetablePickerIosPage> {
 
   @override
   Widget build(BuildContext context) {
+    _bloc = TimetableProvider.of(context);
+
     return Material(
-      child: WillPopScope(
-        onWillPop: _onBackPressed,
-        child: CupertinoPageScaffold(
-          backgroundColor: backgroundColor,
-          navigationBar: CupertinoNavigationBar(
-            middle: Text('Timetable'),
-          ),
-          child: ListView(
-            children: <Widget>[
-              Container(
-                height: 30.0,
-              ),
-              InkWell(
-                onTap: () async {
-                  await showCupertinoModalPopup<void>(
-                      context: context,
-                      builder: (BuildContext context) {
-                        return _buildBottomPicker(
-                          CupertinoPicker(
-                            scrollController: widget.bloc.groupScrollController,
-                            itemExtent: _kPickerItemHeight,
-                            backgroundColor: CupertinoColors.white,
-                            onSelectedItemChanged: (int index) {
-                              // widget.bloc.setGroup.add(
-                              //     widget.bloc.groupsListDropdown[index].text);
-                              widget.bloc.setCupertinoPickerGroupIndex
-                                  .add(index);
-                              widget.bloc.timetableFilterType =
-                                  CupertinoTimetablePickerType.Group;
-                            },
-                            children: List<Widget>.generate(
-                                widget.bloc.groupsListDropdown.length,
-                                (int index) {
-                              return Center(
-                                child: Text(
-                                    widget.bloc.groupsListDropdown[index].text),
-                              );
-                            }),
-                          ),
-                        );
-                      });
-                },
-                child: Container(
-                  color: Colors.white,
-                  child: Padding(
-                    padding: EdgeInsets.only(
-                      left: 9.0, right: 9.0, top: 20.0,
-                      // bottom: 10.0
-                    ),
-                    child: Column(
-                      children: <Widget>[
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: <Widget>[
-                            Text(
-                              'Group',
-                              style: TextStyle(fontWeight: FontWeight.w500),
-                            ),
-                            StreamBuilder(
-                              stream: widget.bloc.groupName,
-                              initialData: 'Select group',
-                              builder: (context, snapshot) => Text(
-                                    snapshot.hasData
-                                        ? snapshot.data
-                                        : 'Select group',
-                                    style: TextStyle(color: lightGreyTextColor),
-                                  ),
-                            ),
-                          ],
+      // child: WillPopScope(
+      // onWillPop: _onBackPressed,
+      child: CupertinoPageScaffold(
+        backgroundColor: backgroundColor,
+        navigationBar: CupertinoNavigationBar(
+          middle: Text('Timetable'),
+        ),
+        child: ListView(
+          children: <Widget>[
+            Container(
+              height: 30.0,
+            ),
+            InkWell(
+              onTap: () async {
+                await showCupertinoModalPopup<void>(
+                    context: context,
+                    builder: (BuildContext context) {
+                      return _buildBottomPicker(
+                        CupertinoPicker(
+                          scrollController: _bloc.groupScrollController,
+                          itemExtent: _kPickerItemHeight,
+                          backgroundColor: CupertinoColors.white,
+                          onSelectedItemChanged: (int index) {
+                            // _bloc.setGroup.add(
+                            //     _bloc.groupsListDropdown[index].text);
+                            _bloc.setCupertinoPickerGroupIndex.add(index);
+                            _bloc.timetableFilterType =
+                                CupertinoTimetablePickerType.Group;
+                          },
+                          children: List<Widget>.generate(
+                              _bloc.groupsListDropdown.length, (int index) {
+                            return Center(
+                              child: Text(_bloc.groupsListDropdown[index].text),
+                            );
+                          }),
                         ),
-                        Divider(),
-                      ],
-                    ),
+                      );
+                    });
+              },
+              child: Container(
+                color: Colors.white,
+                child: Padding(
+                  padding: EdgeInsets.only(
+                    left: 9.0, right: 9.0, top: 20.0,
+                    // bottom: 10.0
+                  ),
+                  child: Column(
+                    children: <Widget>[
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: <Widget>[
+                          Text(
+                            'Group',
+                            style: TextStyle(fontWeight: FontWeight.w500),
+                          ),
+                          StreamBuilder(
+                            stream: _bloc.groupName,
+                            initialData: 'Select group',
+                            builder: (context, snapshot) => Text(
+                                  snapshot.hasData
+                                      ? snapshot.data
+                                      : 'Select group',
+                                  style: TextStyle(color: lightGreyTextColor),
+                                ),
+                          ),
+                        ],
+                      ),
+                      Divider(),
+                    ],
                   ),
                 ),
               ),
-              InkWell(
-                onTap: () async {
-                  await showCupertinoModalPopup<void>(
-                      context: context,
-                      builder: (BuildContext context) {
-                        return _buildBottomPicker(
-                          CupertinoPicker(
-                            scrollController:
-                                widget.bloc.teacherScrollController,
-                            itemExtent: _kPickerItemHeight,
-                            backgroundColor: CupertinoColors.white,
-                            onSelectedItemChanged: (int index) {
-                              // widget.bloc.setTeacher.add(
-                              //     widget.bloc.teachersListDropdown[index].text);
-                              widget.bloc.setCupertinoPickerTeacherIndex
-                                  .add(index);
-                              widget.bloc.timetableFilterType =
-                                  CupertinoTimetablePickerType.Teacher;
-                            },
-                            children: List<Widget>.generate(
-                                widget.bloc.teachersListDropdown.length,
-                                (int index) {
-                              return Center(
-                                child: Text(widget
-                                    .bloc.teachersListDropdown[index].text),
-                              );
-                            }),
+            ),
+            InkWell(
+              onTap: () async {
+                await showCupertinoModalPopup<void>(
+                    context: context,
+                    builder: (BuildContext context) {
+                      return _buildBottomPicker(
+                        CupertinoPicker(
+                          scrollController: _bloc.teacherScrollController,
+                          itemExtent: _kPickerItemHeight,
+                          backgroundColor: CupertinoColors.white,
+                          onSelectedItemChanged: (int index) {
+                            // _bloc.setTeacher.add(
+                            //     _bloc.teachersListDropdown[index].text);
+                            _bloc.setCupertinoPickerTeacherIndex.add(index);
+                            _bloc.timetableFilterType =
+                                CupertinoTimetablePickerType.Teacher;
+                          },
+                          children: List<Widget>.generate(
+                              _bloc.teachersListDropdown.length, (int index) {
+                            return Center(
+                              child:
+                                  Text(_bloc.teachersListDropdown[index].text),
+                            );
+                          }),
+                        ),
+                      );
+                    });
+              },
+              child: Container(
+                color: Colors.white,
+                child: Padding(
+                  padding: EdgeInsets.only(left: 8.0, right: 8.0, top: 10.0),
+                  child: Column(
+                    children: <Widget>[
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: <Widget>[
+                          Text(
+                            'Teacher',
+                            style: TextStyle(fontWeight: FontWeight.w500),
                           ),
-                        );
-                      });
-                },
-                child: Container(
-                  color: Colors.white,
-                  child: Padding(
-                    padding: EdgeInsets.only(left: 8.0, right: 8.0, top: 10.0),
-                    child: Column(
-                      children: <Widget>[
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: <Widget>[
-                            Text(
-                              'Teacher',
-                              style: TextStyle(fontWeight: FontWeight.w500),
+                          StreamBuilder(
+                            stream: _bloc.teacherName,
+                            initialData: 'Select teacher',
+                            builder: (context, snapshot) => Text(
+                                  snapshot.hasData
+                                      ? snapshot.data
+                                      : 'Select teacher',
+                                  style: TextStyle(color: lightGreyTextColor),
+                                ),
+                          )
+                        ],
+                      ),
+                      Divider(),
+                    ],
+                  ),
+                ),
+              ),
+            ),
+            InkWell(
+              onTap: () async {
+                await showCupertinoModalPopup<void>(
+                    context: context,
+                    builder: (BuildContext context) {
+                      return _buildBottomPicker(
+                        CupertinoPicker(
+                          scrollController: _bloc.roomScrollController,
+                          itemExtent: _kPickerItemHeight,
+                          backgroundColor: CupertinoColors.white,
+                          onSelectedItemChanged: (int index) {
+                            // _bloc.setRoom.add(
+                            //     _bloc.roomsListDropdown[index].text);
+                            _bloc.setCupertinoPickerRoomIndex.add(index);
+                            _bloc.timetableFilterType =
+                                CupertinoTimetablePickerType.Room;
+                          },
+                          children: List<Widget>.generate(
+                              _bloc.roomsListDropdown.length, (int index) {
+                            return Center(
+                              child: Text(_bloc.roomsListDropdown[index].text),
+                            );
+                          }),
+                        ),
+                      );
+                    });
+              },
+              child: Container(
+                color: Colors.white,
+                child: Padding(
+                  padding: EdgeInsets.only(
+                      left: 9.0, right: 9.0, top: 10.0, bottom: 10.0),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: <Widget>[
+                      Text(
+                        'Room',
+                        style: TextStyle(fontWeight: FontWeight.w500),
+                      ),
+                      StreamBuilder(
+                        stream: _bloc.roomName,
+                        initialData: 'Select room',
+                        builder: (context, snapshot) => Text(
+                              snapshot.hasData ? snapshot.data : 'Select room',
+                              style: TextStyle(color: lightGreyTextColor),
                             ),
-                            StreamBuilder(
-                              stream: widget.bloc.teacherName,
-                              initialData: 'Select teacher',
-                              builder: (context, snapshot) => Text(
-                                    snapshot.hasData
-                                        ? snapshot.data
-                                        : 'Select teacher',
-                                    style: TextStyle(color: lightGreyTextColor),
-                                  ),
-                            )
-                          ],
-                        ),
-                        Divider(),
-                      ],
-                    ),
+                      )
+                    ],
                   ),
                 ),
               ),
-              InkWell(
-                onTap: () async {
-                  await showCupertinoModalPopup<void>(
-                      context: context,
-                      builder: (BuildContext context) {
-                        return _buildBottomPicker(
-                          CupertinoPicker(
-                            scrollController: widget.bloc.roomScrollController,
-                            itemExtent: _kPickerItemHeight,
-                            backgroundColor: CupertinoColors.white,
-                            onSelectedItemChanged: (int index) {
-                              // widget.bloc.setRoom.add(
-                              //     widget.bloc.roomsListDropdown[index].text);
-                              widget.bloc.setCupertinoPickerRoomIndex
-                                  .add(index);
-                              widget.bloc.timetableFilterType =
-                                  CupertinoTimetablePickerType.Room;
-                            },
-                            children: List<Widget>.generate(
-                                widget.bloc.roomsListDropdown.length,
-                                (int index) {
-                              return Center(
-                                child: Text(
-                                    widget.bloc.roomsListDropdown[index].text),
-                              );
-                            }),
-                          ),
-                        );
-                      });
+            ),
+            Padding(
+              padding: const EdgeInsets.all(16.0),
+              child: CupertinoButton(
+                onPressed: () {
+                  _bloc.setTeacher.add(_bloc
+                      .teachersListDropdown[_bloc.cupertinoTeacherIndex].text);
+                  Navigator.of(context).pop();
                 },
-                child: Container(
-                  color: Colors.white,
-                  child: Padding(
-                    padding: EdgeInsets.only(
-                        left: 9.0, right: 9.0, top: 10.0, bottom: 10.0),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: <Widget>[
-                        Text(
-                          'Room',
-                          style: TextStyle(fontWeight: FontWeight.w500),
-                        ),
-                        StreamBuilder(
-                          stream: widget.bloc.roomName,
-                          initialData: 'Select room',
-                          builder: (context, snapshot) => Text(
-                                snapshot.hasData
-                                    ? snapshot.data
-                                    : 'Select room',
-                                style: TextStyle(color: lightGreyTextColor),
-                              ),
-                        )
-                      ],
-                    ),
-                  ),
-                ),
+                color: accentColor,
+                child: Text('Load timetable'),
               ),
-            ],
-          ),
+            )
+          ],
         ),
       ),
+      // ),
     );
   }
 }

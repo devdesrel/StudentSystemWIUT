@@ -119,13 +119,14 @@ class TimetableBloc {
 
       _getTimetableList(TimetableDropdownlinListType.Teacher, _id).then((list) {
         _timetableListSubject.add(list);
+
+        _timetableTitleSubject.add(teacher);
+        _teacherNameSubject.add(teacher);
+
+        _groupNameSubject.add('');
+        _roomNameSubject.add('');
       });
 
-      _timetableTitleSubject.add(teacher);
-      _teacherNameSubject.add(teacher);
-
-      _groupNameSubject.add('');
-      _roomNameSubject.add('');
       // if (Platform.isAndroid) {
       //   _groupNameSubject.add('');
       //   _roomNameSubject.add('');
