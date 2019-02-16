@@ -14,7 +14,6 @@ class BackdropBloc {
 
   BackdropBloc() {
     getDeadlineInfoValue();
-    getDeadlines();
     _setBackdropPanelHiddenController.stream.listen((val) {
       _backdropPanelHiddenSubject.add(val);
       isBackdropPanelHidden = val;
@@ -89,6 +88,8 @@ class BackdropBloc {
     bool value = prefs.getBool(isDeadlinesListInfoVisible) ?? true;
     _isDeadlineInfoVisibleSubject.add(value);
     isDeadlineInfoScreenVisible = value;
+
+    getDeadlines();
     return value;
   }
 

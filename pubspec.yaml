@@ -20,7 +20,7 @@ dependency_overrides:
   url_launcher: ^4.0.1
   flushbar: ^1.1.1
   package_info: ^0.3.2
-  connectivity: ^0.3.1
+  connectivity: ^0.4.2
   open_file: ^1.1.1
   flutter_sound: ^1.1.1
   screen: ^0.0.4

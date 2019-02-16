@@ -3,7 +3,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:sentry/sentry.dart';
-import 'package:student_system_flutter/bloc/timetable_page/timetable_provider.dart';
+import 'package:student_system_flutter/bloc/application_main_bloc/main_provider.dart';
 import 'package:student_system_flutter/helpers/dsn.dart';
 import 'helpers/app_constants.dart';
 import 'helpers/routes.dart';
@@ -42,7 +42,7 @@ class MainApp extends StatelessWidget {
       headline: TextStyle(color: textColor, fontSize: 20.0),
     );
 
-    return TimetableProvider(
+    return MainProvider(
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
         title: appName,

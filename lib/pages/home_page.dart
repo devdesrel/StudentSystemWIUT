@@ -5,6 +5,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:student_system_flutter/bloc/application_main_bloc/main_provider.dart';
 import 'package:student_system_flutter/bloc/backdrop/backdrop_bloc.dart';
 import 'package:student_system_flutter/bloc/backdrop/backdrop_provider.dart';
 import 'package:student_system_flutter/enums/ApplicationEnums.dart';
@@ -25,8 +26,13 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage>
     with SingleTickerProviderStateMixin {
   AnimationController controller;
+  var _bloc;
 
-  var _bloc = BackdropBloc();
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    _bloc = MainProvider.of(context).backdropBloc;
+  }
 
   @override
   void initState() {

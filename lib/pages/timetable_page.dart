@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:flutter/cupertino.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:flutter/material.dart';
+import 'package:student_system_flutter/bloc/application_main_bloc/main_provider.dart';
 import 'package:student_system_flutter/bloc/timetable_page/timetable_bloc.dart';
 import 'package:student_system_flutter/bloc/timetable_page/timetable_provider.dart';
 import 'package:student_system_flutter/helpers/app_constants.dart';
@@ -12,26 +13,39 @@ import 'package:student_system_flutter/models/Timetable/timetable_model.dart';
 import 'package:student_system_flutter/pages/timetable_picker_ios.dart';
 // import 'package:student_system_flutter/pages/timetable_picker_ios.dart';
 
-class TimetablePage extends StatelessWidget {
+class TimetablePage extends StatefulWidget {
+  @override
+  _TimetablePageState createState() => _TimetablePageState();
+}
+
+class _TimetablePageState extends State<TimetablePage> {
   final listItemLength = 6;
+  TimetableBloc _bloc;
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+
+    if (MainProvider.of(context).timetableBloc.cleared) {
+      _bloc = MainProvider.of(context).createTimetableBloc();
+    } else {
+      _bloc = MainProvider.of(context).timetableBloc;
+    }
+  }
+
+  @override
+  void dispose() {
+    // _bloc.clearCache();
+    _bloc.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
-    final _bloc = TimetableProvider.of(context);
-
     List<String> _weekDays = populateWeekDayList();
 
-    return Platform.isAndroid
+    return Platform.isIOS
         ? Scaffold(
-            // bottomNavigationBar: Container(
-            //     padding:
-            //         EdgeInsets.symmetric(horizontal: 10.0, vertical: 10.0),
-            //     color: redColor,
-            //     child: Text(
-            //       'Timetable for the current academic year isn\'t available',
-            //       overflow: TextOverflow.ellipsis,
-            //       style: TextStyle(color: Colors.white),
-            //     )),
             backgroundColor: Theme.of(context).backgroundColor,
             appBar: AppBar(
               centerTitle: true,
@@ -41,17 +55,24 @@ class TimetablePage extends StatelessWidget {
                       ? Text(snapshot.data)
                       : Text('Timetable')),
               actions: <Widget>[
-                IconButton(
-                    icon: Icon(FontAwesomeIcons.filter),
-                    iconSize: 17.0,
-                    onPressed: () {
-                      showModalBottomSheet<void>(
-                          context: context,
-                          builder: (BuildContext context) {
-                            return DrawBottomSheetWidget(
-                                // bloc: _bloc
-                                );
-                          });
+                StreamBuilder<bool>(
+                    stream: _bloc.isLoaded,
+                    initialData: false,
+                    builder: (context, snapshot) {
+                      return snapshot.data
+                          ? IconButton(
+                              icon: Icon(FontAwesomeIcons.filter),
+                              iconSize: 17.0,
+                              onPressed: () {
+                                showModalBottomSheet<void>(
+                                    context: context,
+                                    builder: (BuildContext context) {
+                                      return DrawBottomSheetWidget(
+                                          // bloc: _bloc
+                                          );
+                                    });
+                              })
+                          : Container();
                     })
 
                 // IconButton(icon: Icon(Icons.search), onPressed: () {})
@@ -137,23 +158,33 @@ class TimetablePage extends StatelessWidget {
                         : Text('Timetable')),
                 trailing: Material(
                   color: Colors.transparent,
-                  child: IconButton(
-                      icon: Icon(FontAwesomeIcons.filter),
-                      iconSize: 17.0,
-                      onPressed: () {
-                        // Navigator.of(context)
-                        //     .pushNamed(timetablePickerIosPage);
+                  child: StreamBuilder<bool>(
+                      stream: _bloc.isLoaded,
+                      initialData: false,
+                      builder: (context, snapshot) {
+                        return snapshot.data
+                            ? IconButton(
+                                icon: Icon(FontAwesomeIcons.filter),
+                                iconSize: 17.0,
+                                onPressed: () {
+                                  // Navigator.of(context)
+                                  //     .pushNamed(timetablePickerIosPage);
 
-                        Navigator.of(context).push(MaterialPageRoute(
-                            builder: (context) => TimetablePickerIosPage(
-                                // bloc: _bloc,
-                                )));
-                        // showModalBottomSheet<void>(
-                        //     context: context,
-                        //     builder: (BuildContext context) {
-                        //       return DrawBottomSheetWidget(
-                        //           bloc: _bloc);
-                        //     });
+                                  Navigator.of(context).push(MaterialPageRoute(
+                                      builder: (context) =>
+                                          TimetablePickerIosPage(
+                                              // bloc: _bloc,
+                                              )));
+                                  // showModalBottomSheet<void>(
+                                  //     context: context,
+                                  //     builder: (BuildContext context) {
+                                  //       return DrawBottomSheetWidget(
+                                  //           bloc: _bloc);
+                                  //     });
+                                })
+                            : Container(
+                                width: 1.0,
+                              );
                       }),
                 ),
 
@@ -239,7 +270,7 @@ class DrawBottomSheetWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    var bloc = TimetableProvider.of(context);
+    var bloc = MainProvider.of(context).timetableBloc;
 
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 12.0),
