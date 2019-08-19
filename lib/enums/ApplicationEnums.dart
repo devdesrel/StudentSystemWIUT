@@ -12,7 +12,8 @@ enum MainPageGridItems {
   SOCIAL,
   CCMFEEDBACK,
   TIPSTRICKS,
-  WEBMAIL
+  WEBMAIL,
+  ATTENDANCE
 }
 
 enum MessageTypes { ERROR, INFO, SUCCESS, INFINITE_INFO }

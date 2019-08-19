@@ -65,6 +65,7 @@ final ccmRoleSelectPage = 'ccmRoleSelectPage';
 final socialProfilePage = 'socialProfilePage';
 final socialSearchPage = 'socialSearchPage';
 final socialMyPostsPage = 'socialMyPostsPage';
+final attendancePage = 'attendancePage';
 // final deadlinesListInfoPage = 'deadlinesListInfoPage';
 
 //Shared preferance keys
@@ -178,6 +179,7 @@ final apiSocialFollow = '$baseUrl/api/social/FollowMe';
 final apiSocialGetFollowers = '$baseUrl/api/social/GetMyFollowers';
 final apiSocialGetFollowings = '$baseUrl/api/social/GetMyFollowings';
 final apiSocialGetMyPosts = '$baseUrl/api/social/GetMyContent';
+final apiQrAttendance = '$baseUrl/api/Attendance/CheckIn';
 //Errors List
 final String authProblems = 'Authorization problems';
 final String connectionFailure = 'Internet connection failure';

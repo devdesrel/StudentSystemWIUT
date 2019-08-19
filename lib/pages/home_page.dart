@@ -372,15 +372,18 @@ void openSelectedPage(BuildContext context, MainPageGridItems page) {
     case MainPageGridItems.BOOK_ORDERING:
       Navigator.of(context).pushNamed(booksPage);
       break;
-    case MainPageGridItems.SOCIAL:
-      Navigator.of(context).pushNamed(socialPage);
-      break;
+    // case MainPageGridItems.SOCIAL:
+    //   Navigator.of(context).pushNamed(socialPage);
+    //   break;
     case MainPageGridItems.CCMFEEDBACK:
       openCCMFeedbackPageByRole()
           .then((val) => Navigator.of(context).pushNamed(val));
       break;
     case MainPageGridItems.TIPSTRICKS:
       Navigator.of(context).pushNamed(tipsTricksListPage);
+      break;
+    case MainPageGridItems.ATTENDANCE:
+      Navigator.of(context).pushNamed(attendancePage);
       break;
     default:
       print('Nothing');
@@ -569,6 +572,8 @@ class CustomGridView2 {
               MainPageGridItems.COURSEWORK_UPLOAD, 1),
           makeGridCell(
               "Social", 'assets/social.png', MainPageGridItems.SOCIAL, 2),
+          makeGridCell("Attendance", 'assets/social.png',
+              MainPageGridItems.ATTENDANCE, 3),
         ]);
   }
 }

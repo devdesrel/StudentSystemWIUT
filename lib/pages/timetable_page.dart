@@ -44,7 +44,7 @@ class _TimetablePageState extends State<TimetablePage> {
   Widget build(BuildContext context) {
     List<String> _weekDays = populateWeekDayList();
 
-    return Platform.isIOS
+    return Platform.isAndroid
         ? Scaffold(
             backgroundColor: Theme.of(context).backgroundColor,
             appBar: AppBar(

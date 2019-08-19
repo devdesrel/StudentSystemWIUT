@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:student_system_flutter/pages/app_updates_page.dart';
+import 'package:student_system_flutter/pages/attendance_page.dart';
 import 'package:student_system_flutter/pages/books_page.dart';
 import 'package:student_system_flutter/pages/ccm_add_feedback_page.dart';
 import 'package:student_system_flutter/pages/ccm_feedback_category_page.dart';
@@ -73,4 +74,5 @@ final routes = {
   ccmRoleSelectPage: (BuildContext context) => CCMRoleSelectPage(),
   socialSearchPage: (BuildContext context) => SocialSearchPage(),
   socialMyPostsPage: (BuildContext context) => SocialMyPostsPage(),
+  attendancePage: (BuildContext context) => AttendancePage(),
 };
