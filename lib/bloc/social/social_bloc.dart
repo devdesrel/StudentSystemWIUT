@@ -79,7 +79,7 @@ class SocialBloc {
   Future<bool> unlikePost(int postId) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     String _token = prefs.getString(token);
-    String _userId = prefs.getString(userTableID);
+    // String _userId = prefs.getString(userTableID);
     bool _isSuccessful;
     try {
       Response _response = await http.post('$apiSocialUnlike/845/$postId',
@@ -105,7 +105,7 @@ class SocialBloc {
   Future<List<SocialNotificationModel>> getNotificationsList() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     String _token = prefs.getString(token);
-    String _userId = prefs.getString(userTableID);
+    // String _userId = prefs.getString(userTableID);
     List<SocialNotificationModel> _notificationsList;
 
     try {

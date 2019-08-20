@@ -107,6 +107,7 @@ class FileManagerState extends State<FileManager>
 
       if (_allPathsList != null && _allPathsList.length > 0) {
         return ListView.builder(
+            physics: BouncingScrollPhysics(),
             padding: const EdgeInsets.all(16.0),
             itemCount: _filteredPathsList.length,
             itemBuilder: (context, i) => i == 0

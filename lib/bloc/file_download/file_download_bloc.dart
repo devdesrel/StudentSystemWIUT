@@ -95,7 +95,7 @@ class FileDownloadBloc {
       _downloadProgressSubject
           .add((contentLength / 1048576) / (fileSize / 1048576));
       _downloadingFileInformationSubject.add(
-          '${(contentLength/1048576).toStringAsFixed(2)} MB / ${(fileSize/1048576).toStringAsFixed(2)} MB');
+          '${(contentLength / 1048576).toStringAsFixed(2)} MB / ${(fileSize / 1048576).toStringAsFixed(2)} MB');
 
       // setState(() {
       //   //Total downloaded bytes

@@ -240,54 +240,54 @@ void showFlushBar(
     [int duration = 0]) {
   switch (type) {
     case MessageTypes.INFO:
-      Flushbar()
-        ..title = title
-        ..icon = Icon(
-          Icons.info,
-          color: Colors.white,
-        )
-        ..message = message
-        ..backgroundColor = greyColor
-        ..shadowColor = Colors.red[800]
-        ..duration = Duration(seconds: duration)
+      Flushbar(
+          title: title,
+          icon: Icon(
+            Icons.info,
+            color: Colors.white,
+          ),
+          message: message,
+          // boxShadows:  Colors.red[800],
+          backgroundColor: greyColor,
+          duration: Duration(seconds: duration))
         ..show(context);
       break;
     case MessageTypes.ERROR:
-      Flushbar()
-        ..title = title
-        ..icon = Icon(
-          Icons.error,
-          color: Colors.white,
-        )
-        ..message = message
-        ..backgroundColor = redColor
-        ..shadowColor = Colors.red[800]
-        ..duration = Duration(seconds: duration)
+      Flushbar(
+          title: title,
+          icon: Icon(
+            Icons.error,
+            color: Colors.white,
+          ),
+          message: message,
+          backgroundColor: redColor,
+          // boxShadows:  Colors.red[800],
+          duration: Duration(seconds: duration))
         ..show(context);
       break;
     case MessageTypes.SUCCESS:
-      Flushbar()
-        ..title = title
-        ..icon = Icon(
-          Icons.check_circle,
-          color: Colors.white,
-        )
-        ..message = message
-        ..backgroundColor = greenColor
-        ..shadowColor = Colors.red[800]
-        ..duration = Duration(seconds: duration)
+      Flushbar(
+          title: title,
+          icon: Icon(
+            Icons.check_circle,
+            color: Colors.white,
+          ),
+          message: message,
+          backgroundColor: greenColor,
+          // shadowColor: Colors.red[800],
+          duration: Duration(seconds: duration))
         ..show(context);
       break;
     case MessageTypes.INFINITE_INFO:
-      Flushbar()
-        ..icon = Icon(
-          Icons.info,
-          color: Colors.white,
-        )
-        ..title = title
-        ..message = message
-        ..backgroundColor = greyColor
-        ..shadowColor = Colors.red[800]
+      Flushbar(
+          icon: Icon(
+            Icons.info,
+            color: Colors.white,
+          ),
+          title: title,
+          message: message,
+          backgroundColor: greyColor)
+        // shadowColor: Colors.red[800])
         ..show(context);
       break;
     default:

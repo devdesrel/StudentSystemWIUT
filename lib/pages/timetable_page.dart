@@ -5,7 +5,6 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:flutter/material.dart';
 import 'package:student_system_flutter/bloc/application_main_bloc/main_provider.dart';
 import 'package:student_system_flutter/bloc/timetable_page/timetable_bloc.dart';
-import 'package:student_system_flutter/bloc/timetable_page/timetable_provider.dart';
 import 'package:student_system_flutter/helpers/app_constants.dart';
 import 'package:student_system_flutter/helpers/ui_helpers.dart';
 import 'package:student_system_flutter/list_items/item_week_timetable.dart';

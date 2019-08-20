@@ -33,7 +33,7 @@ class SocialFollowersPageState extends State<SocialFollowersPage> {
   Future<List<SocialSearchModel>> getFollowers() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     String _token = prefs.getString(token);
-    String _userId = widget.userId;
+    // String _userId = widget.userId;
     // String _userId = prefs.getString(userTableID);
     List<SocialSearchModel> _followersList;
     try {
@@ -58,7 +58,7 @@ class SocialFollowersPageState extends State<SocialFollowersPage> {
   Future<List<SocialSearchModel>> getFollowings() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     String _token = prefs.getString(token);
-    String _userId = widget.userId;
+    // String _userId = widget.userId;
     // String _userId = prefs.getString(userTableID);
     List<SocialSearchModel> _followingssList;
     try {

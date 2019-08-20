@@ -14,14 +14,14 @@ import 'package:student_system_flutter/models/download_file_model.dart';
 import 'package:screen/screen.dart';
 
 class LearningMaterialsBloc {
-  final flushBar = Flushbar<bool>()
-    ..icon = Icon(
-      Icons.info,
-      color: Colors.white,
-    )
-    ..title = downloadingMessageTitle
-    ..message = downloadingMessageBody
-    ..backgroundColor = greyColor;
+  final flushBar = Flushbar<bool>(
+      icon: Icon(
+        Icons.info,
+        color: Colors.white,
+      ),
+      title: downloadingMessageTitle,
+      message: downloadingMessageBody,
+      backgroundColor: greyColor);
 
   String moduleName = '';
   String yearName = '2018/2019';

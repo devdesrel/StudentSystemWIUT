@@ -23,7 +23,7 @@ class MainBloc {
 
         timetableBloc.setAsLoaded.add(true);
         timetableBloc.offlineMode = false;
-        timetableBloc.getTimetable();
+        timetableBloc.getTimetable(); 
       }
 
       if (timetableBloc.cleared) {
