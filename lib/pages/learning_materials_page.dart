@@ -3,7 +3,6 @@ import 'dart:io';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
-import 'package:simple_permissions/simple_permissions.dart';
 import 'package:student_system_flutter/bloc/file_download/file_download_bloc.dart';
 import 'package:student_system_flutter/bloc/file_download/learning_materials_bloc.dart';
 import 'package:student_system_flutter/bloc/file_download/learning_materials_provider.dart';
@@ -15,6 +14,7 @@ import 'package:student_system_flutter/models/LearningMaterials/learning_materia
 import 'package:student_system_flutter/models/LearningMaterials/single_learning_material_model.dart';
 import 'package:student_system_flutter/models/download_file_model.dart';
 import 'package:student_system_flutter/pages/offline_page.dart';
+import 'package:permission_handler/permission_handler.dart';
 
 import '../helpers/app_constants.dart';
 
@@ -381,12 +381,12 @@ class _MaterialsListTabState extends State<MaterialsListTab>
                     initialData: _academicYearsList[19],
                     stream: widget.bloc.academicYearStream,
                     builder: (context, snapshot) => SafeArea(
-                          bottom: false,
-                          child: LearningMaterialsAcademicYearExpansionTile(
-                              bloc: widget.bloc,
-                              expansionTile: acadYearExpansionTile,
-                              expansionChildrenList: _academicYearsList),
-                        ),
+                      bottom: false,
+                      child: LearningMaterialsAcademicYearExpansionTile(
+                          bloc: widget.bloc,
+                          expansionTile: acadYearExpansionTile,
+                          expansionChildrenList: _academicYearsList),
+                    ),
                   ),
                 ),
               ),
@@ -399,12 +399,12 @@ class _MaterialsListTabState extends State<MaterialsListTab>
                     initialData: _learningMaterialTypes[0].toString(),
                     stream: widget.bloc.learningMaterialType,
                     builder: (context, snapshot) => SafeArea(
-                          bottom: false,
-                          child: LearningMaterialsExpansionTile(
-                              bloc: widget.bloc,
-                              expansionTile: materialTypeExpansionTile,
-                              expansionChildrenList: _learningMaterialTypes),
-                        ),
+                      bottom: false,
+                      child: LearningMaterialsExpansionTile(
+                          bloc: widget.bloc,
+                          expansionTile: materialTypeExpansionTile,
+                          expansionChildrenList: _learningMaterialTypes),
+                    ),
                   ),
                 ),
               ),
@@ -579,11 +579,19 @@ class LearningMaterialsCard extends StatelessWidget {
 
   _showDialogToDownload(BuildContext context) async {
     var bloc = LearningMaterialsProvider.of(context);
+    final PermissionHandler _permissionHandler = PermissionHandler();
+    PermissionStatus permission = await PermissionHandler()
+        .checkPermissionStatus(PermissionGroup.storage);
+    bool result = false;
 
     if (Platform.isAndroid) {
       try {
-        Permission permission = Permission.WriteExternalStorage;
-        bool result = await SimplePermissions.checkPermission(permission);
+        if (PermissionStatus.granted == permission) {
+          result = true;
+        } else {
+          result = false;
+        }
+
         if (result) {
           await showDialog(
               context: context,
@@ -634,11 +642,20 @@ class LearningMaterialsCard extends StatelessWidget {
               });
         } else {
           bool result2;
-          await SimplePermissions.requestPermission(permission).then((status) {
-            status == PermissionStatus.authorized
-                ? result2 = true
-                : result2 = false;
-          });
+          var res = await _permissionHandler
+              .requestPermissions([PermissionGroup.storage]);
+
+          if (res[permission] == PermissionStatus.granted) {
+            result2 = true;
+          } else {
+            result2 = false;
+          }
+
+          // await SimplePermissions.requestPermission(permission).then((status) {
+          //   status == PermissionStatus.authorized
+          //       ? result2 = true
+          //       : result2 = false;
+          // });
 
           if (result2) {
             await showDialog(

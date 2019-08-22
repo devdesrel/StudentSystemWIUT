@@ -15,11 +15,11 @@ class CCMFeedbackBloc {
       _feedbackCategoriesListSubject.stream;
 
   final _feedbackCategoriesListSubject =
-      BehaviorSubject<List<CCMFeedbackAsSelectedList>>(seedValue: null);
+      BehaviorSubject<List<CCMFeedbackAsSelectedList>>.seeded(null);
 
   Stream<bool> get isFeedbackEditable => _isFeedbackEditableSubject.stream;
 
-  final _isFeedbackEditableSubject = BehaviorSubject<bool>(seedValue: false);
+  final _isFeedbackEditableSubject = BehaviorSubject<bool>.seeded(false);
 
   String _type = 'modules';
   String groupID;

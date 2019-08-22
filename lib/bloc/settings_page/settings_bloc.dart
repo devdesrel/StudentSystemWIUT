@@ -30,7 +30,7 @@ class SettingsBloc {
 
   Stream<bool> get isSecurityOn => _isSecurityOnSubject.stream;
 
-  final _isSecurityOnSubject = BehaviorSubject<bool>(seedValue: true);
+  final _isSecurityOnSubject = BehaviorSubject<bool>.seeded(true);
 
   Stream<String> get webMailType => _webMailTypeSubject.stream;
 

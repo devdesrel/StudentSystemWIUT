@@ -57,7 +57,7 @@ class NewPostBloc {
 
   Stream<List<File>> get postItems => _postItemsSubject.stream;
 
-  final _postItemsSubject = BehaviorSubject<List<File>>(seedValue: []);
+  final _postItemsSubject = BehaviorSubject<List<File>>.seeded([]);
 
   void dispose() {
     _addWidgetController.close();

@@ -8,11 +8,11 @@ import 'package:student_system_flutter/helpers/app_constants.dart'
     as constantants;
 
 class AttendanceBloc {
-  AttendanceBloc() {}
+  AttendanceBloc();
 
   Stream<String> get qrResult => _qrResultSubject.stream;
 
-  final _qrResultSubject = BehaviorSubject<String>(seedValue: "");
+  final _qrResultSubject = BehaviorSubject<String>.seeded('');
 
   Future<void> result(bool isSuccess) async {
     isSuccess

@@ -3,7 +3,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:path/path.dart';
 import 'package:path_provider/path_provider.dart';
-import 'package:simple_permissions/simple_permissions.dart';
+import 'package:permission_handler/permission_handler.dart';
 
 class FilesDownloadedPage extends StatefulWidget {
   @override
@@ -54,27 +54,50 @@ class _FilesDownloadedPageState extends State<FilesDownloadedPage> {
   // }
 
   _initPlatformState() async {
+    final PermissionHandler _permissionHandler = PermissionHandler();
+
     if (Platform.isAndroid) {
-      SimplePermissions.checkPermission(Permission.WriteExternalStorage)
-          .then((checkOkay) {
-        if (!checkOkay) {
-          SimplePermissions.requestPermission(Permission.WriteExternalStorage)
-              .then((okDone) {
-            if (okDone == PermissionStatus.authorized) {
-              setState(() {
-                externalStoragePermissionOkay = true;
-                // externalStoragePermissionOkay = okDone;
-              });
-            }
-          });
-        } else {
+      PermissionStatus permission = await PermissionHandler()
+          .checkPermissionStatus(PermissionGroup.storage);
+
+      if (PermissionStatus.granted == permission) {
+        externalStoragePermissionOkay = true;
+        setState(() {});
+      } else {
+        var result = await _permissionHandler
+            .requestPermissions([PermissionGroup.storage]);
+        if (result[permission] == PermissionStatus.granted) {
           setState(() {
-            externalStoragePermissionOkay = checkOkay;
+            // externalStoragePermissionOkay = okDone;
+            externalStoragePermissionOkay = true;
           });
         }
-      });
+      }
     }
   }
+
+  // _initPlatformState() async {
+  //   if (Platform.isAndroid) {
+  //     SimplePermissions.checkPermission(Permission.WriteExternalStorage)
+  //         .then((checkOkay) {
+  //       if (!checkOkay) {
+  //         SimplePermissions.requestPermission(Permission.WriteExternalStorage)
+  //             .then((okDone) {
+  //           if (okDone == PermissionStatus.authorized) {
+  //             setState(() {
+  //               externalStoragePermissionOkay = true;
+  //               // externalStoragePermissionOkay = okDone;
+  //             });
+  //           }
+  //         });
+  //       } else {
+  //         setState(() {
+  //           externalStoragePermissionOkay = checkOkay;
+  //         });
+  //       }
+  //     });
+  //   }
+  // }
 
   Widget _buildSuggestions() {
     if (Platform.isAndroid && externalStoragePermissionOkay) {

@@ -16,7 +16,7 @@ class CCMFeedbackItemBloc {
 
   Stream<bool> get isPositive => _isPositiveSubject.stream;
 
-  final _isPositiveSubject = BehaviorSubject<bool>(seedValue: true);
+  final _isPositiveSubject = BehaviorSubject<bool>.seeded(true);
 
   // Stream<String> get memberNames => _memberNamesSubject.stream;
 
@@ -26,7 +26,7 @@ class CCMFeedbackItemBloc {
       _feedbackListSubject.stream;
 
   final _feedbackListSubject =
-      BehaviorSubject<List<CCMFeedbackModel>>(seedValue: null);
+      BehaviorSubject<List<CCMFeedbackModel>>.seeded(null);
 
   int feedbackType = 0;
   int depOrModID = 0;

@@ -213,11 +213,11 @@ class TimetableBloc {
 
   Stream<bool> get isLoaded => _isLoadedSubject.stream;
 
-  final _isLoadedSubject = BehaviorSubject<bool>(seedValue: false);
+  final _isLoadedSubject = BehaviorSubject<bool>.seeded(false);
 
   Stream<String> get timetableDate => _timetableDateSubject.stream;
 
-  final _timetableDateSubject = BehaviorSubject<String>(seedValue: '');
+  final _timetableDateSubject = BehaviorSubject<String>.seeded('');
 
   //IOS Picker
 

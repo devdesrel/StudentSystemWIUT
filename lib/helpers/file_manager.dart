@@ -5,7 +5,7 @@ import 'package:flutter/services.dart';
 import 'package:open_file/open_file.dart';
 import 'package:path/path.dart';
 import 'package:path_provider/path_provider.dart';
-import 'package:simple_permissions/simple_permissions.dart';
+import 'package:permission_handler/permission_handler.dart';
 import 'package:mime/mime.dart';
 import 'package:student_system_flutter/helpers/app_constants.dart';
 
@@ -173,29 +173,51 @@ class FileManagerState extends State<FileManager>
   }
 
   _initPlatformState() async {
-    if (Platform.isAndroid) {
-      SimplePermissions.checkPermission(Permission.WriteExternalStorage)
-          .then((checkOkay) {
-        if (!checkOkay) {
-          SimplePermissions.requestPermission(Permission.WriteExternalStorage)
-              .then((okDone) {
-            if (okDone == PermissionStatus.authorized) {
-              // externalStoragePermissionOkay = okDone;
-              externalStoragePermissionOkay = true;
+    final PermissionHandler _permissionHandler = PermissionHandler();
 
-              setState(() {
-                // externalStoragePermissionOkay = okDone;
-                externalStoragePermissionOkay = true;
-              });
-            }
+    if (Platform.isAndroid) {
+      PermissionStatus permission = await PermissionHandler()
+          .checkPermissionStatus(PermissionGroup.storage);
+
+      if (PermissionStatus.granted == permission) {
+        externalStoragePermissionOkay = true;
+        setState(() {});
+      } else {
+        var result = await _permissionHandler
+            .requestPermissions([PermissionGroup.storage]);
+        if (result[permission] == PermissionStatus.granted) {
+          setState(() {
+            // externalStoragePermissionOkay = okDone;
+            externalStoragePermissionOkay = true;
           });
-        } else {
-          externalStoragePermissionOkay = checkOkay;
-          setState(() {});
         }
-      });
+      }
     }
   }
+  // _initPlatformState() async {
+  //   if (Platform.isAndroid) {
+  //     SimplePermissions.checkPermission(Permission.WriteExternalStorage)
+  //         .then((checkOkay) {
+  //       if (!checkOkay) {
+  //         SimplePermissions.requestPermission(Permission.WriteExternalStorage)
+  //             .then((okDone) {
+  //           if (okDone == PermissionStatus.authorized) {
+  //             // externalStoragePermissionOkay = okDone;
+  //             externalStoragePermissionOkay = true;
+
+  //             setState(() {
+  //               // externalStoragePermissionOkay = okDone;
+  //               externalStoragePermissionOkay = true;
+  //             });
+  //           }
+  //         });
+  //       } else {
+  //         externalStoragePermissionOkay = checkOkay;
+  //         setState(() {});
+  //       }
+  //     });
+  //   }
+  // }
 
 //   Future _openFile(String filePath) async {
 //     var sendMap = <String, dynamic>{

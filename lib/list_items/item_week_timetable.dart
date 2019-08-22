@@ -41,8 +41,7 @@ class WeekDayHeader extends StatelessWidget {
         children: <Widget>[
           Text(
             dayName.toUpperCase(),
-            style: Theme
-                .of(context)
+            style: Theme.of(context)
                 .textTheme
                 .display1
                 .copyWith(color: accentColor, fontSize: 25.0),
@@ -76,8 +75,7 @@ class ItemDayTimetable extends StatelessWidget {
                 child: Center(
                     child: Text(item.period,
                         textAlign: TextAlign.center,
-                        style: Theme
-                            .of(context)
+                        style: Theme.of(context)
                             .textTheme
                             .subhead
                             .copyWith(color: whiteColor))),
@@ -95,8 +93,7 @@ class ItemDayTimetable extends StatelessWidget {
               SizedBox(height: 10.0),
               Text(item.teachershort,
                   textAlign: TextAlign.center,
-                  style: Theme
-                      .of(context)
+                  style: Theme.of(context)
                       .textTheme
                       .subhead
                       .copyWith(color: textColor)),
@@ -107,14 +104,12 @@ class ItemDayTimetable extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: <Widget>[
                       Text('Room',
-                          style: Theme
-                              .of(context)
+                          style: Theme.of(context)
                               .textTheme
                               .subhead
                               .copyWith(color: whiteColor)),
                       Text(item.classroomshort,
-                          style: Theme
-                              .of(context)
+                          style: Theme.of(context)
                               .textTheme
                               .subhead
                               .copyWith(color: whiteColor)),

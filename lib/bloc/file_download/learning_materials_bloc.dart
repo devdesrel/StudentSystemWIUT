@@ -130,7 +130,7 @@ class LearningMaterialsBloc {
       _materialsListSubject.stream;
 
   final _materialsListSubject =
-      BehaviorSubject<List<SingleLearningMaterialsModel>>(seedValue: []);
+      BehaviorSubject<List<SingleLearningMaterialsModel>>.seeded([]);
 
   Stream<List<DownloadFileModel>> get downloadingFilesList =>
       _downloadingFilesListSubject.stream;

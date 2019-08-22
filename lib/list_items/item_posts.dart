@@ -91,11 +91,19 @@ class _VideoBoxState extends State<VideoBox> {
   //       });
 
   VideoPlayerController _controller;
+  ChewieController _chewieController;
+
   @override
   void initState() {
     super.initState();
-    _controller =
-        new VideoPlayerController.network(fileBaseUrl + widget.fileUrl);
+
+    _controller = VideoPlayerController.network(fileBaseUrl + widget.fileUrl);
+    _chewieController = ChewieController(
+      videoPlayerController: _controller,
+      aspectRatio: 3 / 2,
+      autoPlay: true,
+      looping: true,
+    );
   }
 
   @override
@@ -106,14 +114,7 @@ class _VideoBoxState extends State<VideoBox> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-        child: new Chewie(
-      _controller,
-      aspectRatio: 3 / 2,
-      autoPlay: false,
-      looping: false,
-      autoInitialize: true,
-    ));
+    return Container(child: new Chewie(controller: _chewieController));
   }
 }
 
@@ -348,23 +349,23 @@ class CardBody extends StatelessWidget {
                 child: StreamBuilder(
                   stream: bloc.getLikedPostsList,
                   builder: (context, snapshot) => IconButton(
-                        padding: const EdgeInsets.only(top: 3.0),
-                        onPressed: () {
-                          // if (model.isLiked) {
-                          //   bloc.postIdToUnlike.add(model.id);
-                          // } else {
-                          //   bloc.postIdToLike.add(model.id);
-                          // }
-                          model.isLiked
-                              ? bloc.postIdToUnlike.add(model.id)
-                              : bloc.postIdToLike.add(model.id);
-                        },
-                        icon: model.isLiked ? postLikedIcon : postLikeIcon,
-                        //icon: IconData (f442, fontFamily: CuperIcon),
-                        //TextStyle(CuperIcon ),
-                        iconSize: iconSize,
-                        color: accentColor,
-                      ),
+                    padding: const EdgeInsets.only(top: 3.0),
+                    onPressed: () {
+                      // if (model.isLiked) {
+                      //   bloc.postIdToUnlike.add(model.id);
+                      // } else {
+                      //   bloc.postIdToLike.add(model.id);
+                      // }
+                      model.isLiked
+                          ? bloc.postIdToUnlike.add(model.id)
+                          : bloc.postIdToLike.add(model.id);
+                    },
+                    icon: model.isLiked ? postLikedIcon : postLikeIcon,
+                    //icon: IconData (f442, fontFamily: CuperIcon),
+                    //TextStyle(CuperIcon ),
+                    iconSize: iconSize,
+                    color: accentColor,
+                  ),
                 ),
               ),
             ],

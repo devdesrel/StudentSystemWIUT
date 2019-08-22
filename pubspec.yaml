@@ -7,31 +7,33 @@ dependency_overrides:
   # http: "^0.11.3+16"
   # dependency_overrides:
   http: ^0.12.0
-  local_auth: "^0.5.2+2"
-  cached_network_image: "^0.5.0"
-  shared_preferences: "^0.4.3"
-  path_provider: "^0.4.1"
-  simple_permissions: "^0.1.6"
-  font_awesome_flutter: "^8.0.1"
-  image_picker: "^0.4.10"
-  rxdart: "^0.18.0"
-  mime: ^0.9.6
-  sentry: ^2.1.0
-  url_launcher: ^4.0.1
-  flushbar: 1.5.3
-  package_info: ^0.3.2
-  connectivity: ^0.4.2
-  open_file: ^1.1.1
-  flutter_sound: ^1.1.1
-  screen: ^0.0.4
+  local_auth: "^0.5.2+4"
+  cached_network_image: "^1.1.1"
+  shared_preferences: "^0.5.3+4"
+  path_provider: "^1.2.0"
+  #simple_permissions: "^0.1.9"
+  permission_handler: ^3.2.2
+  font_awesome_flutter: "^8.5.0"
+  image_picker: "^0.6.1+3"
+  rxdart: "^0.22.1+1"
+  mime: "^0.9.6+3"
+  sentry: ^2.2.0
+  url_launcher: ^5.1.2
+  flushbar: 1.8.2
+  package_info: ^0.4.0+6
+  connectivity: ^0.4.3+7
+  open_file: ^2.0.3
+  flutter_sound: ^1.4.2
+  screen: ^0.0.5
   flutter_circular_chart: "^0.1.0"
-  flutter_map: ^0.1.1
-  flutter_downloader: ^1.1.3
+  flutter_map: ^0.7.0+2
+  flutter_downloader: ^1.1.9
   # video_player: ^0.8.0
-  chewie: ^0.8.0
+  chewie: ^0.9.7
   # image_picker_saver:
-  intl: ^0.15.7
+  intl: ^0.15.8
   # equatable: ^0.2.6
+  barcode_scan: ^1.0.0
 
 
 
@@ -46,7 +48,7 @@ dependency_overrides:
   # flutter_advanced_networkimage: ^0.3.8
   # carousel: "^0.1.0"
 
-  material_design_icons_flutter: ^2.7.94
+  material_design_icons_flutter: ^3.2.4096
   # community_material_icon: ^0.1.2
 
   cupertino_icons: ^0.1.2
@@ -56,7 +58,7 @@ dev_dependencies:
   flutter_test:
     sdk: flutter
   
-  flutter_launcher_icons: ^0.6.1
+  flutter_launcher_icons: ^0.7.2+1
   # flutter_launcher_icons: ^0.5.2
   
   # carousel_pro: ^0.0.13

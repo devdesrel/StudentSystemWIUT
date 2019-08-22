@@ -56,7 +56,7 @@ class BackdropBloc {
 
   Stream<bool> get backdropPanelHidden => _backdropPanelHiddenSubject.stream;
 
-  final _backdropPanelHiddenSubject = BehaviorSubject<bool>(seedValue: true);
+  final _backdropPanelHiddenSubject = BehaviorSubject<bool>.seeded(true);
 
   Stream<DeadlinesModel> get showDeadlineModule =>
       _showDeadlineModuleSubject.stream;
@@ -66,7 +66,7 @@ class BackdropBloc {
   Stream<bool> get isDeadlineInfoVisible =>
       _isDeadlineInfoVisibleSubject.stream;
 
-  final _isDeadlineInfoVisibleSubject = BehaviorSubject<bool>(seedValue: true);
+  final _isDeadlineInfoVisibleSubject = BehaviorSubject<bool>.seeded(true);
 
   Stream<List<DeadlinesModel>> get deadlineDatesList =>
       _deadlineDatesListSubject.stream;

@@ -74,13 +74,12 @@ class CCMAddFeedbackBloc {
       _groupCoverageDataValidationSubject.stream;
 
   final _groupCoverageDataValidationSubject =
-      BehaviorSubject<bool>(seedValue: false);
+      BehaviorSubject<bool>.seeded(false);
 
   Stream<bool> get teacherNameDataValidation =>
       _teacherNameDataValidationSubject.stream;
 
-  final _teacherNameDataValidationSubject =
-      BehaviorSubject<bool>(seedValue: false);
+  final _teacherNameDataValidationSubject = BehaviorSubject<bool>.seeded(false);
 
   Stream<String> get feedbackType => _feedbackTypeSubject.stream;
 

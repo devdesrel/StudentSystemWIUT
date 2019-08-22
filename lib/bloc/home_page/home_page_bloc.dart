@@ -11,7 +11,7 @@ class HomePageBloc {
       _isUnderDevelopmentFeaturesOnSubject.stream;
 
   final _isUnderDevelopmentFeaturesOnSubject =
-      BehaviorSubject<bool>(seedValue: true);
+      BehaviorSubject<bool>.seeded(true);
 
   Sink<bool> get setUnderDevelopmentFeaturesVisibility =>
       _setUnderDevelopmentFeaturesVisibilityController.sink;
@@ -21,7 +21,7 @@ class HomePageBloc {
 
   Stream<String> get userRoleStream => _userRoleStreamSubject.stream;
 
-  final _userRoleStreamSubject = BehaviorSubject<String>(seedValue: 'staff');
+  final _userRoleStreamSubject = BehaviorSubject<String>.seeded('staff');
 
   Sink<String> get setUserRole => _setUserRoleController.sink;
 

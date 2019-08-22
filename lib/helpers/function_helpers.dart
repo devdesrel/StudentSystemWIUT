@@ -373,6 +373,33 @@ Future<Null> showSignOutDialog(BuildContext context) async {
             ),
           ],
         );
+      } else {
+        return AlertDialog(
+          title: Text('Sign out'),
+          content: SingleChildScrollView(
+            child: ListBody(
+              children: <Widget>[
+                Text('Do you want to sign out from the system?'),
+              ],
+            ),
+          ),
+          actions: <Widget>[
+            FlatButton(
+              child: Text('Yes'.toUpperCase()),
+              onPressed: () {
+                Navigator.of(context).pop();
+                _cleanUserData();
+                Navigator.of(context).pushReplacementNamed(loginPage);
+              },
+            ),
+            FlatButton(
+              child: Text('No'.toUpperCase()),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+          ],
+        );
       }
     },
   );
