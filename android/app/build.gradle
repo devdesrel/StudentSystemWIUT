@@ -27,11 +27,11 @@ android {
 
     defaultConfig {
         // TODO: Specify your own unique Application ID (https://developer.android.com/studio/build/application-id.html).
-        applicationId "com.wiut.studentsystemflutter"
+        applicationId "uz.wiut.flutterstudentsystems"
         minSdkVersion 16
         targetSdkVersion 28
-        versionCode 13
-        versionName "0.7.1"
+        versionCode 3
+        versionName "1.0.1"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
 
@@ -61,8 +61,8 @@ flutter {
 
 dependencies {
     testImplementation 'junit:junit:4.12'
-    androidTestImplementation 'com.androidx.test:runner:1.0.1'
-    androidTestImplementation 'com.androidx.test.espresso:espresso-core:3.0.1'
+    androidTestImplementation 'androidx.test:runner:1.2.0'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
     // api 'android.arch.lifecycle:runtime:1.1.1'
     api 'android.arch.lifecycle:extensions:1.1.1'
    // implementation "com.android.support:support-v4:27.1.1"//check

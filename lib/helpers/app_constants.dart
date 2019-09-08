@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 //Application
 final appName = 'Student System';
 final playStoreUrl =
-    'https://play.google.com/store/apps/details?id=com.wiut.studentsystemflutter';
+    'https://play.google.com/store/apps/details?id=uz.wiut.flutterstudentsystems';
 final appStoreUrl =
     'https://itunes.apple.com/us/app/wiut-intranet/id1437888555';
 
