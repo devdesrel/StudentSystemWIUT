@@ -194,6 +194,15 @@ class _LoginPageState extends State<LoginPage> implements AuthStateListener {
 
           decoration: InputDecoration(
               labelText: placeholderName,
+              // focusedBorder: OutlineInputBorder(
+              //   borderSide:
+              //       BorderSide(color: Colors.white, style: BorderStyle.solid),
+              // ),
+              enabledBorder: OutlineInputBorder(
+                  gapPadding: 5.0,
+                  borderSide:
+                      BorderSide(color: Colors.white, style: BorderStyle.solid),
+                  borderRadius: BorderRadius.circular(8.0)),
               border: OutlineInputBorder(
                   gapPadding: 5.0,
                   borderSide:

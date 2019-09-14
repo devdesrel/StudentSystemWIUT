@@ -44,7 +44,7 @@ packages:
     source: hosted
     version: "1.0.4"
   cached_network_image:
-    dependency: "direct overridden"
+    dependency: transitive
     description:
       name: cached_network_image
       url: "https://pub.dartlang.org"

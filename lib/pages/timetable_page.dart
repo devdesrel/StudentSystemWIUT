@@ -30,6 +30,7 @@ class _TimetablePageState extends State<TimetablePage> {
     } else {
       _bloc = MainProvider.of(context).timetableBloc;
     }
+    _bloc.context = context;
   }
 
   @override
@@ -88,10 +89,10 @@ class _TimetablePageState extends State<TimetablePage> {
                       stream: _bloc.timetableDate,
                       initialData: '',
                       builder: (context, snapshot) => Text(
-                            snapshot.hasData ? snapshot.data : '',
-                            overflow: TextOverflow.ellipsis,
-                            style: TextStyle(color: Colors.white),
-                          ),
+                        snapshot.hasData ? snapshot.data : '',
+                        overflow: TextOverflow.ellipsis,
+                        style: TextStyle(color: Colors.white),
+                      ),
                     ),
                   )),
               Expanded(
@@ -201,10 +202,10 @@ class _TimetablePageState extends State<TimetablePage> {
                           stream: _bloc.timetableDate,
                           initialData: '',
                           builder: (context, snapshot) => Text(
-                                snapshot.hasData ? snapshot.data : '',
-                                overflow: TextOverflow.ellipsis,
-                                style: TextStyle(color: Colors.white),
-                              ),
+                            snapshot.hasData ? snapshot.data : '',
+                            overflow: TextOverflow.ellipsis,
+                            style: TextStyle(color: Colors.white),
+                          ),
                         ),
                       )),
                   Expanded(
@@ -283,19 +284,19 @@ class DrawBottomSheetWidget extends StatelessWidget {
                 StreamBuilder(
                   stream: bloc.groupName,
                   builder: (context, snapshot) => DropdownButton(
-                        value: snapshot.hasData
-                            ? snapshot.data
-                            : bloc.groupsListDropdown[0].text,
-                        items: bloc.groupsListDropdown
-                            .map((model) => DropdownMenuItem(
-                                value: model.text.trim(),
-                                child: Text(model.text.trim())))
-                            .toList(),
-                        onChanged: (value) {
-                          bloc.setGroup.add(value.trim());
-                          Navigator.pop(context);
-                        },
-                      ),
+                    value: snapshot.hasData
+                        ? snapshot.data
+                        : bloc.groupsListDropdown[0].text,
+                    items: bloc.groupsListDropdown
+                        .map((model) => DropdownMenuItem(
+                            value: model.text.trim(),
+                            child: Text(model.text.trim())))
+                        .toList(),
+                    onChanged: (value) {
+                      bloc.setGroup.add(value.trim());
+                      Navigator.pop(context);
+                    },
+                  ),
                 ),
               ]),
           Row(
@@ -305,19 +306,19 @@ class DrawBottomSheetWidget extends StatelessWidget {
                 StreamBuilder(
                   stream: bloc.roomName,
                   builder: (context, snapshot) => DropdownButton(
-                        value: snapshot.hasData
-                            ? snapshot.data
-                            : bloc.roomsListDropdown[0].text,
-                        items: bloc.roomsListDropdown
-                            .map((model) => DropdownMenuItem(
-                                value: model.text.trim(),
-                                child: Text(model.text.trim())))
-                            .toList(),
-                        onChanged: (value) {
-                          bloc.setRoom.add(value.trim());
-                          Navigator.pop(context);
-                        },
-                      ),
+                    value: snapshot.hasData
+                        ? snapshot.data
+                        : bloc.roomsListDropdown[0].text,
+                    items: bloc.roomsListDropdown
+                        .map((model) => DropdownMenuItem(
+                            value: model.text.trim(),
+                            child: Text(model.text.trim())))
+                        .toList(),
+                    onChanged: (value) {
+                      bloc.setRoom.add(value.trim());
+                      Navigator.pop(context);
+                    },
+                  ),
                 ),
               ]),
           Row(
@@ -327,21 +328,21 @@ class DrawBottomSheetWidget extends StatelessWidget {
                 StreamBuilder(
                   stream: bloc.teacherName,
                   builder: (context, snapshot) => DropdownButton(
-                        value: snapshot.hasData
-                            ? snapshot.data
-                            : bloc.teachersListDropdown[0].text,
-                        items: bloc.teachersListDropdown
-                            .map((model) => DropdownMenuItem(
-                                value: model.text.trim(),
-                                child: Text(
-                                  model.text.trim(),
-                                )))
-                            .toList(),
-                        onChanged: (value) {
-                          bloc.setTeacher.add(value.trim());
-                          Navigator.pop(context);
-                        },
-                      ),
+                    value: snapshot.hasData
+                        ? snapshot.data
+                        : bloc.teachersListDropdown[0].text,
+                    items: bloc.teachersListDropdown
+                        .map((model) => DropdownMenuItem(
+                            value: model.text.trim(),
+                            child: Text(
+                              model.text.trim(),
+                            )))
+                        .toList(),
+                    onChanged: (value) {
+                      bloc.setTeacher.add(value.trim());
+                      Navigator.pop(context);
+                    },
+                  ),
                 ),
               ]),
         ],

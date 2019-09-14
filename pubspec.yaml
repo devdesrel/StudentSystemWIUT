@@ -10,7 +10,7 @@ dependency_overrides:
   #local_auth: "^0.5.2+4"
   local_auth: "0.4.0+1"
   
-  cached_network_image: "^1.1.1"
+  # cached_network_image: "^1.1.1"
   shared_preferences: "^0.5.3+4"
   path_provider: "^1.2.0"
   #simple_permissions: "^0.1.9"

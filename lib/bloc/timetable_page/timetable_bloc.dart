@@ -287,7 +287,7 @@ class TimetableBloc {
       if (groupName != '' && _groupID == '') {
         var list = await _getGroupIDByGroupName(apiGetGroups);
 
-        if (list != null) {
+        if (list != null && list.length != 0) {
           // print(list
           //     .where((group) => group.text.trim() == groupName.trim())
           //     .toList());
@@ -295,11 +295,18 @@ class TimetableBloc {
               .firstWhere((group) => group.text.trim() == groupName.trim())
               .value;
           prefs.setString(groupID, _groupID);
+        } else {
+          if (context != null) {
+            showFlushBar(
+                error, timetableAvailableSoon, MessageTypes.ERROR, context, 2);
+          }
         }
       }
 
       if (groupName == '') {
-        showFlushBar(error, youDontHaveGroup, MessageTypes.ERROR, context, 2);
+        if (context != null) {
+          showFlushBar(error, youDontHaveGroup, MessageTypes.ERROR, context, 2);
+        }
 
         _requestDropdownLists();
 
@@ -314,7 +321,8 @@ class TimetableBloc {
 
         return _timetableList;
       } else {
-        showFlushBar(error, tryAgain, MessageTypes.ERROR, context, 2);
+        if (context != null)
+          showFlushBar(error, tryAgain, MessageTypes.ERROR, context, 2);
 
         _requestDropdownLists();
 
@@ -422,36 +430,38 @@ class TimetableBloc {
           for (var i = 0; i < _timetableList.length; i++) {
             var item = _timetableList[i];
 
-            if (_sortedList.any((t) =>
-                t.subjectshort == item.subjectshort &&
-                t.dayOfWeek == item.dayOfWeek &&
-                t.classshort == item.classshort &&
-                t.teachershort == item.teachershort)) {
-              int _position = _sortedList.indexOf(_sortedList.firstWhere((t) =>
-                  t.subjectshort == item.subjectshort &&
-                  t.dayOfWeek == item.dayOfWeek &&
-                  t.classshort == item.classshort &&
-                  t.teachershort == item.teachershort));
+            // if (_sortedList.any((t) =>
+            //     t.subjectshort == item.subjectshort &&
+            //     t.dayOfWeek == item.dayOfWeek &&
+            //     t.classshort == item.classshort &&
+            //     t.teachershort == item.teachershort)) {
+            //   int _position = _sortedList.indexOf(_sortedList.firstWhere((t) =>
+            //       t.subjectshort == item.subjectshort &&
+            //       t.dayOfWeek == item.dayOfWeek &&
+            //       t.classshort == item.classshort &&
+            //       t.teachershort == item.teachershort));
 
-              String _period = _sortedList
-                      .firstWhere((t) =>
-                          t.subjectshort == item.subjectshort &&
-                          t.dayOfWeek == item.dayOfWeek &&
-                          t.classshort == item.classshort &&
-                          t.teachershort == item.teachershort)
-                      .period +
-                  ' ' +
-                  item.period;
+            //   String _period = _sortedList
+            //           .firstWhere((t) =>
+            //               t.subjectshort == item.subjectshort &&
+            //               t.dayOfWeek == item.dayOfWeek &&
+            //               t.classshort == item.classshort &&
+            //               t.teachershort == item.teachershort)
+            //           .period +
+            //       ' ' +
+            //       item.period;
 
-              String _fromTime = _period.substring(0, _period.indexOf('-'));
-              String _endTime = _period
-                  .substring(_period.lastIndexOf('-'), _period.length)
-                  .trim();
+            //   String _fromTime = _period.substring(0, _period.indexOf('-'));
+            //   String _endTime = _period
+            //       .substring(_period.lastIndexOf('-'), _period.length)
+            //       .trim();
 
-              _sortedList.elementAt(_position).period = _fromTime + _endTime;
-            } else {
-              _sortedList.add(item);
-            }
+            //   _sortedList.elementAt(_position).period = _fromTime + _endTime;
+            // } else {
+            //   _sortedList.add(item);
+            // }
+
+            _sortedList.add(item);
           }
 
           return _sortedList;

@@ -472,12 +472,14 @@ class CustomGridView {
               MainPageGridItems.TIMETABLE, 1),
           makeGridCell("Learning Materials", 'assets/lectures.png',
               MainPageGridItems.LEARNING_MATERIALS, 2),
+          makeGridCell("Attendance", 'assets/attendance.png',
+              MainPageGridItems.ATTENDANCE, 3),
           makeGridCell(
-              "Web Mail", 'assets/web_mail.png', MainPageGridItems.WEBMAIL, 3),
+              "Web Mail", 'assets/web_mail.png', MainPageGridItems.WEBMAIL, 4),
           makeGridCell("Tips & Tricks", 'assets/tips_tricks.png',
-              MainPageGridItems.TIPSTRICKS, 4),
-          makeGridCell("CCM Feedback", 'assets/ccmfeedback.png',
-              MainPageGridItems.CCMFEEDBACK, 5),
+              MainPageGridItems.TIPSTRICKS, 5),
+          // makeGridCell("CCM Feedback", 'assets/ccmfeedback.png',
+          //     MainPageGridItems.CCMFEEDBACK, 6),
           makeGridCell("Offences", 'assets/offences2.png',
               MainPageGridItems.OFFENCES, 6),
           // makeGridCell(
@@ -571,8 +573,6 @@ class CustomGridView2 {
               MainPageGridItems.COURSEWORK_UPLOAD, 1),
           makeGridCell(
               "Social", 'assets/social.png', MainPageGridItems.SOCIAL, 2),
-          makeGridCell("Attendance", 'assets/social.png',
-              MainPageGridItems.ATTENDANCE, 3),
         ]);
   }
 }

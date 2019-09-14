@@ -187,6 +187,8 @@ final String checkInternetConnection = 'Please, check your internet connection';
 final String error = 'Error';
 final String tryAgain = 'Please, try again later!';
 final String youDontHaveGroup = 'You aren\'t allocated to any group yet';
+final String timetableAvailableSoon = 'Timetable will be available soon';
+
 final String usernamePasswordIncorrect =
     'Username or Password is incorrect. Try again!';
 
