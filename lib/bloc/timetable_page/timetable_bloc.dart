@@ -297,6 +297,7 @@ class TimetableBloc {
           prefs.setString(groupID, _groupID);
         } else {
           if (context != null) {
+            //_isLoadedSubject.add(false);
             showFlushBar(
                 error, timetableAvailableSoon, MessageTypes.ERROR, context, 2);
           }
@@ -354,7 +355,8 @@ class TimetableBloc {
       }
 
       if (teacherName == '') {
-        showFlushBar(error, youDontHaveGroup, MessageTypes.ERROR, context, 2);
+        if (context != null)
+          showFlushBar(error, youDontHaveGroup, MessageTypes.ERROR, context, 2);
 
         return [];
       } else if (_teacherID != '') {
@@ -365,7 +367,9 @@ class TimetableBloc {
 
         return _timetableList;
       } else {
-        showFlushBar(error, tryAgain, MessageTypes.ERROR, context, 2);
+        if (context != null)
+          showFlushBar(error, tryAgain, MessageTypes.ERROR, context, 2);
+
         return [];
       }
     }
@@ -412,8 +416,10 @@ class TimetableBloc {
     try {
       connectionStatus = await _connectivity.checkConnectivity();
       if (connectionStatus == ConnectivityResult.none) {
-        showFlushBar(connectionFailure, checkInternetConnection,
-            MessageTypes.ERROR, context, 1);
+        if (context != null)
+          showFlushBar(connectionFailure, checkInternetConnection,
+              MessageTypes.ERROR, context, 1);
+
         offlineMode = true;
         return getTimetableJsonFromPhoneStorage();
       } else {
@@ -466,7 +472,8 @@ class TimetableBloc {
 
           return _sortedList;
         } else {
-          showFlushBar('Error', tryAgain, MessageTypes.ERROR, context, 2);
+          if (context != null)
+            showFlushBar('Error', tryAgain, MessageTypes.ERROR, context, 2);
         }
       }
     } catch (e) {
@@ -518,7 +525,7 @@ class TimetableBloc {
 
         switch (type) {
           case TimetableDropdownlinListType.Group:
-            if (_list != null) {
+            if (_list != null && _list.length > 0) {
               groupsListDropdown = _list;
 
               TimetableDropdownListModel model =
@@ -529,7 +536,7 @@ class TimetableBloc {
 
             break;
           case TimetableDropdownlinListType.Room:
-            if (_list != null) {
+            if (_list != null && _list.length > 0) {
               roomsListDropdown = _list;
 
               TimetableDropdownListModel model =
@@ -540,7 +547,7 @@ class TimetableBloc {
 
             break;
           case TimetableDropdownlinListType.Teacher:
-            if (_list != null) {
+            if (_list != null && _list.length > 0) {
               teachersListDropdown = _list;
 
               TimetableDropdownListModel model =
@@ -553,16 +560,19 @@ class TimetableBloc {
           default:
         }
 
-        _isLoadedSubject.add(true);
+        if (_list != null && _list.length > 0) _isLoadedSubject.add(false);
 
         return _list;
       } else {
         TimetableDropdownListModel model =
             TimetableDropdownListModel(text: '', value: '');
 
+        _isLoadedSubject.add(false);
+
         return <TimetableDropdownListModel>[model];
       }
     } catch (e) {
+      _isLoadedSubject.add(false);
       return null;
     }
   }

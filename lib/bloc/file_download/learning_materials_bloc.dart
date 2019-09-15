@@ -24,7 +24,7 @@ class LearningMaterialsBloc {
       backgroundColor: greyColor);
 
   String moduleName = '';
-  String yearName = '2018/2019';
+  String yearName = '2019/2020';
   String materialType = 'Lectures';
   int _moduleID = 0;
   int materialTypeID = 1;

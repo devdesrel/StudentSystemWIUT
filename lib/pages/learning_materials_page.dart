@@ -352,9 +352,9 @@ class _MaterialsListTabState extends State<MaterialsListTab>
     print('Rebuild Materials List Tab');
 
     Map<int, String> _academicYearsList = {};
+    _academicYearsList[24] = '2019/2020';
     _academicYearsList[19] = '2018/2019';
     _academicYearsList[18] = '2017/2018';
-    _academicYearsList[17] = '2016/2017';
 
     List<String> _learningMaterialTypes = <String>[
       'Lectures',
@@ -378,7 +378,7 @@ class _MaterialsListTabState extends State<MaterialsListTab>
                 child: SizedBox(
                   width: halfWidth,
                   child: StreamBuilder(
-                    initialData: _academicYearsList[19],
+                    initialData: _academicYearsList[20],
                     stream: widget.bloc.academicYearStream,
                     builder: (context, snapshot) => SafeArea(
                       bottom: false,

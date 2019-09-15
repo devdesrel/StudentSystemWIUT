@@ -114,7 +114,7 @@ class BackdropBloc {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     final _token = prefs.getString(token);
     // final _academYearID = prefs.getInt(academicYearIDSharedPref);
-    final _academYear = 19;
+    final _academYear = 24;
     final _userID = prefs.getString(userID);
     // final _isStudent=true;
     final _isStudent = prefs.getString(userRole) == 'student' ? true : false;
@@ -131,9 +131,12 @@ class BackdropBloc {
         return _parseDeadlines(response.body);
       } else {
         // showFlushBar('Error', tryAgain, MessageTypes.ERROR, context, 2);
+        _deadlineDatesListSubject.add([]);
         return null;
       }
     } catch (e) {
+      _deadlineDatesListSubject.add([]);
+
       // showFlushBar(connectionFailure, checkInternetConnection,
       //     MessageTypes.ERROR, context, 2);
       return null;

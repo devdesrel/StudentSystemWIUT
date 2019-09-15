@@ -132,7 +132,12 @@ class _TimetablePageState extends State<TimetablePage> {
                                       .toList());
                             });
                       } else if (snapshot.data == null) {
-                        return DrawPlatformCircularIndicator();
+                        // return DrawPlatformCircularIndicator();
+                        return Container(
+                            child: Center(
+                          child: Text(
+                              'Timetable feature will be available soon...'),
+                        ));
                       }
 
                       return Container(
