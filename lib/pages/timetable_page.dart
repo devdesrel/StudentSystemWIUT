@@ -6,7 +6,6 @@ import 'package:flutter/material.dart';
 import 'package:student_system_flutter/bloc/application_main_bloc/main_provider.dart';
 import 'package:student_system_flutter/bloc/timetable_page/timetable_bloc.dart';
 import 'package:student_system_flutter/helpers/app_constants.dart';
-import 'package:student_system_flutter/helpers/ui_helpers.dart';
 import 'package:student_system_flutter/list_items/item_week_timetable.dart';
 import 'package:student_system_flutter/models/Timetable/timetable_model.dart';
 import 'package:student_system_flutter/pages/timetable_picker_ios.dart';
@@ -131,19 +130,20 @@ class _TimetablePageState extends State<TimetablePage> {
                                           item.dayOfWeek == _weekDays[index])
                                       .toList());
                             });
-                      } else if (snapshot.data == null) {
-                        // return DrawPlatformCircularIndicator();
+                      } else if (snapshot.data != null &&
+                          snapshot.data.length == 0) {
+                        // return Container(
+                        //     child: Center(
+                        //   child: Text(
+                        //       'Timetable feature will be available soon...'),
+                        // ));
                         return Container(
                             child: Center(
-                          child: Text(
-                              'Timetable feature will be available soon...'),
+                          child: Text(noAvailableTimetable),
                         ));
+                      } else {
+                        return Center(child: CircularProgressIndicator());
                       }
-
-                      return Container(
-                          child: Center(
-                        child: Text(noAvailableTimetable),
-                      ));
                     }),
               ),
             ]),
@@ -252,19 +252,19 @@ class _TimetablePageState extends State<TimetablePage> {
                                               _weekDays[index])
                                           .toList());
                                 });
-                          } else if (snapshot.data == null) {
-                            //return Center(child: CupertinoActivityIndicator());
+                          } else if (snapshot.data.length == 0) {
+                            // return Container(
+                            //     child: Center(
+                            //   child: Text(
+                            //       'Timetable feature will be available soon...'),
+                            // ));
                             return Container(
                                 child: Center(
-                              child: Text(
-                                  'Timetable feature will be available soon...'),
+                              child: Text(noAvailableTimetable),
                             ));
+                          } else {
+                            return Center(child: CupertinoActivityIndicator());
                           }
-
-                          return Container(
-                              child: Center(
-                            child: Text(noAvailableTimetable),
-                          ));
                         }),
                   ),
                 ]),
@@ -364,12 +364,19 @@ class DrawBottomSheetWidget extends StatelessWidget {
 List<String> populateWeekDayList() {
   List<String> weekDaysList = List();
 
-  weekDaysList.add('Monday');
-  weekDaysList.add('Tuesday');
-  weekDaysList.add('Wednesday');
-  weekDaysList.add('Thursday');
-  weekDaysList.add('Friday');
-  weekDaysList.add('Saturday');
+  // weekDaysList.add('Monday');
+  // weekDaysList.add('Tuesday');
+  // weekDaysList.add('Wednesday');
+  // weekDaysList.add('Thursday');
+  // weekDaysList.add('Friday');
+  // weekDaysList.add('Saturday');
+
+  weekDaysList.add('100000');
+  weekDaysList.add('010000');
+  weekDaysList.add('001000');
+  weekDaysList.add('000100');
+  weekDaysList.add('000010');
+  weekDaysList.add('000001');
 
   return weekDaysList;
 }

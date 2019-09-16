@@ -466,8 +466,6 @@ class TimetableBloc {
             } else {
               _sortedList.add(item);
             }
-
-            _sortedList.add(item);
           }
 
           return _sortedList;

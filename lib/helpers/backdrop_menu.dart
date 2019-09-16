@@ -248,31 +248,31 @@ class _TwoPanelsState extends State<TwoPanels> {
                   //   bottom: false,
                   //   child: FeedbackForm(questionNumbers: _questionNumbers),
                   // )),
-                  SliverToBoxAdapter(
-                    child: Center(
-                      child: Padding(
-                        padding: const EdgeInsets.only(
-                          top: 22.0,
-                          bottom: 5.0, /* left: 24.0 */
-                        ),
-                        child: Text(
-                          'Deadline dates'.toUpperCase(),
-                          style: TextStyle(
-                            color: Platform.isAndroid
-                                ? lightGreyTextColor
-                                : lightGreyTextColor,
-                            fontSize: 11.0,
-                          ),
-                        ),
-                      ),
-                    ),
-                  ),
+                  // SliverToBoxAdapter(
+                  //   child: Center(
+                  //     child: Padding(
+                  //       padding: const EdgeInsets.only(
+                  //         top: 12.0,
+                  //         bottom: 0.0, /* left: 24.0 */
+                  //       ),
+                  //       child: Text(
+                  //         'Deadline dates'.toUpperCase(),
+                  //         style: TextStyle(
+                  //           color: Platform.isAndroid
+                  //               ? lightGreyTextColor
+                  //               : lightGreyTextColor,
+                  //           fontSize: 11.0,
+                  //         ),
+                  //       ),
+                  //     ),
+                  //   ),
+                  // ),
                   StreamBuilder(
                       stream: _bloc.deadlineDatesList,
                       builder: (context, snapshot) {
                         return SliverToBoxAdapter(
                             child: SizedBox(
-                          height: 100.0,
+                          height: 80.0,
                           child: snapshot.hasData
                               ? snapshot.data.length > 0
                                   ? buildDeadlinesHorizontalList(snapshot)
@@ -293,7 +293,16 @@ class _TwoPanelsState extends State<TwoPanels> {
                       builder: (context, snapshot) => snapshot.hasData
                           ? snapshot.data == "staff"
                               ? CustomGridViewForTeachers(context).build()
-                              : CustomGridView(context).build()
+                              : SliverToBoxAdapter(
+                                  child: Padding(
+                                    padding: const EdgeInsets.symmetric(
+                                        horizontal: 8.0),
+                                    child: SizedBox(
+                                      height: 420,
+                                      child: CustomGridView(context).build(),
+                                    ),
+                                  ),
+                                )
                           : SliverToBoxAdapter()),
 
                   StreamBuilder(

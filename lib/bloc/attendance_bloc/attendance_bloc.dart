@@ -12,7 +12,7 @@ class AttendanceBloc {
 
   Stream<String> get qrResult => _qrResultSubject.stream;
 
-  final _qrResultSubject = BehaviorSubject<String>.seeded('');
+  final _qrResultSubject = BehaviorSubject<String>();
 
   Future<void> result(bool isSuccess) async {
     isSuccess
@@ -33,8 +33,7 @@ class AttendanceBloc {
         _qrResultSubject.add('Unknown error: $e');
       }
     } on FormatException {
-      _qrResultSubject.add(
-          'null (User returned using the "back"-button before scanning anything. Result)');
+      _qrResultSubject.add('Try again');
     } catch (e) {
       _qrResultSubject.add('Unknown error: $e');
     }

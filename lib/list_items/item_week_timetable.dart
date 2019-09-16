@@ -22,6 +22,8 @@ class ItemWeekTimetable extends StatelessWidget {
               else
                 return ItemDayTimetable(item: timetableList[index - 1]);
             }
+
+            return Container();
           }),
     );
   }
