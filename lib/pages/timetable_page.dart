@@ -253,7 +253,12 @@ class _TimetablePageState extends State<TimetablePage> {
                                           .toList());
                                 });
                           } else if (snapshot.data == null) {
-                            return Center(child: CupertinoActivityIndicator());
+                            //return Center(child: CupertinoActivityIndicator());
+                            return Container(
+                                child: Center(
+                              child: Text(
+                                  'Timetable feature will be available soon...'),
+                            ));
                           }
 
                           return Container(

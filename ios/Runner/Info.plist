@@ -17,11 +17,11 @@
 	<key>CFBundlePackageType</key>
 	<string>APPL</string>
 	<key>CFBundleShortVersionString</key>
-	<string>7.1.0</string>
+	<string>7.3.1</string>
 	<key>CFBundleSignature</key>
 	<string>????</string>
 	<key>CFBundleVersion</key>
-	<string>11</string>
+	<string>14</string>
 	<key>LSApplicationQueriesSchemes</key>
 	<array>
 		<string>ms-outlook</string>
@@ -36,6 +36,10 @@
 		<key>NSAllowsArbitraryLoads</key>
 		<true/>
 	</dict>
+	<key>NSAppleMusicUsageDescription</key>
+	<string>Use Apple music</string>
+	<key>NSCalendarsUsageDescription</key>
+	<string>For timetable integration</string>
 	<key>NSCameraUsageDescription</key>
 	<string>Use camera</string>
 	<key>NSContactsUsageDescription</key>
@@ -44,8 +48,12 @@
 	<string>Why is my app authenticating using face id?</string>
 	<key>NSMicrophoneUsageDescription</key>
 	<string>Use microphone</string>
+	<key>NSMotionUsageDescription</key>
+	<string>Use motion</string>
 	<key>NSPhotoLibraryUsageDescription</key>
 	<string>Use gallery</string>
+	<key>NSSpeechRecognitionUsageDescription</key>
+	<string>Use speech for the feedback</string>
 	<key>UIFileSharingEnabled</key>
 	<true/>
 	<key>UILaunchStoryboardName</key>

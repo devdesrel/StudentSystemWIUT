@@ -24,8 +24,10 @@ class ItemModules extends StatelessWidget {
           onTap: () {
             switch (requestType) {
               case RequestType.GetMarks:
-                Navigator.of(context).push(MaterialPageRoute(
-                    builder: (context) => MarksPage(module: module)));
+                if (module.moduleMark != 'TBA' && module.moduleMark != '0') {
+                  Navigator.of(context).push(MaterialPageRoute(
+                      builder: (context) => MarksPage(module: module)));
+                }
                 break;
               case RequestType.GetTeachingMaterials:
                 Navigator.of(context).push(MaterialPageRoute(
