@@ -436,36 +436,36 @@ class TimetableBloc {
           for (var i = 0; i < _timetableList.length; i++) {
             var item = _timetableList[i];
 
-            // if (_sortedList.any((t) =>
-            //     t.subjectshort == item.subjectshort &&
-            //     t.dayOfWeek == item.dayOfWeek &&
-            //     t.classshort == item.classshort &&
-            //     t.teachershort == item.teachershort)) {
-            //   int _position = _sortedList.indexOf(_sortedList.firstWhere((t) =>
-            //       t.subjectshort == item.subjectshort &&
-            //       t.dayOfWeek == item.dayOfWeek &&
-            //       t.classshort == item.classshort &&
-            //       t.teachershort == item.teachershort));
+            if (_sortedList.any((t) =>
+                t.subjectshort == item.subjectshort &&
+                t.dayOfWeek == item.dayOfWeek &&
+                t.classshort == item.classshort &&
+                t.teachershort == item.teachershort)) {
+              int _position = _sortedList.indexOf(_sortedList.firstWhere((t) =>
+                  t.subjectshort == item.subjectshort &&
+                  t.dayOfWeek == item.dayOfWeek &&
+                  t.classshort == item.classshort &&
+                  t.teachershort == item.teachershort));
 
-            //   String _period = _sortedList
-            //           .firstWhere((t) =>
-            //               t.subjectshort == item.subjectshort &&
-            //               t.dayOfWeek == item.dayOfWeek &&
-            //               t.classshort == item.classshort &&
-            //               t.teachershort == item.teachershort)
-            //           .period +
-            //       ' ' +
-            //       item.period;
+              String _period = _sortedList
+                      .firstWhere((t) =>
+                          t.subjectshort == item.subjectshort &&
+                          t.dayOfWeek == item.dayOfWeek &&
+                          t.classshort == item.classshort &&
+                          t.teachershort == item.teachershort)
+                      .period +
+                  ' ' +
+                  item.period;
 
-            //   String _fromTime = _period.substring(0, _period.indexOf('-'));
-            //   String _endTime = _period
-            //       .substring(_period.lastIndexOf('-'), _period.length)
-            //       .trim();
+              String _fromTime = _period.substring(0, _period.indexOf('-'));
+              String _endTime = _period
+                  .substring(_period.lastIndexOf('-'), _period.length)
+                  .trim();
 
-            //   _sortedList.elementAt(_position).period = _fromTime + _endTime;
-            // } else {
-            //   _sortedList.add(item);
-            // }
+              _sortedList.elementAt(_position).period = _fromTime + _endTime;
+            } else {
+              _sortedList.add(item);
+            }
 
             _sortedList.add(item);
           }
@@ -560,7 +560,7 @@ class TimetableBloc {
           default:
         }
 
-        if (_list != null && _list.length > 0) _isLoadedSubject.add(false);
+        if (_list != null && _list.length > 0) _isLoadedSubject.add(true);
 
         return _list;
       } else {

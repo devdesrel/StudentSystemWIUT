@@ -28,7 +28,6 @@ class ItemModules extends StatelessWidget {
                   Navigator.of(context).push(MaterialPageRoute(
                       builder: (context) => MarksPage(module: module)));
                 }
-
                 break;
               case RequestType.GetTeachingMaterials:
                 Navigator.of(context).push(MaterialPageRoute(
