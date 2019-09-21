@@ -252,7 +252,8 @@ class _TimetablePageState extends State<TimetablePage> {
                                               _weekDays[index])
                                           .toList());
                                 });
-                          } else if (snapshot.data.length == 0) {
+                          } else if (snapshot.data != null &&
+                              snapshot.data.length == 0) {
                             // return Container(
                             //     child: Center(
                             //   child: Text(
@@ -364,19 +365,19 @@ class DrawBottomSheetWidget extends StatelessWidget {
 List<String> populateWeekDayList() {
   List<String> weekDaysList = List();
 
-  // weekDaysList.add('Monday');
-  // weekDaysList.add('Tuesday');
-  // weekDaysList.add('Wednesday');
-  // weekDaysList.add('Thursday');
-  // weekDaysList.add('Friday');
-  // weekDaysList.add('Saturday');
+  weekDaysList.add('Monday');
+  weekDaysList.add('Tuesday');
+  weekDaysList.add('Wednesday');
+  weekDaysList.add('Thursday');
+  weekDaysList.add('Friday');
+  weekDaysList.add('Saturday');
 
-  weekDaysList.add('100000');
-  weekDaysList.add('010000');
-  weekDaysList.add('001000');
-  weekDaysList.add('000100');
-  weekDaysList.add('000010');
-  weekDaysList.add('000001');
+  // weekDaysList.add('100000');
+  // weekDaysList.add('010000');
+  // weekDaysList.add('001000');
+  // weekDaysList.add('000100');
+  // weekDaysList.add('000010');
+  // weekDaysList.add('000001');
 
   return weekDaysList;
 }

@@ -121,6 +121,8 @@ class _IosPinSetPageState extends State<IosPinSetPage> {
                       }
                     }
                   }
+                  //UPDATED
+                  return val;
                 },
                 onSaved: (val) {
                   if (type == ChangePinCodeDialogArguments.ConfirmPin)

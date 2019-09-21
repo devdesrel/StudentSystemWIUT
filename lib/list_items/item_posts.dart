@@ -268,7 +268,7 @@ getFilExtension(String fileUrl) {
       //rar file
       direction = RarBox(fileUrl: fileUrl);
       break;
-    //TODO: open video plugin
+    //open video plugin
     default:
       direction = Container(
         child: Center(child: Text("Other data type")),

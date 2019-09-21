@@ -247,16 +247,6 @@ class _SecurityPageState extends State<SecurityPage> {
         ),
       ),
     );
-    // return FutureBuilder(
-    //     future: _authenticate(),
-    //     builder: (context, snapshot) {
-    //       if (authenticated) {
-    //         Container();
-    //         Navigator.of(context).pushNamed(social);
-    //       } else if (!authenticated) {
-
-    //       }
-    //     });
   }
 }
 
@@ -290,13 +280,15 @@ class CustomDigitColumn extends StatelessWidget {
       color: Colors.blue,
       child: isFourthRaw == null || isFourthRaw == false
           ? Row(
-              // crossAxisAlignment: CrossAxisAlignment.start,
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: <Widget>[
                 InkWell(
                   onTap: () {
                     enterPIN(firstNumber);
                   },
+                  borderRadius: BorderRadius.all(
+                    Radius.circular(100.0),
+                  ),
                   child: Padding(
                     padding: const EdgeInsets.all(15.0),
                     child: Text(
@@ -310,6 +302,9 @@ class CustomDigitColumn extends StatelessWidget {
                   onTap: () {
                     enterPIN(secondNumber);
                   },
+                  borderRadius: BorderRadius.all(
+                    Radius.circular(100.0),
+                  ),
                   child: Padding(
                     padding: const EdgeInsets.all(15.0),
                     child: Text(
@@ -323,6 +318,9 @@ class CustomDigitColumn extends StatelessWidget {
                   onTap: () {
                     enterPIN(thirdNumber);
                   },
+                  borderRadius: BorderRadius.all(
+                    Radius.circular(100.0),
+                  ),
                   child: Padding(
                     padding: const EdgeInsets.all(15.0),
                     child: Text(
@@ -331,32 +329,6 @@ class CustomDigitColumn extends StatelessWidget {
                     ),
                   ),
                 ),
-
-                // SizedBox(height: 30.0),
-
-                // getFourthNumber(secondNumber),
-                // getFourthNumber(firstNumber),
-
-                // fourthNumber == ' '
-                //     ? Padding(
-                //         padding: const EdgeInsets.all(15.0),
-                //         child: Text(
-                //           fourthNumber,
-                //           style: textStyle,
-                //         ),
-                //       )
-                //     : InkWell(
-                //         onTap: () {
-                //           enterPIN(fourthNumber);
-                //         },
-                //         child: Padding(
-                //           padding: const EdgeInsets.all(15.0),
-                //           child: Icon(
-                //             Icons.remove_circle,
-                //             color: whiteColor,
-                //           ),
-                //         ),
-                //       ),
               ],
             )
           : Row(

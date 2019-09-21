@@ -16,7 +16,7 @@ class FlutterChannelManager: NSObject, UINavigationControllerDelegate /*UIImageP
         
         self.flutterViewController = flutterViewController
         // 1. create channel
-        channel = FlutterMethodChannel(name: "com.rtoshmukhamedov.flutter.fileopener", binaryMessenger: flutterViewController)
+        channel = FlutterMethodChannel(name: "com.rtoshmukhamedov.flutter.fileopener", binaryMessenger: flutterViewController as! FlutterBinaryMessenger)
     }
     
     func setup() {

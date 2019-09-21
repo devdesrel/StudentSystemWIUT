@@ -100,25 +100,30 @@ class CourseworkUploadItemsState extends State<CourseworkUploadItems> {
           child: StreamBuilder(
             stream: bloc.autoValidation,
             builder: (context, snapshot) => TextFormField(
-                  autovalidate: snapshot.hasData ? snapshot.data : false,
-                  style: Theme.of(context).textTheme.body2.copyWith(
-                      color: Theme.of(context).accentColor,
-                      decorationColor: Colors.white),
-                  autofocus: false,
-                  maxLines: 1,
-                  keyboardType: TextInputType.text,
-                  validator: (val) {
-                    if (val.length == 0) return 'Title can not be empty';
-                  },
-                  onSaved: (val) => title = val,
-                  decoration: InputDecoration(
-                      labelText: 'Title',
-                      border: OutlineInputBorder(
-                          gapPadding: 2.0,
-                          borderSide: BorderSide(
-                              color: Colors.white, style: BorderStyle.solid),
-                          borderRadius: BorderRadius.circular(8.0))),
-                ),
+              autovalidate: snapshot.hasData ? snapshot.data : false,
+              style: Theme.of(context).textTheme.body2.copyWith(
+                  color: Theme.of(context).accentColor,
+                  decorationColor: Colors.white),
+              autofocus: false,
+              maxLines: 1,
+              keyboardType: TextInputType.text,
+              validator: (val) {
+                if (val.length == 0)
+                  return 'Title can not be empty';
+                else {
+                  return val;
+                  //UPDATED
+                }
+              },
+              onSaved: (val) => title = val,
+              decoration: InputDecoration(
+                  labelText: 'Title',
+                  border: OutlineInputBorder(
+                      gapPadding: 2.0,
+                      borderSide: BorderSide(
+                          color: Colors.white, style: BorderStyle.solid),
+                      borderRadius: BorderRadius.circular(8.0))),
+            ),
           ),
         ),
         SizedBox(
@@ -171,12 +176,12 @@ class CourseworkUploadItemsState extends State<CourseworkUploadItems> {
               initialData: chosenFile,
               stream: bloc.fileName,
               builder: (context, snapshot) => Flexible(
-                    child: Text(
-                      snapshot.hasData ? snapshot.data : '',
-                      style: TextStyle(color: Color(0xBF616161)),
-                      overflow: TextOverflow.ellipsis,
-                    ),
-                  ),
+                child: Text(
+                  snapshot.hasData ? snapshot.data : '',
+                  style: TextStyle(color: Color(0xBF616161)),
+                  overflow: TextOverflow.ellipsis,
+                ),
+              ),
             ),
             FlatButton(
               onPressed: () async {
@@ -233,12 +238,11 @@ class CustomRadioButtons extends StatelessWidget {
             initialData: radioButtonInitialValue,
             stream: bloc.componentName,
             builder: (context, snapshot) => Radio(
-                  value: 1,
-                  onChanged: (c) => bloc.setComponent.add(c),
-                  groupValue: snapshot.hasData
-                      ? snapshot.data
-                      : radioButtonInitialValue,
-                ),
+              value: 1,
+              onChanged: (c) => bloc.setComponent.add(c),
+              groupValue:
+                  snapshot.hasData ? snapshot.data : radioButtonInitialValue,
+            ),
           ),
           Text('CW1', style: TextStyle(fontSize: 10.0))
         ],
@@ -249,12 +253,11 @@ class CustomRadioButtons extends StatelessWidget {
             initialData: radioButtonInitialValue,
             stream: bloc.componentName,
             builder: (context, snapshot) => Radio(
-                  value: 2,
-                  onChanged: (c) => bloc.setComponent.add(c),
-                  groupValue: snapshot.hasData
-                      ? snapshot.data
-                      : radioButtonInitialValue,
-                ),
+              value: 2,
+              onChanged: (c) => bloc.setComponent.add(c),
+              groupValue:
+                  snapshot.hasData ? snapshot.data : radioButtonInitialValue,
+            ),
           ),
           Text('CW2', style: TextStyle(fontSize: 10.0))
         ],
@@ -265,12 +268,11 @@ class CustomRadioButtons extends StatelessWidget {
             initialData: 0,
             stream: bloc.componentName,
             builder: (context, snapshot) => Radio(
-                  value: 3,
-                  onChanged: (c) => bloc.setComponent.add(c),
-                  groupValue: snapshot.hasData
-                      ? snapshot.data
-                      : radioButtonInitialValue,
-                ),
+              value: 3,
+              onChanged: (c) => bloc.setComponent.add(c),
+              groupValue:
+                  snapshot.hasData ? snapshot.data : radioButtonInitialValue,
+            ),
           ),
           Text(
             'CW3',

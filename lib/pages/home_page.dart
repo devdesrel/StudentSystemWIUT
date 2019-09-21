@@ -2,7 +2,6 @@ import 'dart:async';
 import 'dart:io';
 
 import 'package:flutter/cupertino.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -430,9 +429,9 @@ class CustomGridView {
                 name.toUpperCase(),
                 textAlign: TextAlign.center,
                 style: Theme.of(context).textTheme.body1.copyWith(
-                    letterSpacing: 4.0,
+                    letterSpacing: 2.0,
                     color: textColor,
-                    fontSize: isSmallScreen ? 11.0 : 15.0),
+                    fontSize: isSmallScreen ? 10.0 : 11.0),
               )),
             ],
           ),
@@ -451,7 +450,7 @@ class CustomGridView {
     return GridView.count(
         // padding: EdgeInsets.all(16.0),
         physics: BouncingScrollPhysics(),
-        childAspectRatio: 0.9, //0.85
+        childAspectRatio: 0.85, //0.85
         scrollDirection: Axis.horizontal,
         // controller: ScrollController(keepScrollOffset: false),
         crossAxisCount: 3,
@@ -587,63 +586,57 @@ class CustomGridViewForTeachers {
       isSmallScreen = true;
     }
 
-    return Padding(
-      padding: position.isEven
-          ? EdgeInsets.only(left: 18.0, bottom: 10.0)
-          : EdgeInsets.only(right: 18.0, bottom: 10.0),
-      child: CustomCard(
-        InkWell(
-          onTap: () {
-            openSelectedPage(context, page);
-          },
-          child: Padding(
-            padding: EdgeInsets.symmetric(horizontal: 10.0),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              mainAxisAlignment: MainAxisAlignment.center,
-              mainAxisSize: MainAxisSize.min,
-              verticalDirection: VerticalDirection.down,
-              children: <Widget>[
-                Center(
-                    child: Image.asset(
-                  imageSource,
-                  height: 60.0,
-                )),
-                SizedBox(
-                  height: 20.0,
-                ),
-                Center(
-                    child: Text(
-                  name.toUpperCase(),
-                  textAlign: TextAlign.center,
-                  style: Theme.of(context).textTheme.body1.copyWith(
-                      letterSpacing: 4.0,
-                      color: textColor,
-                      fontSize: isSmallScreen ? 11.0 : 15.0),
-                )),
-              ],
-            ),
+    return CustomCard(
+      InkWell(
+        onTap: () {
+          openSelectedPage(context, page);
+        },
+        child: Padding(
+          padding: EdgeInsets.symmetric(horizontal: 10.0),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            mainAxisAlignment: MainAxisAlignment.center,
+            mainAxisSize: MainAxisSize.min,
+            verticalDirection: VerticalDirection.down,
+            children: <Widget>[
+              Center(
+                  child: Image.asset(
+                imageSource,
+                height: 50.0,
+              )),
+              SizedBox(
+                height: 20.0,
+              ),
+              Center(
+                  child: Text(
+                name.toUpperCase(),
+                textAlign: TextAlign.center,
+                style: Theme.of(context).textTheme.body1.copyWith(
+                    letterSpacing: 2.0,
+                    color: textColor,
+                    fontSize: isSmallScreen ? 10.0 : 11.0),
+              )),
+            ],
           ),
         ),
       ),
     );
   }
 
-  SliverGrid build() {
+  build() {
     // var size = MediaQuery.of(context).size;
 
     /*24 is for notification bar on Android*/
     // final double itemHeight = (size.height - kToolbarHeight - 24) / 2.5;
     // final double itemWidth = size.width / 1.55;
 
-    return SliverGrid.count(
-        // padding: EdgeInsets.all(16.0),
-        // shrinkWrap: true,
-        childAspectRatio: 0.9, //0.85
-        // scrollDirection: Axis.vertical,
+    return GridView.count(
+        physics: BouncingScrollPhysics(),
+        childAspectRatio: 0.85, //0.85
+        scrollDirection: Axis.horizontal,
         // controller: ScrollController(keepScrollOffset: false),
-        crossAxisCount: 2,
-        mainAxisSpacing: 0.0,
+        crossAxisCount: 3,
+        mainAxisSpacing: 5.0,
         crossAxisSpacing: 10.0,
         children: <Widget>[
           // SliverToBoxAdapter(
@@ -663,6 +656,8 @@ class CustomGridViewForTeachers {
               MainPageGridItems.CCMFEEDBACK, 4),
           makeGridCell("Offences", 'assets/offences2.png',
               MainPageGridItems.OFFENCES, 5),
+          makeGridCell("Attendance", 'assets/attendance.png',
+              MainPageGridItems.ATTENDANCE, 6),
           // FutureBuilder<bool>(
           //   future: isCCMFeedbackApplicable(),
           //   builder: (context, snapshot) => snapshot.hasData

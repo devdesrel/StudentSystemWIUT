@@ -122,6 +122,8 @@ class SettingsPage extends StatelessWidget {
                   return 'New PIN is not confirmed correctly';
                 }
               }
+              //UPDATED
+              return val;
             },
             onSaved: (val) {
               if (type == ChangePinCodeDialogArguments.ConfirmPin)
@@ -306,33 +308,28 @@ class SettingsPage extends StatelessWidget {
                             stream: _bloc.isSecurityOn,
                             initialData: true,
                             builder: (context, shot) => StreamBuilder(
-                                  stream: _bloc.switchtileValue,
-                                  builder: (context, snapshot) => ListTile(
-                                        enabled:
-                                            shot.hasData ? shot.data : true,
-                                        onTap: () {
-                                          _bloc.setSwitchtileValue
-                                              .add(!_bloc.switchValue);
-                                          _bloc.switchValue =
-                                              !_bloc.switchValue;
-                                        },
-                                        trailing: Switch(
-                                          value: shot.data
-                                              ? snapshot.hasData
-                                                  ? snapshot.data
-                                                  : true
-                                              : false,
-                                          onChanged: shot.data
-                                              ? (value) {
-                                                  _bloc.setSwitchtileValue
-                                                      .add(value);
-                                                }
-                                              : null,
-                                        ),
-                                        leading: Icon(Icons.fingerprint),
-                                        title: Text('Fingerprint to log in'),
-                                      ),
+                              stream: _bloc.switchtileValue,
+                              builder: (context, snapshot) => ListTile(
+                                enabled: shot.hasData ? shot.data : true,
+                                onTap: () {
+                                  _bloc.setSwitchtileValue
+                                      .add(!_bloc.switchValue);
+                                  _bloc.switchValue = !_bloc.switchValue;
+                                },
+                                trailing: Switch(
+                                  value: shot.data
+                                      ? snapshot.hasData ? snapshot.data : true
+                                      : false,
+                                  onChanged: shot.data
+                                      ? (value) {
+                                          _bloc.setSwitchtileValue.add(value);
+                                        }
+                                      : null,
                                 ),
+                                leading: Icon(Icons.fingerprint),
+                                title: Text('Fingerprint to log in'),
+                              ),
+                            ),
                           ),
                           Divider(
                             height: 0.0,
@@ -341,17 +338,16 @@ class SettingsPage extends StatelessWidget {
                             stream: _bloc.isSecurityOn,
                             initialData: true,
                             builder: (context, snapshot) => ListTile(
-                                  enabled:
-                                      snapshot.hasData ? snapshot.data : true,
-                                  onTap: () {
-                                    showPinDialog(context, _bloc);
-                                  },
-                                  leading: Image.asset(
-                                    'assets/key.png',
-                                    height: 28.0,
-                                  ),
-                                  title: Text('Change PIN code'),
-                                ),
+                              enabled: snapshot.hasData ? snapshot.data : true,
+                              onTap: () {
+                                showPinDialog(context, _bloc);
+                              },
+                              leading: Image.asset(
+                                'assets/key.png',
+                                height: 28.0,
+                              ),
+                              title: Text('Change PIN code'),
+                            ),
                           ),
                         ],
                       ),
@@ -385,12 +381,11 @@ class SettingsPage extends StatelessWidget {
                         },
                         itemBuilder: (BuildContext context) =>
                             <PopupMenuItem<String>>[
-                              PopupMenuItem<String>(
-                                  value: 'Outlook',
-                                  child: const Text('Outlook')),
-                              PopupMenuItem<String>(
-                                  value: 'Gmail', child: const Text('Gmail')),
-                            ],
+                          PopupMenuItem<String>(
+                              value: 'Outlook', child: const Text('Outlook')),
+                          PopupMenuItem<String>(
+                              value: 'Gmail', child: const Text('Gmail')),
+                        ],
                         child: ListTile(
                           enabled: true,
                           onTap: null,
@@ -484,35 +479,32 @@ class SettingsPage extends StatelessWidget {
                                 stream: _bloc.isSecurityOn,
                                 initialData: true,
                                 builder: (context, shot) => StreamBuilder(
-                                      stream: _bloc.switchtileValue,
-                                      builder: (context, snapshot) => ListTile(
-                                            enabled:
-                                                shot.hasData ? shot.data : true,
-                                            onTap: () {
+                                  stream: _bloc.switchtileValue,
+                                  builder: (context, snapshot) => ListTile(
+                                    enabled: shot.hasData ? shot.data : true,
+                                    onTap: () {
+                                      _bloc.setSwitchtileValue
+                                          .add(!_bloc.switchValue);
+                                      _bloc.switchValue = !_bloc.switchValue;
+                                    },
+                                    trailing: CupertinoSwitch(
+                                      value: shot.data
+                                          ? snapshot.hasData
+                                              ? snapshot.data
+                                              : true
+                                          : false,
+                                      // onChanged: null,
+                                      onChanged: shot.data
+                                          ? (value) {
                                               _bloc.setSwitchtileValue
-                                                  .add(!_bloc.switchValue);
-                                              _bloc.switchValue =
-                                                  !_bloc.switchValue;
-                                            },
-                                            trailing: CupertinoSwitch(
-                                              value: shot.data
-                                                  ? snapshot.hasData
-                                                      ? snapshot.data
-                                                      : true
-                                                  : false,
-                                              // onChanged: null,
-                                              onChanged: shot.data
-                                                  ? (value) {
-                                                      _bloc.setSwitchtileValue
-                                                          .add(value);
-                                                    }
-                                                  : null,
-                                            ),
-                                            leading: Icon(Icons.fingerprint),
-                                            title:
-                                                Text('Fingerprint to log in'),
-                                          ),
+                                                  .add(value);
+                                            }
+                                          : null,
                                     ),
+                                    leading: Icon(Icons.fingerprint),
+                                    title: Text('Fingerprint to log in'),
+                                  ),
+                                ),
                               ),
                               Divider(
                                 height: 0.0,
@@ -523,24 +515,23 @@ class SettingsPage extends StatelessWidget {
                                   stream: _bloc.isSecurityOn,
                                   initialData: true,
                                   builder: (context, snapshot) => ListTile(
-                                        enabled: snapshot.hasData
-                                            ? snapshot.data
-                                            : true,
-                                        onTap: () {
-                                          Navigator.of(context).push(
-                                              MaterialPageRoute(
-                                                  builder: (context) =>
-                                                      IosPinSetPage(
-                                                          pinRequestType:
-                                                              IosPinRequestType
-                                                                  .ChangePin)));
-                                        },
-                                        leading: Image.asset(
-                                          'assets/key.png',
-                                          height: 28.0,
-                                        ),
-                                        title: Text('Change PIN code'),
-                                      ),
+                                    enabled:
+                                        snapshot.hasData ? snapshot.data : true,
+                                    onTap: () {
+                                      Navigator.of(context).push(
+                                          MaterialPageRoute(
+                                              builder: (context) =>
+                                                  IosPinSetPage(
+                                                      pinRequestType:
+                                                          IosPinRequestType
+                                                              .ChangePin)));
+                                    },
+                                    leading: Image.asset(
+                                      'assets/key.png',
+                                      height: 28.0,
+                                    ),
+                                    title: Text('Change PIN code'),
+                                  ),
                                 ),
                               ),
                             ],
@@ -574,69 +565,67 @@ class SettingsPage extends StatelessWidget {
                             stream: _bloc.webMailType,
                             initialData: 'Outlook',
                             builder: (context, snapshot) => ListTile(
-                                  enabled: true,
-                                  onTap: () async {
-                                    await showCupertinoModalPopup<void>(
-                                        context: context,
-                                        builder: (BuildContext context) {
-                                          return _buildBottomPicker(
-                                            CupertinoPicker(
-                                              scrollController:
-                                                  _bloc.webMailScrollController,
-                                              itemExtent: _kPickerItemHeight,
-                                              backgroundColor:
-                                                  CupertinoColors.white,
-                                              onSelectedItemChanged:
-                                                  (int index) {
-                                                index == 0
-                                                    ? _bloc.setWebMailType.add(
-                                                        WebMailType.Outlook
-                                                            .toString())
-                                                    : _bloc.setWebMailType.add(
-                                                        WebMailType.AppleMail
-                                                            .toString());
-                                                _bloc.setIosWebMailPickerIndex
-                                                    .add(index);
-                                              },
-                                              children: List<Widget>.generate(
-                                                  iosWebMailOptionList.length,
-                                                  (int index) {
-                                                return Center(
-                                                  child: Text(
-                                                      iosWebMailOptionList[
-                                                          index]),
-                                                );
-                                              }),
-                                            ),
-                                          );
-                                        });
-                                  },
-                                  leading: Image.asset(
-                                    'assets/email_ios.png',
-                                    height: 22.0,
-                                    color: Colors.grey[500],
-                                  ),
-                                  title: Text(snapshot.hasData
-                                      ? snapshot.data ==
-                                              WebMailType.Outlook.toString()
-                                          ? "Outlook"
-                                          : "iOS Mail"
-                                      : "Outlook"),
-                                  // trailing: PopupMenuButton<String>(
-                                  //     padding: EdgeInsets.zero,
-                                  //     onSelected: (value) {
-                                  //       _bloc.setWebMailType.add(value);
-                                  //     },
-                                  //     itemBuilder: (BuildContext context) =>
-                                  //         <PopupMenuItem<String>>[
-                                  //           PopupMenuItem<String>(
-                                  //               value: 'Outlook',
-                                  //               child: const Text('Outlook')),
-                                  //           PopupMenuItem<String>(
-                                  //               value: 'Gmail',
-                                  //               child: const Text('Gmail')),
-                                  //         ]),
-                                ),
+                              enabled: true,
+                              onTap: () async {
+                                await showCupertinoModalPopup<void>(
+                                    context: context,
+                                    builder: (BuildContext context) {
+                                      return _buildBottomPicker(
+                                        CupertinoPicker(
+                                          scrollController:
+                                              _bloc.webMailScrollController,
+                                          itemExtent: _kPickerItemHeight,
+                                          backgroundColor:
+                                              CupertinoColors.white,
+                                          onSelectedItemChanged: (int index) {
+                                            index == 0
+                                                ? _bloc.setWebMailType.add(
+                                                    WebMailType.Outlook
+                                                        .toString())
+                                                : _bloc.setWebMailType.add(
+                                                    WebMailType.AppleMail
+                                                        .toString());
+                                            _bloc.setIosWebMailPickerIndex
+                                                .add(index);
+                                          },
+                                          children: List<Widget>.generate(
+                                              iosWebMailOptionList.length,
+                                              (int index) {
+                                            return Center(
+                                              child: Text(
+                                                  iosWebMailOptionList[index]),
+                                            );
+                                          }),
+                                        ),
+                                      );
+                                    });
+                              },
+                              leading: Image.asset(
+                                'assets/email_ios.png',
+                                height: 22.0,
+                                color: Colors.grey[500],
+                              ),
+                              title: Text(snapshot.hasData
+                                  ? snapshot.data ==
+                                          WebMailType.Outlook.toString()
+                                      ? "Outlook"
+                                      : "iOS Mail"
+                                  : "Outlook"),
+                              // trailing: PopupMenuButton<String>(
+                              //     padding: EdgeInsets.zero,
+                              //     onSelected: (value) {
+                              //       _bloc.setWebMailType.add(value);
+                              //     },
+                              //     itemBuilder: (BuildContext context) =>
+                              //         <PopupMenuItem<String>>[
+                              //           PopupMenuItem<String>(
+                              //               value: 'Outlook',
+                              //               child: const Text('Outlook')),
+                              //           PopupMenuItem<String>(
+                              //               value: 'Gmail',
+                              //               child: const Text('Gmail')),
+                              //         ]),
+                            ),
                           ),
                         ),
                       ),

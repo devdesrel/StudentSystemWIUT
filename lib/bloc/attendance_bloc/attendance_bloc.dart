@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:barcode_scan/barcode_scan.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:flutter/services.dart';
@@ -6,41 +8,41 @@ import 'package:http/http.dart' as http;
 
 import 'package:student_system_flutter/helpers/app_constants.dart'
     as constantants;
+import 'package:student_system_flutter/models/Attendance/attendance_model.dart';
 
 class AttendanceBloc {
   AttendanceBloc();
 
-  Stream<String> get qrResult => _qrResultSubject.stream;
+  Stream<AttendanceModel> get qrResult => _qrResultSubject.stream;
 
-  final _qrResultSubject = BehaviorSubject<String>();
-
-  Future<void> result(bool isSuccess) async {
-    isSuccess
-        ? _qrResultSubject.add("Successfully completed")
-        : _qrResultSubject.add("Problem occured");
-  }
+  final _qrResultSubject = BehaviorSubject<AttendanceModel>();
 
   Future scan() async {
     try {
-      String barcode = await BarcodeScanner.scan();
-      var _isSuccess = await apiRequest(barcode);
+      String qrCode = await BarcodeScanner.scan();
 
-      await result(_isSuccess);
+      if (qrCode != null && qrCode.isNotEmpty) {
+        var model = await sendQRcode(qrCode);
+
+        if (model != null) {
+          _qrResultSubject.add(model);
+        }
+      }
     } on PlatformException catch (e) {
       if (e.code == BarcodeScanner.CameraAccessDenied) {
-        _qrResultSubject.add('The user did not grant the camera permission!');
+        _qrResultSubject.add(AttendanceModel(
+            message: 'The user did not grant the camera permission!'));
       } else {
-        _qrResultSubject.add('Unknown error: $e');
+        _qrResultSubject.add(AttendanceModel(message: 'Unknown error: $e'));
       }
     } on FormatException {
-      _qrResultSubject.add('Try again');
+      _qrResultSubject.add(AttendanceModel(message: 'Try again'));
     } catch (e) {
-      _qrResultSubject.add('Unknown error: $e');
+      _qrResultSubject.add(AttendanceModel(message: 'Unknown error: $e'));
     }
   }
 
-  Future<bool> apiRequest(String qrCode) async {
-    bool _isSuccess = false;
+  Future<AttendanceModel> sendQRcode(String qrCode) async {
     SharedPreferences pref = await SharedPreferences.getInstance();
     var _token = pref.getString(constantants.token);
     var _userID = pref.getString(constantants.userID);
@@ -58,13 +60,24 @@ class AttendanceBloc {
           });
 
       if (_response.statusCode == 200) {
-        print("Success");
-        _isSuccess = true;
+        return _parseData(_response.body, true);
+      } else if (_response.statusCode == 400) {
+        return _parseData(_response.body, false);
       }
     } catch (e) {
       print(e);
     }
-    return _isSuccess;
+
+    return null;
+  }
+
+  AttendanceModel _parseData(String responseBody, bool isSuccess) {
+    final parsedData = json.decode(responseBody);
+
+    AttendanceModel model = AttendanceModel.fromJson(parsedData);
+    model.isSuccess = isSuccess;
+
+    return model;
   }
 
   dispose() {

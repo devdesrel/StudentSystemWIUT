@@ -272,7 +272,7 @@ class _TwoPanelsState extends State<TwoPanels> {
                       builder: (context, snapshot) {
                         return SliverToBoxAdapter(
                             child: SizedBox(
-                          height: 80.0,
+                          height: 100.0,
                           child: snapshot.hasData
                               ? snapshot.data.length > 0
                                   ? buildDeadlinesHorizontalList(snapshot)
@@ -292,7 +292,17 @@ class _TwoPanelsState extends State<TwoPanels> {
                       stream: homePageBloc.userRoleStream,
                       builder: (context, snapshot) => snapshot.hasData
                           ? snapshot.data == "staff"
-                              ? CustomGridViewForTeachers(context).build()
+                              ? SliverToBoxAdapter(
+                                  child: Padding(
+                                    padding: const EdgeInsets.symmetric(
+                                        horizontal: 8.0),
+                                    child: SizedBox(
+                                      height: 420,
+                                      child: CustomGridViewForTeachers(context)
+                                          .build(),
+                                    ),
+                                  ),
+                                )
                               : SliverToBoxAdapter(
                                   child: Padding(
                                     padding: const EdgeInsets.symmetric(
@@ -337,28 +347,31 @@ class _TwoPanelsState extends State<TwoPanels> {
                           ? CustomGridView2(context).build()
                           : SliverToBoxAdapter()),
                   SliverToBoxAdapter(
-                    child: ListTile(
-                        title: Text(
-                          'Hide under development features',
-                          style:
-                              TextStyle(fontSize: isSmallScreen ? 13.0 : 15.0),
-                        ),
-                        trailing:
-                            //  StreamBuilder(
-                            //     initialData: false,
-                            //     builder: (context, snapshot) =>
-                            StreamBuilder(
-                          initialData: true,
-                          stream: homePageBloc.isUnderDevelopmentFeaturesOn,
-                          builder: (context, snapshot) => Switch(
-                              // value:   snapshot.hasData ? snapshot.data : false,
-                              value: snapshot.hasData ? snapshot.data : true,
-                              onChanged: (val) => homePageBloc
-                                  .setUnderDevelopmentFeaturesVisibility
-                                  .add(val)),
-                        )
-                        // ),
-                        ),
+                    child: Padding(
+                      padding: EdgeInsets.only(top: 20.0),
+                      child: ListTile(
+                          title: Text(
+                            'Hide under development features',
+                            style: TextStyle(
+                                fontSize: isSmallScreen ? 13.0 : 15.0),
+                          ),
+                          trailing:
+                              //  StreamBuilder(
+                              //     initialData: false,
+                              //     builder: (context, snapshot) =>
+                              StreamBuilder(
+                            initialData: true,
+                            stream: homePageBloc.isUnderDevelopmentFeaturesOn,
+                            builder: (context, snapshot) => Switch.adaptive(
+                                // value:   snapshot.hasData ? snapshot.data : false,
+                                value: snapshot.hasData ? snapshot.data : true,
+                                onChanged: (val) => homePageBloc
+                                    .setUnderDevelopmentFeaturesVisibility
+                                    .add(val)),
+                          )
+                          // ),
+                          ),
+                    ),
                     //           )
                     // //         ],
                     //       ),

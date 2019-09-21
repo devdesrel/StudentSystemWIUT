@@ -558,7 +558,7 @@ class SocialProfileClipper extends CustomClipper<Path> {
 
   @override
   bool shouldReclip(CustomClipper<Path> oldClipper) {
-    // TODO: implement shouldReclip
+    // implement shouldReclip
     return null;
   }
 }

@@ -210,6 +210,8 @@ class _CCMAddFeedBackPageState extends State<CCMAddFeedBackPage> {
                 ),
               ],
             );
+          } else {
+            return Container();
           }
         },
       );
@@ -277,6 +279,8 @@ class _CCMAddFeedBackPageState extends State<CCMAddFeedBackPage> {
                   ),
                 ],
               );
+            } else {
+              return Container();
             }
           },
         );
@@ -326,14 +330,14 @@ class _CCMAddFeedBackPageState extends State<CCMAddFeedBackPage> {
                                   ? _typeList[0]
                                   : _typeList[1],
                           builder: (context, snapshot) => Card(
-                                child: CCMFeedbackTypeExpansionTile(
-                                    bloc: bloc,
-                                    expansionTile: typeExpansionTile,
-                                    value: snapshot.hasData
-                                        ? snapshot.data
-                                        : _typeList[widget.model.feedbackType],
-                                    expansionChildrenList: _typeList),
-                              ),
+                            child: CCMFeedbackTypeExpansionTile(
+                                bloc: bloc,
+                                expansionTile: typeExpansionTile,
+                                value: snapshot.hasData
+                                    ? snapshot.data
+                                    : _typeList[widget.model.feedbackType],
+                                expansionChildrenList: _typeList),
+                          ),
                         ),
                         Padding(
                           padding: EdgeInsets.only(
@@ -358,41 +362,42 @@ class _CCMAddFeedBackPageState extends State<CCMAddFeedBackPage> {
                               stream: bloc.autoValidation,
                               initialData: false,
                               builder: (context, snapshot) => TextFormField(
-                                    // initialValue: widget.model.feedback != null
-                                    //     ? widget.model.feedback.text
-                                    //     : '',
-                                    style: Theme.of(context)
-                                        .textTheme
-                                        .body2
-                                        .copyWith(
-                                            decorationColor: Colors.white,
-                                            fontWeight: FontWeight.normal),
-                                    autovalidate: snapshot.hasData
-                                        ? snapshot.data
-                                        : false,
-                                    controller: _testController,
-                                    // widget.model.viewType ==
-                                    //         FeedbackViewType.Add
-                                    //     ? _controller
-                                    //     : _testController,
-                                    autofocus: false,
-                                    maxLines: 7,
-                                    keyboardType: TextInputType.multiline,
-                                    decoration: InputDecoration(
-                                        contentPadding: EdgeInsets.all(10.0),
-                                        border: InputBorder.none,
-                                        hintText: 'Write here'),
-                                    validator: (val) {
-                                      if (val.length == 0 || val == null) {
-                                        return 'Comment section cannot be empty';
-                                      } else {
-                                        val = bloc.commentMessage;
-                                      }
-                                    },
-                                    onSaved: (val) {
-                                      bloc.commentMessage = val;
-                                    },
-                                  ),
+                                // initialValue: widget.model.feedback != null
+                                //     ? widget.model.feedback.text
+                                //     : '',
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .body2
+                                    .copyWith(
+                                        decorationColor: Colors.white,
+                                        fontWeight: FontWeight.normal),
+                                autovalidate:
+                                    snapshot.hasData ? snapshot.data : false,
+                                controller: _testController,
+                                // widget.model.viewType ==
+                                //         FeedbackViewType.Add
+                                //     ? _controller
+                                //     : _testController,
+                                autofocus: false,
+                                maxLines: 7,
+                                keyboardType: TextInputType.multiline,
+                                decoration: InputDecoration(
+                                    contentPadding: EdgeInsets.all(10.0),
+                                    border: InputBorder.none,
+                                    hintText: 'Write here'),
+                                validator: (val) {
+                                  if (val.length == 0 || val == null) {
+                                    return 'Comment section cannot be empty';
+                                  } else {
+                                    val = bloc.commentMessage;
+                                    return bloc.commentMessage;
+                                    //UPDATED
+                                  }
+                                },
+                                onSaved: (val) {
+                                  bloc.commentMessage = val;
+                                },
+                              ),
                             ),
                           ),
                         ),
@@ -415,12 +420,12 @@ class _CCMAddFeedBackPageState extends State<CCMAddFeedBackPage> {
                                     : widget.model.feedback.groupCoverage
                                         .toDouble(),
                                 builder: (context, snapshot) => Text(
-                                      snapshot.hasData
-                                          ? '${snapshot.data.round()} %'
-                                          : '0 %',
-                                      style: TextStyle(fontSize: 18.0),
-                                      textAlign: TextAlign.end,
-                                    ),
+                                  snapshot.hasData
+                                      ? '${snapshot.data.round()} %'
+                                      : '0 %',
+                                  style: TextStyle(fontSize: 18.0),
+                                  textAlign: TextAlign.end,
+                                ),
                               ),
                             ],
                           ),
@@ -428,28 +433,27 @@ class _CCMAddFeedBackPageState extends State<CCMAddFeedBackPage> {
                         StreamBuilder(
                           stream: bloc.groupCoverageValue,
                           builder: (context, snapshot) => Card(
-                                child: Slider(
-                                    divisions: 20,
-                                    value: snapshot.hasData
-                                        // ? [_value = snapshot.data, snapshot.data]
-                                        ? _value = snapshot.data
-                                        : widget.model.feedback == null
-                                            ? 0.0
-                                            : widget
-                                                .model.feedback.groupCoverage
-                                                .toDouble(),
-                                    min: 0.0,
-                                    max: 100.0,
-                                    onChanged: (double value) {
-                                      bloc.setGroupCoverageValue.add(value);
-                                      bloc.groupCoverage = value;
-                                      // if (value == 0.0) {fl
-                                      //   bloc.setGroupCoverageError.add(1.0);
-                                      // } else {
-                                      //   bloc.setGroupCoverageError.add(0.0);
-                                      // }
-                                    }),
-                              ),
+                            child: Slider(
+                                divisions: 20,
+                                value: snapshot.hasData
+                                    // ? [_value = snapshot.data, snapshot.data]
+                                    ? _value = snapshot.data
+                                    : widget.model.feedback == null
+                                        ? 0.0
+                                        : widget.model.feedback.groupCoverage
+                                            .toDouble(),
+                                min: 0.0,
+                                max: 100.0,
+                                onChanged: (double value) {
+                                  bloc.setGroupCoverageValue.add(value);
+                                  bloc.groupCoverage = value;
+                                  // if (value == 0.0) {fl
+                                  //   bloc.setGroupCoverageError.add(1.0);
+                                  // } else {
+                                  //   bloc.setGroupCoverageError.add(0.0);
+                                  // }
+                                }),
+                          ),
                         ),
                         StreamBuilder(
                           stream: bloc.groupCoverageValue,
@@ -457,21 +461,21 @@ class _CCMAddFeedBackPageState extends State<CCMAddFeedBackPage> {
                               ? 0.0
                               : widget.model.feedback.groupCoverage.toDouble(),
                           builder: (context, snapshot) => StreamBuilder(
-                                stream: bloc.groupCoverageDataValidation,
-                                builder: (_, shot) => Opacity(
-                                      opacity: shot.data == true
-                                          ? snapshot.data > 0.0 ? 0.0 : 1.0
-                                          : 0.0,
-                                      child: Padding(
-                                        padding: EdgeInsets.only(left: 16.0),
-                                        child: Text(
-                                          'Group coverage is not indicated',
-                                          style: TextStyle(
-                                              color: redColor, fontSize: 12.0),
-                                        ),
-                                      ),
-                                    ),
+                            stream: bloc.groupCoverageDataValidation,
+                            builder: (_, shot) => Opacity(
+                              opacity: shot.data == true
+                                  ? snapshot.data > 0.0 ? 0.0 : 1.0
+                                  : 0.0,
+                              child: Padding(
+                                padding: EdgeInsets.only(left: 16.0),
+                                child: Text(
+                                  'Group coverage is not indicated',
+                                  style: TextStyle(
+                                      color: redColor, fontSize: 12.0),
+                                ),
                               ),
+                            ),
+                          ),
                           // ),
                         ),
                         widget.model.depOrMod ==
@@ -496,25 +500,21 @@ class _CCMAddFeedBackPageState extends State<CCMAddFeedBackPage> {
                                       : widget.model.feedback.staffFullName,
                                   stream: bloc.teacherNameValue,
                                   builder: (context, snapshot) => FutureBuilder<
-                                          List<CCMFeedbackAsSelectedList>>(
-                                        future: bloc.getModuleRepresentatives(),
-                                        builder: (context, shot) =>
-                                            TeacherAttachingExpansionTile(
-                                                bloc: bloc,
-                                                expansionTile:
-                                                    teacherExpansionTile,
-                                                value: snapshot.hasData
-                                                    ? snapshot.data
-                                                    : widget.model.feedback ==
-                                                            null
-                                                        ? teacherName
-                                                        : widget.model.feedback
-                                                            .staffFullName,
-                                                expansionChildrenList:
-                                                    shot.hasData
-                                                        ? shot.data
-                                                        : []),
-                                      ),
+                                      List<CCMFeedbackAsSelectedList>>(
+                                    future: bloc.getModuleRepresentatives(),
+                                    builder: (context, shot) =>
+                                        TeacherAttachingExpansionTile(
+                                            bloc: bloc,
+                                            expansionTile: teacherExpansionTile,
+                                            value: snapshot.hasData
+                                                ? snapshot.data
+                                                : widget.model.feedback == null
+                                                    ? teacherName
+                                                    : widget.model.feedback
+                                                        .staffFullName,
+                                            expansionChildrenList:
+                                                shot.hasData ? shot.data : []),
+                                  ),
                                 ),
                               )
                             : Container(),
@@ -526,26 +526,23 @@ class _CCMAddFeedBackPageState extends State<CCMAddFeedBackPage> {
                                     ? 'Select a teacher'
                                     : widget.model.feedback.staffFullName,
                                 builder: (context, snapshot) => StreamBuilder(
-                                      stream: bloc.teacherNameDataValidation,
-                                      builder: (context, shot) => Opacity(
-                                            opacity: shot.data == true
-                                                ? snapshot.data !=
-                                                        'Select a teacher'
-                                                    ? 0.0
-                                                    : 1.0
-                                                : 0.0,
-                                            child: Padding(
-                                              padding:
-                                                  EdgeInsets.only(left: 16.0),
-                                              child: Text(
-                                                'Teacher is not chosen',
-                                                style: TextStyle(
-                                                    color: redColor,
-                                                    fontSize: 12.0),
-                                              ),
-                                            ),
-                                          ),
+                                  stream: bloc.teacherNameDataValidation,
+                                  builder: (context, shot) => Opacity(
+                                    opacity: shot.data == true
+                                        ? snapshot.data != 'Select a teacher'
+                                            ? 0.0
+                                            : 1.0
+                                        : 0.0,
+                                    child: Padding(
+                                      padding: EdgeInsets.only(left: 16.0),
+                                      child: Text(
+                                        'Teacher is not chosen',
+                                        style: TextStyle(
+                                            color: redColor, fontSize: 12.0),
+                                      ),
                                     ),
+                                  ),
+                                ),
                               )
                             : Container(),
                         Padding(
@@ -554,25 +551,22 @@ class _CCMAddFeedBackPageState extends State<CCMAddFeedBackPage> {
                           child: StreamBuilder(
                             stream: bloc.isSaveButtonEnabled,
                             builder: (context, snapshot) => RaisedButton(
-                                  padding: EdgeInsets.symmetric(vertical: 14.0),
-                                  shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.all(
-                                        Radius.circular(100.0)),
-                                  ),
-                                  color: accentColor,
-                                  onPressed: snapshot.hasData
-                                      ? snapshot.data == false
-                                          ? null
-                                          : saveComment
-                                      : saveComment,
-                                  child: Text(
-                                    widget.model.viewType ==
-                                            FeedbackViewType.Add
-                                        ? 'Submit'.toUpperCase()
-                                        : 'Save'.toUpperCase(),
-                                    style: TextStyle(color: Colors.white),
-                                  ),
-                                ),
+                              padding: EdgeInsets.symmetric(vertical: 14.0),
+                              shape: RoundedRectangleBorder(
+                                borderRadius:
+                                    BorderRadius.all(Radius.circular(100.0)),
+                              ),
+                              color: accentColor,
+                              onPressed: snapshot.hasData
+                                  ? snapshot.data == false ? null : saveComment
+                                  : saveComment,
+                              child: Text(
+                                widget.model.viewType == FeedbackViewType.Add
+                                    ? 'Submit'.toUpperCase()
+                                    : 'Save'.toUpperCase(),
+                                style: TextStyle(color: Colors.white),
+                              ),
+                            ),
                           ),
                         ),
                         widget.model.viewType == FeedbackViewType.Edit
@@ -651,15 +645,14 @@ class _CCMAddFeedBackPageState extends State<CCMAddFeedBackPage> {
                                       ? _typeList[0]
                                       : _typeList[1],
                               builder: (context, snapshot) => Card(
-                                    child: CCMFeedbackTypeExpansionTile(
-                                        bloc: bloc,
-                                        expansionTile: typeExpansionTile,
-                                        value: snapshot.hasData
-                                            ? snapshot.data
-                                            : _typeList[
-                                                widget.model.feedbackType],
-                                        expansionChildrenList: _typeList),
-                                  ),
+                                child: CCMFeedbackTypeExpansionTile(
+                                    bloc: bloc,
+                                    expansionTile: typeExpansionTile,
+                                    value: snapshot.hasData
+                                        ? snapshot.data
+                                        : _typeList[widget.model.feedbackType],
+                                    expansionChildrenList: _typeList),
+                              ),
                             ),
                             // Container(
                             //   margin: EdgeInsets.symmetric(horizontal: 5.0),
@@ -726,38 +719,39 @@ class _CCMAddFeedBackPageState extends State<CCMAddFeedBackPage> {
                                   stream: bloc.autoValidation,
                                   initialData: false,
                                   builder: (context, snapshot) => TextFormField(
-                                        controller: _testController,
-                                        // widget.model.feedback != null
-                                        //     ? widget.model.feedback.text
-                                        //     : '',
-                                        style: Theme.of(context)
-                                            .textTheme
-                                            .body2
-                                            .copyWith(
-                                                decorationColor: Colors.white,
-                                                fontWeight: FontWeight.normal),
-                                        autovalidate: snapshot.hasData
-                                            ? snapshot.data
-                                            : false,
-                                        autofocus: false,
-                                        maxLines: 7,
-                                        keyboardType: TextInputType.multiline,
-                                        decoration: InputDecoration(
-                                            contentPadding:
-                                                EdgeInsets.all(10.0),
-                                            border: InputBorder.none,
-                                            hintText: 'Write here'),
-                                        validator: (val) {
-                                          if (val.length == 0 || val == null) {
-                                            return 'Comment section cannot be empty';
-                                          } else {
-                                            val = bloc.commentMessage;
-                                          }
-                                        },
-                                        onSaved: (val) {
-                                          bloc.commentMessage = val;
-                                        },
-                                      ),
+                                    controller: _testController,
+                                    // widget.model.feedback != null
+                                    //     ? widget.model.feedback.text
+                                    //     : '',
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .body2
+                                        .copyWith(
+                                            decorationColor: Colors.white,
+                                            fontWeight: FontWeight.normal),
+                                    autovalidate: snapshot.hasData
+                                        ? snapshot.data
+                                        : false,
+                                    autofocus: false,
+                                    maxLines: 7,
+                                    keyboardType: TextInputType.multiline,
+                                    decoration: InputDecoration(
+                                        contentPadding: EdgeInsets.all(10.0),
+                                        border: InputBorder.none,
+                                        hintText: 'Write here'),
+                                    validator: (val) {
+                                      if (val.length == 0 || val == null) {
+                                        return 'Comment section cannot be empty';
+                                      } else {
+                                        val = bloc.commentMessage;
+                                        return bloc.commentMessage;
+                                        //UPDATED
+                                      }
+                                    },
+                                    onSaved: (val) {
+                                      bloc.commentMessage = val;
+                                    },
+                                  ),
                                 ),
                               ),
                             ),
@@ -781,12 +775,12 @@ class _CCMAddFeedBackPageState extends State<CCMAddFeedBackPage> {
                                         : widget.model.feedback.groupCoverage
                                             .toDouble(),
                                     builder: (context, snapshot) => Text(
-                                          snapshot.hasData
-                                              ? '${snapshot.data.round()} %'
-                                              : '0 %',
-                                          style: TextStyle(fontSize: 18.0),
-                                          textAlign: TextAlign.end,
-                                        ),
+                                      snapshot.hasData
+                                          ? '${snapshot.data.round()} %'
+                                          : '0 %',
+                                      style: TextStyle(fontSize: 18.0),
+                                      textAlign: TextAlign.end,
+                                    ),
                                   ),
                                 ],
                               ),
@@ -794,29 +788,29 @@ class _CCMAddFeedBackPageState extends State<CCMAddFeedBackPage> {
                             StreamBuilder(
                               stream: bloc.groupCoverageValue,
                               builder: (context, snapshot) => Card(
-                                    child: CupertinoSlider(
-                                        activeColor: accentColor,
-                                        divisions: 20,
-                                        value: snapshot.hasData
-                                            // ? [_value = snapshot.data, snapshot.data]
-                                            ? _value = snapshot.data
-                                            : widget.model.feedback == null
-                                                ? 0.0
-                                                : widget.model.feedback
-                                                    .groupCoverage
-                                                    .toDouble(),
-                                        min: 0.0,
-                                        max: 100.0,
-                                        onChanged: (double value) {
-                                          bloc.setGroupCoverageValue.add(value);
-                                          bloc.groupCoverage = value;
-                                          // if (value == 0.0) {fl
-                                          //   bloc.setGroupCoverageError.add(1.0);
-                                          // } else {
-                                          //   bloc.setGroupCoverageError.add(0.0);
-                                          // }
-                                        }),
-                                  ),
+                                child: CupertinoSlider(
+                                    activeColor: accentColor,
+                                    divisions: 20,
+                                    value: snapshot.hasData
+                                        // ? [_value = snapshot.data, snapshot.data]
+                                        ? _value = snapshot.data
+                                        : widget.model.feedback == null
+                                            ? 0.0
+                                            : widget
+                                                .model.feedback.groupCoverage
+                                                .toDouble(),
+                                    min: 0.0,
+                                    max: 100.0,
+                                    onChanged: (double value) {
+                                      bloc.setGroupCoverageValue.add(value);
+                                      bloc.groupCoverage = value;
+                                      // if (value == 0.0) {fl
+                                      //   bloc.setGroupCoverageError.add(1.0);
+                                      // } else {
+                                      //   bloc.setGroupCoverageError.add(0.0);
+                                      // }
+                                    }),
+                              ),
                             ),
                             StreamBuilder(
                               stream: bloc.groupCoverageValue,
@@ -825,23 +819,21 @@ class _CCMAddFeedBackPageState extends State<CCMAddFeedBackPage> {
                                   : widget.model.feedback.groupCoverage
                                       .toDouble(),
                               builder: (context, snapshot) => StreamBuilder(
-                                    stream: bloc.groupCoverageDataValidation,
-                                    builder: (_, shot) => Opacity(
-                                          opacity: shot.data == true
-                                              ? snapshot.data > 0.0 ? 0.0 : 1.0
-                                              : 0.0,
-                                          child: Padding(
-                                            padding:
-                                                EdgeInsets.only(left: 16.0),
-                                            child: Text(
-                                              'Group coverage is not indicated',
-                                              style: TextStyle(
-                                                  color: redColor,
-                                                  fontSize: 12.0),
-                                            ),
-                                          ),
-                                        ),
+                                stream: bloc.groupCoverageDataValidation,
+                                builder: (_, shot) => Opacity(
+                                  opacity: shot.data == true
+                                      ? snapshot.data > 0.0 ? 0.0 : 1.0
+                                      : 0.0,
+                                  child: Padding(
+                                    padding: EdgeInsets.only(left: 16.0),
+                                    child: Text(
+                                      'Group coverage is not indicated',
+                                      style: TextStyle(
+                                          color: redColor, fontSize: 12.0),
+                                    ),
                                   ),
+                                ),
+                              ),
                               // ),
                             ),
                             widget.model.depOrMod ==
@@ -868,28 +860,24 @@ class _CCMAddFeedBackPageState extends State<CCMAddFeedBackPage> {
                                       builder: (context, snapshot) =>
                                           FutureBuilder<
                                               List<CCMFeedbackAsSelectedList>>(
-                                            future:
-                                                bloc.getModuleRepresentatives(),
-                                            builder: (context, shot) =>
-                                                TeacherAttachingExpansionTile(
-                                                    bloc: bloc,
-                                                    expansionTile:
-                                                        teacherExpansionTile,
-                                                    value: snapshot.hasData
-                                                        ? snapshot.data
-                                                        : widget.model
-                                                                    .feedback ==
-                                                                null
-                                                            ? teacherName
-                                                            : widget
-                                                                .model
-                                                                .feedback
-                                                                .staffFullName,
-                                                    expansionChildrenList:
-                                                        shot.hasData
-                                                            ? shot.data
-                                                            : []),
-                                          ),
+                                        future: bloc.getModuleRepresentatives(),
+                                        builder: (context, shot) =>
+                                            TeacherAttachingExpansionTile(
+                                                bloc: bloc,
+                                                expansionTile:
+                                                    teacherExpansionTile,
+                                                value: snapshot.hasData
+                                                    ? snapshot.data
+                                                    : widget.model.feedback ==
+                                                            null
+                                                        ? teacherName
+                                                        : widget.model.feedback
+                                                            .staffFullName,
+                                                expansionChildrenList:
+                                                    shot.hasData
+                                                        ? shot.data
+                                                        : []),
+                                      ),
                                     ),
                                   )
                                 : Container(),
@@ -902,27 +890,25 @@ class _CCMAddFeedBackPageState extends State<CCMAddFeedBackPage> {
                                         : widget.model.feedback.staffFullName,
                                     builder: (context, snapshot) =>
                                         StreamBuilder(
-                                          stream:
-                                              bloc.teacherNameDataValidation,
-                                          builder: (context, shot) => Opacity(
-                                                opacity: shot.data == true
-                                                    ? snapshot.data !=
-                                                            'Select a teacher'
-                                                        ? 0.0
-                                                        : 1.0
-                                                    : 0.0,
-                                                child: Padding(
-                                                  padding: EdgeInsets.only(
-                                                      left: 16.0),
-                                                  child: Text(
-                                                    'Teacher is not chosen',
-                                                    style: TextStyle(
-                                                        color: redColor,
-                                                        fontSize: 12.0),
-                                                  ),
-                                                ),
-                                              ),
+                                      stream: bloc.teacherNameDataValidation,
+                                      builder: (context, shot) => Opacity(
+                                        opacity: shot.data == true
+                                            ? snapshot.data !=
+                                                    'Select a teacher'
+                                                ? 0.0
+                                                : 1.0
+                                            : 0.0,
+                                        child: Padding(
+                                          padding: EdgeInsets.only(left: 16.0),
+                                          child: Text(
+                                            'Teacher is not chosen',
+                                            style: TextStyle(
+                                                color: redColor,
+                                                fontSize: 12.0),
+                                          ),
                                         ),
+                                      ),
+                                    ),
                                   )
                                 : Container(),
                             Padding(
@@ -951,22 +937,22 @@ class _CCMAddFeedBackPageState extends State<CCMAddFeedBackPage> {
                                   stream: bloc.isSaveButtonEnabled,
                                   builder: (context, snapshot) =>
                                       CupertinoButton(
-                                        padding: EdgeInsets.symmetric(
-                                            vertical: 16.0),
-                                        color: accentColor,
-                                        onPressed: snapshot.hasData
-                                            ? snapshot.data == false
-                                                ? null
-                                                : saveComment
-                                            : saveComment,
-                                        child: Text(
-                                          widget.model.viewType ==
-                                                  FeedbackViewType.Add
-                                              ? 'Submit'.toUpperCase()
-                                              : 'Save'.toUpperCase(),
-                                          style: TextStyle(color: Colors.white),
-                                        ),
-                                      ),
+                                    padding:
+                                        EdgeInsets.symmetric(vertical: 16.0),
+                                    color: accentColor,
+                                    onPressed: snapshot.hasData
+                                        ? snapshot.data == false
+                                            ? null
+                                            : saveComment
+                                        : saveComment,
+                                    child: Text(
+                                      widget.model.viewType ==
+                                              FeedbackViewType.Add
+                                          ? 'Submit'.toUpperCase()
+                                          : 'Save'.toUpperCase(),
+                                      style: TextStyle(color: Colors.white),
+                                    ),
+                                  ),
                                 )),
                             widget.model.viewType == FeedbackViewType.Edit
                                 ? Padding(

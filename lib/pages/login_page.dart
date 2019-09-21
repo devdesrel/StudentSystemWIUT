@@ -329,6 +329,8 @@ class _LoginPageState extends State<LoginPage> implements AuthStateListener {
                 return 'New PIN is not confirmed correctly';
               }
             }
+            return val;
+            //UPDATED
           },
           onSaved: (val) {
             if (type == ChangePinCodeDialogArguments.ConfirmPin)
