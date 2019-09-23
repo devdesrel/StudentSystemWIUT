@@ -62,6 +62,26 @@ class CustomAndroidDrawer extends StatelessWidget {
   }
 }
 
+Widget getPlatformButton(
+    {BuildContext context, Widget child, VoidCallback function}) {
+  return Platform.isAndroid
+      ? RaisedButton(
+          padding: const EdgeInsets.symmetric(vertical: 15.0),
+          color: Theme.of(context).accentColor,
+          elevation: 8.0,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.all(Radius.circular(100.0)),
+          ),
+          textColor: Colors.white,
+          splashColor: Colors.blueGrey,
+          onPressed: function,
+          child: child)
+      : CupertinoButton(
+          color: Theme.of(context).accentColor,
+          onPressed: function,
+          child: child);
+}
+
 // Material Card
 class CustomCard extends StatelessWidget {
   final Widget _child;

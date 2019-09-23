@@ -7,7 +7,12 @@ class AttendanceModel {
   final String message;
   bool isSuccess = false;
 
-  AttendanceModel({this.student, this.module, this.lesson, this.message});
+  AttendanceModel(
+      {this.student,
+      this.module,
+      this.lesson,
+      this.message,
+      this.isSuccess = false});
 
   factory AttendanceModel.fromJson(Map<String, dynamic> json) {
     return AttendanceModel(
