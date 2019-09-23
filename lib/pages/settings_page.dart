@@ -123,7 +123,7 @@ class SettingsPage extends StatelessWidget {
                 }
               }
               //UPDATED
-              return val;
+              // return val;
             },
             onSaved: (val) {
               if (type == ChangePinCodeDialogArguments.ConfirmPin)

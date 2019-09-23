@@ -390,7 +390,7 @@ class _CCMAddFeedBackPageState extends State<CCMAddFeedBackPage> {
                                     return 'Comment section cannot be empty';
                                   } else {
                                     val = bloc.commentMessage;
-                                    return bloc.commentMessage;
+                                    // return bloc.commentMessage;
                                     //UPDATED
                                   }
                                 },
@@ -744,7 +744,7 @@ class _CCMAddFeedBackPageState extends State<CCMAddFeedBackPage> {
                                         return 'Comment section cannot be empty';
                                       } else {
                                         val = bloc.commentMessage;
-                                        return bloc.commentMessage;
+                                        // return bloc.commentMessage;
                                         //UPDATED
                                       }
                                     },

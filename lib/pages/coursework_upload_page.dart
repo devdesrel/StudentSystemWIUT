@@ -111,7 +111,7 @@ class CourseworkUploadItemsState extends State<CourseworkUploadItems> {
                 if (val.length == 0)
                   return 'Title can not be empty';
                 else {
-                  return val;
+                  // return val;
                   //UPDATED
                 }
               },
