@@ -19,7 +19,7 @@ class AttendancePage extends StatelessWidget {
               centerTitle: true,
             ),
             backgroundColor: Colors.white,
-            body: _getBodyWidget(bloc))
+            body: _bodyWidget(bloc))
         : Material(
             color: Colors.transparent,
             child: CupertinoPageScaffold(
@@ -27,10 +27,10 @@ class AttendancePage extends StatelessWidget {
                 navigationBar: CupertinoNavigationBar(
                   middle: Text('Attendance QR Scan'),
                 ),
-                child: _getBodyWidget(bloc)));
+                child: _bodyWidget(bloc)));
   }
 
-  Widget _getBodyWidget(AttendanceBloc bloc) {
+  Widget _bodyWidget(AttendanceBloc bloc) {
     return SafeArea(
         child: Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -42,6 +42,11 @@ class AttendancePage extends StatelessWidget {
         ),
         StreamBuilder<AttendanceModel>(
             stream: bloc.qrResult,
+            initialData: AttendanceModel(
+                message: 'Errlr',
+                module: "WAD",
+                lesson: 'Lecutre 1',
+                isSuccess: false),
             builder: (context, snapshot) => snapshot.hasData
                 ? snapshot.data.isSuccess
                     ? Column(
@@ -82,6 +87,11 @@ class AttendancePage extends StatelessWidget {
           padding: EdgeInsets.all(16.0),
           child: StreamBuilder<AttendanceModel>(
               stream: bloc.qrResult,
+              initialData: AttendanceModel(
+                  message: 'Errlr',
+                  module: "WAD",
+                  lesson: 'Lecutre 1',
+                  isSuccess: false),
               builder: (context, snapshot) =>
                   snapshot.hasData && snapshot.data.isSuccess
                       ? getPlatformButton(
