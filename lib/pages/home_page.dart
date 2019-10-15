@@ -473,10 +473,10 @@ class CustomGridView {
               "Web Mail", 'assets/web_mail.png', MainPageGridItems.WEBMAIL, 4),
           makeGridCell("Tips & Tricks", 'assets/tips_tricks.png',
               MainPageGridItems.TIPSTRICKS, 5),
-          // makeGridCell("CCM Feedback", 'assets/ccmfeedback.png',
-          //     MainPageGridItems.CCMFEEDBACK, 6),
+          makeGridCell("CCM Feedback", 'assets/ccmfeedback.png',
+              MainPageGridItems.CCMFEEDBACK, 6),
           makeGridCell("Offences", 'assets/offences2.png',
-              MainPageGridItems.OFFENCES, 6),
+              MainPageGridItems.OFFENCES, 7),
           // makeGridCell(
           //     "Social", 'assets/social.png', MainPageGridItems.SOCIAL, 7),
           // FutureBuilder<bool>(
