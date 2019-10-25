@@ -23,7 +23,8 @@ dependency_overrides:
   url_launcher: ^5.1.2
   flushbar: 1.8.2
   package_info: ^0.4.0+6
-  connectivity: 0.4.3+7
+  # connectivity: 0.4.3+7
+  connectivity: ^0.4.5+1
   open_file: ^2.0.3
   flutter_sound: ^1.4.2
   screen: ^0.0.5
@@ -36,7 +37,6 @@ dependency_overrides:
   intl: ^0.15.8
   # equatable: ^0.2.6
   barcode_scan: ^1.0.0
-
 
 
   # screen: ^0.0.3

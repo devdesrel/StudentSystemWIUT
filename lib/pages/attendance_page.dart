@@ -43,7 +43,7 @@ class AttendancePage extends StatelessWidget {
         StreamBuilder<AttendanceModel>(
             stream: bloc.qrResult,
             initialData: AttendanceModel(
-                message: 'Errlr',
+                message: '',
                 module: "WAD",
                 lesson: 'Lecutre 1',
                 isSuccess: false),
@@ -88,7 +88,7 @@ class AttendancePage extends StatelessWidget {
           child: StreamBuilder<AttendanceModel>(
               stream: bloc.qrResult,
               initialData: AttendanceModel(
-                  message: 'Errlr',
+                  message: '',
                   module: "WAD",
                   lesson: 'Lecutre 1',
                   isSuccess: false),

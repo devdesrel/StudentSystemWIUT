@@ -77,7 +77,7 @@ packages:
       name: connectivity
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.4.3+7"
+    version: "0.4.5+1"
   console_log_handler:
     dependency: transitive
     description:
